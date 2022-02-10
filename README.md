@@ -2,7 +2,7 @@
 
 - **Anno accademico**: 2021-2022
 
-- **Titolo progetto**: Website responsive per la creazione di squadre di fantasport
+- **Titolo progetto**: Website responsive per la creazione di squadre per il fantasport
 
 - **Studente**: Bellocci Francesco
 
@@ -22,6 +22,8 @@ I principali tool e tecnologie che saranno implementate sono:
 
 - **PiLP**: libreria python per risolvere il problema vincolato per il calcolo della miglior squadra[4].
 
+- **Docker**: per eseguire facilmente Django, Angular ed il database nel quale sono memorizzati le informazioni dei giocatori[5].
+
 
 # Risultato atteso
 
@@ -38,7 +40,7 @@ Risultati attesi da questo progetto:
 
 # Riepilogo 
 
-Lo scopo di questo progetto è di realizzare un website responsive adatto a qualunque utente, principiante o esperto, per creare la miglior squadra per il fantasport a cui vogliono giocare. Il website aiuta gli utenti che si interfacciano per la prima volta a questa tipologia di giochi rendendo semplice ed intuitivo la creazione di una propria squadra e le operazioni base, mentre per gli utenti esperti li aiuta offrendo funzionalità più sofisticate per creare la propria squadra permettendo la modifica dei criteri per la scelta dei giocatori.
+Lo scopo di questo progetto è di realizzare un website responsive adatto a qualunque utente, principiante o esperto, per creare la miglior squadra per il fantasport a cui vogliono giocare. Il website aiuta gli utenti che si interfacciano per la prima volta a questa tipologia di giochi rendendo semplice ed intuitivo la creazione di una propria squadra e le operazioni base, mentre per gli utenti esperti li aiuta offrendo funzionalità più sofisticate permettendo la modifica dei criteri per la scelta dei giocatori.
 
 
 # Bibliografia
@@ -50,3 +52,5 @@ Lo scopo di questo progetto è di realizzare un website responsive adatto a qual
 [3] https://www.djangoproject.com/
 
 [4] https://pypi.org/project/PuLP/
+
+[5] https://www.docker.com/
