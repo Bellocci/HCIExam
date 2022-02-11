@@ -1,6 +1,12 @@
 version: "3"
 
-services:     
+services:
+  db:
+    image: postgres:14.1
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+   
   dj:
     container_name: dj
     build: django
@@ -9,3 +15,5 @@ services:
       - ./django:/code
     ports:
       - "80:80"
+    depends_on:
+      - db
