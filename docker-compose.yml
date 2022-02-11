@@ -2,6 +2,7 @@ version: "3"
 
 services:
   db:
+    container_name: postgres
     image: postgres:14.1
     environment:
       POSTGRES_PASSWORD: postgres
@@ -17,3 +18,10 @@ services:
       - "80:80"
     depends_on:
       - db
+  
+  adminer:
+    container_name: adminer_postgres
+    image: adminer:4.8.1
+    restart: always
+    ports:
+      - 8000:8080
