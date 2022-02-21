@@ -20,8 +20,16 @@ services:
       - db
   
   adminer:
-    container_name: adminer_postgres
+    container_name: adminer
     image: adminer:4.8.1
     restart: always
     ports:
-      - 8000:8080
+      - 8080:8080
+      
+  ng:
+    container_name: ng
+    build: angular
+    ports:
+      - "4200:4200"
+    depends_on:
+      - dj
