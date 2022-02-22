@@ -28,8 +28,6 @@ class Player(models.Model):
     cost = models.IntegerField()
     role = models.CharField(max_length=50)
     age = models.IntegerField()
-    scoreAverage = models.FloatField()
-    fantaScoreAverage = models.FloatField()
     matchPlayed = models.IntegerField()
 
 
@@ -41,6 +39,8 @@ class FootballPlayer(models.Model):
     assist = models.IntegerField()
     yellowCard = models.IntegerField()
     redCard = models.IntegerField()
+    scoreAverage = models.FloatField()
+    fantaScoreAverage = models.FloatField()
 
 
 '''VolleyballPlayer class'''
@@ -50,4 +50,4 @@ class VolleyballPlayer(models.Model):
     block = models.IntegerField()
     attackPoint = models.IntegerField()
     forearmPass = models.IntegerField()
-
+    score = models.IntegerField()
