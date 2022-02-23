@@ -6,15 +6,15 @@ from .models import *
 class SportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sport
-        fields = ('id',
-                  'name')
+        fields = ('sportId',
+                  'sportName')
 
 
 class ChampionshipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Championship
-        fields = ('id',
-                  'name',
+        fields = ('championshipId',
+                  'championshipName',
                   'sport')
 
 
