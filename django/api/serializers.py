@@ -23,6 +23,7 @@ class TeamSerializer(serializers.ModelSerializer):
         model = Team
         fields = ('id',
                   'name',
+                  'teamAbbreviation',
                   'championship')
 
 
