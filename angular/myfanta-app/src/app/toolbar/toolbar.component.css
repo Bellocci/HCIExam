@@ -1,0 +1,42 @@
+.sidenav-container {
+    height: 100%;
+}
+
+.sidenav {
+    width: 20%;
+}
+
+.sidenav .mat-toolbar {
+    background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+
+.title {
+    position: static;
+    padding-left: 40%;
+}
+
+.toolbar {
+    background-color: #82B1FF;
+}
+
+.sport-menu:hover {
+    font-size: large;
+}
+
+#nav-categories {
+    background-color: #FFCF82;
+}
+
+.icon {
+    padding-right: 10px;
+}
+
+.text-nav {
+    font-size: 20px;
+}
