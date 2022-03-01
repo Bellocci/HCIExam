@@ -1,3 +1,5 @@
+/* Sidenav and toolbar settings */
+
 .sidenav-container {
     height: 100%;
 }
@@ -16,27 +18,65 @@
     z-index: 1;
 }
 
-.title {
+/* Navbar element */
+
+.mat-expansion-panel {
+    border-top: 2px black;
+}
+
+.mat-expansion-panel-header {
+    border-style: solid;
+    border-bottom: 2px !important;
+    border-width: 0.5px;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+    background: #FFCF82 !important;
+}
+
+.champ-panel {
+    border-left: 0px;
+    border-top: 0px;
+    border-right: 0px;
+    border-bottom: 0.5px;
+    border-style: outset;
+}
+
+/* Toolbar text */
+
+.text {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.text:hover {
+    font-weight: 600;
+}
+
+#title {
     position: static;
     padding-left: 40%;
 }
 
-.toolbar {
+#text-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+/* Color  */
+
+.primary-color {
     background-color: #82B1FF;
 }
 
-.sport-menu:hover {
-    font-size: large;
-}
-
-#nav-categories {
+.secondary-color {
     background-color: #FFCF82;
 }
 
+/* Icon */
+
 .icon {
     padding-right: 10px;
-}
-
-.text-nav {
-    font-size: 20px;
 }
