@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container" (backdropClick)="sidenav.toggle();">
     <mat-sidenav #sidenav class="sidenav" mode="over">
-      <div class="secondary-color">
+      <div class="mat-elevation-z4  secondary-color">
         <mat-toolbar>
           <button type="button" mat-icon-button (click)="sidenav.toggle();">
             <mat-icon class="icon">arrow_back</mat-icon>
@@ -11,33 +11,39 @@
       <mat-nav-list>
         <mat-accordion>
           <mat-expansion-panel *ngFor="let sportData of sportsList"
-            (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-              <mat-expansion-panel-header class="secondary-color">
-                <mat-panel-title class="text">
-                  <div>
-                    {{sportData.sportName}}
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <div *ngFor="let champ of championshipsList">
-                <a mat-list-item class="champ-panel text" *ngIf="champ.sport == sportData.sportId" link="#">
-                  <mat-icon>arrow_right</mat-icon>
-                  {{champ.championshipName}}
-                </a>
-              </div>
+          (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header class="secondary-color">
+              <mat-panel-title class="text">
+                <div>
+                  {{sportData.sportName}}
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngFor="let champ of championshipsList">
+              <a mat-list-item class="champ-panel text" (click)="setChampionshipSelected(champ.championshipName)"
+              *ngIf="champ.sport == sportData.sportId" link="#">
+                <mat-icon>arrow_right</mat-icon>
+                {{champ.championshipName}}
+              </a>
+            </div>
           </mat-expansion-panel>
         </mat-accordion>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-      <mat-toolbar class="primary-color">
+      <mat-toolbar class="mat-elevation-z8 primary-color" 
+      [ngClass]="championshipSelected == '' ? 'toolbar-two-element' : 'toolbar-five-element'">
         <button type="button" mat-icon-button (click)="sidenav.toggle();">
-            <mat-icon class="icon">menu</mat-icon>
-            <span class="text">Sport categories</span>
+          <mat-icon class="icon">menu</mat-icon>
+          <span class="text" id="menu-text">Sport categories</span>
         </button>
-        <div id="title">
-          <h1 id="text-title">My Fanta</h1>
-        </div>
+        <a class="link text primary-color-dark" *ngIf="championshipSelected != ''" link="#">Create team</a>
+        <a class="link text primary-color-dark" *ngIf="championshipSelected != ''" link="#">Player list</a>
+        <a class="link text primary-color-dark" *ngIf="championshipSelected != ''" link="#">Favorit list</a>
+        <span *ngIf="championshipSelected != ''"></span>
+        <button type="button" class="primary-color-dark" mat-icon-button>
+          <mat-icon>help</mat-icon>
+        </button>
       </mat-toolbar>
       <!-- Add Content Here -->
     </mat-sidenav-content>
