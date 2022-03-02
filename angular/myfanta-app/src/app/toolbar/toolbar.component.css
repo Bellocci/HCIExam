@@ -18,6 +18,16 @@
     z-index: 1;
 }
 
+.toolbar-two-element {
+    display: grid;
+    grid-template-columns: 97% 3%; 
+}
+
+.toolbar-five-element {
+    display: grid;
+    grid-template-columns: 13% 8% 8% 8% 60% 3%; 
+}
+
 /* Navbar element */
 
 .mat-expansion-panel {
@@ -45,8 +55,8 @@
 /* Toolbar text */
 
 .text {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 18px;
     font-weight: 400;
 }
 
@@ -54,21 +64,34 @@
     font-weight: 600;
 }
 
-#title {
-    position: static;
-    padding-left: 40%;
+.link {
+    text-align: center;
+    border-radius: 10px;
 }
 
-#text-title {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 30px;
-    font-weight: 600;
+.link:hover {
+    cursor: pointer;
+}
+
+#menu-text {
+    border-style: solid;
+    border-width: 1px;
+    border-bottom: 0px;
+    border-top: 0px;
+    border-left: 0px;
+    padding-right: 10px;
+    padding-top: 50%;
+    padding-bottom: 50%;
 }
 
 /* Color  */
 
 .primary-color {
     background-color: #82B1FF;
+}
+
+.primary-color-dark:hover {
+    background-color: #4d82cb;
 }
 
 .secondary-color {
