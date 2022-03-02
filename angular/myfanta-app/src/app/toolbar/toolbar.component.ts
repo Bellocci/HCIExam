@@ -11,6 +11,7 @@ export class ToolbarComponent implements OnInit {
   constructor(private service:SharedService) { }
 
   panelOpenState:boolean = false;
+  championshipSelected:string = "";
   
   sportsList:any = [];
   championshipsList:any = [];
@@ -30,5 +31,9 @@ export class ToolbarComponent implements OnInit {
     this.service.getSportList().subscribe(data => {
       this.sportsList = data;
     });
+  }
+
+  setChampionshipSelected(sport:any) {
+    this.championshipSelected = sport;
   }
 }
