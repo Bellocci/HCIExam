@@ -8,11 +8,13 @@ import { MaterialModule } from './material-module';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
