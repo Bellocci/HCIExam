@@ -12,20 +12,27 @@
     background: inherit;
 }
 
-.mat-toolbar.mat-primary {
-    position: fixed;
+.mat-toolbar {
+    position: sticky;
     top: 0;
     z-index: 1;
 }
 
 .toolbar-two-element {
     display: grid;
-    grid-template-columns: 97% 3%; 
+    grid-template-columns: 12% 1% 83% 4%; 
+    gap: 5px;
 }
 
 .toolbar-five-element {
     display: grid;
-    grid-template-columns: 13% 8% 8% 8% 60% 3%; 
+    grid-template-columns: 12% 1% 8% 8% 8% 58% 5%; 
+    gap: 5px;
+}
+
+#vertical-divider {
+    height: 100%;
+    border-right-color: black;
 }
 
 /* Navbar element */
@@ -42,14 +49,6 @@
 
 .mat-expansion-panel-header.mat-expanded {
     background: #FFCF82 !important;
-}
-
-.champ-panel {
-    border-left: 0px;
-    border-top: 0px;
-    border-right: 0px;
-    border-bottom: 0.5px;
-    border-style: outset;
 }
 
 /* Toolbar text */
@@ -73,29 +72,22 @@
     cursor: pointer;
 }
 
-#menu-text {
-    border-style: solid;
-    border-width: 1px;
-    border-bottom: 0px;
-    border-top: 0px;
-    border-left: 0px;
-    padding-right: 10px;
-    padding-top: 50%;
-    padding-bottom: 50%;
-}
-
 /* Color  */
 
-.primary-color {
+.primary-color:hover{
     background-color: #82B1FF;
 }
 
-.primary-color-dark:hover {
+.primary-color-dark {
     background-color: #4d82cb;
 }
 
 .secondary-color {
     background-color: #FFCF82;
+}
+
+.mat-expansion-panel-header:hover {
+    background-color: #ffffb3    !important;
 }
 
 /* Icon */
