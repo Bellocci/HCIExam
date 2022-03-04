@@ -85,8 +85,8 @@
           <mat-icon>help</mat-icon>
         </button>
       </mat-toolbar>
-        <app-home></app-home>
-      <!-- Add Content Here -->
+        <app-home (childToParent)="setChampionshipSelected($event)"></app-home>
+      <!-- Add Content Here --> 
     </mat-sidenav-content>
 </mat-sidenav-container>
   
