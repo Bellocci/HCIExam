@@ -19,14 +19,14 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div>
-              <a mat-list-item class="text" (click)="setChampionshipSelected('Serie A')" link="#">
+              <a mat-list-item class="text" (click)="setChampionshipSelected('Serie A')" routerLink="createTeam">
                 <mat-icon>arrow_right</mat-icon>
                 Serie A
               </a>
               <mat-divider></mat-divider>
             </div>
             <div>
-              <a mat-list-item class="text" (click)="setChampionshipSelected('Premier League')" link="#">
+              <a mat-list-item class="text" (click)="setChampionshipSelected('Premier League')" routerLink="createTeam">
                 <mat-icon>arrow_right</mat-icon>
                 Premier League
               </a>
@@ -42,7 +42,7 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div>
-              <a mat-list-item class="text" (click)="setChampionshipSelected('Serie A Female')" link="#">
+              <a mat-list-item class="text" (click)="setChampionshipSelected('Serie A Female')" routerLink="createTeam">
                 <mat-icon>arrow_right</mat-icon>
                 Serie A Female
               </a>
@@ -58,7 +58,7 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div>
-              <a mat-list-item class="text" (click)="setChampionshipSelected('Serie A Female')" link="#">
+              <a mat-list-item class="text" (click)="setChampionshipSelected('Serie A Female')" routerLink="createTeam">
                 <mat-icon>arrow_right</mat-icon>
                 NBA
               </a>
@@ -77,7 +77,7 @@
         </button>
         <mat-divider vertical id="vertical-divider"></mat-divider>
         <div *ngIf="championshipSelected == ''"></div>
-        <a class="link text primary-color" *ngIf="championshipSelected != ''" link="#">Create team</a>
+        <a class="link text primary-color" *ngIf="championshipSelected != ''" routerLink="createTeam">Create team</a>
         <a class="link text primary-color" *ngIf="championshipSelected != ''" link="#">Player list</a>
         <a class="link text primary-color" *ngIf="championshipSelected != ''" link="#">Favorit list</a>
         <span *ngIf="championshipSelected != ''"></span>
@@ -85,7 +85,8 @@
           <mat-icon>help</mat-icon>
         </button>
       </mat-toolbar>
-        <app-home (childToParent)="setChampionshipSelected($event)"></app-home>
+        <app-home *ngIf="championshipSelected == ''" (childToParent)="setChampionshipSelected($event)"></app-home>
+        <router-outlet></router-outlet>
       <!-- Add Content Here --> 
     </mat-sidenav-content>
 </mat-sidenav-container>

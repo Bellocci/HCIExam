@@ -68,6 +68,11 @@
     border-radius: 10px;
 }
 
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
 .link:hover {
     cursor: pointer;
 }
