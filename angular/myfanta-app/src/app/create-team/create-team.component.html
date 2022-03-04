@@ -1,1 +1,8 @@
-<p>create-team works!</p>
+<mat-grid-list [cols]="breakpoint" rowHeight="100px" (window:resize)="onResize($event)">
+    <mat-grid-tile [colspan]="cols_tabs" [rowspan]="rows_tabs">
+        Table
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="cols_buttons" [rowspan]="rows_buttons">
+        button
+    </mat-grid-tile>
+</mat-grid-list>
