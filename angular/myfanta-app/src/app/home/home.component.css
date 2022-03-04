@@ -41,9 +41,16 @@
     padding: 0 12px 16px !important;
 }
 
-.element-panel {
-    padding-top: 5%;
-    padding-bottom: 5%;
+.mat-list-item {
+    display: block;
+    height: 48px;
+    -webkit-tap-highlight-color: transparent;
+    width: 100%;
+    padding-top: 10%;
+}
+
+.mat-expansion-panel-header {
+    width: 80%;
 }
 
 /* animations */
@@ -118,4 +125,10 @@
 
 .mat-expansion-panel-header:hover {
     background-color: #b6e3ff !important;
+}
+
+/* icon */
+
+.icon {
+    vertical-align: middle;
 }
