@@ -9,12 +9,14 @@ import { MaterialModule } from './material-module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { CreateTeamComponent } from './create-team/create-team.component';
+import { TabsComponent } from './create-team/tabs/tabs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     CreateTeamComponent,
+    TabsComponent,
   ],
   imports: [
     BrowserModule,
