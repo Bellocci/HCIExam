@@ -1,0 +1,78 @@
+<div class="primary-color" id="block-title">
+    <h1 class="title-position title-font title-animation">My Fanta</h1>
+    <h2 class="subtitle-position subtitle-font">
+        Scegli lo sport. Scegli il campionato. Crea la miglior squadra per portarti alla vittora.
+    </h2>
+</div>
+<p class="text text-position">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore 
+    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
+    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat 
+    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+    anim id est laborum
+</p>
+
+<h2 class = "subtitle-position subtitle-font">Click the sport and choose your championship</h2>
+
+<div class="padding-home" [ngClass]="panelOpenState == true ? 'grid-expansion-panel-open' : 'grid-expansion-panel-close'">  
+    <mat-accordion>
+        <mat-expansion-panel class="mat-elevation-z9" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header [collapsedHeight]="'80px'" class="primary-color">
+                <mat-panel-title class="text" id="text-interactive">
+                    <div>
+                        Football
+                    </div>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="link element-panel element-color">
+                <a mat-list-item class="text" id="text-interactive" (click)="sendChampionshipSelected('Serie A')" link="#">
+                    <mat-icon class="icon">arrow_right</mat-icon>
+                    Serie A
+                </a>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="link element-panel element-color">
+                <a mat-list-item class="text" id="text-interactive" (click)="sendChampionshipSelected('Premier League')" link="#">
+                    <mat-icon class="icon">arrow_right</mat-icon>
+                    Premier League
+                </a>
+            </div>
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion>
+        <mat-expansion-panel class="mat-elevation-z9" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header [collapsedHeight]="'80px'" class="primary-color">
+                <mat-panel-title class="text" id="text-interactive">
+                    <div>
+                        Volleyball
+                    </div>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="link element-panel element-color">
+                <a mat-list-item class="text" id="text-interactive" (click)="sendChampionshipSelected('Serie A Female')" link="#">
+                    <mat-icon  class="icon">arrow_right</mat-icon>
+                    Serie A Female
+                </a>
+            </div>
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion>
+        <mat-expansion-panel class="mat-elevation-z9" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header [collapsedHeight]="'80px'" class="primary-color">
+                <mat-panel-title class="text" id="text-interactive">
+                    <div>
+                        Basketball
+                    </div>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="link element-panel element-color">
+                <a mat-list-item class="text" id="text-interactive" (click)="sendChampionshipSelected('NBA')" link="#">
+                    <mat-icon class="icon">arrow_right</mat-icon>
+                    NBA
+                </a>
+            </div>
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
