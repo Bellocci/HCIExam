@@ -10,6 +10,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { CreateTeamComponent } from './create-team/create-team.component';
 import { TabsComponent } from './create-team/tabs/tabs.component';
+import { TableComponent } from './table/table.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -17,6 +21,7 @@ import { TabsComponent } from './create-team/tabs/tabs.component';
     HomeComponent,
     CreateTeamComponent,
     TabsComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,6 +29,9 @@ import { TabsComponent } from './create-team/tabs/tabs.component';
     MaterialModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
