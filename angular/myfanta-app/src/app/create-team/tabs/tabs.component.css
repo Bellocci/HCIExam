@@ -1,0 +1,15 @@
+::ng-deep .mat-tab-label {
+    opacity: 1 !important;
+    border-style: outset;
+    border-width: 0.5px;
+}
+
+.tab-position {
+    margin-top: 20%;
+    padding-right: 20%;
+    width: 100%;
+}
+
+.mat-tab-group {
+    width: 700px;
+}
