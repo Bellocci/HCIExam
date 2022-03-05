@@ -21,7 +21,7 @@ export class CreateTeamComponent implements OnInit {
     this.breakpoint = window.innerWidth >= 480 ? 5 : 1;
 
     this.cols_tabs = window.innerWidth >= 480 ? 3 : 1;
-    this.rows_tabs = window.innerWidth >= 480 ? 2 : 1;
+    this.rows_tabs = window.innerWidth >= 480 ? 6 : 1;
   
     this.cols_buttons = window.innerWidth >= 480 ? 2 : 1;
     this.rows_buttons = window.innerWidth >= 480 ? 2 : 1;
@@ -31,7 +31,7 @@ export class CreateTeamComponent implements OnInit {
     this.breakpoint = (event.target.innerWidth >= 480) ? 5 : 1;
 
     this.cols_tabs = (event.target.innerWidth >= 480) ? 3 : 1;
-    this.rows_tabs = (event.target.innerWidth >= 480) ? 2 : 1;
+    this.rows_tabs = (event.target.innerWidth >= 480) ? 6 : 1;
   
     this.cols_buttons = (event.target.innerWidth >= 480) ? 2 : 1;
     this.rows_buttons = (event.target.innerWidth >= 480) ? 2 : 1;
