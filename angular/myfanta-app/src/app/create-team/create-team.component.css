@@ -1,3 +1,21 @@
 .mat-grid-list {
-    margin-top: 2%;
+    align-items: baseline;
+}
+
+.primary-color{
+    background-color: #82B1FF;
+}
+
+.header-position {
+    padding: 34px;
+}
+
+.text-position {
+    margin: 0;
+}
+
+.text {
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 24px;
+    font-weight: 400;
 }
