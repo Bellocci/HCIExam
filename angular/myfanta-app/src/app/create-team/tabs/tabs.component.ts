@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { InternalService } from 'src/app/internal.service';
 
 @Component({
   selector: 'app-tabs',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabsComponent implements OnInit {
 
-  constructor() { }
+  @Input() height_table:number = 0;
+
+  constructor(private internal:InternalService) { }
 
   ngOnInit(): void {
+    let height = 350;
+    this.internal.setTableHeight(height);
   }
 
 }

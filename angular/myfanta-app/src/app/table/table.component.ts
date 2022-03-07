@@ -2,6 +2,8 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { Subscription } from 'rxjs';
+import { InternalService } from '../internal.service';
 import { TableDataSource, TableItem } from './table-datasource';
 
 @Component({
@@ -18,13 +20,24 @@ export class TableComponent implements AfterViewInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name'];
 
-  constructor() {
+  height:string = '0';
+  subscription:Subscription = new Subscription;
+
+  constructor(private internal:InternalService) {
     this.dataSource = new TableDataSource();
+  }
+
+  ngOnInit(): void {
+    this.subscription = this.internal.current_table_height.subscribe(message => this.height = message)
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
