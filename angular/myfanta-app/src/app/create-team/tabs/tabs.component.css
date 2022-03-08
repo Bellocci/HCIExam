@@ -46,3 +46,21 @@
 .text:hover {
     font-weight: 600;
 }
+
+.remove-blacklist-btn-position {
+    display: grid;
+    row-gap: 10px;
+    margin-bottom: 150px;
+}
+
+.secondary-color {
+    background-color: #FFCF82;
+}
+
+.secondary-color:hover {
+    background-color: #ffffb3;
+}
+
+.text {
+    font-size: 16px;
+}

@@ -6,9 +6,21 @@
                     <app-table></app-table>
                 </div>
             </mat-grid-tile>
-            <mat-grid-tile [colspan]="1">
-                <button mat-raised-button color="primary">Primary</button>
-                <button mat-raised-button color="accent">Accent</button>
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <button mat-raised-button class="text secondary-color">
+                    <mat-icon>clear</mat-icon>
+                    Clear
+                </button>
+                <div class="remove-blacklist-btn-position">
+                    <button mat-raised-button class="text secondary-color">
+                        <mat-icon>delete</mat-icon>
+                        Remove
+                    </button>
+                    <button mat-raised-button class="text secondary-color">
+                        <mat-icon>arrow_forward</mat-icon>
+                        Blacklist
+                    </button>
+                </div>
             </mat-grid-tile>
         </mat-grid-list>
     </mat-tab>
