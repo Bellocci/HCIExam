@@ -6,6 +6,17 @@
         <app-tabs></app-tabs>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="cols_buttons" [rowspan]="rows_buttons">
-        button
+        <div class="input-position">
+            <mat-form-field class="example-form-field" class="form-field" appearance="fill">
+                <input matInput type="text" [(ngModel)]="value_input_text" placeholder="Player name...">
+                <button *ngIf="value_input_text" matSuffix mat-icon-button aria-label="Clear" (click)="value_input_text=''">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+            <button mat-raised-button class="secondary-color">
+                <mat-icon>add</mat-icon>
+                Primary
+            </button>
+        </div>
     </mat-grid-tile>
 </mat-grid-list>

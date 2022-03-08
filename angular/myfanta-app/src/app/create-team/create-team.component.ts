@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateTeamComponent implements OnInit {
 
+  value_input_text = '';
+
   breakpoint:number = 0;
 
   cols_tabs: number = 0;
