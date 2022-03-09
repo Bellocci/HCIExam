@@ -25,7 +25,25 @@
         </mat-grid-list>
     </mat-tab>
     <mat-tab class="primary-color-light" label="Blacklist">
-         Content 2 
+        <mat-grid-list [cols]="3">
+            <mat-grid-tile [colspan]="2" [rowspan]="2">
+                <div class="table-container">
+                    <app-table></app-table>
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <button mat-raised-button class="text secondary-color">
+                    <mat-icon>clear</mat-icon>
+                    Clear
+                </button>
+                <div class="remove-blacklist-btn-position">
+                    <button mat-raised-button class="text secondary-color">
+                        <mat-icon>delete</mat-icon>
+                        Remove
+                    </button>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
     </mat-tab>
     <mat-tab class="primary-color-light" label="Options"> 
         Content 3 
