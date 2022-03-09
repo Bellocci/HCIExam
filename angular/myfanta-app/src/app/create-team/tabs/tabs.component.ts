@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { MatTabGroup } from '@angular/material/tabs';
 import { InternalService } from 'src/app/internal.service';
 
 @Component({
@@ -8,13 +9,22 @@ import { InternalService } from 'src/app/internal.service';
 })
 export class TabsComponent implements OnInit {
 
-  @Input() height_table:number = 0;
+  @Output() tab_selected = new EventEmitter<string>();
+  @ViewChild('tab_group') private tab_group!:MatTabGroup;
 
   constructor(private internal:InternalService) { }
+
 
   ngOnInit(): void {
     let height = 350;
     this.internal.setTableHeight(height);
   }
 
+  ngAfterViewInit():void {
+    this.tab_selected.emit(this.tab_group._tabs.first.textLabel);
+  }
+
+  tabClick(event:any) {
+    this.tab_selected.emit(event.tab.textLabel)
+  }
 }
