@@ -28,7 +28,7 @@ export class CreateTeamComponent implements OnInit {
     this.rows_tabs = window.innerWidth >= 480 ? 6 : 1;
   
     this.cols_buttons = window.innerWidth >= 480 ? 2 : 1;
-    this.rows_buttons = window.innerWidth >= 480 ? 2 : 1;
+    this.rows_buttons = window.innerWidth >= 480 ? 6 : 1;
   }
 
   onResize(event:any) {
@@ -38,7 +38,7 @@ export class CreateTeamComponent implements OnInit {
     this.rows_tabs = (event.target.innerWidth >= 480) ? 6 : 1;
   
     this.cols_buttons = (event.target.innerWidth >= 480) ? 2 : 1;
-    this.rows_buttons = (event.target.innerWidth >= 480) ? 2 : 1;
+    this.rows_buttons = (event.target.innerWidth >= 480) ? 6 : 1;
   }
 
   setTabSelected(textTab:string) {
