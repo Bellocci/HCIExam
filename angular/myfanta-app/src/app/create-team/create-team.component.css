@@ -36,14 +36,10 @@
     font-weight: 400;
 }
 
-.input-position {
-    padding-right: 50px;
-    padding-left: 50px;
-}
-
 .form-field {
     margin: 0;
     padding-right: 10px;
+    width: 250px;
 }
 
 .generate-btn-position {
@@ -59,8 +55,8 @@
     font-weight: 600;
 }
 
-.generate-btn-text {
-    width: 100%;
+.generate-btn-width {
+    width: 400px;
     height: 80px;
 }
 
