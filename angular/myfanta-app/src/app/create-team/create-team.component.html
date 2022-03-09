@@ -3,7 +3,7 @@
 </header>
 <mat-grid-list [cols]="breakpoint" rowHeight="100px" (window:resize)="onResize($event)">
     <mat-grid-tile [colspan]="cols_tabs" [rowspan]="rows_tabs">
-        <app-tabs></app-tabs>
+        <app-tabs (tab_selected)="setTabSelected($event)"></app-tabs>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="cols_buttons" [rowspan]="rows_buttons">
         <div class="input-position">
@@ -13,9 +13,9 @@
                     <mat-icon>close</mat-icon>
                 </button>
             </mat-form-field>
-            <button mat-raised-button class="secondary-color">
+            <button mat-raised-button class="add-btn-text secondary-color">
                 <mat-icon>add</mat-icon>
-                Primary
+                {{ tab_selected }}
             </button>
         </div>
     </mat-grid-tile>

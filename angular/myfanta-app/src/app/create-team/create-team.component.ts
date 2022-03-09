@@ -9,6 +9,8 @@ export class CreateTeamComponent implements OnInit {
 
   value_input_text = '';
 
+  tab_selected = '';
+
   breakpoint:number = 0;
 
   cols_tabs: number = 0;
@@ -39,4 +41,7 @@ export class CreateTeamComponent implements OnInit {
     this.rows_buttons = (event.target.innerWidth >= 480) ? 2 : 1;
   }
 
+  setTabSelected(textTab:string) {
+    this.tab_selected = textTab;
+  }
 }

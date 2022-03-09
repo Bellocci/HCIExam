@@ -2,6 +2,14 @@
     align-items: baseline;
 }
 
+.add-btn-text {
+    font-size: 16px;
+}
+
+.add-btn-text:hover {
+    font-weight: 600;
+}
+
 .primary-color{
     background-color: #82B1FF;
 }
