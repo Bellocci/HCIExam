@@ -18,6 +18,9 @@ export class TabsComponent implements OnInit {
   ngOnInit(): void {
     let height = 350;
     this.internal.setTableHeight(height);
+
+    let width = 450;
+    this.internal.setTableWidth(width);
   }
 
   ngAfterViewInit():void {
