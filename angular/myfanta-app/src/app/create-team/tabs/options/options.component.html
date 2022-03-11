@@ -1,0 +1,61 @@
+<div class="container" [style.height.px]="height" [style.width.px]="width" [formGroup]="optionsForm">
+    <div class="option-position">
+        <label class="text">Budget</label>
+        <div class="form-field">
+            <input type="number" placeholder="Ex: 250"
+                formControlName="budget"
+                title="Budget"
+                (keyup)="changeValue($event)"
+                (click)="changeValue($event)"
+                [ngClass]="getOldValue('Budget') != getNewValue('Budget') ? 'secondary-color'  : ''">
+            <mat-error *ngIf="!checkValidity('budget')">
+                <h5>{{ getErrorBudgetMessage() }}</h5>
+            </mat-error>
+        </div>
+    </div>
+
+    <div class="option-position">
+        <label class="text">Average match played</label>
+        <div class="form-field">
+            <input type="number" placeholder="Ex: 15"
+                formControlName="match"
+                title="Average match played"
+                (keyup)="changeValue($event)"
+                (click)="changeValue($event)"
+                [ngClass]="getOldValue('Average match played') != getNewValue('Average match played') ? 'secondary-color'  : ''">
+            <mat-error *ngIf="!checkValidity('match')">
+                <h5>{{ getErrorMatchMessage() }}</h5>
+            </mat-error>
+        </div>
+    </div>
+
+    <div class="option-position">
+        <label class="text">Minimun age</label>
+        <div class="form-field">
+            <input type="number" placeholder="Ex: 20"
+                formControlName="minAge"
+                title="Minimun age"
+                (keyup)="changeValue($event)"
+                (click)="changeValue($event)"
+                [ngClass]="getOldValue('Minimun age') != getNewValue('Minimun age') ? 'secondary-color'  : ''">
+            <mat-error *ngIf="!checkValidity('minAge')">
+                <h5>{{ getErrorMinAgeMessage() }}</h5>
+            </mat-error>
+        </div>
+    </div>
+
+    <div class="option-position">
+        <label class="text">Maximun age</label>
+        <div class="form-field">
+            <input type="number" placeholder="Ex: 30"
+                formControlName="maxAge"
+                title="Maximun age"
+                (keyup)="changeValue($event)"
+                (click)="changeValue($event)"
+                [ngClass]="getOldValue('Maximun age') != getNewValue('Maximun age') ? 'secondary-color'  : ''">
+            <mat-error *ngIf="!checkValidity('maxAge')">
+                <h5>{{ getErrorMaxAgeMessage() }}</h5>
+            </mat-error>
+        </div>
+    </div>
+</div>
