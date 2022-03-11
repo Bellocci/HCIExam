@@ -11,10 +11,8 @@ import { HomeComponent } from './home/home.component';
 import { CreateTeamComponent } from './create-team/create-team.component';
 import { TabsComponent } from './create-team/tabs/tabs.component';
 import { TableComponent } from './table/table.component';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { OptionsComponent } from './create-team/tabs/options/options.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,6 +21,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     CreateTeamComponent,
     TabsComponent,
     TableComponent,
+    OptionsComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,10 +29,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MaterialModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatGridListModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
