@@ -1,61 +1,112 @@
-<div class="container" [style.height.px]="height" [style.width.px]="width" [formGroup]="optionsForm">
+<div class="container" [style.height.px]="height" [style.width.px]="width" [formGroup]="optionsBuilder">
     <div class="option-position">
-        <label class="text">Budget</label>
-        <div class="form-field">
+        <label class="text" [ngClass]="formErrors.Budget != '' ? 'error' : ''">
+            Budget
+        </label>
+        <div class="form-field flex">
             <input type="number" placeholder="Ex: 250"
-                formControlName="budget"
+                formControlName="Budget"
                 title="Budget"
-                (keyup)="changeValue($event)"
-                (click)="changeValue($event)"
-                [ngClass]="getOldValue('Budget') != getNewValue('Budget') ? 'secondary-color'  : ''">
-            <mat-error *ngIf="!checkValidity('budget')">
-                <h5>{{ getErrorBudgetMessage() }}</h5>
-            </mat-error>
+                (keyup)="setNewValue($event)"
+                (click)="setNewValue($event)"
+                (blur)="logValidationErrors()"
+                [ngClass]="valueChanged('Budget') ? 'secondary-color'  : ''">
+        </div>
+        <div class="error-message">           
+            <p *ngIf="formErrors.Budget" class="error error-text">{{ formErrors.Budget }}</p>
+        </div>
+    </div>
+    <div formGroupName="Match">
+        <div class="option-position">
+            <label class="text" 
+            [ngClass]="formErrors.Match != '' || formErrors.MinimunMatchPlayed != '' || formErrors.MaximunMatchPlayed != '' ? 'error' : ''">
+                Match
+            </label>
+            <div class="flex">
+                <div class="form-field flex">
+                    <label class="text" [ngClass]="formErrors.Match != '' || formErrors.MinimunMatchPlayed != '' ? 'error' : ''">
+                        Min:
+                    </label>
+                    <div >
+                        <input type="number" class="input-min-max" placeholder="Ex: 10"
+                            formControlName="MinimunMatchPlayed"
+                            title="Minimun match played"
+                            (keyup)="setNewValue($event)"
+                            (click)="setNewValue($event)"
+                            (blur)="logValidationErrors()"
+                            [ngClass]="valueChanged('Minimun match played') ? 'secondary-color'  : ''">
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label class="text" [ngClass]="formErrors.Match != '' || formErrors.MaximunMatchPlayed != '' ? 'error' : ''">
+                        Max:
+                    </label>
+                    <input type="number" class="input-min-max" placeholder="Ex: 17"
+                        formControlName="MaximunMatchPlayed"
+                        title="Maximun match played"
+                        (keyup)="setNewValue($event)"
+                        (click)="setNewValue($event)"
+                        (blur)="logValidationErrors()"
+                        [ngClass]="valueChanged('Maximun match played') ? 'secondary-color'  : ''">
+                </div>
+            </div>
+            <div class="error-message">
+                <p class="error error-text" *ngIf="formErrors.MinimunMatchPlayed">
+                    {{ formErrors.MinimunMatchPlayed ? formErrors.MinimunMatchPlayed : '' }}
+                </p>
+                <p class="error error-text" *ngIf="formErrors.MaximunMatchPlayed">
+                    {{ formErrors.MaximunMatchPlayed ? formErrors.MaximunMatchPlayed : '' }}
+                </p>
+                <p class="error error-text" *ngIf="formErrors.Match">
+                    {{ formErrors.Match ? formErrors.Match : ''}}
+                </p>
+            </div>
         </div>
     </div>
 
-    <div class="option-position">
-        <label class="text">Average match played</label>
-        <div class="form-field">
-            <input type="number" placeholder="Ex: 15"
-                formControlName="match"
-                title="Average match played"
-                (keyup)="changeValue($event)"
-                (click)="changeValue($event)"
-                [ngClass]="getOldValue('Average match played') != getNewValue('Average match played') ? 'secondary-color'  : ''">
-            <mat-error *ngIf="!checkValidity('match')">
-                <h5>{{ getErrorMatchMessage() }}</h5>
-            </mat-error>
+    <div formGroupName="Age">   
+        <div class="option-position">
+            <label class="text" [ngClass]="formErrors.Age != '' || formErrors.MinimunAgePlayer != '' || formErrors.MaximunAgePlayer != '' ? 'error' : ''">
+                Age
+            </label>
+            <div class="flex">
+                <div class="form-field flex">
+                    <label class="text" [ngClass]="formErrors.Age != '' || formErrors.MinimunAgePlayer != '' ? 'error' : ''">
+                        Min:
+                    </label>
+                    <input type="number" class="input-min-max" placeholder="Ex: 20"
+                        formControlName="MinimunAgePlayer"
+                        title="Minimun age player"
+                        (keyup)="setNewValue($event)"
+                        (click)="setNewValue($event)"
+                        (blur)="logValidationErrors()"
+                        [ngClass]="valueChanged('Minimun age player') ? 'secondary-color'  : ''">
+                </div>
+                <div class="form-field flex">
+                    <label class="text" [ngClass]="formErrors.Age != '' || formErrors.MaximunAgePlayer != '' ? 'error' : ''">
+                        Max:
+                    </label>
+                    <input type="number" class="input-min-max" placeholder="Ex: 27"
+                        formControlName="MaximunAgePlayer"
+                        title="Maximun age player"
+                        (keyup)="setNewValue($event)"
+                        (click)="setNewValue($event)"
+                        (blur)="logValidationErrors()"
+                        [ngClass]="valueChanged('Maximun age player') ? 'secondary-color'  : ''">
+                </div>
+            </div>
+            <div class="error-message">
+                <p class="error error-text" *ngIf="formErrors.MinimunAgePlayer">
+                    {{ formErrors.MinimunAgePlayer ? formErrors.MinimunAgePlayer : '' }}
+                </p>
+                <p class="error error-text" *ngIf="formErrors.MaximunAgePlayer">
+                    {{ formErrors.MaximunAgePlayer ? formErrors.MaximunAgePlayer : '' }}
+                </p>
+                <p class="error error-text" *ngIf="formErrors.Age">
+                    {{ formErrors.Age ? formErrors.Age : ''}}
+                </p>
+            </div>
         </div>
     </div>
 
-    <div class="option-position">
-        <label class="text">Minimun age</label>
-        <div class="form-field">
-            <input type="number" placeholder="Ex: 20"
-                formControlName="minAge"
-                title="Minimun age"
-                (keyup)="changeValue($event)"
-                (click)="changeValue($event)"
-                [ngClass]="getOldValue('Minimun age') != getNewValue('Minimun age') ? 'secondary-color'  : ''">
-            <mat-error *ngIf="!checkValidity('minAge')">
-                <h5>{{ getErrorMinAgeMessage() }}</h5>
-            </mat-error>
-        </div>
-    </div>
-
-    <div class="option-position">
-        <label class="text">Maximun age</label>
-        <div class="form-field">
-            <input type="number" placeholder="Ex: 30"
-                formControlName="maxAge"
-                title="Maximun age"
-                (keyup)="changeValue($event)"
-                (click)="changeValue($event)"
-                [ngClass]="getOldValue('Maximun age') != getNewValue('Maximun age') ? 'secondary-color'  : ''">
-            <mat-error *ngIf="!checkValidity('maxAge')">
-                <h5>{{ getErrorMaxAgeMessage() }}</h5>
-            </mat-error>
-        </div>
-    </div>
 </div>

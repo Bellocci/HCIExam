@@ -7,13 +7,13 @@
 }
 
 .option-position {
-    display: flex;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-left: 20px;
 }
 
 .form-field {
-    margin-left: 50px;
+    padding-top: 10px;
+    width: 100%;
 }
 
 .text {
@@ -22,10 +22,27 @@
     font-weight: 400;
 }
 
-label {
-    width: 40%;
-}
-
 .secondary-color {
     background-color: #FFCF82 !important;
+}
+
+.flex {
+    display: flex;
+}
+
+.input-min-max {
+    width: 80px;
+}
+
+.error {
+    color: red;
+}
+
+.error-text {
+    font-size: 13px;
+}
+
+.error-message {
+    margin-top: 5px;
+    width: 60%;
 }
