@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
-import { InternalService } from '../internal.service';
+import { InternalDimensionService } from '../internal-dimension.service';
 
 @Component({
   selector: 'app-table',
@@ -33,12 +33,12 @@ export class TableComponent implements AfterViewInit {
   subscrip_height:Subscription = new Subscription;
   subscrip_width:Subscription = new Subscription;
 
-  constructor(private internal:InternalService) {
+  constructor(private internal_dimension:InternalDimensionService) {
   }
 
   ngOnInit(): void {
-    this.subscrip_height = this.internal.current_table_height.subscribe(message => this.height = message);
-    this.subscrip_width = this.internal.current_table_width.subscribe(message => this.width = message);
+    this.subscrip_height = this.internal_dimension.current_table_height.subscribe(message => this.height = message);
+    this.subscrip_width = this.internal_dimension.current_table_width.subscribe(message => this.width = message);
   }
 
   ngAfterViewInit(): void {

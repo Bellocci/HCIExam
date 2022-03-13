@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
-import { InternalService } from 'src/app/internal.service';
+import { InternalDimensionService } from 'src/app/internal-dimension.service';
 
 @Component({
   selector: 'app-tabs',
@@ -12,17 +12,17 @@ export class TabsComponent implements OnInit {
   @Output() tab_selected = new EventEmitter<string>();
   @ViewChild('tab_group') private tab_group!:MatTabGroup;
 
-  constructor(private internal:InternalService) { }
+  constructor(private internal_dimension:InternalDimensionService) { }
 
 
   ngOnInit(): void {
     let height = 350;
-    this.internal.setTableHeight(height);
-    this.internal.setOptionsHeight(height);
+    this.internal_dimension.setTableHeight(height);
+    this.internal_dimension.setOptionsHeight(height);
 
     let width = 450;
-    this.internal.setTableWidth(width);
-    this.internal.setOptionsWidth(width);
+    this.internal_dimension.setTableWidth(width);
+    this.internal_dimension.setOptionsWidth(width);
   }
 
   ngAfterViewInit():void {

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { InternalService } from 'src/app/internal.service';
 
 import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import { InternalDimensionService } from 'src/app/internal-dimension.service';
 
 export interface Option {
   min_value: number,
@@ -65,11 +65,11 @@ export class OptionsComponent implements OnInit {
 
   options = new Map<string, Option>();
 
-  constructor(private internal:InternalService, private fb:FormBuilder) { }
+  constructor(private internal_dimension:InternalDimensionService, private fb:FormBuilder) { }
 
   ngOnInit(): void {
-    this.subscrip_height = this.internal.current_table_height.subscribe(message => this.height = message);
-    this.subscrip_width = this.internal.current_table_width.subscribe(message => this.width = message);
+    this.subscrip_height = this.internal_dimension.current_table_height.subscribe(message => this.height = message);
+    this.subscrip_width = this.internal_dimension.current_table_width.subscribe(message => this.width = message);
 
     this.options.set("Budget", {
       min_value: 1,

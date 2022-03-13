@@ -4,7 +4,9 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class InternalService {
+export class InternalDimensionService {
+
+  constructor() { }
 
   private table_height = new BehaviorSubject('0px');
   private table_width = new BehaviorSubject('0px');
@@ -15,8 +17,6 @@ export class InternalService {
   private options_width = new BehaviorSubject('0px');
   current_options_height = this.options_height.asObservable();
   current_options_width = this.options_width.asObservable();
-
-  constructor() { }
 
   setTableHeight(height:number) {
     this.table_height.next(height.toString());
