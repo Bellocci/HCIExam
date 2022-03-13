@@ -1,5 +1,4 @@
 import { Component, OnInit, Output } from '@angular/core';
-import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { InternalDataService } from '../internal-data.service';
 import { SharedService } from '../shared.service';
@@ -20,9 +19,6 @@ export class HomeComponent implements OnInit {
   championshipsList:any = [];
 
   constructor(private service:SharedService, private internal_data:InternalDataService) { }
-
-  // Share the value with parent
-  @Output() childToParent = new EventEmitter<String>();
 
   ngOnInit(): void {
     this.loadSportsList();
