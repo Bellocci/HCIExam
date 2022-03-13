@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { InternalDataService } from './internal-data.service';
 import { SharedService } from './shared.service';
 
 @Component({
@@ -9,10 +11,12 @@ import { SharedService } from './shared.service';
 export class AppComponent {
   title = 'myfanta-app';
 
-  constructor(private service:SharedService) { }
+  constructor(private service:SharedService, private internal_data:InternalDataService) { }
 
   panelOpenState:boolean = false;
-  championshipSelected:string = "";
+
+  championship_selected:string = "";
+  subscrip_champ:Subscription = new Subscription;
   
   sportsList:any = [];
   championshipsList:any = [];
@@ -20,6 +24,12 @@ export class AppComponent {
   ngOnInit(): void {
     this.refreshSportsList();
     this.refreshChampionshipsList();
+
+    this.subscrip_champ = this.internal_data.current_championship.subscribe(champ => this.championship_selected = champ);
+  }
+
+  ngOnDestroy(): void {
+    this.subscrip_champ.unsubscribe();
   }
 
   refreshChampionshipsList() {
@@ -34,8 +44,8 @@ export class AppComponent {
     });
   }
 
-  setChampionshipSelected(sport:any) {
-    this.championshipSelected = sport;
+  setChampionshipSelected(sport:string) {
+    this.internal_data.setChampionshipSelected(sport);
   }
 
   filterChampionship(champ:any, sport:any):boolean {

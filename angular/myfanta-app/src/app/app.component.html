@@ -34,28 +34,28 @@
     </mat-sidenav>
     <mat-sidenav-content>
       <mat-toolbar class="mat-elevation-z8 primary-color-dark"
-      [ngClass]="championshipSelected == '' ? 'toolbar-two-element' : 'toolbar-six-element'">
+      [ngClass]="championship_selected == '' ? 'toolbar-two-element' : 'toolbar-six-element'">
         <button type="button" mat-icon-button (click)="sidenav.toggle();">
           <mat-icon class="icon">menu</mat-icon>
           <span class="text">Sport categories</span>
         </button>
         <mat-divider vertical id="vertical-divider"></mat-divider>
-        <div *ngIf="championshipSelected == ''"></div>
-        <a class="link text primary-color" *ngIf="championshipSelected != ''" routerLink="createTeam">Create team</a>
-        <a class="link text primary-color" *ngIf="championshipSelected != ''" link="#">Player list</a>
-        <a class="link text primary-color" *ngIf="championshipSelected != ''" link="#">Favorit list</a>
-        <span *ngIf="championshipSelected != ''"></span>
+        <div *ngIf="championship_selected == ''"></div>
+        <a class="link text primary-color" *ngIf="championship_selected != ''" routerLink="createTeam">Create team</a>
+        <a class="link text primary-color" *ngIf="championship_selected != ''" link="#">Player list</a>
+        <a class="link text primary-color" *ngIf="championship_selected != ''" link="#">Favorit list</a>
+        <span *ngIf="championship_selected != ''"></span>
         <a class="link text primary-color"
-        *ngIf="championshipSelected != ''"
+        *ngIf="championship_selected != ''"
         (click)="setChampionshipSelected('')"
-        routerLink="home">
+        routerLink="">
           My Fanta
         </a>
         <button type="button" class="primary-color" mat-icon-button>
           <mat-icon>help</mat-icon>
         </button>
       </mat-toolbar>
-        <app-home *ngIf="championshipSelected == ''" (childToParent)="setChampionshipSelected($event)"></app-home>
+        <!--<app-home *ngIf="championshipSelected == ''" (childToParent)="setChampionshipSelected($event)"></app-home>-->
         <router-outlet></router-outlet>
       <!-- Add Content Here --> 
     </mat-sidenav-content>
