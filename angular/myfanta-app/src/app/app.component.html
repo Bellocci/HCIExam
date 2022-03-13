@@ -34,7 +34,7 @@
     </mat-sidenav>
     <mat-sidenav-content>
       <mat-toolbar class="mat-elevation-z8 primary-color-dark"
-      [ngClass]="championshipSelected == '' ? 'toolbar-two-element' : 'toolbar-five-element'">
+      [ngClass]="championshipSelected == '' ? 'toolbar-two-element' : 'toolbar-six-element'">
         <button type="button" mat-icon-button (click)="sidenav.toggle();">
           <mat-icon class="icon">menu</mat-icon>
           <span class="text">Sport categories</span>
@@ -45,6 +45,12 @@
         <a class="link text primary-color" *ngIf="championshipSelected != ''" link="#">Player list</a>
         <a class="link text primary-color" *ngIf="championshipSelected != ''" link="#">Favorit list</a>
         <span *ngIf="championshipSelected != ''"></span>
+        <a class="link text primary-color"
+        *ngIf="championshipSelected != ''"
+        (click)="setChampionshipSelected('')"
+        routerLink="home">
+          My Fanta
+        </a>
         <button type="button" class="primary-color" mat-icon-button>
           <mat-icon>help</mat-icon>
         </button>

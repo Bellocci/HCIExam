@@ -24,9 +24,9 @@
     gap: 5px;
 }
 
-.toolbar-five-element {
+.toolbar-six-element {
     display: grid;
-    grid-template-columns: 12% 1% 8% 8% 8% 58% 5%; 
+    grid-template-columns: 12% 1% 8% 8% 8% 51% 7% 5%; 
     gap: 5px;
 }
 
