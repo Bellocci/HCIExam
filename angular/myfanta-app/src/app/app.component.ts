@@ -18,8 +18,8 @@ export class AppComponent {
   championshipsList:any = [];
 
   ngOnInit(): void {
-    this.refreshChampionshipsList();
     this.refreshSportsList();
+    this.refreshChampionshipsList();
   }
 
   refreshChampionshipsList() {
@@ -36,5 +36,11 @@ export class AppComponent {
 
   setChampionshipSelected(sport:any) {
     this.championshipSelected = sport;
+  }
+
+  filterChampionship(champ:any, sport:any):boolean {
+    if(champ.sport != sport.sportId)
+      return false;
+    return true;
   }
 }
