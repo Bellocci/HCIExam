@@ -41,5 +41,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
-#Folder
-.src/model
+#Folder with example model
+/.src/model
