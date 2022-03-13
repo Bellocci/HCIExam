@@ -10,57 +10,21 @@
       </div>
       <mat-nav-list>
         <mat-accordion>
-          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel *ngFor="let sport of sportsList" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
             <mat-expansion-panel-header class="secondary-color">
               <mat-panel-title class="text">
                 <div>
-                  Football
+                  {{ sport.sportName }}
                 </div>
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <div>
-              <a mat-list-item class="text" (click)="setChampionshipSelected('Serie A')" routerLink="createTeam">
+            <div *ngFor="let champ of championshipsList">
+              <a mat-list-item class="text"
+              *ngIf="filterChampionship(champ, sport)" 
+              (click)="setChampionshipSelected(champ.championshipName); sidenav.toggle()" 
+              routerLink="createTeam">
                 <mat-icon>arrow_right</mat-icon>
-                Serie A
-              </a>
-              <mat-divider></mat-divider>
-            </div>
-            <div>
-              <a mat-list-item class="text" (click)="setChampionshipSelected('Premier League')" routerLink="createTeam">
-                <mat-icon>arrow_right</mat-icon>
-                Premier League
-              </a>
-              <mat-divider></mat-divider>
-            </div>
-          </mat-expansion-panel>
-          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header class="secondary-color">
-              <mat-panel-title class="text">
-                <div>
-                  Volleyball
-                </div>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div>
-              <a mat-list-item class="text" (click)="setChampionshipSelected('Serie A Female')" routerLink="createTeam">
-                <mat-icon>arrow_right</mat-icon>
-                Serie A Female
-              </a>
-              <mat-divider></mat-divider>
-            </div>
-          </mat-expansion-panel>
-          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header class="secondary-color">
-              <mat-panel-title class="text">
-                <div>
-                  Basketball
-                </div>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div>
-              <a mat-list-item class="text" (click)="setChampionshipSelected('Serie A Female')" routerLink="createTeam">
-                <mat-icon>arrow_right</mat-icon>
-                NBA
+                {{ champ.championshipName }}
               </a>
               <mat-divider></mat-divider>
             </div>
