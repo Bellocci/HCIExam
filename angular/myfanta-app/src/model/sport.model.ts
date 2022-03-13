@@ -1,9 +1,11 @@
+import { Observable, of } from "rxjs";
+
 export class Sport {
     sportId:number = -1;
     sportName: string = '';
 }
 
-export const SPORT_DATA:Sport[] = [
+export const SPORT_DATA:Observable<Sport[]> = of([
     {
       sportId : 1,
       sportName : 'Football soccer'
@@ -16,4 +18,4 @@ export const SPORT_DATA:Sport[] = [
       sportId : 3,
       sportName : 'Basketball'
     }
-]
+])
