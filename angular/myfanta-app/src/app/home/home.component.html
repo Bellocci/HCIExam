@@ -14,65 +14,25 @@
 <h2 class = "subtitle-position subtitle-font">Click the sport and choose your championship</h2>
 
 <div class="padding-home" [ngClass]="panelOpenState == true ? 'grid-expansion-panel-open' : 'grid-expansion-panel-close'">  
-    <mat-accordion>
+    <mat-accordion *ngFor="let sport of sportsList">
         <mat-expansion-panel class="mat-elevation-z9" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
             <mat-expansion-panel-header [collapsedHeight]="'80px'" class="primary-color">
                 <mat-panel-title class="text" id="text-interactive">
                     <div>
-                        Football
+                        {{ sport.sportName }}
                     </div>
                 </mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="link element-panel element-color">
-                <a mat-list-item class="text" id="text-interactive" (click)="sendChampionshipSelected('Serie A')" routerLink="createTeam">
+            <div class="link element-panel element-color" *ngFor="let champ of championshipsList">
+                <a mat-list-item class="text" id="text-interactive"
+                *ngIf="filterChampionship(champ, sport)"
+                (click)="sendChampionshipSelected(champ.championshipName)"
+                routerLink="createTeam">
                     <mat-icon class="icon">arrow_right</mat-icon>
-                    Serie A
+                    {{ champ.championshipName }}
                 </a>
+                <mat-divider *ngIf="filterChampionship(champ, sport)"></mat-divider>
             </div>
-            <mat-divider></mat-divider>
-            <div class="link element-panel element-color">
-                <a mat-list-item class="text" id="text-interactive" (click)="sendChampionshipSelected('Premier League')" routerLink="createTeam">
-                    <mat-icon class="icon">arrow_right</mat-icon>
-                    Premier League
-                </a>
-            </div>
-            <mat-divider></mat-divider>
-        </mat-expansion-panel>
-    </mat-accordion>
-    <mat-accordion>
-        <mat-expansion-panel class="mat-elevation-z9" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header [collapsedHeight]="'80px'" class="primary-color">
-                <mat-panel-title class="text" id="text-interactive">
-                    <div>
-                        Volleyball
-                    </div>
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="link element-panel element-color">
-                <a mat-list-item class="text" id="text-interactive" (click)="sendChampionshipSelected('Serie A Female')" routerLink="createTeam">
-                    <mat-icon  class="icon">arrow_right</mat-icon>
-                    Serie A Female
-                </a>
-            </div>
-            <mat-divider></mat-divider>
-        </mat-expansion-panel>
-    </mat-accordion>
-    <mat-accordion>
-        <mat-expansion-panel class="mat-elevation-z9" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header [collapsedHeight]="'80px'" class="primary-color">
-                <mat-panel-title class="text" id="text-interactive">
-                    <div>
-                        Basketball
-                    </div>
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="link element-panel element-color">
-                <a mat-list-item class="text" id="text-interactive" (click)="sendChampionshipSelected('NBA')" routerLink="createTeam">
-                    <mat-icon class="icon">arrow_right</mat-icon>
-                    NBA
-                </a>
-            </div>
-            <mat-divider></mat-divider>
         </mat-expansion-panel>
     </mat-accordion>
 </div>
