@@ -26,7 +26,7 @@
             <div class="link element-panel element-color" *ngFor="let champ of championshipsList">
                 <a mat-list-item class="text" id="text-interactive"
                 *ngIf="filterChampionship(champ, sport)"
-                (click)="sendChampionshipSelected(champ.championshipName)"
+                (click)="setChampionshipSelected(champ.championshipName)"
                 routerLink="createTeam">
                     <mat-icon class="icon">arrow_right</mat-icon>
                     {{ champ.championshipName }}

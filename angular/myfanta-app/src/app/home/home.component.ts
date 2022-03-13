@@ -1,5 +1,7 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { InternalDataService } from '../internal-data.service';
 import { SharedService } from '../shared.service';
 
 @Component({
@@ -11,10 +13,13 @@ export class HomeComponent implements OnInit {
 
   panelOpenState:boolean = false;
 
+  championship_selected:string = '';
+  subscrip_champ:Subscription = new Subscription;
+
   sportsList:any = [];
   championshipsList:any = [];
 
-  constructor(private service:SharedService) { }
+  constructor(private service:SharedService, private internal_data:InternalDataService) { }
 
   // Share the value with parent
   @Output() childToParent = new EventEmitter<String>();
@@ -22,6 +27,12 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.loadSportsList();
     this.loadChampionshipsList();
+
+    this.subscrip_champ = this.internal_data.current_championship.subscribe(champ => this.championship_selected = champ);
+  }
+
+  ngOnDestroy(): void {
+    this.subscrip_champ.unsubscribe();
   }
 
   loadSportsList() {
@@ -42,7 +53,7 @@ export class HomeComponent implements OnInit {
     return true;
   }
 
-  sendChampionshipSelected(name:string) {
-    this.childToParent.emit(name);
+  setChampionshipSelected(name:string) {
+    this.internal_data.setChampionshipSelected(name);
   }
 }
