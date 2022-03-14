@@ -25,20 +25,27 @@ export class AppComponent {
     this.refreshSportsList();
     this.refreshChampionshipsList();
 
-    this.subscrip_champ = this.internal_data.current_championship.subscribe(champ => this.championship_selected = champ);
+    this.getChampionshipSelected();
   }
 
   ngOnDestroy(): void {
-    this.subscrip_champ.unsubscribe();
+    if(this.subscrip_champ)
+      this.subscrip_champ.unsubscribe();
   }
 
-  refreshChampionshipsList() {
+  private getChampionshipSelected() {
+    this.subscrip_champ = this.internal_data.getChampionshipSelected().subscribe(champ => {
+      this.championship_selected = champ;
+    })
+  }
+
+  private refreshChampionshipsList() {
     this.service.getChampionshipList().subscribe(data => {
       this.championshipsList = data;
     });
   }
 
-  refreshSportsList() {
+  private refreshSportsList() {
     this.service.getSportList().subscribe(data => {
       this.sportsList = data;
     });
