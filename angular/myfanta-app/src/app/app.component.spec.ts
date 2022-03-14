@@ -177,6 +177,67 @@ describe('AppComponent', () => {
       expect(component.championshipsList).toBeDefined();
       expect(component.championshipsList).toEqual(CHAMPIONSHIP_DATA);
     }))
+  });
+
+  describe('Method used in app.component.html', () => {
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(AppComponent);
+      component = fixture.componentInstance;
+      internal_data_service = TestBed.inject(InternalDataService);
+      shared_service = TestBed.inject(SharedService);
+    })
+
+    it('should call filterChampionship and return false when sport.sportId and champ.sport are not equal', () => {
+      let sport = SPORT_DATA[0];
+      let champ = CHAMPIONSHIP_DATA[2];
+
+      expect(component.filterChampionship(champ, sport)).toBeFalse();
+    });
+
+    it('should call filterChampionship and return true when sport.sportId and champ.sport are equal', () => {
+      let sport = SPORT_DATA[0];
+      let champ = CHAMPIONSHIP_DATA[0];
+
+      expect(component.filterChampionship(champ, sport)).toBeTrue();
+    });
+
+    it('should call internal_data.setChampionshipSelected in setChampionshipSelected method when champ is empty', () => {
+      let spy_setChampionshipSelected = spyOn(internal_data_service, 'setChampionshipSelected');
+      let champ:string = '';
+
+      component.setChampionshipSelected(champ);
+
+      expect(spy_setChampionshipSelected).toHaveBeenCalled();
+    });
+
+    it('should call internal_data.setChampionshipSelected in setChampionshipSelected method when champ is a string', () => {
+      let spy_setChampionshipSelected = spyOn(internal_data_service, 'setChampionshipSelected');
+      let champ:string = CHAMPIONSHIP_DATA[0].championshipName;
+
+      component.setChampionshipSelected(champ);
+
+      expect(spy_setChampionshipSelected).toHaveBeenCalled();
+      expect(spy_setChampionshipSelected).toHaveBeenCalledTimes(1);
+    })
+  });
+
+  describe('ngOnDestroy', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(AppComponent);
+      component = fixture.componentInstance;
+      internal_data_service = TestBed.inject(InternalDataService);
+      shared_service = TestBed.inject(SharedService);
+    });
+
+    it('should unsubscribe subscrip_champ when it is not empty and ngOnDestroy is called', () => {
+      let spy_subscrip_champ = spyOn(component.subscrip_champ, 'unsubscribe');
+
+      component.ngOnDestroy();
+
+      expect(spy_subscrip_champ).toHaveBeenCalled();
+      expect(spy_subscrip_champ).toHaveBeenCalledTimes(1);
+    })
 
   });
 });
