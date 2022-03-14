@@ -51,8 +51,8 @@ export class AppComponent {
     });
   }
 
-  setChampionshipSelected(sport:string) {
-    this.internal_data.setChampionshipSelected(sport);
+  setChampionshipSelected(champ:string) {
+    this.internal_data.setChampionshipSelected(champ);
   }
 
   filterChampionship(champ:any, sport:any):boolean {
