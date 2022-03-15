@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SnackBarService } from '../snack-bar.service';
 
 @Component({
   selector: 'app-create-team',
@@ -20,7 +21,7 @@ export class CreateTeamComponent implements OnInit {
   cols_buttons: number = 0;
   rows_buttons: number = 0;
 
-  constructor() { }
+  constructor(private _snackBar:SnackBarService) { }
 
   ngOnInit(): void {
     this.breakpoint = this.getInnerWidth() >= 480 ? 5 : 1;
@@ -57,5 +58,9 @@ export class CreateTeamComponent implements OnInit {
     } else {
       this.input_visible = false;
     }
+  }
+
+  openSnackBar(textMessage:string) {
+    this._snackBar.openSnackBar(textMessage);
   }
 }

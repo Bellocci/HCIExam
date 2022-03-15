@@ -2,18 +2,25 @@ import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { CreateTeamComponent } from './create-team.component';
+import { SnackBarService } from '../snack-bar.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('CreateTeamComponent', () => {
   let component: CreateTeamComponent;
   let fixture: ComponentFixture<CreateTeamComponent>;
+  let snackbar_service:SnackBarService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        MatSnackBarModule
       ],
       declarations: [ 
         CreateTeamComponent 
+      ],
+      providers: [
+        SnackBarService
       ]
     })
     .compileComponents();
@@ -22,6 +29,7 @@ describe('CreateTeamComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateTeamComponent);
     component = fixture.componentInstance;
+    snackbar_service = TestBed.inject(SnackBarService);
     fixture.detectChanges();
   });
 
@@ -341,6 +349,14 @@ describe('CreateTeamComponent', () => {
       expect(component.input_visible).toBeFalse();
     });
 
+    it('should call openSnackBar method from snack_bar service when method openSnackBar is called', fakeAsync(() => {
+      let textMessage = '';
+      let spy_snack_bar = spyOn(snackbar_service, 'openSnackBar');
+
+      component.openSnackBar(textMessage);
+
+      expect(spy_snack_bar).toHaveBeenCalled();
+    }))
   });
 
 });
