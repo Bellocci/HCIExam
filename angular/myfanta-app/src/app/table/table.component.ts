@@ -37,8 +37,8 @@ export class TableComponent implements AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.subscrip_height = this.internal_dimension.current_table_height.subscribe(message => this.height = message);
-    this.subscrip_width = this.internal_dimension.current_table_width.subscribe(message => this.width = message);
+    this.getTableHeight();
+    this.getTableWidth();
   }
 
   ngAfterViewInit(): void {
@@ -50,6 +50,18 @@ export class TableComponent implements AfterViewInit {
   ngOnDestroy() {
     this.subscrip_height.unsubscribe();
     this.subscrip_width.unsubscribe();
+  }
+
+  getTableHeight() {
+    this.subscrip_height = this.internal_dimension.getTableHeight().subscribe(height => {
+      this.height = height;
+    });
+  }
+
+  getTableWidth() {
+    this.subscrip_width = this.internal_dimension.getTableWidth().subscribe(width => {
+      this.width = width;
+    })
   }
 }
 
