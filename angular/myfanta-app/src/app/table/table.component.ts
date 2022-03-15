@@ -30,6 +30,9 @@ export class TableComponent implements AfterViewInit {
 
   height:string = '0';
   width:string = '0';
+  private _default_height:number = 200;
+  private _default_width:number = 200;
+
   subscrip_height:Subscription = new Subscription;
   subscrip_width:Subscription = new Subscription;
 
@@ -48,19 +51,37 @@ export class TableComponent implements AfterViewInit {
   }
 
   ngOnDestroy() {
-    this.subscrip_height.unsubscribe();
-    this.subscrip_width.unsubscribe();
+    if(this.subscrip_height) {
+      this.subscrip_height.unsubscribe();
+    }
+    if(this.subscrip_width) {
+      this.subscrip_width.unsubscribe();
+    }
+  }
+
+  getDefaultHeight():string {
+    return this._default_height.toString();
+  }
+
+  getDefaultWidth():string {
+    return this._default_width.toString();
   }
 
   getTableHeight() {
     this.subscrip_height = this.internal_dimension.getTableHeight().subscribe(height => {
-      this.height = height;
+      if(!height.match('^[0-9]*$'))
+        this.height = this.getDefaultHeight();
+      else
+        this.height = height;
     });
   }
 
   getTableWidth() {
     this.subscrip_width = this.internal_dimension.getTableWidth().subscribe(width => {
-      this.width = width;
+      if(!width.match('^[0-9]*$'))
+        this.width = this.getDefaultWidth();
+      else
+        this.width = width;
     })
   }
 }
