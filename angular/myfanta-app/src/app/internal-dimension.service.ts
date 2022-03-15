@@ -8,29 +8,45 @@ export class InternalDimensionService {
 
   constructor() { }
 
-  private table_height = new BehaviorSubject('0px');
-  private table_width = new BehaviorSubject('0px');
-  current_table_height = this.table_height.asObservable();
-  current_table_width = this.table_width.asObservable();
+  private _table_height = new BehaviorSubject('0px');
+  private _table_width = new BehaviorSubject('0px');
+  private _current_table_height = this._table_height.asObservable();
+  private _current_table_width = this._table_width.asObservable();
 
-  private options_height = new BehaviorSubject('0px');
-  private options_width = new BehaviorSubject('0px');
-  current_options_height = this.options_height.asObservable();
-  current_options_width = this.options_width.asObservable();
+  private _options_height = new BehaviorSubject('0px');
+  private _options_width = new BehaviorSubject('0px');
+  private _current_options_height = this._options_height.asObservable();
+  private _current_options_width = this._options_width.asObservable();
 
   setTableHeight(height:number) {
-    this.table_height.next(height.toString());
+    this._table_height.next(height.toString());
+  }
+
+  getTableHeight() {
+    return this._current_table_height;
   }
 
   setTableWidth(width:number) {
-    this.table_width.next(width.toString());
+    this._table_width.next(width.toString());
+  }
+
+  getTableWidth() {
+    return this._current_table_width;
   }
 
   setOptionsHeight(height:number) {
-    this.options_height.next(height.toString());
+    this._options_height.next(height.toString());
+  }
+
+  getOptionsHeight() {
+    return this._current_options_height;
   }
 
   setOptionsWidth(width:number) {
-    this.options_width.next(width.toString());
+    this._options_width.next(width.toString());
+  }
+
+  getOptionsWidth() {
+    return this._current_options_width;
   }
 }
