@@ -8,14 +8,14 @@ export class InternalDataService {
 
   constructor() { }
 
-  private championship_selected = new BehaviorSubject('');
-  private current_championship = this.championship_selected.asObservable();
+  private _championship_selected = new BehaviorSubject('');
+  private _current_championship = this._championship_selected.asObservable();
 
   setChampionshipSelected(champ:string) {
-    this.championship_selected.next(champ);
+    this._championship_selected.next(champ);
   }
 
   getChampionshipSelected() {
-    return this.current_championship;
+    return this._current_championship;
   }
 }
