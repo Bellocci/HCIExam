@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class CreateTeamComponent implements OnInit {
 
   value_input_text = '';
+  input_visible:boolean = true;
 
   tab_selected = '';
 
@@ -48,5 +49,13 @@ export class CreateTeamComponent implements OnInit {
 
   setTabSelected(textTab:string) {
     this.tab_selected = textTab;
+  }
+
+  setInputVisible(textTab:string) {
+    if(textTab != 'Options') {
+      this.input_visible = true;
+    } else {
+      this.input_visible = false;
+    }
   }
 }

@@ -310,7 +310,7 @@ describe('CreateTeamComponent', () => {
       component.setTabSelected(textTab);
 
       expect(component.tab_selected).toEqual(textTab);
-    })
+    });
 
     it('setTabSelected should set tab_selected to string when parameter is a non-empty string', () => {
       let textTab:string = 'Team';
@@ -318,7 +318,29 @@ describe('CreateTeamComponent', () => {
       component.setTabSelected(textTab);
 
       expect(component.tab_selected).toEqual(textTab);
-    })
-  })
+    });
+
+    it('should set inputVisible to true when textTab is not equal to Option', () => {
+      let textTab:string = 'Team';
+      component.input_visible = false;
+
+      expect(component.input_visible).toBeFalse();
+
+      component.setInputVisible(textTab);
+
+      expect(component.input_visible).toBeTrue();
+    });
+
+    it('should set inputVisible to false when textTab is equal to Options', () => {
+      let textTab:string = 'Options';
+
+      expect(component.input_visible).toBeTrue();
+
+      component.setInputVisible(textTab);
+
+      expect(component.input_visible).toBeFalse();
+    });
+
+  });
 
 });
