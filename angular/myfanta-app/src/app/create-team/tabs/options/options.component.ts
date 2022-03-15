@@ -68,8 +68,8 @@ export class OptionsComponent implements OnInit {
   constructor(private internal_dimension:InternalDimensionService, private fb:FormBuilder) { }
 
   ngOnInit(): void {
-    this.subscrip_height = this.internal_dimension.current_table_height.subscribe(message => this.height = message);
-    this.subscrip_width = this.internal_dimension.current_table_width.subscribe(message => this.width = message);
+    this.getOptionsHeight();
+    this.getOptionsWidth();
 
     this.options.set("Budget", {
       min_value: 1,
@@ -120,6 +120,18 @@ export class OptionsComponent implements OnInit {
 
     this.optionsBuilder.valueChanges.subscribe((data) => {
       this.logValidationErrors(this.optionsBuilder);
+    });
+  }
+
+  getOptionsHeight() {
+    this.subscrip_height = this.internal_dimension.getOptionsHeight().subscribe(height => {
+      this.height = height;
+    });
+  }
+
+  getOptionsWidth() {
+    this.subscrip_width = this.internal_dimension.getOptionsWidth().subscribe(width => {
+      this.width = width;
     });
   }
 
