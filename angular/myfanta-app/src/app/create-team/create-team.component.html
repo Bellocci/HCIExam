@@ -3,10 +3,10 @@
 </header>
 <mat-grid-list [cols]="breakpoint" rowHeight="100px" (window:resize)="onResize()">
     <mat-grid-tile [colspan]="cols_tabs" [rowspan]="rows_tabs">
-        <app-tabs (tab_selected)="setTabSelected($event)"></app-tabs>
+        <app-tabs (tab_selected)="setTabSelected($event); setInputVisible($event)"></app-tabs>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="cols_buttons" [rowspan]="rows_buttons">
-        <div class="input-position">
+        <div class="input-position" [ngClass]="input_visible == false ? 'noVisible' : ''">
             <mat-form-field class="form-field" appearance="fill">
                 <mat-label>Player name</mat-label>
                 <input matInput type="text" [(ngModel)]="value_input_text" placeholder="Player name...">
