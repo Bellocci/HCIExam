@@ -20,11 +20,15 @@
             </button>
         </div>
         <div class="generate-btn-position">
-            <button mat-raised-button class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3">
+            <button mat-raised-button 
+            class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
+            (click)="openSnackBar('Generated Team')">
                 Generate Team
             </button>
             <div class="generate-btn-space"></div>
-            <button mat-raised-button class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3">
+            <button mat-raised-button 
+            class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
+            (click)="openSnackBar('Generated Team with favorit list')">
                 Generate Team with favorit list
             </button>
         </div>
