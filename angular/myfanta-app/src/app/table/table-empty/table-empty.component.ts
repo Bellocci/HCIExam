@@ -15,14 +15,9 @@ import { TableComponent } from '../table.component';
 })
 export class TableEmptyComponent extends TableComponent implements AfterViewInit {
 
-  override dataSource!: MatTableDataSource<any>;
-  override columnsToDisplay = ['Name', 'Team', 'Cost'];
+  @ViewChild(MatPaginator) paginator!:MatPaginator;
 
-  @ViewChild(MatPaginator) 
-  override paginator!:MatPaginator;
-
-  @ViewChild(MatSort)
-  override sort!:MatSort;
+  @ViewChild(MatSort) sort!:MatSort;
 
   constructor(
     private internal_dimension_service:InternalDimensionService,
@@ -32,7 +27,7 @@ export class TableEmptyComponent extends TableComponent implements AfterViewInit
     super(internal_dimension_service);
   }
   
-  override ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     this.dataSource = new MatTableDataSource();
     this.dataSource.data = [];
     this.dataSource.paginator = this.paginator;
