@@ -10,11 +10,7 @@ describe('SnackBarService', () => {
   const mockMatSnackBar = {
     open: () => {}
   };
-
-  const mockStatus = {
-    default: ''
-  };
-
+  
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
