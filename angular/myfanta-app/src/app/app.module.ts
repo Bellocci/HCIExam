@@ -13,6 +13,7 @@ import { TabsComponent } from './create-team/tabs/tabs.component';
 import { TableComponent } from './table/table.component';
 import { OptionsComponent } from './create-team/tabs/options/options.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TableEmptyComponent } from './table/table-empty/table-empty.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TabsComponent,
     TableComponent,
     OptionsComponent,
+    TableEmptyComponent,
   ],
   imports: [
     BrowserModule,
