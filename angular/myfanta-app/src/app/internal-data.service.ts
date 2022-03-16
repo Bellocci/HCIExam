@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +17,13 @@ export class InternalDataService {
 
   getChampionshipSelected() {
     return this._current_championship;
+  }
+
+  generateTeam():Observable<any[]> {
+    return of([]);
+  }
+
+  generateTeamWithFavoritList():Observable<any[]> {
+    return of([]);
   }
 }
