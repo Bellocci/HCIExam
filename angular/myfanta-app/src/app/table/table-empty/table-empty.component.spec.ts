@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { of } from 'rxjs';
@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { InternalDataService } from 'src/app/internal-data.service';
 import { TableEmptyComponent } from './table-empty.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { InternalDimensionService } from 'src/app/internal-dimension.service';
 
 const GENERATE_PLAYERS_LIST = [
   {
@@ -32,6 +33,7 @@ describe('TableEmptyComponent', () => {
   let component: TableEmptyComponent;
   let fixture: ComponentFixture<TableEmptyComponent>;
   let internal_data: InternalDataService;
+  let internal_dimension: InternalDimensionService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -53,10 +55,92 @@ describe('TableEmptyComponent', () => {
     fixture = TestBed.createComponent(TableEmptyComponent);
     component = fixture.componentInstance;
     internal_data = TestBed.inject(InternalDataService);
+    internal_dimension = TestBed.inject(InternalDimensionService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+
+    it('testing subscribe method into getTableHeight is getting called', fakeAsync(() => {
+      let spy_height = spyOn(internal_dimension, 'getTableHeight').and.returnValue(of(''));
+      let spy_sub = spyOn(internal_dimension.getTableHeight(), 'subscribe');
+
+      component.ngOnInit();
+      tick();
+
+      expect(spy_height).toHaveBeenCalledBefore(spy_sub);
+      expect(spy_sub).toHaveBeenCalled();
+    }));
+
+    it('should call getTableHeight and get response a string', fakeAsync(() => {
+      let height:string = "400";
+      let spy_height = spyOn(internal_dimension, "getTableHeight").and.returnValue(of(height));
+
+      component.ngOnInit();
+      tick();
+
+      expect(spy_height).toHaveBeenCalled();
+      expect(component.height).toBe(height);
+    }));
+
+    it('should call getTableHeight and get response a string that contains only digit', fakeAsync(() => {
+      let height:string = "400";
+      let spy_height = spyOn(internal_dimension, "getTableHeight").and.returnValue(of(height));
+
+      component.ngOnInit();
+      tick();
+
+      expect(spy_height).toHaveBeenCalled();
+      expect(component.height).toMatch('^[0-9]*$');
+    }));
+
+    it('should call getTableHeight and if get a string that not contains only digit set default value', fakeAsync(() => {
+      let height:string = "400px";
+      let spy_height = spyOn(internal_dimension, "getTableHeight").and.returnValue(of(height));
+
+      component.ngOnInit();
+      tick();
+
+      expect(spy_height).toHaveBeenCalled();
+      expect(component.height).toBe(component.getDefaultHeight());
+    }));
+
+    it('testing subscribe method into getTableWidth is getting called', fakeAsync(() => {
+      let spy_width = spyOn(internal_dimension, 'getTableWidth').and.returnValue(of(''));
+      let spy_sub = spyOn(internal_dimension.getTableWidth(), 'subscribe');
+
+      component.ngOnInit();
+      tick();
+
+      expect(spy_width).toHaveBeenCalledBefore(spy_sub);
+      expect(spy_sub).toHaveBeenCalled();
+    }));
+
+    it('should call getTableWidth and get response a string', fakeAsync(() => {
+      let width:string = "400";
+      let spy_width = spyOn(internal_dimension, "getTableWidth").and.returnValue(of(width));
+
+      component.ngOnInit();
+      tick();
+
+      expect(spy_width).toHaveBeenCalled();
+      expect(component.width).toBe(width);
+    }));
+
+    it('should call getTableWidth and if get a string that not contains only digit set default value', fakeAsync(() => {
+      let width:string = "400px";
+      let spy_width = spyOn(internal_dimension, "getTableWidth").and.returnValue(of(width));
+
+      component.ngOnInit();
+      tick();
+
+      expect(spy_width).toHaveBeenCalled();
+      expect(component.width).toBe(component.getDefaultWidth());
+    }));
+
   });
 
   describe('ngAfterViewInit', () => {
