@@ -26,4 +26,8 @@ export class InternalDataService {
   generateTeamWithFavoritList():Observable<any[]> {
     return of([]);
   }
+
+  getBlacklistPlayers():Observable<any[]> {
+    return of([]);
+  }
 }
