@@ -14,6 +14,7 @@ import { TableComponent } from './table/table.component';
 import { OptionsComponent } from './create-team/tabs/options/options.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableEmptyComponent } from './table/table-empty/table-empty.component';
+import { TableBlacklistComponent } from './table/table-blacklist/table-blacklist.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { TableEmptyComponent } from './table/table-empty/table-empty.component';
     TableComponent,
     OptionsComponent,
     TableEmptyComponent,
+    TableBlacklistComponent,
   ],
   imports: [
     BrowserModule,
