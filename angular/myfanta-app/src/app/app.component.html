@@ -1,10 +1,10 @@
-<mat-sidenav-container class="sidenav-container" (backdropClick)="sidenav.toggle();">
-    <mat-sidenav #sidenav class="sidenav" mode="over">
+<mat-sidenav-container class="sidenav-container" (backdropClick)="closeSidenav()">
+    <mat-sidenav class="sidenav" mode="over">
       <div class="secondary-color">
         <mat-toolbar>
-          <button type="button" mat-icon-button (click)="sidenav.toggle();">
+          <button class="text secondary-color" type="button" mat-flat-button (click)="closeSidenav()">
             <mat-icon class="icon">arrow_back</mat-icon>
-            <span class="text">Sport categories</span>
+            Championships
           </button>
         </mat-toolbar>
       </div>
@@ -21,7 +21,7 @@
             <div *ngFor="let champ of championshipsList">
               <a mat-list-item class="text"
               *ngIf="filterChampionship(champ, sport)" 
-              (click)="setChampionshipSelected(champ.championshipName); sidenav.toggle()" 
+              (click)="setChampionshipSelected(champ.championshipName); closeSidenav()" 
               routerLink="createTeam">
                 <mat-icon>arrow_right</mat-icon>
                 {{ champ.championshipName }}
@@ -35,23 +35,25 @@
     <mat-sidenav-content>
       <mat-toolbar class="mat-elevation-z8 primary-color-dark"
       [ngClass]="championship_selected == '' ? 'toolbar-two-element' : 'toolbar-six-element'">
-        <button type="button" mat-icon-button (click)="sidenav.toggle();">
-          <mat-icon class="icon">menu</mat-icon>
-          <span class="text">Sport categories</span>
+        <button class="text primary-color-dark primary-color" type="button" mat-flat-button (click)="openSidenav()">
+          <mat-icon >menu</mat-icon>
+          Championships
         </button>
         <mat-divider vertical id="vertical-divider"></mat-divider>
         <div *ngIf="championship_selected == ''"></div>
-        <a class="link text primary-color" *ngIf="championship_selected != ''" routerLink="createTeam">Create team</a>
-        <a class="link text primary-color" *ngIf="championship_selected != ''" link="#">Player list</a>
-        <a class="link text primary-color" *ngIf="championship_selected != ''" link="#">Favorit list</a>
+        <div *ngIf="championship_selected != ''">
+          <a class="link text primary-color" routerLink="createTeam">Create team</a>
+          <a class="link text primary-color" routerLink="playerList">Player list</a>
+          <a class="link text primary-color" routerLink="favoritList">Favorit list</a>
+        </div>
         <span *ngIf="championship_selected != ''"></span>
         <a class="link text primary-color"
         *ngIf="championship_selected != ''"
         (click)="setChampionshipSelected('')"
         routerLink="">
-          My Fanta
+        My Fanta
         </a>
-        <button type="button" class="primary-color" mat-icon-button>
+        <button type="button" class="primary-color" mat-icon-button routerLink="help">
           <mat-icon>help</mat-icon>
         </button>
       </mat-toolbar>
