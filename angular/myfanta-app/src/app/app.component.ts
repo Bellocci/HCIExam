@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
 import { InternalDataService } from './internal-data.service';
 import { SharedService } from './shared.service';
@@ -12,6 +13,8 @@ export class AppComponent {
   title = 'myfanta-app';
 
   constructor(private service:SharedService, private internal_data:InternalDataService) { }
+
+  @ViewChild(MatSidenav) sidenav!:MatSidenav;
 
   panelOpenState:boolean = false;
 
@@ -49,6 +52,14 @@ export class AppComponent {
     this.service.getSportList().subscribe(data => {
       this.sportsList = data;
     });
+  }
+
+  openSidenav() {
+    this.sidenav.open();
+  }
+
+  closeSidenav() {
+    this.sidenav.close();
   }
 
   setChampionshipSelected(champ:string) {
