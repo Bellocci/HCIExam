@@ -1,0 +1,36 @@
+<mat-toolbar class="mat-elevation-z8 primary-color-dark"
+      [ngClass]="championship_selected == '' ? 'toolbar-two-element' : 'toolbar-six-element'">
+        <button class="text primary-color-dark color toolbar-el-height" type="button" mat-flat-button (click)="openSidenavFromChild()">
+          <mat-icon >menu</mat-icon>
+          <span [ngClass]="is_mobile ? 'hidden-element' : ''" (window:resize)="isMobileLayout($event)">
+            Categories
+          </span>
+        </button>
+        <div></div>
+        <div class="container-link" *ngIf="championship_selected != ''">
+          <a class="link text color toolbar-el-height"
+          [ngClass]="isActiveLink('Create team') == true ? 'link-toolbar-color' : 'primary-color-dark'" 
+          (click)="setActiveLink('Create team')"
+          routerLink="createTeam">Create team</a>
+
+          <a class="link text color toolbar-el-height"
+          [ngClass]="isActiveLink('Player list') == true ? 'link-toolbar-color' : 'primary-color-dark'" 
+          (click)="setActiveLink('Player list')"
+          routerLink="playerList">Player list</a>
+
+          <a class="link text color toolbar-el-height" 
+          [ngClass]="isActiveLink('Favorit list') == true ? 'link-toolbar-color' : 'primary-color-dark'" 
+          (click)="setActiveLink('Favorit list')"
+          routerLink="favoritList">Favorit list</a>
+
+          <div></div>
+        </div>
+        <a class="link text primary-color-dark primary-color"
+        *ngIf="championship_selected != ''"
+        (click)="setChampionshipSelected(''); setActiveLink('')"
+        routerLink="">My Fanta</a>
+        <button type="button" class="primary-color-dark" mat-icon-button routerLink="help">
+          <mat-icon>help</mat-icon>
+        </button>
+      </mat-toolbar>
+        <router-outlet></router-outlet>

@@ -1,0 +1,24 @@
+<mat-toolbar class="mat-elevation-z8 primary-color-dark">
+    <mat-toolbar-row>
+        <button mat-icon-button>
+            <mat-icon>menu</mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="championship_selected != ''">
+            <mat-icon>home</mat-icon>
+        </button>
+        <button mat-icon-button>
+            <mat-icon>help</mat-icon>
+        </button>
+    </mat-toolbar-row>
+    <mat-toolbar-row *ngIf="championship_selected != ''">
+        <a class="link text color toolbar-el-height">
+            Create team
+        </a>
+        <a class="link text color toolbar-el-height">
+            Player list
+        </a>
+        <a class="link text color toolbar-el-height">
+            Favorit list
+        </a>
+    </mat-toolbar-row>
+</mat-toolbar>

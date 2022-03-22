@@ -1,0 +1,47 @@
+<mat-sidenav-container class="sidenav-container" (backdropClick)="closeSidenav()">
+    <mat-sidenav class="sidenav" mode="over">
+      <div class="secondary-color">
+        <mat-toolbar>
+          <button class="text secondary-color" type="button" mat-flat-button (click)="closeSidenav()">
+            <mat-icon class="icon">arrow_back</mat-icon>
+            Championships
+          </button>
+        </mat-toolbar>
+      </div>
+      <mat-nav-list>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let sport of sportsList" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header class="secondary-color">
+              <mat-panel-title class="text">
+                <div>
+                  {{ sport.sportName }}
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngFor="let champ of championshipsList">
+              <a mat-list-item
+              *ngIf="filterChampionship(champ, sport)" 
+              (click)="setChampionshipSelected(champ.championshipName); closeSidenav(); setActiveLink('Create team');" 
+              routerLink="createTeam">
+                <mat-icon>arrow_right</mat-icon>
+                <span class="text"> {{ champ.championshipName }} </span>
+                <mat-divider></mat-divider>
+              </a>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <app-toolbar-base 
+          *ngIf="!is_mobile" 
+          (window:resize)="isMobileLayout($event)" 
+          (sidenav_emit)="openSidenav()">
+        </app-toolbar-base>
+        <app-toolbar-mobile 
+          *ngIf="is_mobile" 
+          (window:resize)="isMobileLayout($event)">
+        </app-toolbar-mobile>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+  

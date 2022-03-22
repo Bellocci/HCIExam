@@ -7,18 +7,17 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatIconHarness } from '@angular/material/icon/testing';
 import { MatSidenavHarness } from '@angular/material/sidenav/testing';
-import { MatAccordionHarness, MatExpansionPanelHarness } from '@angular/material/expansion/testing';
+import { MatExpansionPanelHarness } from '@angular/material/expansion/testing';
 
-import { MaterialModule } from "./material-module";
+import { MaterialModule } from "../material-module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
-import { AppComponent } from "./app.component";
-import { SharedService } from "./shared.service";
+import { ToolbarComponent } from "./toolbar.component";
+import { SharedService } from "../shared.service";
 import { of } from "rxjs";
-import { By } from "@angular/platform-browser";
 import { Component, DebugElement } from "@angular/core";
-import { InternalDataService } from "./internal-data.service";
+import { InternalDataService } from "../internal-data.service";
 import { Location } from "@angular/common";
 import { Router, Routes } from "@angular/router";
 
@@ -90,8 +89,8 @@ const routes: Routes = [
 ];
 
 describe('AppComponent DOM', () => {
-    let component:AppComponent;
-    let fixture:ComponentFixture<AppComponent>;
+    let component:ToolbarComponent;
+    let fixture:ComponentFixture<ToolbarComponent>;
     let loader: HarnessLoader;
     let shared: SharedService;
     let internal_data:InternalDataService;
@@ -108,7 +107,7 @@ describe('AppComponent DOM', () => {
                 RouterTestingModule.withRoutes(routes),
             ],
             declarations: [
-                AppComponent
+                ToolbarComponent
             ],
             providers: [
                 SharedService,
@@ -118,20 +117,17 @@ describe('AppComponent DOM', () => {
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AppComponent);
+        fixture = TestBed.createComponent(ToolbarComponent);
         component = fixture.componentInstance;
         loader = TestbedHarnessEnvironment.loader(fixture);
         shared = TestBed.inject(SharedService);
         internal_data = TestBed.inject(InternalDataService);
-        router = TestBed.inject(Router);
-        location = TestBed.inject(Location);
-        router.initialNavigation();
     });
 
-    describe('window.width > 1200px', () => {
+    describe('window.width >= 800px', () => {
 
         beforeEach(() => {
-            window.innerWidth = 1200;
+            window.innerWidth = 800;
         });
 
         describe('Template elements', () => {
@@ -148,59 +144,12 @@ describe('AppComponent DOM', () => {
                 }
                 return false;
             }
-
-            it('should have button with mat-icon "menu" and text equal to "Championships"', async () => {    
-                let result = findButtonWithIcon('Championships$', 'menu');
-    
-                expect((await result).valueOf()).toBeTrue();
-            });
-        
-            it('should have button with mat-icon "help"', async () => {
-                const icon = await loader.getAllHarnesses(MatIconHarness.with({name: 'help'}));
-                
-                expect(icon.length).toBe(1);
-            });
     
             it('should have button with mat-icon "arrow_left" and text equal to "Championships"', async () => {
                 let result = findButtonWithIcon('Championships$', 'arrow_back');
     
                 expect((await result).valueOf()).toBeTrue();
             });
-
-            it('should not show link on toolbar when championship_selected is empty', () => {
-                let spy_sport = spyOn(shared, "getSportList").and.returnValue(of([]));
-                let spy_champ = spyOn(shared, "getChampionshipList").and.returnValue(of([]));
-                let spy_champ_selected = spyOn(internal_data, "getChampionshipSelected").and.returnValue(of(''));
-
-                const link = fixture.debugElement.queryAll(By.css('.link'));
-                
-                expect(link.length).toBe(0)
-            });
-
-            let findLink = (link_list:DebugElement[], text_link:string) : boolean => {
-                for(let link of link_list) {
-                    if(link.nativeElement.text.trim() == text_link) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            it('should show link "Create team", "Player list", "Favorit list" and "My Fanta" when championship_selected is not empty',
-            () => {
-                let spy_sport = spyOn(shared, "getSportList").and.returnValue(of([]));
-                let spy_champ = spyOn(shared, "getChampionshipList").and.returnValue(of([]));
-                let spy_champ_selected = spyOn(internal_data, "getChampionshipSelected").
-                    and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
-
-                fixture.detectChanges();
-
-                const link = fixture.debugElement.queryAll(By.css('.link'));
-                expect(findLink(link, 'Create team')).toBeTrue();
-                expect(findLink(link, 'Player list')).toBeTrue();
-                expect(findLink(link, 'Favorit list')).toBeTrue();
-                expect(findLink(link, 'My Fanta')).toBeTrue();
-            })
     
             it('should have slidenav with mode "over"', async () => {
                 const sidenav = await loader.getHarness(MatSidenavHarness);
@@ -220,7 +169,8 @@ describe('AppComponent DOM', () => {
                 }
             });
     
-            it('mat-panel with title "Football soccer" should contains championships "Serie A" and "Premier League"', async () => {
+            it('mat-panel with title "Football soccer" should contains championships "Serie A" and "Premier League"', 
+            async () => {
                 let spy_sport = spyOn(shared, "getSportList").and.returnValue(of(SPORT_FOOTBALL));
                 let spy_champ = spyOn(shared, "getChampionshipList").and.returnValue(of(CHAMPIONSHIP_FOOTBALL));
     
@@ -268,17 +218,32 @@ describe('AppComponent DOM', () => {
                 }
                 return undefined;
             }
-    
-            it('should click Championships button and open sidenav', async () => {
+
+            it('should open sidenav when openSidenav method is called', async () => {
                 const sidenav = await loader.getHarness(MatSidenavHarness);
-    
-                let button:MatButtonHarness | undefined = await getButtonWithIcon('Championships$', 'menu');
-    
-                expect(button).not.toBe(undefined);
-                button?.click();
+
+                component.openSidenav();
                 fixture.detectChanges();
-    
+
+                expect(sidenav.isOpen);
+            });
+
+            it('should open sidenav when openSidenav method is called', async () => {
+                const sidenav = await loader.getHarness(MatSidenavHarness);
+
+                component.openSidenav();
+                fixture.detectChanges();
+
                 expect(await sidenav.isOpen()).toBeTrue();
+            });
+
+            it('should close sidenav when closeSidenav method is called', async () => {
+                const sidenav = await loader.getHarness(MatSidenavHarness);
+
+                component.closeSidenav();
+                fixture.detectChanges();
+
+                expect(await sidenav.isOpen()).toBeFalse();
             });
     
             it('should close sidenav when button "Championships" with icon "arrow_back" is clicked', async () => {
@@ -341,134 +306,51 @@ describe('AppComponent DOM', () => {
                 let spy_sport = spyOn(shared, "getSportList").and.returnValue(of(SPORT_FOOTBALL));
                 let spy_champ = spyOn(shared, "getChampionshipList").and.returnValue(of(CHAMPIONSHIP_FOOTBALL));
                 let spy_champ_selected = spyOn(internal_data, "setChampionshipSelected");
-
                 fixture.detectChanges();
+
                 const link = fixture.debugElement.nativeElement.querySelectorAll('a');            
                 const link_serieA = link[0];
                 link_serieA.click();
 
                 expect(spy_champ_selected).toHaveBeenCalled();
             });
+
+            it('should click link championship into mat-panel and call internal_data.setActiveLink', () => {
+                let spy_sport = spyOn(shared, "getSportList").and.returnValue(of(SPORT_FOOTBALL));
+                let spy_champ = spyOn(shared, "getChampionshipList").and.returnValue(of(CHAMPIONSHIP_FOOTBALL));
+                let spy_setActiveLink = spyOn(internal_data, "setActiveLink");
+                fixture.detectChanges();
+
+                const link = fixture.debugElement.nativeElement.querySelectorAll('a');            
+                const link_serieA = link[0];
+                link_serieA.click();
+
+                expect(spy_setActiveLink).toHaveBeenCalled();
+            })
         });
 
         describe('Routing', () => {
 
+            beforeEach(() => {
+                router = TestBed.inject(Router);
+                location = TestBed.inject(Location);
+                router.initialNavigation();
+            });
+
             it('should navigate to /createTeam when championship link inside mat-panel is clicked', fakeAsync(() => {
+                router.navigate(['/home']);
+                tick();
+                expect(location.path()).toBe('/home');
                 let spy_sport = spyOn(shared, "getSportList").and.returnValue(of(SPORT_FOOTBALL));
                 let spy_champ = spyOn(shared, "getChampionshipList").and.returnValue(of(CHAMPIONSHIP_FOOTBALL));
                 fixture.detectChanges();
+                
                 const link = fixture.debugElement.nativeElement.querySelectorAll('a');            
                 const link_serieA = link[0];
-
                 link_serieA.click();
                 tick();
 
                 expect(location.path()).toBe('/createTeam');
-            }));
-
-            let getLinkFromList = (link_list:any[], text_link:string) : any | undefined => {
-                for(let link of link_list) {
-                    if(link.text.trim() == text_link) {
-                        return link;
-                    }
-                }
-                return undefined;
-            }
-
-            it('should navigate to /createTeam when link "Create team" is clicked', fakeAsync(() => {
-                router.navigate(['/playerList']);
-                tick();
-                expect(location.path()).toBe('/playerList');
-                let spy_champ_selected = spyOn(internal_data, "getChampionshipSelected")
-                    .and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
-                
-                fixture.detectChanges();
-                const link_list = fixture.debugElement.nativeElement.querySelectorAll('a');
-                const link = getLinkFromList(link_list, 'Create team');
-                expect(link != undefined).toBeTrue();
-
-                link.click();
-                tick();
-
-                expect(location.path()).toBe('/createTeam');
-            }));
-
-            it('should navigate to /playerList when link "Player list" is clicked', fakeAsync(() => {
-                router.navigate(['/createTeam']);
-                tick();
-                expect(location.path()).toBe('/createTeam');
-                let spy_champ_selected = spyOn(internal_data, "getChampionshipSelected")
-                    .and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
-                
-                fixture.detectChanges();
-                const link_list = fixture.debugElement.nativeElement.querySelectorAll('a');
-                const link = getLinkFromList(link_list, 'Player list');
-                expect(link != undefined).toBeTrue();
-
-                link.click();
-                tick();
-
-                expect(location.path()).toBe('/playerList');
-            }));
-
-            it('should navigate to /favoritList when link "Favorit list" is clicked', fakeAsync(() => {
-                router.navigate(['/createTeam']);
-                tick();
-                expect(location.path()).toBe('/createTeam');
-                let spy_champ_selected = spyOn(internal_data, "getChampionshipSelected")
-                    .and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
-                
-                fixture.detectChanges();
-                const link_list = fixture.debugElement.nativeElement.querySelectorAll('a');
-                const link = getLinkFromList(link_list, 'Favorit list');
-                expect(link != undefined).toBeTrue();
-
-                link.click();
-                tick();
-
-                expect(location.path()).toBe('/favoritList');
-            }));
-
-            it('should navigate to /home when My Fanta link is clicked', fakeAsync(() => {
-                router.navigate(['/createTeam']);
-                tick();
-                expect(location.path()).toBe('/createTeam');
-                let spy_champ_selected = spyOn(internal_data, "getChampionshipSelected")
-                    .and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
-                
-                fixture.detectChanges();
-                const link_list = fixture.debugElement.nativeElement.querySelectorAll('a');
-                const link = getLinkFromList(link_list, 'My Fanta');
-                expect(link != undefined).toBeTrue();
-
-                link.click();
-                tick();
-
-                expect(location.path()).toBe('/home');
-            }));
-
-            let getIconButton  = (icon:string): any | undefined => {
-                const button_list = fixture.debugElement.nativeElement.querySelectorAll('button');
-                for(let btn of button_list) {
-                    if(btn.innerText.trim() == icon) {
-                        return btn;
-                    }
-                }
-                return undefined;
-            }
-
-            it('should navigate to /help when Help button is clicked', fakeAsync(() => {
-                router.navigate(['/home']);
-                tick();
-                expect(location.path()).toBe('/home');
-                const button_list = fixture.debugElement.nativeElement.querySelectorAll('button');
-                const button = getIconButton("help");
-                expect(button != undefined).toBeTrue();
-
-                button.click();
-                tick();
-
-                expect(location.path()).toBe('/help');
             }));
         });
     });

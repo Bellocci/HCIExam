@@ -15,6 +15,9 @@ import { OptionsComponent } from './create-team/tabs/options/options.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableEmptyComponent } from './table/table-empty/table-empty.component';
 import { TableBlacklistComponent } from './table/table-blacklist/table-blacklist.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { ToolbarBaseComponent } from './toolbar/toolbar-base/toolbar-base.component';
+import { ToolbarMobileComponent } from './toolbar/toolbar-mobile/toolbar-mobile.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,9 @@ import { TableBlacklistComponent } from './table/table-blacklist/table-blacklist
     OptionsComponent,
     TableEmptyComponent,
     TableBlacklistComponent,
+    ToolbarComponent,
+    ToolbarBaseComponent,
+    ToolbarMobileComponent,
   ],
   imports: [
     BrowserModule,
