@@ -1,7 +1,9 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed} from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
+
 import { ToolbarComponent } from './toolbar.component';
 import { SharedService } from '../shared.service';
 import { InternalDataService } from '../internal-data.service';
@@ -49,8 +51,7 @@ describe('ToolbarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
       ],
       declarations: [
         ToolbarComponent
@@ -58,7 +59,10 @@ describe('ToolbarComponent', () => {
       providers : [
         SharedService, 
         InternalDataService
-      ]
+      ],
+      schemas: [ 
+        CUSTOM_ELEMENTS_SCHEMA 
+      ],
     }).compileComponents();
   });
 
@@ -78,105 +82,97 @@ describe('ToolbarComponent', () => {
       shared_service = TestBed.inject(SharedService);
     });
 
-    it('testing subscribe method into getChampionshipSelected is getting called', fakeAsync(() => {
-      let champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of(championship_selected));
-      let subSpy = spyOn(internal_data_service.getChampionshipSelected(), 'subscribe');
+    it('testing subscribe method into getChampionshipSelected is getting called', () => {
+      const champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of(championship_selected));
+      const subSpy = spyOn(internal_data_service.getChampionshipSelected(), 'subscribe');
 
       component.ngOnInit();
-      tick();
 
       expect(champSpy).toHaveBeenCalledBefore(subSpy);
       expect(subSpy).toHaveBeenCalled();
-    }));
+    });
 
-    it('should call getChamprionshipSelected and return an empty string', fakeAsync(() => {
-      let champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of(championship_selected));
+    it('should call getChamprionshipSelected and return an empty string', () => {
+      const champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of(championship_selected));
 
       component.ngOnInit();
-      tick();
 
       expect(component.championship_selected).toBeDefined();
-      expect(component.championship_selected).toEqual('');
-    }));
+      expect(component.championship_selected).toEqual(championship_selected);
+    });
 
-    it('should call getChampionshipSelected and return a string', fakeAsync(() => {
+    it('should call getChampionshipSelected and return a string', () => {
       championship_selected = 'Football soccer';
-      let champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of(championship_selected));
+      const champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of(championship_selected));
 
       component.ngOnInit();
-      tick();
 
       expect(component.championship_selected).toBeDefined();
-      expect(component.championship_selected).toEqual('Football soccer');
-    }));
+      expect(component.championship_selected).toEqual(championship_selected);
+    });
 
-    it('testing subscribe method into refreshSportsList is getting called', fakeAsync(() => {
-      let sportSpy = spyOn(shared_service, 'getSportList').and.returnValue(of([sportsList]));
-      let subSpy = spyOn(shared_service.getSportList(), 'subscribe');
+    it('testing subscribe method into refreshSportsList is getting called', () => {
+      const sportSpy = spyOn(shared_service, 'getSportList').and.returnValue(of([sportsList]));
+      const subSpy = spyOn(shared_service.getSportList(), 'subscribe');
 
       component.ngOnInit();
-      tick();
 
       expect(sportSpy).toHaveBeenCalledBefore(subSpy);
       expect(subSpy).toHaveBeenCalled();
-    }));
+    });
 
-    it('should call refreshSportsList and get response as empty array', fakeAsync(() => {
-      let spy_refreshSportsList = spyOn(shared_service, "getSportList").and.returnValue(of([]));
+    it('should call refreshSportsList and get response as empty array', () => {
+      const spy_getSportsList = spyOn(shared_service, "getSportList").and.returnValue(of([]));
 
       component.ngOnInit();
-      tick();
 
       expect(component.sportsList).toBeDefined();
       expect(component.sportsList).toEqual([]);
-    }));
+    });
   
-    it('should call refreshSportsList and get response as array', fakeAsync(() => {
-      let spy_refreshSportsList = spyOn(shared_service, "getSportList").and.returnValue(of(SPORT_DATA))
+    it('should call refreshSportsList and get response as array', () => {
+      const spy_refreshSportsList = spyOn(shared_service, "getSportList").and.returnValue(of(SPORT_DATA))
       
       component.ngOnInit();
-      tick();
 
       expect(component.sportsList).toBeDefined();
       expect(component.sportsList).toEqual(SPORT_DATA);
-    }));
+    });
 
-    it('testing subscribe method into refreshChampionshipsList is getting called', fakeAsync(() => {
-      let champSpy = spyOn(shared_service, 'getChampionshipList').and.returnValue(of([championshipsList]));
-      let subSpy = spyOn(shared_service.getChampionshipList(), 'subscribe');
+    it('testing subscribe method into refreshChampionshipsList is getting called', () => {
+      const champSpy = spyOn(shared_service, 'getChampionshipList').and.returnValue(of([championshipsList]));
+      const subSpy = spyOn(shared_service.getChampionshipList(), 'subscribe');
 
       component.ngOnInit();
-      tick();
 
       expect(champSpy).toHaveBeenCalledBefore(subSpy);
       expect(subSpy).toHaveBeenCalled();
-    }));
+    });
   
-    it('should call refreshChampionshipsList and get response as empty array', fakeAsync(() => {
-      let spy_refreshChampionshipsList = spyOn(shared_service, "getChampionshipList").and.returnValue(of([]));
+    it('should call refreshChampionshipsList and get response as empty array', () => {
+      const spy_refreshChampionshipsList = spyOn(shared_service, "getChampionshipList").and.returnValue(of([]));
       
       component.ngOnInit();
-      tick();
 
       expect(component.championshipsList).toBeDefined();
       expect(component.championshipsList).toEqual([]);
-    }));
+    });
   
-    it('should call refreshChampionshipsList and get response as array', fakeAsync(() => {
-      let spy_refreshChampionshipsList = spyOn(shared_service, 'getChampionshipList').and.returnValue(of(CHAMPIONSHIP_DATA));
+    it('should call refreshChampionshipsList and get response as array', () => {
+      const spy_refreshChampionshipsList = spyOn(shared_service, 'getChampionshipList').and.returnValue(of(CHAMPIONSHIP_DATA));
 
       component.ngOnInit();
-      tick();
 
       expect(component.championshipsList).toBeDefined();
       expect(component.championshipsList).toEqual(CHAMPIONSHIP_DATA);
-    }));
+    });
 
     it('should set is_mobile to false when window is greater than 800', () => {
       window.innerWidth = 1500;
       fixture.detectChanges();
 
       component.ngOnInit();
+
       expect(component.is_mobile).toBeFalse();
     });
 
@@ -185,6 +181,7 @@ describe('ToolbarComponent', () => {
       fixture.detectChanges();
 
       component.ngOnInit();
+
       expect(component.is_mobile).toBeFalse();
     });
 
@@ -193,6 +190,7 @@ describe('ToolbarComponent', () => {
       fixture.detectChanges(),
 
       component.ngOnInit();
+
       expect(component.is_mobile).toBeTrue();
     });
   });
@@ -207,49 +205,41 @@ describe('ToolbarComponent', () => {
     })
 
     it('should call filterChampionship and return false when sport.sportId and champ.sport are not equal', () => {
-      let sport = SPORT_DATA[0];
-      let champ = CHAMPIONSHIP_DATA[2];
+      const sport = SPORT_DATA[0];
+      const champ = CHAMPIONSHIP_DATA[2];
 
       expect(component.filterChampionship(champ, sport)).toBeFalse();
     });
 
     it('should call filterChampionship and return true when sport.sportId and champ.sport are equal', () => {
-      let sport = SPORT_DATA[0];
-      let champ = CHAMPIONSHIP_DATA[0];
+      const sport = SPORT_DATA[0];
+      const champ = CHAMPIONSHIP_DATA[0];
 
       expect(component.filterChampionship(champ, sport)).toBeTrue();
     });
 
-    it('should call internal_data.setChampionshipSelected in setChampionshipSelected method when champ is empty', () => {
-      let spy_setChampionshipSelected = spyOn(internal_data_service, 'setChampionshipSelected');
-      let champ:string = '';
+    it('should call internal_data.setChampionshipSelected when setChampionshipSelected is called', () => {
+      const spy_setChampionshipSelected = spyOn(internal_data_service, 'setChampionshipSelected');
+      const champ:string = CHAMPIONSHIP_DATA[0].championshipName;
 
       component.setChampionshipSelected(champ);
 
       expect(spy_setChampionshipSelected).toHaveBeenCalled();
-    });
-
-    it('should call internal_data.setChampionshipSelected in setChampionshipSelected method when champ is a string', () => {
-      let spy_setChampionshipSelected = spyOn(internal_data_service, 'setChampionshipSelected');
-      let champ:string = CHAMPIONSHIP_DATA[0].championshipName;
-
-      component.setChampionshipSelected(champ);
-
-      expect(spy_setChampionshipSelected).toHaveBeenCalled();
-      expect(spy_setChampionshipSelected).toHaveBeenCalledTimes(1);
     });
 
     it('should call internal_data.setActiveLink when setActiveLink is called', () => {
-      let spy_activeLink = spyOn(internal_data_service, "setActiveLink");
+      const spy_activeLink = spyOn(internal_data_service, "setActiveLink");
+      const link_name:string = 'link';
 
-      component.setActiveLink('Create team');
+      component.setActiveLink(link_name);
 
       expect(spy_activeLink).toHaveBeenCalled();
     });
 
     it('should return true when isActiveLink is called and link_name is equal to internal_data.active_link', () => {
-      const link_name = "Create team";
-      const spy_getActiveLink = spyOn(internal_data_service, "getActiveLink").and.returnValue(of("Create team"));
+      const link_name = "link";
+      const spy_getActiveLink = spyOn(internal_data_service, "getActiveLink").and.returnValue(of(link_name));
+      fixture.detectChanges();
 
       const isActive = component.isActiveLink(link_name);
 
@@ -258,8 +248,9 @@ describe('ToolbarComponent', () => {
     });
 
     it('should return false when isActiveLink is called and link_name is not equal to internal_data.active_link', () => {
-      const link_name = "Create team";
-      const spy_getActiveLink = spyOn(internal_data_service, "getActiveLink").and.returnValue(of("Player list"));
+      const link_name = "link";
+      const current_link_name = "link2";
+      const spy_getActiveLink = spyOn(internal_data_service, "getActiveLink").and.returnValue(of(current_link_name));
 
       const isActive = component.isActiveLink(link_name);
 
