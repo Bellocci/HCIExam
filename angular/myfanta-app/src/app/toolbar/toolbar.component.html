@@ -40,7 +40,8 @@
         </app-toolbar-base>
         <app-toolbar-mobile 
           *ngIf="is_mobile" 
-          (window:resize)="isMobileLayout($event)">
+          (window:resize)="isMobileLayout($event)"
+          (sidenav_emit)="openSidenav()">
         </app-toolbar-mobile>
     </mat-sidenav-content>
 </mat-sidenav-container>
