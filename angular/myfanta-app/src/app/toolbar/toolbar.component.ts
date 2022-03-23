@@ -19,18 +19,6 @@ export class ToolbarComponent implements OnInit {
   activeLink:string = '';
   is_mobile:boolean = false;
 
-  setActiveLink = (link_name:string) => {
-    this.internal_data.setActiveLink(link_name);
-  }
-
-  isActiveLink = (link_name:string):boolean => {
-    let current_link:string = '';
-    this.internal_data.getActiveLink().subscribe(link => {
-      current_link = link;
-    });
-    return current_link === link_name;
-  }
-
   championship_selected:string = "";
   subscrip_champ:Subscription = new Subscription;
   
@@ -96,4 +84,15 @@ export class ToolbarComponent implements OnInit {
     return true;
   }
 
+  setActiveLink(link_name:string) {
+    this.internal_data.setActiveLink(link_name);
+  }
+
+  isActiveLink (link_name:string):boolean {
+    let current_link:string = '';
+    this.internal_data.getActiveLink().subscribe(link => {
+      current_link = link;
+    });
+    return current_link === link_name;
+  }
 }
