@@ -39,6 +39,21 @@ const CHAMPIONSHIP_DATA = [
     },
 ];
 
+const LINK_PAGE_NAME = [
+    {
+        name : 'Create team'
+    },
+    {
+        name : 'Player list'
+    },
+    {
+        name : 'Favorit list'
+    },
+    {
+        name : 'My Fanta'
+    },
+]
+
 @Component({
 })
 class DummyComponent {
@@ -93,7 +108,7 @@ describe('ToolbarBaseComponent DOM', () => {
         internal_data = TestBed.inject(InternalDataService);
     });
 
-    describe('min-width > 800px', () => {
+    describe('min-width : 800px', () => {
         
         beforeEach(() => {
             window.innerWidth = 800;
@@ -101,21 +116,19 @@ describe('ToolbarBaseComponent DOM', () => {
 
         describe("Template elements", () => {
 
-            let findButtonWithIcon = async (regex_text_btn:string, icon:string): Promise<boolean> => {
+            let findButtonWithIcon = async (text_btn:string, icon:string): Promise<boolean> => {
                 const buttons = await loader.getAllHarnesses(MatButtonHarness);
                 for(let btn of buttons) {
-                    if((await btn.getText()).match(regex_text_btn)) {
-                        let i = btn.getAllHarnesses(MatIconHarness.with({name : icon}))
-                        if((await i).length > 0) {
-                            return true;
-                        }
+                    let text = (await btn.getText()).trim();
+                    if(text == (icon + ' ' + text_btn)) {
+                        return true;
                     }
                 }
                 return false;
             }
 
-            it('should have button with mat-icon "menu" and text equal to "Categories"', async () => {
-                let result = findButtonWithIcon('Categories$', 'menu');
+            it('should have button with icon "menu" and text equal to "Categories"', async () => {
+                let result = findButtonWithIcon('Categories', 'menu');
     
                 expect((await result).valueOf()).toBeTrue();
             });
@@ -127,9 +140,8 @@ describe('ToolbarBaseComponent DOM', () => {
             });
 
             it('should not show link on toolbar when championship_selected is empty', () => {
-                let spy_sport = spyOn(shared, "getSportList").and.returnValue(of([]));
-                let spy_champ = spyOn(shared, "getChampionshipList").and.returnValue(of([]));
                 let spy_champ_selected = spyOn(internal_data, "getChampionshipSelected").and.returnValue(of(''));
+                fixture.detectChanges();
 
                 const link = fixture.debugElement.queryAll(By.css('.link'));
                 
@@ -150,9 +162,10 @@ describe('ToolbarBaseComponent DOM', () => {
                     and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
                 fixture.detectChanges();
 
-                const link = fixture.debugElement.queryAll(By.css('.link'));
+                const links_list = fixture.debugElement.queryAll(By.css('.link'));
+                const find_link = findLink(links_list, LINK_PAGE_NAME[0].name);
 
-                expect(findLink(link, 'Create team')).toBeTrue();
+                expect(find_link).toBeTrue();
             });
 
             it('should not show link "Create team" when championship_selected is empty', () => {
@@ -160,9 +173,10 @@ describe('ToolbarBaseComponent DOM', () => {
                     and.returnValue(of(''));
                 fixture.detectChanges();
 
-                const link = fixture.debugElement.queryAll(By.css('.link'));
+                const links_list = fixture.debugElement.queryAll(By.css('.link'));
+                const find_link = findLink(links_list, LINK_PAGE_NAME[0].name);
 
-                expect(findLink(link, 'Create team')).toBeFalse();
+                expect(find_link).toBeFalse();
             });
 
             it('should show link "Player list" when championship_selected is not empty', () => {
@@ -170,9 +184,10 @@ describe('ToolbarBaseComponent DOM', () => {
                     and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
                 fixture.detectChanges();
 
-                const link = fixture.debugElement.queryAll(By.css('.link'));
+                const links_list = fixture.debugElement.queryAll(By.css('.link'));
+                const find_link = findLink(links_list, LINK_PAGE_NAME[1].name);
 
-                expect(findLink(link, 'Player list')).toBeTrue();
+                expect(find_link).toBeTrue();
             });
 
             it('should not show link "Player list" when championship_selected is empty', () => {
@@ -180,9 +195,10 @@ describe('ToolbarBaseComponent DOM', () => {
                     and.returnValue(of(''));
                 fixture.detectChanges();
 
-                const link = fixture.debugElement.queryAll(By.css('.link'));
+                const links_list = fixture.debugElement.queryAll(By.css('.link'));
+                const find_link = findLink(links_list, LINK_PAGE_NAME[1].name);
 
-                expect(findLink(link, 'Player list')).toBeFalse();
+                expect(find_link).toBeFalse();
             });
 
             it('should show link "Favorit list" when championship_selected is not empty', () => {
@@ -190,9 +206,10 @@ describe('ToolbarBaseComponent DOM', () => {
                     and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
                 fixture.detectChanges();
 
-                const link = fixture.debugElement.queryAll(By.css('.link'));
+                const links_list = fixture.debugElement.queryAll(By.css('.link'));
+                const find_link = findLink(links_list, LINK_PAGE_NAME[2].name);
 
-                expect(findLink(link, 'Favorit list')).toBeTrue();
+                expect(find_link).toBeTrue();
             });
 
             it('should not show link "Favorit list" when championship_selected is empty', () => {
@@ -200,9 +217,10 @@ describe('ToolbarBaseComponent DOM', () => {
                     and.returnValue(of(''));
                 fixture.detectChanges();
 
-                const link = fixture.debugElement.queryAll(By.css('.link'));
+                const links_list = fixture.debugElement.queryAll(By.css('.link'));
+                const find_link = findLink(links_list, LINK_PAGE_NAME[2].name);
 
-                expect(findLink(link, 'Favorit list')).toBeFalse();
+                expect(find_link).toBeFalse();
             });
 
             it('should show link "My Fanta" when championship_selected is not empty',
@@ -211,9 +229,10 @@ describe('ToolbarBaseComponent DOM', () => {
                     and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
                 fixture.detectChanges();
 
-                const link = fixture.debugElement.queryAll(By.css('.link'));
+                const links_list = fixture.debugElement.queryAll(By.css('.link'));
+                const find_link = findLink(links_list, LINK_PAGE_NAME[3].name);
 
-                expect(findLink(link, 'My Fanta')).toBeTrue();
+                expect(find_link).toBeTrue();
             });
 
             it('should not show link "My Fanta" when championship_selected is empty',
@@ -222,37 +241,15 @@ describe('ToolbarBaseComponent DOM', () => {
                     and.returnValue(of(''));
                 fixture.detectChanges();
 
-                const link = fixture.debugElement.queryAll(By.css('.link'));
+                const links_list = fixture.debugElement.queryAll(By.css('.link'));
+                const find_link = findLink(links_list, LINK_PAGE_NAME[3].name);
 
-                expect(findLink(link, 'My Fanta')).toBeFalse();
+                expect(find_link).toBeFalse();
             });
 
         });
 
         describe('Template actions', () => {
-
-            it('should set style class "toolbar-two-element" to mat-toolbar when championship_selected is empty', () => {
-                const spy_getChampSelected = spyOn(internal_data, "getChampionshipSelected").and.returnValue(of(''));
-                fixture.detectChanges();
-
-                const toolbar = fixture.debugElement.query(By.css('.mat-toolbar'));
-                expect(toolbar != undefined).toBeTrue();
-
-                expect(toolbar.nativeElement.className.includes('toolbar-two-element')).toBeTrue();
-                expect(toolbar.nativeElement.className.includes('toolbar-six-element')).toBeFalse();
-            });
-
-            it('should set style class "toolbar-six-element" to mat-toolbar when championship_selected is not empty', () => {
-                const spy_getChampSelected = spyOn(internal_data, "getChampionshipSelected").
-                    and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
-                fixture.detectChanges();
-
-                const toolbar = fixture.debugElement.query(By.css('.mat-toolbar'));
-                expect(toolbar != undefined).toBeTrue();
-
-                expect(toolbar.nativeElement.className.includes('toolbar-six-element')).toBeTrue();
-                expect(toolbar.nativeElement.className.includes('toolbar-two-element')).toBeFalse();
-            });
 
             let getButtonWithIcon  = async (regex_text_btn:string, icon:string): Promise<MatButtonHarness | undefined> => {
                 const buttons = await loader.getAllHarnesses(MatButtonHarness);
@@ -286,116 +283,143 @@ describe('ToolbarBaseComponent DOM', () => {
                 return undefined;
             }
 
-            it('should replace style class "primary-color-dark" with "link-toolbar-color to "Create team" ' +
+            it('should call setActiveLink method when "Create team" link is clicked', () => {
+                const spy_getChampSelected = spyOn(internal_data, "getChampionshipSelected").
+                    and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
+                const spy_setActiveLink = spyOn(component, "setActiveLink");
+                fixture.detectChanges();
+
+                const link_list = fixture.debugElement.queryAll(By.css('.link'));
+                const link = getLink(link_list, LINK_PAGE_NAME[0].name);
+                expect(link != undefined).toBeTrue();
+                link.nativeElement.click();
+                
+                expect(spy_setActiveLink).toHaveBeenCalled();
+            });
+
+            it('should call setActiveLink method when "Player list" link is clicked', () => {
+                const spy_getChampSelected = spyOn(internal_data, "getChampionshipSelected").
+                    and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
+                const spy_setActiveLink = spyOn(component, "setActiveLink");
+                fixture.detectChanges();
+
+                const link_list = fixture.debugElement.queryAll(By.css('.link'));
+                const link = getLink(link_list, LINK_PAGE_NAME[1].name);
+                expect(link != undefined).toBeTrue();
+                link.nativeElement.click();
+                
+                expect(spy_setActiveLink).toHaveBeenCalled();
+            });
+
+            it('should call setActiveLink method when "Favorit list" link is clicked', () => {
+                const spy_getChampSelected = spyOn(internal_data, "getChampionshipSelected").
+                    and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
+                const spy_setActiveLink = spyOn(component, "setActiveLink");
+                fixture.detectChanges();
+
+                const link_list = fixture.debugElement.queryAll(By.css('.link'));
+                const link = getLink(link_list, LINK_PAGE_NAME[2].name);
+                expect(link != undefined).toBeTrue();
+                link.nativeElement.click();
+                
+                expect(spy_setActiveLink).toHaveBeenCalled();
+            });
+
+            it('should call setActiveLink method when "My Fanta" link is clicked', () => {
+                const spy_getChampSelected = spyOn(internal_data, "getChampionshipSelected").
+                    and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
+                const spy_setActiveLink = spyOn(component, "setActiveLink");
+                fixture.detectChanges();
+
+                const link_list = fixture.debugElement.queryAll(By.css('.link'));
+                const link = getLink(link_list, LINK_PAGE_NAME[3].name);
+                expect(link != undefined).toBeTrue();
+                link.nativeElement.click();
+                
+                expect(spy_setActiveLink).toHaveBeenCalled();
+            });
+        });
+
+        describe('Template styles', () => {
+
+            it('should set style class "toolbar-two-element" to mat-toolbar when championship_selected is empty', () => {
+                const spy_getChampSelected = spyOn(internal_data, "getChampionshipSelected").and.returnValue(of(''));
+                fixture.detectChanges();
+
+                const toolbar = fixture.debugElement.query(By.css('.mat-toolbar'));
+                expect(toolbar != undefined).toBeTrue();
+
+                expect(toolbar.nativeElement.className.includes('toolbar-two-element')).toBeTrue();
+                expect(toolbar.nativeElement.className.includes('toolbar-six-element')).toBeFalse();
+            });
+
+            it('should set style class "toolbar-six-element" to mat-toolbar when championship_selected is not empty', () => {
+                const spy_getChampSelected = spyOn(internal_data, "getChampionshipSelected").
+                    and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
+                fixture.detectChanges();
+
+                const toolbar = fixture.debugElement.query(By.css('.mat-toolbar'));
+                expect(toolbar != undefined).toBeTrue();
+
+                expect(toolbar.nativeElement.className.includes('toolbar-six-element')).toBeTrue();
+                expect(toolbar.nativeElement.className.includes('toolbar-two-element')).toBeFalse();
+            });
+
+            let getLink = (link_list:DebugElement[], text_link:string) : any | undefined => {
+                for(let link of link_list) {
+                    if(link.nativeElement.text.trim() == text_link) {
+                        return link;
+                    }
+                }
+                return undefined;
+            }
+
+            it('should replace style class "primary-color-dark" with "link-toolbar-color" to "Create team" ' +
             'link when isActiveLink return true', () => {
                 let spy_getIsActive = spyOn(internal_data, "getActiveLink").and.returnValue(of('Create team'));
-                component.setChampionshipSelected(CHAMPIONSHIP_DATA[0].championshipName);
+                let spy_getChampSelected = spyOn(internal_data, "getChampionshipSelected").
+                    and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
                 fixture.detectChanges();
 
                 const link_list = fixture.debugElement.queryAll(By.css('.link'));
-                const link = getLink(link_list, "Create team");
+                const link = getLink(link_list, LINK_PAGE_NAME[0].name);
                 expect(link != undefined).toBeTrue();
                 
-                expect(component.isActiveLink("Create team")).toBeTrue();
+                expect(component.isActiveLink(LINK_PAGE_NAME[0].name)).toBeTrue();
                 expect(link.nativeElement.className.includes("primary-color-dark")).toBeFalse();
                 expect(link.nativeElement.className.includes("link-toolbar-color")).toBeTrue();
             });
 
-            it('should replace style class "primary-color-dark" with "link-toolbar-color to "Player list" ' +
+            it('should replace style class "primary-color-dark" with "link-toolbar-color" to "Player list" ' +
             'link when isActiveLink return true', () => {
                 let spy_getIsActive = spyOn(internal_data, "getActiveLink").and.returnValue(of('Player list'));
-                component.setChampionshipSelected(CHAMPIONSHIP_DATA[0].championshipName);
+                let spy_getChampSelected = spyOn(internal_data, "getChampionshipSelected").
+                    and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
                 fixture.detectChanges();
 
                 const link_list = fixture.debugElement.queryAll(By.css('.link'));
-                const link = getLink(link_list, "Player list");
+                const link = getLink(link_list, LINK_PAGE_NAME[1].name);
                 expect(link != undefined).toBeTrue();
                 
-                expect(component.isActiveLink("Player list")).toBeTrue();
+                expect(component.isActiveLink(LINK_PAGE_NAME[1].name)).toBeTrue();
                 expect(link.nativeElement.className.includes("primary-color-dark")).toBeFalse();
                 expect(link.nativeElement.className.includes("link-toolbar-color")).toBeTrue();
             });
 
-            it('should replace style class "primary-color-dark" with "link-toolbar-color to "Favorit list" ' +
+            it('should replace style class "primary-color-dark" with "link-toolbar-color" to "Favorit list" ' +
             'link when isActiveLink return true', () => {
                 let spy_getIsActive = spyOn(internal_data, "getActiveLink").and.returnValue(of('Favorit list'));
-                component.setChampionshipSelected(CHAMPIONSHIP_DATA[0].championshipName);
+                let spy_getChampSelected = spyOn(internal_data, "getChampionshipSelected").
+                    and.returnValue(of(CHAMPIONSHIP_DATA[0].championshipName));
                 fixture.detectChanges();
 
                 const link_list = fixture.debugElement.queryAll(By.css('.link'));
-                const link = getLink(link_list, "Favorit list");
+                const link = getLink(link_list, LINK_PAGE_NAME[2].name);
                 expect(link != undefined).toBeTrue();
                 
-                expect(component.isActiveLink("Favorit list")).toBeTrue();
+                expect(component.isActiveLink(LINK_PAGE_NAME[2].name)).toBeTrue();
                 expect(link.nativeElement.className.includes("primary-color-dark")).toBeFalse();
                 expect(link.nativeElement.className.includes("link-toolbar-color")).toBeTrue();
-            });
-
-            it('should click link "Create team" and replace style class "primary-color-dark" with "link-toolbar-color"', 
-            () => {
-                let spy_getIsActive = spyOn(internal_data, "getActiveLink").and.returnValue(of('Create team'));
-                component.setChampionshipSelected(CHAMPIONSHIP_DATA[0].championshipName);
-                fixture.detectChanges();
-
-                const link_list = fixture.debugElement.queryAll(By.css('.link'));
-                const link = getLink(link_list, "Create team");
-                expect(link != undefined).toBeTrue();
-                link.nativeElement.click();
-
-                fixture.detectChanges();
-                
-                expect(component.isActiveLink("Create team")).toBeTrue();
-                expect(link.nativeElement.className.includes("primary-color-dark")).toBeFalse();
-                expect(link.nativeElement.className.includes("link-toolbar-color")).toBeTrue();
-            });
-
-            it('should click link "Player list" and replace style class "primary-color-dark" with "link-toolbar-color"', () => {
-                let spy_getIsActive = spyOn(internal_data, "getActiveLink").and.returnValue(of('Player list'));
-                component.setChampionshipSelected(CHAMPIONSHIP_DATA[0].championshipName);
-                fixture.detectChanges();
-
-                const link_list = fixture.debugElement.queryAll(By.css('.link'));
-                const link = getLink(link_list, "Player list");
-                expect(link != undefined).toBeTrue();
-                link.nativeElement.click();
-
-                fixture.detectChanges();
-                
-                expect(component.isActiveLink("Player list")).toBeTrue();
-                expect(link.nativeElement.className.includes("primary-color-dark")).toBeFalse();
-                expect(link.nativeElement.className.includes("link-toolbar-color")).toBeTrue();
-            });
-
-            it('should click link "Favorit list" and replace style class "primary-color-dark" with "link-toolbar-color"', () => {
-                let spy_getIsActive = spyOn(internal_data, "getActiveLink").and.returnValue(of('Favorit list'));
-                component.setChampionshipSelected(CHAMPIONSHIP_DATA[0].championshipName);
-                fixture.detectChanges();
-
-                const link_list = fixture.debugElement.queryAll(By.css('.link'));
-                const link = getLink(link_list, "Favorit list");
-                expect(link != undefined).toBeTrue();
-                link.nativeElement.click();
-
-                fixture.detectChanges();
-                
-                expect(component.isActiveLink("Favorit list")).toBeTrue();
-                expect(link.nativeElement.className.includes("primary-color-dark")).toBeFalse();
-                expect(link.nativeElement.className.includes("link-toolbar-color")).toBeTrue();
-            });
-
-            it('should click link "My Fanta" and set active link to empty string', () => {
-                let spy_getIsActive = spyOn(internal_data, "getActiveLink").and.returnValue(of(''));
-                component.setChampionshipSelected(CHAMPIONSHIP_DATA[0].championshipName);
-                fixture.detectChanges();
-
-                const link_list = fixture.debugElement.queryAll(By.css('.link'));
-                const link = getLink(link_list, "My Fanta");
-                expect(link != undefined).toBeTrue();
-                link.nativeElement.click();
-
-                fixture.detectChanges();
-
-                expect(component.isActiveLink('')).toBeTrue();
             });
         });
 
@@ -425,7 +449,7 @@ describe('ToolbarBaseComponent DOM', () => {
                 
                 fixture.detectChanges();
                 const link_list = fixture.debugElement.nativeElement.querySelectorAll('a');
-                const link = getLinkFromList(link_list, 'Create team');
+                const link = getLinkFromList(link_list, LINK_PAGE_NAME[0].name);
                 expect(link != undefined).toBeTrue();
 
                 link.click();
@@ -443,7 +467,7 @@ describe('ToolbarBaseComponent DOM', () => {
                 
                 fixture.detectChanges();
                 const link_list = fixture.debugElement.nativeElement.querySelectorAll('a');
-                const link = getLinkFromList(link_list, 'Player list');
+                const link = getLinkFromList(link_list, LINK_PAGE_NAME[1].name);
                 expect(link != undefined).toBeTrue();
 
                 link.click();
@@ -461,7 +485,7 @@ describe('ToolbarBaseComponent DOM', () => {
                 
                 fixture.detectChanges();
                 const link_list = fixture.debugElement.nativeElement.querySelectorAll('a');
-                const link = getLinkFromList(link_list, 'Favorit list');
+                const link = getLinkFromList(link_list, LINK_PAGE_NAME[2].name);
                 expect(link != undefined).toBeTrue();
 
                 link.click();
@@ -479,7 +503,7 @@ describe('ToolbarBaseComponent DOM', () => {
                 
                 fixture.detectChanges();
                 const link_list = fixture.debugElement.nativeElement.querySelectorAll('a');
-                const link = getLinkFromList(link_list, 'My Fanta');
+                const link = getLinkFromList(link_list, LINK_PAGE_NAME[3].name);
                 expect(link != undefined).toBeTrue();
 
                 link.click();
