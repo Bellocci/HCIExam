@@ -7,7 +7,7 @@ import { EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-toolbar-base',
   templateUrl: './toolbar-base.component.html',
-  styleUrls: ['../toolbar.component.css']
+  styleUrls: ['./toolbar-base.component.css']
 })
 export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 
