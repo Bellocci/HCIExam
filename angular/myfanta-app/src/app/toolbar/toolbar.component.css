@@ -48,3 +48,9 @@
 .icon {
     padding-right: 10px;
 }
+
+/* Text */
+
+.text:hover {
+    font-weight: 600;
+}

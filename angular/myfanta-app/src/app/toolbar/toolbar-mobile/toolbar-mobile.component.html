@@ -4,7 +4,8 @@
             <mat-icon>menu</mat-icon>
         </button>
         <div></div>
-        <a class="primary-color-dark" 
+        <a class="link text primary-color-dark"
+        id="myfanta-link" 
         *ngIf="championship_selected != ''"
         (click)="setActiveLink(''); setChampionshipSelected('');"
         routerLink="">
@@ -38,3 +39,4 @@
         </a>
     </mat-toolbar-row>
 </mat-toolbar>
+<router-outlet></router-outlet>

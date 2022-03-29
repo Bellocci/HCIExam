@@ -1,8 +1,7 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { InternalDataService } from 'src/app/internal-data.service';
 import { SharedService } from 'src/app/shared.service';
 import { ToolbarComponent } from '../toolbar.component';
-import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-toolbar-base',

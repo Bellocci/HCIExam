@@ -1,6 +1,16 @@
+.mat-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.mat-toolbar-multiple-rows {
+    min-height: 56px;
+}
+
 .mat-toolbar-row {
     padding-top: 5px;
-    height: 40px;
+    height: 56px;
 }
 
 .toolbar-two-elements {
@@ -29,6 +39,13 @@ a {
     color: #000000;
 }
 
-.link:hover {
-    cursor: pointer;
+#myfanta-link {
+    text-align: center;
+    font-size: 24px;
+}
+
+/* Text */
+
+.text:hover {
+    font-weight: 600;
 }
