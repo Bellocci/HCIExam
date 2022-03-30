@@ -1,4 +1,4 @@
-import { animate, state, style, transition, trigger, group } from '@angular/animations';
+import { animate, state, style, transition, trigger, group, keyframes, query, animateChild } from '@angular/animations';
 import { Component, OnInit} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { InternalDataService } from '../internal-data.service';
@@ -12,35 +12,46 @@ import { SharedService } from '../shared.service';
     trigger('champListAnimation', [
       state('openList', style({
         height: '*',
-        opacity: 1
+        opacity: 1,
       })),
       state('closeList', style({
         height: '0',
-        opacity: 0
+        opacity: 0,
       })),
       transition('closeList => openList', [
         group([
-          animate("300ms cubic-bezier(0.4, 0, 0.2, 1)", style({height: '*'})),
-          animate("300ms cubic-bezier(0.4, 0, 0.2, 1)", style({opacity: '1'}))
+          animate(
+            "400ms cubic-bezier(0.4, 0, 0.2, 1)", 
+            style({height: '*'})
+          ),
+          animate(
+            "350ms cubic-bezier(0.4, 0, 0.2, 1)",
+            style({opacity: '1'})
+          ),
         ])
       ]),
       transition('openList => closeList', [
         group([
-          animate("300ms cubic-bezier(0.4, 0, 0.2, 1)", style({height: '0'})),
-          animate("300ms cubic-bezier(0.4, 0, 0.2, 1)", style({opacity: '0'}))
+          animate(
+            "400ms cubic-bezier(0.4, 0, 0.2, 1)", 
+            style({height: '0'})
+          ),
+          animate(
+            "200ms cubic-bezier(0.4, 0, 0.2, 1)",
+            style({opacity: '0'})
+          ),
         ])
       ]),
-
     ]),
     trigger('champElement', [
       state('show', style({
-        display: 'block'
+        display: 'block',
       })),
       state('hide', style({
-        display: 'none'
+        display: 'none',
       })),
       transition('* => *', [
-        animate('300ms cubic-bezier(0.4, 0, 0.2, 1)')
+          animate('400ms cubic-bezier(0.4, 0, 0.2, 1)')
       ])
     ])
   ]
@@ -135,5 +146,9 @@ export class HomeComponent implements OnInit {
 
   isActiveBtn(text_btn:string) : boolean {
     return this._state_btns.get(text_btn) ? true : false
+  }
+
+  setActivePage(page_name: string) {
+    this.internal_data.setActiveLink(page_name);
   }
 }

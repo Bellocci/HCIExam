@@ -15,11 +15,11 @@
 
 <div class="padding-home grid-expansion-panel">  
     <div *ngFor="let sport of sportsList">
-        <button mat-raised-button 
+        <button mat-raised-button
         class="primary-color mat-elevation-z6 btn-color text btn-width text-interactive"
         [ngClass]="!isActiveBtn(sport.sportName) ? 'btn-sport-close' : 'btn-sport-open'"
         (click)="toggleSportBtn($event.target)">
-            {{sport.sportName}}
+            <span class="txt-btn">{{sport.sportName}}</span>
             <mat-icon class="icon-btn arrow-down-animation"
             [ngClass]="isActiveBtn(sport.sportName) ? 'icon-open-btn' : 'icon-close-btn'"
             (click)="toggleSportBtnFromIcon($event.target)">keyboard_arrow_down</mat-icon>
@@ -28,18 +28,14 @@
             <div *ngFor="let champ of championshipsList">
                 <div class="color" 
                 [@champListAnimation]="isActiveBtn(sport.sportName) ? 'openList' : 'closeList'">
-                    <a mat-list-item class="text text-interactive link"
+                    <a mat-list-item class="txt-btn text-interactive link"
                     [@champElement]="isActiveBtn(sport.sportName) ? 'show' : 'hide'"
-                    *ngIf="filterChampionship(champ, sport) && isActiveBtn(sport.sportName)"
-                    (click)="setChampionshipSelected(champ.championshipName)"
+                    *ngIf="filterChampionship(champ, sport)"
+                    (click)="setChampionshipSelected(champ.championshipName); setActivePage('Create team')"
                     routerLink="createTeam">
                         <mat-icon class="icon-champ">arrow_right</mat-icon>
                         {{ champ.championshipName }}
                     </a>
-                    <mat-divider
-                    [@champElement]="isActiveBtn(sport.sportName) ? 'show' : 'hide'"
-                    *ngIf="filterChampionship(champ, sport)">
-                    </mat-divider>
                 </div>
             </div>
         </div>

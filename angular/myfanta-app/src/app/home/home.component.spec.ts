@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
@@ -8,7 +8,7 @@ import { HomeComponent} from './home.component';
 import { InternalDataService } from '../internal-data.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 const SPORT_DATA = [
   {
@@ -57,7 +57,6 @@ describe('HomeComponent', () => {
       imports: [
         RouterTestingModule,
         HttpClientTestingModule,
-        BrowserAnimationsModule,
         NoopAnimationsModule
       ],
       declarations: [
@@ -228,14 +227,6 @@ describe('HomeComponent', () => {
       expect(spy_setChampionshipSelected).toHaveBeenCalled();
     });
 
-    it('should no add new element in _state_btn when setStateBtn method is called', () => {
-      expect(component['_state_btns'].size).toBe(SPORT_DATA.length);
-
-      component['setStateBtn']('error test');
-
-      expect(component['_state_btns'].size).toBe(SPORT_DATA.length);
-    });
-
     it('should set _state_btns value to true when value of button is false and setStateBtn method is called', 
     () => {  
       expect(component['_state_btns'].get(FOOTBALL)).toBeFalse();
@@ -307,6 +298,25 @@ describe('HomeComponent', () => {
       expect(count_true).toBe(1);
     });
 
+    it('should no add new element when btn_text is not a key of _state_btns and setStateBtn is called', 
+    () => {
+      expect(component['_state_btns'].size).toBe(SPORT_DATA.length);
+
+      component['setStateBtn']('error test');
+
+      expect(component['_state_btns'].size).toBe(SPORT_DATA.length);
+    });
+
+    it('should not modify _state_btns and _active_btns when btn_text is not a key of _state_btns ad setStateBtn is calld', () => {
+      component['_state_btns'].set(FOOTBALL, true);
+      component['_active_btn'] = FOOTBALL;
+
+      component['setStateBtn']('error test');
+
+      expect(component['_state_btns'].get(FOOTBALL)).toBeTrue();
+      expect(component['_active_btn']).toBe(FOOTBALL);
+    });
+
     it('should call setStateBtn when toggleSportBtn is called', () => {
       const spy_setState = spyOn<any>(component, "setStateBtn");
 
@@ -340,6 +350,14 @@ describe('HomeComponent', () => {
 
       expect(is_active).toBeFalse();
     });
+
+    it('should call setActiveLink method from internal_data when setActivePage method is called', () => {
+      const spy_activeLink = spyOn(internal_data_service, 'setActiveLink');
+
+      component.setActivePage('test');
+
+      expect(spy_activeLink).toHaveBeenCalled();
+    })
   });
 
   describe('ngOnDestroy', () => {

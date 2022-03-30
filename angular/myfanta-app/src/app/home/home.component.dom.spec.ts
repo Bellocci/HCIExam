@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { DebugElement } from "@angular/core";
 import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
-import { BrowserAnimationsModule, NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "../material-module";
 import { SharedService } from "../shared.service";
 import { HomeComponent } from "./home.component";
@@ -56,7 +56,6 @@ describe('HomeComponent DOM', () => {
         await TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
-                BrowserAnimationsModule,
                 NoopAnimationsModule,
                 MaterialModule
             ],
@@ -95,7 +94,7 @@ describe('HomeComponent DOM', () => {
             for(let btn of btns_list) {
                 const text = btn.nativeElement.textContent.trim().toLowerCase();
                 text_btn = text_btn.toLowerCase();
-                if(text == (text_btn + ' ' + icon)) {
+                if(text == (text_btn + icon)) {
                     return true;
                 }
             }
@@ -235,6 +234,23 @@ describe('HomeComponent DOM', () => {
             link_champ_list = fixture.debugElement.queryAll(By.css('a'));
             expect(link_champ_list.length).toBe(1);
             expect(findChampionship(link_champ_list, NBA)).toBeTrue();
+        }));
+
+        it('should call setActivePage method when championship is clicked', fakeAsync(() => {
+            const spy_activePage = spyOn(component, 'setActivePage');
+            component['_state_btns'].set(BASKETBALL, true);
+            component['_active_btn'] = BASKETBALL;
+            fixture.detectChanges();
+            tick();
+
+            const link_champ_list = fixture.debugElement.queryAll(By.css('a'));
+            expect(link_champ_list.length).toBe(1)
+            const link_nba = link_champ_list[0];
+
+            link_nba.nativeElement.click();
+            fixture.detectChanges();
+
+            expect(spy_activePage).toHaveBeenCalled();
         }));
     });
 
