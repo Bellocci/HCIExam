@@ -10,46 +10,24 @@ import { SharedService } from '../shared.service';
   styleUrls: ['./home.component.css'],
   animations: [
     trigger('champListAnimation', [
-      state('openList', style({
-        height: '*',
-        opacity: 1,
-      })),
-      state('closeList', style({
-        height: '0',
-        opacity: 0,
-      })),
+      state('openList', style({ height: '*', opacity: 1 })),
+      state('closeList', style({ height: '0', opacity: 0 })),
       transition('closeList => openList', [
         group([
-          animate(
-            "300ms cubic-bezier(0.4, 0, 0.2, 1)", 
-            style({height: '*'})
-          ),
-          animate(
-            "250ms cubic-bezier(0.4, 0, 0.2, 1)",
-            style({opacity: '1'})
-          ),
+          animate("300ms cubic-bezier(0.4,0.0,0.2,1)", style({height: '*'})),
+          animate("225ms cubic-bezier(0.4,0.0,0.2,1)", style({opacity: '1'}))
         ])
       ]),
       transition('openList => closeList', [
         group([
-          animate(
-            "300ms cubic-bezier(0.4, 0, 0.2, 1)", 
-            style({height: '0'})
-          ),
-          animate(
-            "250ms cubic-bezier(0.4, 0, 0.2, 1)",
-            style({opacity: '0'})
-          ),
+          animate("300ms cubic-bezier(0.4,0.0,0.2,1)", style({height: '0'})),
+          animate("225ms cubic-bezier(0.4,0.0,0.2,1)", style({opacity: '0', transform: 'translateY(-100%)'}))
         ])
       ]),
     ]),
     trigger('champElement', [
-      state('show', style({
-        display: 'block',
-      })),
-      state('hide', style({
-        display: 'none',
-      })),
+      state('show', style({ display: 'block' })),
+      state('hide', style({ display: 'none' })),
       transition('* => *', [
           animate('300ms cubic-bezier(0.4, 0, 0.2, 1)')
       ])
@@ -62,7 +40,6 @@ export class HomeComponent implements OnInit {
 
   private _state_btns = new Map<string, boolean>();
   private _active_btn!:string;
-  panelOpenState:boolean = false;
 
   championship_selected:string = '';
   subscrip_champ:Subscription = new Subscription;

@@ -30,7 +30,7 @@
                 [@champListAnimation]="isActiveBtn(sport.sportName) ? 'openList' : 'closeList'">
                     <a mat-list-item class="txt-btn text-interactive link"
                     [@champElement]="isActiveBtn(sport.sportName) ? 'show' : 'hide'"
-                    *ngIf="filterChampionship(champ, sport)"
+                    *ngIf="filterChampionship(champ, sport) && isActiveBtn(sport.sportName)"
                     (click)="setChampionshipSelected(champ.championshipName); setActivePage('Create team')"
                     routerLink="createTeam">
                         <mat-icon class="icon-champ">arrow_right</mat-icon>

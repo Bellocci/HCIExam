@@ -2,7 +2,7 @@ import { HarnessLoader } from "@angular/cdk/testing";
 import { TestbedHarnessEnvironment } from "@angular/cdk/testing/testbed";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { DebugElement } from "@angular/core";
-import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "../material-module";
@@ -129,7 +129,7 @@ describe('HomeComponent DOM', () => {
             return false;
         }
 
-        it('should show championship list when button is active', () => {
+        it('should show championship list when button is active', fakeAsync(() => {
             const spy_active = spyOn(component, "isActiveBtn").
                 withArgs(FOOTBALL).and.returnValue(true).
                 withArgs(BASKETBALL).and.returnValue(false);
@@ -139,7 +139,7 @@ describe('HomeComponent DOM', () => {
             expect(link_champ_list.length).toBe(2);
             expect(findChampionship(link_champ_list, SERIE_A)).toBeTrue();
             expect(findChampionship(link_champ_list, PREMIERE_LEAGUE)).toBeTrue();
-        });
+        }));
 
         it('should hide championship list when button is not active', () => {
             const spy_active = spyOn(component, "isActiveBtn").and.returnValue(false);
