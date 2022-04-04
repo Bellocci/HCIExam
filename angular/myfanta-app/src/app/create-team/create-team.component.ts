@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatInput } from '@angular/material/input';
+import { debounceTime, distinctUntilChanged, Observable, Subject, switchMap } from 'rxjs';
+import { InternalDataService } from '../internal-data.service';
+import { SharedService } from '../shared.service';
 import { SnackBarService } from '../snack-bar.service';
 
 @Component({
@@ -8,51 +13,95 @@ import { SnackBarService } from '../snack-bar.service';
 })
 export class CreateTeamComponent implements OnInit {
 
+  private _error_message:string = '';
+  private _tab_selected = '';
+
+  private _breakpoint:number = 0;
+  private _rows:number = 0;
+  private _cols_tabs: number = 0;
+  private _cols_buttons: number = 0;
+  
   value_input_text = '';
   input_visible:boolean = true;
 
-  tab_selected = '';
+  is_mobile:boolean = false;
+  private _mobile = new Subject<any>();
 
-  breakpoint:number = 0;
+  players!: any[];
+  private _search_players = new Subject<string>();
 
-  cols_tabs: number = 0;
-  rows_tabs: number = 0;
-
-  cols_buttons: number = 0;
-  rows_buttons: number = 0;
-
-  constructor(private _snackBar:SnackBarService) { }
+  constructor(
+    private _snackBar:SnackBarService, 
+    private _internal_data:InternalDataService,
+    private _shared:SharedService
+  ) { }
 
   ngOnInit(): void {
-    this.breakpoint = this.getInnerWidth() >= 480 ? 5 : 1;
+    this._breakpoint = this.getInnerWidth() >= 800 ? 5 : 1;
+    this._rows = 6;
 
-    this.cols_tabs = this.getInnerWidth() >= 480 ? 3 : 1;
-    this.rows_tabs = this.getInnerWidth() >= 480 ? 6 : 1;
-  
-    this.cols_buttons = this.getInnerWidth() >= 480 ? 2 : 1;
-    this.rows_buttons = this.getInnerWidth() >= 480 ? 6 : 1;
+    this._cols_tabs = this.getInnerWidth() >= 800 ? 3 : 1;
+    this._cols_buttons = this.getInnerWidth() >= 800 ? 2 : 1;
+
+    this._search_players.pipe(
+      // wait 300ms after each keystroke before considering the term
+      debounceTime(300),
+
+      // ignore new term if same as previous term
+      distinctUntilChanged(),
+
+      switchMap((name:string) => this._shared.searchPlayers(name)),
+    ).subscribe(
+      (players) => {
+        this.players = players;
+      }
+    );
+
+    this._mobile.subscribe(() => {
+      this.setIsMobileLayout();
+    })
+
+    this.setIsMobileLayout();
   }
+
+  /* GETTER METHODS */
 
   getInnerWidth(): number {
     return window.innerWidth;
   }
 
-  onResize() {
-    this.breakpoint = this.getInnerWidth() >= 480 ? 5 : 1;
-
-    this.cols_tabs = this.getInnerWidth() >= 480 ? 3 : 1;
-    this.rows_tabs = this.getInnerWidth() >= 480 ? 6 : 1;
-  
-    this.cols_buttons = this.getInnerWidth() >= 480 ? 2 : 1;
-    this.rows_buttons = this.getInnerWidth() >= 480 ? 6 : 1;
-    
+  getBreakpoint() : number {
+    return this._breakpoint;
   }
+
+  getRows() : number {
+    return this._rows;
+  }
+
+  getColsTabs() : number {
+    return this._cols_tabs;
+  }
+
+  getColsButtons() : number {
+    return this._cols_buttons;
+  }
+
+  getTabSelected() : string {
+    return this._tab_selected;
+  }
+
+  getErrorMessage() : string {
+    return this._error_message;
+  }
+
+  /* SETTER METHODS */
 
   setTabSelected(textTab:string) {
-    this.tab_selected = textTab;
+    this._tab_selected = textTab;
+    this.setInputVible(textTab);
   }
 
-  setInputVisible(textTab:string) {
+  private setInputVible(textTab:string) {
     if(textTab != 'Options') {
       this.input_visible = true;
     } else {
@@ -60,7 +109,41 @@ export class CreateTeamComponent implements OnInit {
     }
   }
 
-  openSnackBar(textMessage:string) {
+  setIsMobileLayout() {
+    this.is_mobile = this.getInnerWidth() < 800 ? true : false;
+  }
+
+  /* EVENT METHODS */
+
+  onResize() {
+    this._breakpoint = this.getInnerWidth() >= 800 ? 5 : 1;
+
+    this._cols_tabs = this.getInnerWidth() >= 800 ? 3 : 1;
+  
+    this._cols_buttons = this.getInnerWidth() >= 800 ? 2 : 1;
+  }  
+
+  openSnackBar(textMessage:string) : void {
     this._snackBar.openSnackBar(textMessage);
+  }
+
+  searchPlayer(player_name:string) : void {
+    this._search_players.next(player_name);
+  }
+
+  addPlayer(player:any) : void {
+    this._internal_data.addPlayerToTeam(this, player);
+  }
+
+  generateTeam() {
+    this._internal_data.generateTeam();
+  }
+
+  generateTeamWithFavoritList() {
+    this._internal_data.generateTeamWithFavoritList();
+  }
+
+  filterText(event:any) : boolean {
+    return String.fromCharCode(event.charCode).match(/[^a-zA-Z]/g) === null;
   }
 }

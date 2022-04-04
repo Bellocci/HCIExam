@@ -1,36 +1,56 @@
-<header class="header-position primary-color">
-    <h1 class="text text-position">CREATE TEAM</h1>
+<header class="subtitle-position primary-color">
+    <h1>CREATE TEAM</h1>
 </header>
-<mat-grid-list [cols]="breakpoint" rowHeight="100px" (window:resize)="onResize()">
-    <mat-grid-tile [colspan]="cols_tabs" [rowspan]="rows_tabs">
-        <app-tabs (tab_selected)="setTabSelected($event); setInputVisible($event)"></app-tabs>
+<mat-grid-list [cols]="getBreakpoint()" rowHeight="100px" (window:resize)="onResize()">
+    <mat-grid-tile *ngIf="!is_mobile" [colspan]="getColsTabs()" [rowspan]="getRows()">
+        <app-tabs (tab_selected)="setTabSelected($event)"></app-tabs>
     </mat-grid-tile>
-    <mat-grid-tile [colspan]="cols_buttons" [rowspan]="rows_buttons">
-        <div class="input-position" [ngClass]="input_visible == false ? 'noVisible' : ''">
+    <mat-grid-tile [colspan]="getColsButtons()" [rowspan]="getRows()">
+        <div class="input" *ngIf="input_visible">
             <mat-form-field class="form-field" appearance="fill">
                 <mat-label>Player name</mat-label>
-                <input matInput type="text" [(ngModel)]="value_input_text" placeholder="Player name...">
-                <button *ngIf="value_input_text" matSuffix mat-icon-button aria-label="Clear" (click)="value_input_text=''">
+                <input type="text" 
+                    (keypress)="filterText($event)"
+                    placeholder="Player name..."
+                    matInput
+                    [(ngModel)]="value_input_text"
+                    [matAutocomplete]="auto"
+                    (input)="searchPlayer(value_input_text)">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option *ngFor="let player of players" [value]="player.playerName">
+                        {{player.playerName}}
+                    </mat-option>
+                </mat-autocomplete>
+                <button *ngIf="value_input_text" matSuffix mat-icon-button aria-label="Clear" 
+                (click)="value_input_text=''; searchPlayer('')">
                     <mat-icon>close</mat-icon>
                 </button>
             </mat-form-field>
-            <button mat-raised-button class="add-btn-text secondary-color mat-elevation-z3">
+            <button mat-raised-button 
+            class="text secondary-color mat-elevation-z3"
+            (click)="addPlayer(value_input_text)">
                 <mat-icon>add</mat-icon>
-                {{ tab_selected }}
+                <span>{{ getTabSelected() }}</span>
             </button>
+            <div class="text" id="display-error" *ngIf="getErrorMessage() != ''">
+                {{ getErrorMessage() }}
+            </div>
         </div>
         <div class="generate-btn-position">
             <button mat-raised-button 
             class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
-            (click)="openSnackBar('Generated Team')">
+            (click)="generateTeam()">
                 Generate Team
             </button>
-            <div class="generate-btn-space"></div>
+            <div class="space-between-btn"></div>
             <button mat-raised-button 
             class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
-            (click)="openSnackBar('Generated Team with favorit list')">
+            (click)="generateTeamWithFavoritList()">
                 Generate Team with favorit list
             </button>
         </div>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="is_mobile" [colspan]="getColsTabs()" [rowspan]="getRows()">
+        <app-tabs (tab_selected)="setTabSelected($event)"></app-tabs>
     </mat-grid-tile>
 </mat-grid-list>

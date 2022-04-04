@@ -1,46 +1,101 @@
-.mat-grid-list {
-    align-items: baseline;
-}
+/* HEADER */
 
-.add-btn-text {
-    font-size: 16px;
-}
-
-.add-btn-text:hover {
-    font-weight: 600;
-}
-
-.primary-color{
-    background-color: #82B1FF;
-}
-
-.secondary-color {
-    background-color: #FFCF82;
-}
-
-.secondary-color:hover {
-    background-color: #ffffb3;
-}
-
-.header-position {
+.subtitle-position {
     padding: 34px;
 }
 
-.text-position {
+h1 {
+    font-size: 24px;
     margin: 0;
 }
 
-.text {
-    font-family: Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 24px;
-    font-weight: 400;
+@media
+(min-width: 800px) and
+(max-width: 1200px) {
+    
+    .subtitle-position {
+        padding: 24px;
+    }
+    h1 {
+        font-size: 20px;
+    }
+}
+
+@media
+(min-width: 600px) and
+(max-width: 800px) {
+    
+    .subtitle-position {
+        padding: 24px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
+
+@media
+(min-width: 320px) and
+(max-width: 600px) {
+    
+    header {
+        display: none;
+    }
+}
+
+/* INPUT */
+
+.input {
+    text-align: center;
 }
 
 .form-field {
     margin: 0;
     padding-right: 10px;
-    width: 250px;
+    width: 280px;
 }
+
+button {
+    font-size: 16px;
+}
+
+button:hover {
+    font-weight: 600;
+}
+
+@media
+(min-width: 800px) and
+(max-width: 1200px) {
+
+    .form-field {
+        margin: 0;
+        padding-right: 10px;
+        width: 200px;
+    }
+
+    button {
+        font-size: 12px;
+    }
+}
+
+/* DISPLAY ERROR */
+
+#display-error {
+    text-align: left;
+    color: red;
+    width: 400px;
+}
+
+@media
+(min-width: 800px) and
+(max-width: 1200px) {
+
+    #display-error {
+        width: 300px;
+    }
+}
+
+/* GENERATE BUTTON */
 
 .generate-btn-position {
     display: grid;
@@ -51,20 +106,37 @@
     font-weight: 400;
 }
 
-.generate-btn-text:hover {
-    font-weight: 600;
-}
-
 .generate-btn-width {
     width: 400px;
     height: 80px;
 }
 
-.generate-btn-space {
+.space-between-btn {
     margin-top: 30px;
     margin-bottom: 30px;
 }
 
-.noVisible {
-    display : none;
+@media
+(min-width: 800px) and
+(max-width: 1200px) {
+
+    .generate-btn-text {
+        font-size: 16px;
+    }
+    
+    .generate-btn-width {
+        width: 300px;
+        height: 60px;
+    }
+
+    .space-between-btn {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+/* COLOR */
+
+.secondary-color:hover {
+    background-color: #ffffb3;
 }
