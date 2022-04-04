@@ -58,12 +58,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   isMobileLayout(event:any) {
-    if(event.target.innerWidth < 800) {
-      this.is_mobile = true;
-    }
-    else {
-      this.is_mobile = false;
-    }
+    this.is_mobile = event.target.innerWidth < 800 ? true : false;
   }
 
   openSidenav() {
