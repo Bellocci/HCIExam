@@ -43,47 +43,23 @@ h1 {
     }
 }
 
-/* INPUT */
-
-.input {
-    text-align: center;
-}
-
-.form-field {
-    margin: 0;
-    padding-right: 10px;
-    width: 280px;
-}
-
-button {
-    font-size: 16px;
-}
-
-button:hover {
-    font-weight: 600;
-}
-
-@media
-(min-width: 800px) and
-(max-width: 1200px) {
-
-    .form-field {
-        margin: 0;
-        padding-right: 10px;
-        width: 200px;
-    }
-
-    button {
-        font-size: 12px;
-    }
-}
-
 /* DISPLAY ERROR */
 
-#display-error {
-    text-align: left;
-    color: red;
+.error-container {
+    display: inline-flex;
+    border-width: 0.5px;
+    border-radius: 7px;
+    border-style: solid;
+    background-color: #ffcdd2;
     width: 400px;
+    color: #b71c1c;
+}
+
+.error-txt {
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
 }
 
 @media

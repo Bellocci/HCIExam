@@ -14,21 +14,6 @@ import { InternalDataService } from '../internal-data.service';
 import { SharedService } from '../shared.service';
 import { By } from '@angular/platform-browser';
 
-const PLAYERS_DATA = [
-  {
-    name : 'Andrea Belotti',
-  },
-  {
-    name : 'Ciro Immobile',
-  },
-  {
-    name : 'Dusan Vlahovic',
-  },
-  {
-    name : 'Antonio Candreva',
-  },
-]
-
 describe('CreateTeamComponent', () => {
   let component: CreateTeamComponent;
   let fixture: ComponentFixture<CreateTeamComponent>;
@@ -147,27 +132,6 @@ describe('CreateTeamComponent', () => {
       expect(component.getColsButtons()).toEqual(1);
     });
 
-    it('testing pipe method of _search_players is called', () => {
-      const spy_pipe = spyOn(component['_search_players'], "pipe").and.returnValue(of());
-
-      component.ngOnInit();
-
-      expect(spy_pipe).toHaveBeenCalled();
-    });
-
-    it('should _search_players set players with list that match name of players', fakeAsync(() => {
-      const player_name:string = 'Bel';
-      const players_matched:any[] = [PLAYERS_DATA[0]];
-      const spy_search = spyOn(shared, "searchPlayers").and.returnValue(of(players_matched));
-      component.players = [];
-      fixture.detectChanges();
-
-      component['_search_players'].next(player_name);
-      tick(300);
-
-      expect(component.players).toEqual(players_matched);
-    }));
-
     it('should call setIsMobileLayout method', () => {
       const spy_isMobile= spyOn(component, 'setIsMobileLayout');
       
@@ -192,7 +156,7 @@ describe('CreateTeamComponent', () => {
 
       expect(spy_sub).toHaveBeenCalledBefore(spy_setMobile);
       expect(spy_setMobile).toHaveBeenCalled();
-    })
+    });
   });
 
   describe('Methods called by template', () => {
@@ -266,36 +230,6 @@ describe('CreateTeamComponent', () => {
       expect(component.getColsButtons()).toEqual(1);
     });
 
-    it('should set value of tab_selected as value of parameter when setTabSelected is called', () => {
-      let textTab:string = 'test';
-      component.setTabSelected(textTab);
-      expect(component.getTabSelected()).toEqual(textTab);
-
-      textTab = '';
-      component.setTabSelected(textTab);
-      expect(component.getTabSelected()).toEqual(textTab);
-    });
-
-    it('should set inputVisible to true when value of parameter is not equal to Options and setTabSelected is called', 
-    () => {
-      const textTab:string = 'test';
-      component.input_visible = false;
-
-      component.setTabSelected(textTab);
-
-      expect(component.input_visible).toBeTrue();
-    });
-
-    it('should set inputVisible to false when value of parameter is equal to Options and setTabSelected is called', 
-    () => {
-      const textTab:string = 'Options';
-      component.input_visible = true;
-
-      component.setTabSelected(textTab);
-
-      expect(component.input_visible).toBeFalse();
-    });
-
     it('should call openSnackBar method from snack_bar service when method openSnackBar is called', () => {
       const textMessage = '';
       const spy_snack_bar = spyOn(snackbar_service, 'openSnackBar');
@@ -303,24 +237,6 @@ describe('CreateTeamComponent', () => {
       component.openSnackBar(textMessage);
 
       expect(spy_snack_bar).toHaveBeenCalled();
-    });
-
-    it('should call addPlayerToTeam from internal_data when method addPlayer is called', () => {
-      const player_name:string = 'test';
-      const spy_addPlayer = spyOn(internal_data, "addPlayerToTeam");
-
-      component.addPlayer(player_name);
-
-      expect(spy_addPlayer).toHaveBeenCalled();
-    });
-
-    it('testing next method of _search_players when searchPlayer is called', () => {
-      const player_name:string = 'test';
-      const spy_next = spyOn(component['_search_players'], "next");
-
-      component.searchPlayer(player_name);
-
-      expect(spy_next).toHaveBeenCalled();
     });
 
     it('should call generateTeam from internal_data service when generateTeam method is called', () => {
@@ -370,31 +286,12 @@ describe('CreateTeamComponent', () => {
       expect(component.is_mobile).toBeFalse();
     });
 
-    it('should return true when filterText method is called with alphabetic character parameter', () => {
-      const event = new KeyboardEvent("keypress", {
-        "key": "b",
-        "charCode" : 98
-      });
+    it('should set empty string to error_message when clearErrorMessage method is called', () => {
+      component.setErrorMessage('test');
 
-      expect(component.filterText(event)).toBeTrue();
-    });
+      component.clearErrorMessage();
 
-    it('should return false when filterText method is called with numeric character parameter', () => {
-      const event = new KeyboardEvent("keypress", {
-        "key": "1",
-        "charCode" : 49
-      });
-
-      expect(component.filterText(event)).toBeFalse();
-    });
-
-    it('should return false when filterText method is called with special character parameter', () => {
-      const event = new KeyboardEvent("keypress", {
-        "key": "*",
-        "charCode" : 42
-      });
-
-      expect(component.filterText(event)).toBeFalse();
+      expect(component.getErrorMessage()).toBe('');
     });
   });
 

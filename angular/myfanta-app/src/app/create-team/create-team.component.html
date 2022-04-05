@@ -3,37 +3,19 @@
 </header>
 <mat-grid-list [cols]="getBreakpoint()" rowHeight="100px" (window:resize)="onResize()">
     <mat-grid-tile *ngIf="!is_mobile" [colspan]="getColsTabs()" [rowspan]="getRows()">
-        <app-tabs (tab_selected)="setTabSelected($event)"></app-tabs>
+        <app-tabs></app-tabs>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="getColsButtons()" [rowspan]="getRows()">
-        <div class="input" *ngIf="input_visible">
-            <mat-form-field class="form-field" appearance="fill">
-                <mat-label>Player name</mat-label>
-                <input type="text" 
-                    (keypress)="filterText($event)"
-                    placeholder="Player name..."
-                    matInput
-                    [(ngModel)]="value_input_text"
-                    [matAutocomplete]="auto"
-                    (input)="searchPlayer(value_input_text)">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                    <mat-option *ngFor="let player of players" [value]="player.playerName">
-                        {{player.playerName}}
-                    </mat-option>
-                </mat-autocomplete>
-                <button *ngIf="value_input_text" matSuffix mat-icon-button aria-label="Clear" 
-                (click)="value_input_text=''; searchPlayer('')">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </mat-form-field>
-            <button mat-raised-button 
-            class="text secondary-color mat-elevation-z3"
-            (click)="addPlayer(value_input_text)">
-                <mat-icon>add</mat-icon>
-                <span>{{ getTabSelected() }}</span>
-            </button>
-            <div class="text" id="display-error" *ngIf="getErrorMessage() != ''">
-                {{ getErrorMessage() }}
+        <div class="input">
+            <app-search-add-player></app-search-add-player>
+            <div id="display-error" *ngIf="getErrorMessage() != ''">
+                <div class="error-container">
+                    <span class="text error-txt">{{ getErrorMessage() }}</span>
+                    <button *ngIf="getErrorMessage()" mat-icon-button aria-label="Clear" 
+                    (click)="clearErrorMessage()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
         <div class="generate-btn-position">
@@ -51,6 +33,6 @@
         </div>
     </mat-grid-tile>
     <mat-grid-tile *ngIf="is_mobile" [colspan]="getColsTabs()" [rowspan]="getRows()">
-        <app-tabs (tab_selected)="setTabSelected($event)"></app-tabs>
+        <app-tabs></app-tabs>
     </mat-grid-tile>
 </mat-grid-list>
