@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import { InternalDimensionService } from 'src/app/internal-dimension.service';
+import { InternalDimensionService } from 'src/app/service/internal-dimension.service';
 
 export interface Option {
   min_value: number,

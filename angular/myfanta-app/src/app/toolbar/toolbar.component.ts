@@ -1,8 +1,8 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
-import { InternalDataService } from '../internal-data.service';
-import { SharedService } from '../shared.service';
+import { InternalDataService } from '../service/internal-data.service';
+import { SharedService } from '../service/shared.service';
 
 @Component({
   selector: 'app-toolbar',

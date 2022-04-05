@@ -5,8 +5,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 
 import { ToolbarComponent } from './toolbar.component';
-import { SharedService } from '../shared.service';
-import { InternalDataService } from '../internal-data.service';
+import { SharedService } from '../service/shared.service';
+import { InternalDataService } from '../service/internal-data.service';
 
 const SPORT_DATA = [
   {

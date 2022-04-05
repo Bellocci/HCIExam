@@ -3,10 +3,10 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { of } from 'rxjs';
 
-import { InternalDataService } from 'src/app/internal-data.service';
+import { InternalDataService } from 'src/app/service/internal-data.service';
 import { TableEmptyComponent } from './table-empty.component';
 import { MatTableDataSource } from '@angular/material/table';
-import { InternalDimensionService } from 'src/app/internal-dimension.service';
+import { InternalDimensionService } from 'src/app/service/internal-dimension.service';
 
 const GENERATE_PLAYERS_LIST = [
   {
@@ -45,7 +45,8 @@ describe('TableEmptyComponent', () => {
         TableEmptyComponent
       ],
       providers: [
-        InternalDataService
+        InternalDataService,
+        InternalDimensionService
       ]
     })
     .compileComponents();

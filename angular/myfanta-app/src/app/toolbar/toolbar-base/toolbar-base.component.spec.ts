@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { InternalDataService } from 'src/app/internal-data.service';
-import { SharedService } from 'src/app/shared.service';
+import { InternalDataService } from 'src/app/service/internal-data.service';
+import { SharedService } from 'src/app/service/shared.service';
 
 import { ToolbarBaseComponent } from './toolbar-base.component';
 

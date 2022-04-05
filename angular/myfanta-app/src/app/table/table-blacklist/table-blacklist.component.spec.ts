@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
-import { InternalDimensionService } from 'src/app/internal-dimension.service';
+import { InternalDimensionService } from 'src/app/service/internal-dimension.service';
 import { of } from 'rxjs';
 
 import { TableBlacklistComponent } from './table-blacklist.component';
-import { InternalDataService } from 'src/app/internal-data.service';
+import { InternalDataService } from 'src/app/service/internal-data.service';
 import { MatTableDataSource } from '@angular/material/table';
 
 const BLACKLIST_PLAYERS = [

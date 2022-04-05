@@ -18,6 +18,7 @@ import { TableBlacklistComponent } from './table/table-blacklist/table-blacklist
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ToolbarBaseComponent } from './toolbar/toolbar-base/toolbar-base.component';
 import { ToolbarMobileComponent } from './toolbar/toolbar-mobile/toolbar-mobile.component';
+import { SearchAddPlayerComponent } from './search-add-player/search-add-player.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ToolbarMobileComponent } from './toolbar/toolbar-mobile/toolbar-mobile.
     ToolbarComponent,
     ToolbarBaseComponent,
     ToolbarMobileComponent,
+    SearchAddPlayerComponent,
   ],
   imports: [
     BrowserModule,

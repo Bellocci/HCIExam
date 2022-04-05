@@ -6,7 +6,7 @@ import { ComponentFixture, fakeAsync, flush, TestBed, tick } from "@angular/core
 import { By } from "@angular/platform-browser";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "../material-module";
-import { SharedService } from "../shared.service";
+import { SharedService } from "../service/shared.service";
 import { HomeComponent } from "./home.component";
 
 

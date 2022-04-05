@@ -3,8 +3,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { HarnessLoader } from "@angular/cdk/testing";
 import { TestbedHarnessEnvironment } from "@angular/cdk/testing/testbed";
-import { MatInputHarness } from '@angular/material/input/testing';
-import { MatAutocompleteHarness } from '@angular/material/autocomplete/testing';
 
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from "@angular/core";
 
@@ -16,8 +14,7 @@ import { FormsModule } from "@angular/forms";
 
 import { CreateTeamComponent } from "./create-team.component";
 import { By } from "@angular/platform-browser";
-import { SharedService } from "../shared.service";
-import { of } from "rxjs";
+import { SharedService } from "../service/shared.service";
 
 const PLAYERS_DATA = [
   {

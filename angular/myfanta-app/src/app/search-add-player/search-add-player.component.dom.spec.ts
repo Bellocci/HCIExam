@@ -1,18 +1,24 @@
-import { HarnessLoader } from "@angular/cdk/testing";
-import { TestbedHarnessEnvironment } from "@angular/cdk/testing/testbed";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { DebugElement } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { FormsModule } from "@angular/forms";
+
+
+import { HarnessLoader } from "@angular/cdk/testing";
+import { TestbedHarnessEnvironment } from "@angular/cdk/testing/testbed";
 import { MatAutocompleteHarness } from "@angular/material/autocomplete/testing";
 import { MatInputHarness } from "@angular/material/input/testing";
+
 import { By } from "@angular/platform-browser";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+
 import { of } from "rxjs";
-import { InternalDataService } from "../internal-data.service";
+
 import { MaterialModule } from "../material-module";
-import { SharedService } from "../shared.service";
+import { FormsModule } from "@angular/forms";
+
 import { SearchAddPlayerComponent } from "./search-add-player.component";
+import { SharedService } from "../service/shared.service";
+import { InternalDataService } from "../service/internal-data.service";
 
 const PLAYER_AUTOCOMPLETE = [
     {

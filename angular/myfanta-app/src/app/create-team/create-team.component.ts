@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { InternalDataService } from '../internal-data.service';
-import { SnackBarService } from '../snack-bar.service';
+import { InternalDataService } from '../service/internal-data.service';
+import { SnackBarService } from '../service/snack-bar.service';
 
 @Component({
   selector: 'app-create-team',

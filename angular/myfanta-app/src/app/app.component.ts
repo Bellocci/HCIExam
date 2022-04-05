@@ -1,8 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
-import { Subscription } from 'rxjs';
-import { InternalDataService } from './internal-data.service';
-import { SharedService } from './shared.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',

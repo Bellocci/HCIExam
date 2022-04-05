@@ -3,7 +3,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { InternalDimensionService } from '../internal-dimension.service';
+import { InternalDimensionService } from '../service/internal-dimension.service';
 
 @Component({
   selector: 'app-table',

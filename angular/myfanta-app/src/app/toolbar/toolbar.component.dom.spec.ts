@@ -5,7 +5,6 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
-import { MatIconHarness } from '@angular/material/icon/testing';
 import { MatSidenavHarness } from '@angular/material/sidenav/testing';
 import { MatExpansionPanelHarness } from '@angular/material/expansion/testing';
 
@@ -14,10 +13,10 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 import { ToolbarComponent } from "./toolbar.component";
-import { SharedService } from "../shared.service";
+import { SharedService } from "../service/shared.service";
 import { of } from "rxjs";
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from "@angular/core";
-import { InternalDataService } from "../internal-data.service";
+import { InternalDataService } from "../service/internal-data.service";
 import { Location } from "@angular/common";
 import { Router, Routes } from "@angular/router";
 

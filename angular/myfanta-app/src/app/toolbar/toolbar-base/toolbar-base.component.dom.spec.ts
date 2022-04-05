@@ -17,8 +17,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToolbarBaseComponent } from './toolbar-base.component';
-import { InternalDataService } from 'src/app/internal-data.service';
-import { SharedService } from 'src/app/shared.service';
+import { InternalDataService } from 'src/app/service/internal-data.service';
+import { SharedService } from 'src/app/service/shared.service';
 import { MaterialModule } from 'src/app/material-module';
 
 const CHAMPIONSHIP_DATA = [

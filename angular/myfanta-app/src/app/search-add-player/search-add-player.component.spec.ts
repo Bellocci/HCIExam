@@ -1,14 +1,16 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 import { of } from 'rxjs';
-import { InternalDataService } from '../internal-data.service';
+
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MaterialModule } from '../material-module';
-import { SharedService } from '../shared.service';
+import { FormsModule } from '@angular/forms';
 
 import { SearchAddPlayerComponent } from './search-add-player.component';
+import { SharedService } from '../service/shared.service';
+import { InternalDataService } from '../service/internal-data.service';
 
 const PLAYERS_DATA = [
   {

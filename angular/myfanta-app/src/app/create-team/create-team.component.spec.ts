@@ -8,9 +8,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { CreateTeamComponent } from './create-team.component';
-import { SnackBarService } from '../snack-bar.service';
-import { InternalDataService } from '../internal-data.service';
-import { SharedService } from '../shared.service';
+import { SnackBarService } from '../service/snack-bar.service';
+import { InternalDataService } from '../service/internal-data.service';
+import { SharedService } from '../service/shared.service';
 
 describe('CreateTeamComponent', () => {
   let component: CreateTeamComponent;

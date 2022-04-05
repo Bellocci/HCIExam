@@ -7,7 +7,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
 import { TableComponent } from './table.component';
-import { InternalDimensionService } from '../internal-dimension.service';
+import { InternalDimensionService } from '../service/internal-dimension.service';
 import { of } from 'rxjs';
 
 describe('TableComponent', () => {

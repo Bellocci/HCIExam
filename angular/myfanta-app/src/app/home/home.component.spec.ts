@@ -3,9 +3,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 
-import { SharedService } from '../shared.service';
+import { SharedService } from '../service/shared.service';
 import { HomeComponent} from './home.component';
-import { InternalDataService } from '../internal-data.service';
+import { InternalDataService } from '../service/internal-data.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';

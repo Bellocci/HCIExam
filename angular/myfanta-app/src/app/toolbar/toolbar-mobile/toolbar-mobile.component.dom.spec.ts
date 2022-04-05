@@ -18,7 +18,7 @@ import { Component, DebugElement } from "@angular/core";
 
 import { ToolbarMobileComponent } from "./toolbar-mobile.component";
 import { MaterialModule } from "src/app/material-module"
-import { InternalDataService } from "src/app/internal-data.service";
+import { InternalDataService } from "src/app/service/internal-data.service";
 
 const CHAMPIONSHIP_DATA = [
     {

@@ -2,8 +2,8 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { InternalDataService } from 'src/app/internal-data.service';
-import { InternalDimensionService } from 'src/app/internal-dimension.service';
+import { InternalDataService } from 'src/app/service/internal-data.service';
+import { InternalDimensionService } from 'src/app/service/internal-dimension.service';
 import { TableComponent } from '../table.component';
 
 @Component({

@@ -1,8 +1,8 @@
 import { animate, state, style, transition, trigger, group, keyframes, query, animateChild } from '@angular/animations';
 import { Component, OnInit} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { InternalDataService } from '../internal-data.service';
-import { SharedService } from '../shared.service';
+import { InternalDataService } from '../service/internal-data.service';
+import { SharedService } from '../service/shared.service';
 
 @Component({
   selector: 'app-home',

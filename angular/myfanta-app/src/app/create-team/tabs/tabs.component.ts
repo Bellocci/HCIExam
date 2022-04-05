@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
-import { InternalDimensionService } from 'src/app/internal-dimension.service';
+import { InternalDimensionService } from 'src/app/service/internal-dimension.service';
 
 @Component({
   selector: 'app-tabs',
