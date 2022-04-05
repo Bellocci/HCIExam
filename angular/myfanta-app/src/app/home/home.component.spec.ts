@@ -1,14 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of } from 'rxjs';
 
-import { SharedService } from '../service/shared.service';
-import { HomeComponent} from './home.component';
-import { InternalDataService } from '../service/internal-data.service';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { of } from 'rxjs';
+
+import { HomeComponent} from './home.component';
+import { SharedService } from '../service/shared.service';
+import { InternalDataService } from '../service/internal-data.service';
 
 const SPORT_DATA = [
   {
@@ -47,10 +48,6 @@ describe('HomeComponent', () => {
 
   const FOOTBALL = SPORT_DATA[0].sportName;
   const BASKETBALL = SPORT_DATA[1].sportName;
-  
-  const SERIE_A = CHAMPIONSHIP_DATA[0].championshipName;
-  const PREMIERE_LEAGUE = CHAMPIONSHIP_DATA[1].championshipName;
-  const NBA = CHAMPIONSHIP_DATA[2].championshipName;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -65,9 +62,6 @@ describe('HomeComponent', () => {
       providers : [
         SharedService,
         InternalDataService
-      ],
-      schemas: [
-        CUSTOM_ELEMENTS_SCHEMA
       ]
     }).compileComponents();
   });

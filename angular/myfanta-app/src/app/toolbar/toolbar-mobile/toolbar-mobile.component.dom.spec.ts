@@ -11,7 +11,6 @@ import { Router, Routes } from "@angular/router";
 import { Location } from "@angular/common";
 
 import { By } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { of } from "rxjs";
 import { Component, DebugElement } from "@angular/core";
@@ -19,6 +18,7 @@ import { Component, DebugElement } from "@angular/core";
 import { ToolbarMobileComponent } from "./toolbar-mobile.component";
 import { MaterialModule } from "src/app/material-module"
 import { InternalDataService } from "src/app/service/internal-data.service";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 const CHAMPIONSHIP_DATA = [
     {
@@ -86,7 +86,7 @@ describe("ToolbarMobileComponent DOM", () => {
                 HttpClientTestingModule,
                 RouterTestingModule.withRoutes(routes),
                 MaterialModule,
-                BrowserAnimationsModule,
+                NoopAnimationsModule,
             ],
             declarations: [
                 ToolbarMobileComponent

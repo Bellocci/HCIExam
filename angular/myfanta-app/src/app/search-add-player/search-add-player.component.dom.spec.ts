@@ -18,7 +18,6 @@ import { FormsModule } from "@angular/forms";
 
 import { SearchAddPlayerComponent } from "./search-add-player.component";
 import { SharedService } from "../service/shared.service";
-import { InternalDataService } from "../service/internal-data.service";
 
 const PLAYER_AUTOCOMPLETE = [
     {
@@ -38,7 +37,6 @@ describe('SearchAddPlayerComponent DOM', () => {
     let fixture: ComponentFixture<SearchAddPlayerComponent>;
     let loader: HarnessLoader;
     let shared: SharedService;
-    let internal_data: InternalDataService;
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
@@ -53,7 +51,6 @@ describe('SearchAddPlayerComponent DOM', () => {
         ],
         providers: [
           SharedService,
-          InternalDataService
         ]
       })
       .compileComponents();
@@ -64,7 +61,6 @@ describe('SearchAddPlayerComponent DOM', () => {
       component = fixture.componentInstance;
       loader = TestbedHarnessEnvironment.loader(fixture);
       shared = TestBed.inject(SharedService);
-      internal_data = TestBed.inject(InternalDataService);
       fixture.detectChanges();
     });
   

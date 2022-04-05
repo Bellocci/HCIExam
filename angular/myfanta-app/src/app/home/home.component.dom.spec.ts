@@ -1,14 +1,13 @@
-import { HarnessLoader } from "@angular/cdk/testing";
-import { TestbedHarnessEnvironment } from "@angular/cdk/testing/testbed";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
 import { DebugElement } from "@angular/core";
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { MaterialModule } from "../material-module";
-import { SharedService } from "../service/shared.service";
-import { HomeComponent } from "./home.component";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { By } from "@angular/platform-browser";
+
+import { MaterialModule } from "../material-module";
+
+import { HomeComponent } from "./home.component";
 
 const SPORT_DATA = [
     {
@@ -42,8 +41,6 @@ const CHAMPIONSHIP_DATA = [
 describe('HomeComponent DOM', () => {
     let component: HomeComponent;
     let fixture: ComponentFixture<HomeComponent>;
-    let loader: HarnessLoader;
-    let shared: SharedService
 
     const FOOTBALL = SPORT_DATA[0].sportName;
     const BASKETBALL = SPORT_DATA[1].sportName;
@@ -61,9 +58,6 @@ describe('HomeComponent DOM', () => {
             ],
             declarations: [
                 HomeComponent
-            ],
-            providers: [
-                SharedService
             ]
         }).compileComponents();
     });
@@ -71,8 +65,6 @@ describe('HomeComponent DOM', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(HomeComponent);
         component = fixture.componentInstance;
-        loader = TestbedHarnessEnvironment.loader(fixture);
-        shared = TestBed.inject(SharedService);
         fixture.detectChanges();
     });
 

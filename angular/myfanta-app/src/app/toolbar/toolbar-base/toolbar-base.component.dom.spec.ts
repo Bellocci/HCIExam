@@ -18,7 +18,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToolbarBaseComponent } from './toolbar-base.component';
 import { InternalDataService } from 'src/app/service/internal-data.service';
-import { SharedService } from 'src/app/service/shared.service';
 import { MaterialModule } from 'src/app/material-module';
 
 const CHAMPIONSHIP_DATA = [
@@ -76,7 +75,6 @@ describe('ToolbarBaseComponent DOM', () => {
     let component:ToolbarBaseComponent;
     let fixture:ComponentFixture<ToolbarBaseComponent>;
     let loader: HarnessLoader;
-    let shared: SharedService;
     let internal_data:InternalDataService;
     let location: Location;
     let router: Router
@@ -86,7 +84,6 @@ describe('ToolbarBaseComponent DOM', () => {
             imports: [
                 HttpClientTestingModule,
                 MaterialModule,
-                BrowserAnimationsModule,
                 NoopAnimationsModule,
                 RouterTestingModule.withRoutes(routes),
             ],
@@ -94,7 +91,6 @@ describe('ToolbarBaseComponent DOM', () => {
                 ToolbarBaseComponent
             ],
             providers: [
-                SharedService,
                 InternalDataService
             ]
         }).compileComponents();
@@ -104,7 +100,6 @@ describe('ToolbarBaseComponent DOM', () => {
         fixture = TestBed.createComponent(ToolbarBaseComponent);
         component = fixture.componentInstance;
         loader = TestbedHarnessEnvironment.loader(fixture);
-        shared = TestBed.inject(SharedService);
         internal_data = TestBed.inject(InternalDataService);
     });
 

@@ -6,6 +6,7 @@ import { TestbedHarnessEnvironment } from "@angular/cdk/testing/testbed";
 
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from "@angular/core";
 
+import { By } from "@angular/platform-browser";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -13,7 +14,6 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { FormsModule } from "@angular/forms";
 
 import { CreateTeamComponent } from "./create-team.component";
-import { By } from "@angular/platform-browser";
 
 const PLAYERS_DATA = [
   {

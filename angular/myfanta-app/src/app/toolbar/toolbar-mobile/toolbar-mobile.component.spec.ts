@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { ToolbarMobileComponent } from './toolbar-mobile.component';
+import { MaterialModule } from 'src/app/material-module';
 
 describe('ToolbarMobileComponent', () => {
   let component: ToolbarMobileComponent;
@@ -10,7 +12,9 @@ describe('ToolbarMobileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports : [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MaterialModule,
+        RouterTestingModule
       ],
       declarations: [ ToolbarMobileComponent ]
     })
