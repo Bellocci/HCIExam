@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { Subject } from 'rxjs';
 import { InternalDataService } from '../internal-data.service';
 import { SharedService } from '../shared.service';
 import { SnackBarService } from '../snack-bar.service';
@@ -12,17 +12,11 @@ import { SnackBarService } from '../snack-bar.service';
 export class CreateTeamComponent implements OnInit {
 
   private _error_message:string = '';
-  private _tab_selected:string = '';
 
   private _breakpoint:number = 0;
   private _rows:number = 0;
   private _cols_tabs:number = 0;
   private _cols_buttons:number = 0;
-  
-  input_visible:boolean = true;
-
-  is_mobile:boolean = false;
-  private _mobile = new Subject<any>();
 
   constructor(
     private _snackBar:SnackBarService, 
@@ -35,13 +29,7 @@ export class CreateTeamComponent implements OnInit {
     this._rows = 6;
 
     this._cols_tabs = this.getInnerWidth() >= 800 ? 3 : 1;
-    this._cols_buttons = this.getInnerWidth() >= 800 ? 2 : 1;
-
-    this._mobile.subscribe(() => {
-      this.setIsMobileLayout();
-    })
-
-    this.setIsMobileLayout();
+    this._cols_buttons = this.getInnerWidth() >= 800 ? 2 : 0;
   }
 
   /* GETTER METHODS */
@@ -72,14 +60,6 @@ export class CreateTeamComponent implements OnInit {
 
   /* SETTER METHODS */
 
-  private setInputVible(textTab:string) {
-    this.input_visible = textTab != 'Options' ? true : false;
-  }
-
-  setIsMobileLayout() {
-    this.is_mobile = this.getInnerWidth() < 800 ? true : false;
-  }
-
   setErrorMessage(msg: string) {
     this._error_message = msg;
   }
@@ -91,7 +71,7 @@ export class CreateTeamComponent implements OnInit {
 
     this._cols_tabs = this.getInnerWidth() >= 800 ? 3 : 1;
   
-    this._cols_buttons = this.getInnerWidth() >= 800 ? 2 : 1;
+    this._cols_buttons = this.getInnerWidth() >= 800 ? 2 : 0;
   }  
 
   openSnackBar(textMessage:string) : void {

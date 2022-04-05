@@ -1,8 +1,7 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of } from 'rxjs';
 
 import { FormsModule } from "@angular/forms";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -12,7 +11,6 @@ import { CreateTeamComponent } from './create-team.component';
 import { SnackBarService } from '../snack-bar.service';
 import { InternalDataService } from '../internal-data.service';
 import { SharedService } from '../shared.service';
-import { By } from '@angular/platform-browser';
 
 describe('CreateTeamComponent', () => {
   let component: CreateTeamComponent;
@@ -123,39 +121,13 @@ describe('CreateTeamComponent', () => {
       expect(component.getColsButtons()).toEqual(2);
     });
 
-    it('cols_buttons value should be 1 when getInnerWidth return a value less than 800', () => {
+    it('cols_buttons value should be 0 when getInnerWidth return a value less than 800', () => {
       const width = 700;
       const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
 
       component.ngOnInit();
 
-      expect(component.getColsButtons()).toEqual(1);
-    });
-
-    it('should call setIsMobileLayout method', () => {
-      const spy_isMobile= spyOn(component, 'setIsMobileLayout');
-      
-      component.ngOnInit();
-
-      expect(spy_isMobile).toHaveBeenCalled();
-    });
-
-    it('testing subscribe method _mobile variable is called', () => {
-      const spy_sub = spyOn(component['_mobile'], "subscribe");
-
-      component.ngOnInit();
-
-      expect(spy_sub).toHaveBeenCalled();
-    });
-
-    it('testing setIsMobileLayout method is called before subscribe method of _mobile', () => {
-      const spy_sub = spyOn(component['_mobile'], "subscribe");
-      const spy_setMobile = spyOn(component, "setIsMobileLayout");
-
-      component.ngOnInit();
-
-      expect(spy_sub).toHaveBeenCalledBefore(spy_setMobile);
-      expect(spy_setMobile).toHaveBeenCalled();
+      expect(component.getColsButtons()).toEqual(0);
     });
   });
 
@@ -221,13 +193,13 @@ describe('CreateTeamComponent', () => {
       expect(component.getColsButtons()).toEqual(2);
     });
 
-    it('onResize should set cols_buttons value to 1 when getInnerWidth return a value less than 800', () => {
+    it('onResize should set cols_buttons value to 0 when getInnerWidth return a value less than 800', () => {
       const width = 700;
       const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
 
       component.onResize();
 
-      expect(component.getColsButtons()).toEqual(1);
+      expect(component.getColsButtons()).toEqual(0);
     });
 
     it('should call openSnackBar method from snack_bar service when method openSnackBar is called', () => {
@@ -254,36 +226,6 @@ describe('CreateTeamComponent', () => {
       component.generateTeamWithFavoritList();
 
       expect(spy_generateWithFavorit).toHaveBeenCalled();
-    });
-
-    it('should set is_mobile variable to true when window width is less than 800', () => {
-      component.is_mobile = false;
-      const width:number = 700;
-      const spy_window = spyOn(component, "getInnerWidth").and.returnValue(width);
-
-      component.setIsMobileLayout();
-
-      expect(component.is_mobile).toBeTrue();
-    });
-
-    it('should set is_mobile variable to false when window width is greater than 800', () => {
-      component.is_mobile = true;
-      const width:number = 1000;
-      const spy_window = spyOn(component, "getInnerWidth").and.returnValue(width);
-
-      component.setIsMobileLayout();
-
-      expect(component.is_mobile).toBeFalse();
-    });
-
-    it('should set is_mobile variable to false when window width is equal to 800', () => {
-      component.is_mobile = true;
-      const width:number = 800;
-      const spy_window = spyOn(component, "getInnerWidth").and.returnValue(width);
-
-      component.setIsMobileLayout();
-
-      expect(component.is_mobile).toBeFalse();
     });
 
     it('should set empty string to error_message when clearErrorMessage method is called', () => {

@@ -2,7 +2,7 @@
     <h1>CREATE TEAM</h1>
 </header>
 <mat-grid-list [cols]="getBreakpoint()" rowHeight="100px" (window:resize)="onResize()">
-    <mat-grid-tile *ngIf="!is_mobile" [colspan]="getColsTabs()" [rowspan]="getRows()">
+    <mat-grid-tile [colspan]="getColsTabs()" [rowspan]="getRows()">
         <app-tabs></app-tabs>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="getColsButtons()" [rowspan]="getRows()">
@@ -31,8 +31,5 @@
                 Generate Team with favorit list
             </button>
         </div>
-    </mat-grid-tile>
-    <mat-grid-tile *ngIf="is_mobile" [colspan]="getColsTabs()" [rowspan]="getRows()">
-        <app-tabs></app-tabs>
     </mat-grid-tile>
 </mat-grid-list>
