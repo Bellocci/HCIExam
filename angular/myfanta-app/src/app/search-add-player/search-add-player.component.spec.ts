@@ -1,6 +1,11 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { InternalDataService } from '../internal-data.service';
+import { MaterialModule } from '../material-module';
 import { SharedService } from '../shared.service';
 
 import { SearchAddPlayerComponent } from './search-add-player.component';
@@ -28,6 +33,12 @@ describe('SearchAddPlayerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        MaterialModule,
+        FormsModule,
+        NoopAnimationsModule
+      ],
       declarations: [ 
         SearchAddPlayerComponent
       ],
@@ -51,7 +62,7 @@ describe('SearchAddPlayerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit', () => {
+  describe('ngOnInit', () => {
 
     it('testing pipe and subscribe method of _search_players is called', () => {
       const spy_pipe = spyOn(component['_search_players'], "pipe").and.returnValue(of());
@@ -66,8 +77,8 @@ describe('SearchAddPlayerComponent', () => {
     it('should _search_players set players with list that match name of players', fakeAsync(() => {
       const player_name:string = 'Bel';
       const players_matched:any[] = [PLAYERS_DATA[0]];
-      const spy_search = spyOn(shared, "searchPlayers").and.returnValue(of(players_matched));
       component.players = [];
+      const spy_search = spyOn(shared, "searchPlayers").and.returnValue(of(players_matched));
       fixture.detectChanges();
 
       component['_search_players'].next(player_name);
@@ -75,6 +86,17 @@ describe('SearchAddPlayerComponent', () => {
 
       expect(component.players).toEqual(players_matched);
     }));
+
+    it('testing subscribe method of getTabSelected from internal_data service', () => {
+      const textTab = 'test';
+      const spy_getTab = spyOn(internal_data, "getTabSelected").and.returnValue(of(textTab));
+      const spy_sub = spyOn(internal_data.getTabSelected(), "subscribe");
+
+      component.ngOnInit();
+
+      expect(spy_getTab).toHaveBeenCalledBefore(spy_sub);
+      expect(spy_sub).toHaveBeenCalled();
+    });
 
     it('should set tab_selected with tab_name got from internal_data service', () => {
       let textTab:string = 'test';

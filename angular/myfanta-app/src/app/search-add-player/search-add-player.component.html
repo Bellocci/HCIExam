@@ -19,6 +19,7 @@
 </mat-form-field>
 <button mat-raised-button 
 class="text secondary-color mat-elevation-z3"
+*ngIf="input_visible"
 (click)="addPlayer(value_input_text)">
     <mat-icon>add</mat-icon>
     <span>{{ getTabSelected() }}</span>
