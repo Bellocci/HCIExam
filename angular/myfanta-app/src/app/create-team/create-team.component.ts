@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
 import { InternalDataService } from '../internal-data.service';
-import { SharedService } from '../shared.service';
 import { SnackBarService } from '../snack-bar.service';
 
 @Component({
@@ -21,7 +19,6 @@ export class CreateTeamComponent implements OnInit {
   constructor(
     private _snackBar:SnackBarService, 
     private _internal_data:InternalDataService,
-    private _shared:SharedService
   ) { }
 
   ngOnInit(): void {
