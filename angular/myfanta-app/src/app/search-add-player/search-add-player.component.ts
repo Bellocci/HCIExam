@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { InternalDataService } from '../service/internal-data.service';
 import { SharedService } from '../service/shared.service';
+import { TeamDataService } from '../service/team-data.service';
 
 @Component({
   selector: 'app-search-add-player',
@@ -18,7 +19,10 @@ export class SearchAddPlayerComponent implements OnInit {
   players!: any[];
   private _search_players = new Subject<string>();
 
-  constructor(private _shared:SharedService, private _internal_data:InternalDataService) { }
+  constructor(
+    private _shared:SharedService, 
+    private _internal_data:InternalDataService,
+    private _team_data:TeamDataService) { }
 
   ngOnInit(): void {
     this._search_players.pipe(
@@ -58,6 +62,6 @@ export class SearchAddPlayerComponent implements OnInit {
   }
 
   addPlayer(player:any) : void {
-    this._internal_data.addPlayerToTeam(player);
+    this._team_data.addPlayerToTeam(player);
   }
 }

@@ -2,10 +2,11 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { InternalDataService } from 'src/app/service/internal-data.service';
 
-import { InternalDimensionService } from 'src/app/service/internal-dimension.service';
+
 import { TableComponent } from '../table.component';
+import { InternalDimensionService } from 'src/app/service/internal-dimension.service';
+import { TeamDataService } from 'src/app/service/team-data.service';
 
 @Component({
   selector: 'app-table-empty',
@@ -20,11 +21,11 @@ export class TableEmptyComponent extends TableComponent implements AfterViewInit
   @ViewChild(MatSort) sort!:MatSort;
 
   constructor(
-    private internal_dimension_service:InternalDimensionService,
-    private internal_data_service:InternalDataService
+    private _internal_dimension_service:InternalDimensionService,
+    private _team_data:TeamDataService
     ) 
   {
-    super(internal_dimension_service);
+    super(_internal_dimension_service);
   }
   
   ngAfterViewInit(): void {
@@ -35,13 +36,13 @@ export class TableEmptyComponent extends TableComponent implements AfterViewInit
   }
 
   getTeam() {
-    this.internal_data_service.generateTeam().subscribe(players => {
+    this._team_data.generateTeam().subscribe(players => {
       this.dataSource.data = players;
     });
   }
 
   getTeamWithFavoritPlayers() {
-    this.internal_data_service.generateTeamWithFavoritList().subscribe(favorit_players => {
+    this._team_data.generateTeamWithFavoritList().subscribe(favorit_players => {
       this.dataSource.data = favorit_players;
     });
   }

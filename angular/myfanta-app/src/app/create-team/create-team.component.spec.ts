@@ -9,15 +9,13 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { CreateTeamComponent } from './create-team.component';
 import { SnackBarService } from '../service/snack-bar.service';
-import { InternalDataService } from '../service/internal-data.service';
-import { SharedService } from '../service/shared.service';
+import { TeamDataService } from '../service/team-data.service';
 
 describe('CreateTeamComponent', () => {
   let component: CreateTeamComponent;
   let fixture: ComponentFixture<CreateTeamComponent>;
   let snackbar_service:SnackBarService;
-  let internal_data:InternalDataService;
-  let shared: SharedService;
+  let team_data:TeamDataService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -32,8 +30,7 @@ describe('CreateTeamComponent', () => {
       ],
       providers: [
         SnackBarService,
-        InternalDataService,
-        SharedService
+        TeamDataService,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })
@@ -44,8 +41,7 @@ describe('CreateTeamComponent', () => {
     fixture = TestBed.createComponent(CreateTeamComponent);
     component = fixture.componentInstance;
     snackbar_service = TestBed.inject(SnackBarService);
-    internal_data = TestBed.inject(InternalDataService);
-    shared = TestBed.inject(SharedService);
+    team_data = TestBed.inject(TeamDataService);
     fixture.detectChanges();
   });
 
@@ -212,7 +208,7 @@ describe('CreateTeamComponent', () => {
     });
 
     it('should call generateTeam from internal_data service when generateTeam method is called', () => {
-      const spy_generateTeam = spyOn(internal_data, "generateTeam");
+      const spy_generateTeam = spyOn(team_data, "generateTeam");
 
       component.generateTeam();
 
@@ -221,7 +217,7 @@ describe('CreateTeamComponent', () => {
 
     it('should call generateTeamWithFavoritList from internal_data servie when generateTeamWithFavoritList method is called',
     () => {
-      const spy_generateWithFavorit = spyOn(internal_data, "generateTeamWithFavoritList");
+      const spy_generateWithFavorit = spyOn(team_data, "generateTeamWithFavoritList");
 
       component.generateTeamWithFavoritList();
 

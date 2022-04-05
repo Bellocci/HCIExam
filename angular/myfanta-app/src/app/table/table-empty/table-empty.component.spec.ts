@@ -3,10 +3,10 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { of } from 'rxjs';
 
-import { InternalDataService } from 'src/app/service/internal-data.service';
 import { TableEmptyComponent } from './table-empty.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { InternalDimensionService } from 'src/app/service/internal-dimension.service';
+import { TeamDataService } from 'src/app/service/team-data.service';
 
 const GENERATE_PLAYERS_LIST = [
   {
@@ -32,7 +32,7 @@ const GENERATE_PLAYERS_LIST = [
 describe('TableEmptyComponent', () => {
   let component: TableEmptyComponent;
   let fixture: ComponentFixture<TableEmptyComponent>;
-  let internal_data: InternalDataService;
+  let team_data: TeamDataService;
   let internal_dimension: InternalDimensionService;
 
   beforeEach(async () => {
@@ -45,7 +45,7 @@ describe('TableEmptyComponent', () => {
         TableEmptyComponent
       ],
       providers: [
-        InternalDataService,
+        TeamDataService,
         InternalDimensionService
       ]
     })
@@ -55,7 +55,7 @@ describe('TableEmptyComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TableEmptyComponent);
     component = fixture.componentInstance;
-    internal_data = TestBed.inject(InternalDataService);
+    team_data = TestBed.inject(TeamDataService);
     internal_dimension = TestBed.inject(InternalDimensionService);
   });
 
@@ -180,8 +180,8 @@ describe('TableEmptyComponent', () => {
     });
 
     it('testing generateTeam and subscribe methods into getTeam are getting called', fakeAsync(() => {
-      let spy_generate_team = spyOn(internal_data, "generateTeam").and.returnValue(of([]));
-      let spy_sub = spyOn(internal_data.generateTeam(), "subscribe");
+      let spy_generate_team = spyOn(team_data, "generateTeam").and.returnValue(of([]));
+      let spy_sub = spyOn(team_data.generateTeam(), "subscribe");
 
       component.getTeam();
       
@@ -190,7 +190,7 @@ describe('TableEmptyComponent', () => {
     }));
 
     it('should call getTeam and set dataSource with array', fakeAsync(() => {
-      let spy_generate_team = spyOn(internal_data, "generateTeam").and.returnValue(of(GENERATE_PLAYERS_LIST));
+      let spy_generate_team = spyOn(team_data, "generateTeam").and.returnValue(of(GENERATE_PLAYERS_LIST));
 
       component.getTeam();
 
@@ -200,8 +200,8 @@ describe('TableEmptyComponent', () => {
 
     it('testing generateTeamWithFavoritList and subscribe methods into getTeamWithFavoritPlayers are getting called',
       fakeAsync(() => {
-        let spy_generate_favorit = spyOn(internal_data, "generateTeamWithFavoritList").and.returnValue(of([]));
-        let spy_sub = spyOn(internal_data.generateTeamWithFavoritList(), "subscribe");
+        let spy_generate_favorit = spyOn(team_data, "generateTeamWithFavoritList").and.returnValue(of([]));
+        let spy_sub = spyOn(team_data.generateTeamWithFavoritList(), "subscribe");
 
         component.getTeamWithFavoritPlayers();
 
@@ -210,7 +210,7 @@ describe('TableEmptyComponent', () => {
     }));
 
     it('should call getTeamWithFavoritPlayers and set dataSource with array', fakeAsync(() => {
-      let spy_generate_favorit = spyOn(internal_data, "generateTeamWithFavoritList").and.returnValue(of(GENERATE_PLAYERS_LIST));
+      let spy_generate_favorit = spyOn(team_data, "generateTeamWithFavoritList").and.returnValue(of(GENERATE_PLAYERS_LIST));
 
       component.getTeamWithFavoritPlayers();
 

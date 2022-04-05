@@ -3,8 +3,8 @@ import { InternalDimensionService } from 'src/app/service/internal-dimension.ser
 import { of } from 'rxjs';
 
 import { TableBlacklistComponent } from './table-blacklist.component';
-import { InternalDataService } from 'src/app/service/internal-data.service';
-import { MatTableDataSource } from '@angular/material/table';
+import { TeamDataService } from 'src/app/service/team-data.service';
+
 
 const BLACKLIST_PLAYERS = [
   {
@@ -31,7 +31,7 @@ describe('TableBlacklistComponent', () => {
   let component: TableBlacklistComponent;
   let fixture: ComponentFixture<TableBlacklistComponent>;
   let internal_dimension: InternalDimensionService;
-  let internal_data: InternalDataService;
+  let team_data: TeamDataService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -44,7 +44,7 @@ describe('TableBlacklistComponent', () => {
     fixture = TestBed.createComponent(TableBlacklistComponent);
     component = fixture.componentInstance;
     internal_dimension = TestBed.inject(InternalDimensionService);
-    internal_data = TestBed.inject(InternalDataService);
+    team_data = TestBed.inject(TeamDataService);
   });
 
   it('should create', () => {
@@ -134,8 +134,8 @@ describe('TableBlacklistComponent', () => {
 
   describe('ngAfterViewInit', () => {
     it('testing subscribe method from internal_data.getBlacklistPlayers is getting called', fakeAsync(() => {
-      let spy_blacklist = spyOn(internal_data, "getBlacklistPlayers").and.returnValue(of([]));
-      let spy_sub = spyOn(internal_data.getBlacklistPlayers(), "subscribe");
+      let spy_blacklist = spyOn(team_data, "getBlacklistPlayers").and.returnValue(of([]));
+      let spy_sub = spyOn(team_data.getBlacklistPlayers(), "subscribe");
 
       component.ngAfterViewInit();
 
@@ -144,7 +144,7 @@ describe('TableBlacklistComponent', () => {
     }));
 
     it('should set property dataSource.data with array', fakeAsync(() => {
-      let spy_blacklist = spyOn(internal_data, "getBlacklistPlayers").and.returnValue(of(BLACKLIST_PLAYERS));
+      let spy_blacklist = spyOn(team_data, "getBlacklistPlayers").and.returnValue(of(BLACKLIST_PLAYERS));
 
       component.ngAfterViewInit();
 

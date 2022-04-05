@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { InternalDataService } from '../service/internal-data.service';
 import { SnackBarService } from '../service/snack-bar.service';
+import { TeamDataService } from '../service/team-data.service';
 
 @Component({
   selector: 'app-create-team',
@@ -17,8 +17,8 @@ export class CreateTeamComponent implements OnInit {
   private _cols_buttons:number = 0;
 
   constructor(
-    private _snackBar:SnackBarService, 
-    private _internal_data:InternalDataService,
+    private _snackBar:SnackBarService,
+    private _team_data:TeamDataService
   ) { }
 
   ngOnInit(): void {
@@ -76,11 +76,11 @@ export class CreateTeamComponent implements OnInit {
   }
 
   generateTeam() {
-    this._internal_data.generateTeam();
+    this._team_data.generateTeam();
   }
 
   generateTeamWithFavoritList() {
-    this._internal_data.generateTeamWithFavoritList();
+    this._team_data.generateTeamWithFavoritList();
   }
 
   clearErrorMessage() {

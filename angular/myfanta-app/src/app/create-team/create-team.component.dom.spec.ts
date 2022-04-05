@@ -14,7 +14,6 @@ import { FormsModule } from "@angular/forms";
 
 import { CreateTeamComponent } from "./create-team.component";
 import { By } from "@angular/platform-browser";
-import { SharedService } from "../service/shared.service";
 
 const PLAYERS_DATA = [
   {
@@ -35,7 +34,6 @@ describe('CreateTeamComponent DOM', () => {
   let component: CreateTeamComponent;
   let fixture: ComponentFixture<CreateTeamComponent>;
   let loader: HarnessLoader;
-  let shared: SharedService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -49,9 +47,6 @@ describe('CreateTeamComponent DOM', () => {
       declarations: [ 
         CreateTeamComponent 
       ],
-      providers: [
-        SharedService
-      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
@@ -61,7 +56,6 @@ describe('CreateTeamComponent DOM', () => {
     fixture = TestBed.createComponent(CreateTeamComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
-    shared = TestBed.inject(SharedService);
     fixture.detectChanges();
   });
 

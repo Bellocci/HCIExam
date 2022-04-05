@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchAddPlayerComponent } from './search-add-player.component';
 import { SharedService } from '../service/shared.service';
 import { InternalDataService } from '../service/internal-data.service';
+import { TeamDataService } from '../service/team-data.service';
 
 const PLAYERS_DATA = [
   {
@@ -32,6 +33,7 @@ describe('SearchAddPlayerComponent', () => {
   let fixture: ComponentFixture<SearchAddPlayerComponent>;
   let shared: SharedService;
   let internal_data: InternalDataService;
+  let team_data: TeamDataService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -46,7 +48,8 @@ describe('SearchAddPlayerComponent', () => {
       ],
       providers: [
         SharedService,
-        InternalDataService
+        InternalDataService,
+        TeamDataService
       ]
     })
     .compileComponents();
@@ -57,6 +60,7 @@ describe('SearchAddPlayerComponent', () => {
     component = fixture.componentInstance;
     shared = TestBed.inject(SharedService);
     internal_data = TestBed.inject(InternalDataService);
+    team_data = TestBed.inject(TeamDataService);
     fixture.detectChanges();
   });
 
@@ -147,7 +151,7 @@ describe('SearchAddPlayerComponent', () => {
 
     it('should call addPlayerToTeam from internal_data when method addPlayer is called', () => {
       const player_name:string = 'test';
-      const spy_addPlayer = spyOn(internal_data, "addPlayerToTeam");
+      const spy_addPlayer = spyOn(team_data, "addPlayerToTeam");
 
       component.addPlayer(player_name);
 

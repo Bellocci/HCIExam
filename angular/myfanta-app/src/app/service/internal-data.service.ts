@@ -40,22 +40,5 @@ export class InternalDataService {
   getTabSelected() : Observable<string> {
     return this._current_tab;
   }
-
-  generateTeam():Observable<any[]> {
-    return of([]);
-  }
-
-  generateTeamWithFavoritList():Observable<any[]> {
-    return of([]);
-  }
-
-  getBlacklistPlayers():Observable<any[]> {
-    return of([]);
-  }
-
-  addPlayerToTeam(player_name:any) {
-    
-  }
-
   
 }
