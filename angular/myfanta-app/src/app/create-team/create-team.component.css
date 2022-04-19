@@ -1,74 +1,58 @@
 /* HEADER */
 
 .subtitle-position {
-    padding: 34px;
+    padding: 35px;
 }
 
 h1 {
     font-size: 24px;
-    margin: 0;
 }
 
-@media
-(min-width: 800px) and
-(max-width: 1200px) {
-    
-    .subtitle-position {
-        padding: 24px;
-    }
-    h1 {
-        font-size: 20px;
-    }
+/* APP-TABS */
+
+app-tabs {
+    max-width: 750px;
+    width: 95%
 }
 
-@media
-(min-width: 600px) and
-(max-width: 800px) {
-    
-    .subtitle-position {
-        padding: 24px;
-    }
+/* CONTAINER INPUT-ERROR-BTN */
 
-    h1 {
-        font-size: 20px;
-    }
+.container-input-error-btn {
+    height: 100%;
+    margin-top: 150px;
+    margin-left: 40px;
+    margin-right: 40px;
 }
 
-@media
-(min-width: 320px) and
-(max-width: 600px) {
-    
-    header {
-        display: none;
-    }
+/* INPUT AND ERROR CONTAINER*/
+
+.input {
+    margin-bottom: 100px;
+    max-width: 450px;
+    width: 100%;
 }
 
 /* DISPLAY ERROR */
 
 .error-container {
-    display: inline-flex;
+    display: flex;
     border-width: 0.5px;
     border-radius: 7px;
     border-style: solid;
     background-color: #ffcdd2;
-    width: 400px;
+    max-width: 450px;
+    width: 100%;
     color: #b71c1c;
 }
 
 .error-txt {
-    text-align: left;
     margin-top: 10px;
     margin-left: 10px;
     margin-bottom: 10px;
 }
 
-@media
-(min-width: 800px) and
-(max-width: 1200px) {
-
-    #display-error {
-        width: 300px;
-    }
+.icon-close-error {
+    margin-left: 20px;
 }
 
 /* GENERATE BUTTON */
@@ -83,36 +67,114 @@ h1 {
 }
 
 .generate-btn-width {
-    width: 400px;
+    max-width: 450px;
+    width: 100%;
     height: 80px;
 }
 
 .space-between-btn {
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-@media
-(min-width: 800px) and
-(max-width: 1200px) {
-
-    .generate-btn-text {
-        font-size: 16px;
-    }
-    
-    .generate-btn-width {
-        width: 300px;
-        height: 60px;
-    }
-
-    .space-between-btn {
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 /* COLOR */
 
 .secondary-color:hover {
     background-color: #ffffb3;
+}
+
+/* COMMON CLASS */
+
+.no-margin {
+    margin: 0;
+}
+
+/* RESPONSIVE */
+
+@media screen and (1200px >= width >= 601px) {
+ 
+    /* HEADER */
+
+    .subtitle-position {
+        padding: 24px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
+
+@media screen and (1000px >= width >= 801px) {
+
+    /* GENERATE BUTTONS */
+
+    .generate-btn-width {
+        height: 60px;
+    }
+}
+
+@media screen and (800px >= width >= 320px) {
+
+    /* CONTAINER INPUT-ERROR-BTN */
+
+    .container-input-error-btn {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 50px;
+    }
+
+    /* GENERATE BUTTONS */
+
+    .generate-btn-position-mobile {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 50px;
+    }
+
+    .generate-btn-text {
+        font-weight: 500;
+    }
+
+    .space-between-btn {
+        width: 30px;
+    }
+
+    /* APP-TABS */
+
+    app-tabs {
+        width: calc(100% - 50px);
+    }
+}
+
+@media screen and (800px >= width >= 601px) {
+
+    /* GENERATE BUTTONS */
+
+    .generate-btn-text {
+        font-size: 18px;
+    }
+}
+
+@media screen and (800px >= width >= 501px) {
+
+    /* GENERATE BUTTONS */
+
+    .generate-btn-width {
+        min-width: 200px;
+    }
+}
+
+@media screen and (600px >= width >= 320px) {
+
+    /* HEADER */
+
+    header {
+        display: none;
+    }
+
+    /* GENERATE BUTTONS */
+
+    .generate-btn-text {
+        font-size: 16px;
+    }
 }

@@ -51,151 +51,127 @@ describe('CreateTeamComponent', () => {
 
   describe('ngOnInit', () => {
 
-    it('breakpoint value should be 5 when getInnerWidth return a value greater or equal than 800', () => {
-      let width:number = 1000;
-      let spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
-
+    it('should set _rows_tabs equal to 6', () => {
       component.ngOnInit();
-      expect(component.getBreakpoint()).toEqual(5);
 
-      width = 800;
-      spy_window.and.returnValue(width);
-
-      component.ngOnInit();
-      expect(component.getBreakpoint()).toEqual(5);
+      expect(component.getRowsTabs()).toBe(6);
     });
 
-    it('breakpoint value should be 1 when getInnerWidth return a value less than 800', () => {
-      const width:number = 700;
-      const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
+    it('should call setColsRowsMatGrid', () => {
+      const spy_setGrid = spyOn(component, "setColsRowsMatGrid");
 
       component.ngOnInit();
 
-      expect(component.getBreakpoint()).toEqual(1);
-    });
-
-    it('should set number of rows equal to 6', () => {
-      component.ngOnInit();
-
-      expect(component.getRows()).toBe(6);
-    })
-
-    it('cols_tabs value should be 3 when getInnerWidth return a value greater or equal than 800', () => {
-      let width:number = 1000;
-      let spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
-
-      component.ngOnInit();
-      expect(component.getColsTabs()).toEqual(3);
-
-      width = 800;
-      spy_window.and.returnValue(width);
-
-      component.ngOnInit();
-      expect(component.getColsTabs()).toEqual(3);
-    });
-
-    it('cols_tab value should be 1 when getInnerWidth return a value less than 800', () => {
-      const width:number = 700;
-      const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
-
-      component.ngOnInit();
-
-      expect(component.getColsTabs()).toEqual(1);
-    });
-
-    it('cols_buttons value should be 2 when getInnerWidth return a value greater or equal than 800', () => {
-      let width = 1000;
-      let spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
-
-      component.ngOnInit();
-      expect(component.getColsButtons()).toEqual(2);
-
-      width = 800;
-      spy_window.and.returnValue(width);
-
-      component.ngOnInit();
-      expect(component.getColsButtons()).toEqual(2);
-    });
-
-    it('cols_buttons value should be 0 when getInnerWidth return a value less than 800', () => {
-      const width = 700;
-      const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
-
-      component.ngOnInit();
-
-      expect(component.getColsButtons()).toEqual(0);
+      expect(spy_setGrid).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('Methods called by template', () => {
 
-    it('onResize should set breakpoint value to 5 when getInnerWidth return a value greater or equal than 800', () => {
-      let width = 1000;
-      let spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
+    it('should setColsRowsMatGrid method set breakpoint value to 5 when getInnerWidth return a value greater than 801', 
+    () => {
+      const width = 1000;
+      const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
 
-      component.onResize();
-      expect(component.getBreakpoint()).toEqual(5);
-
-      width = 800;
-      spy_window.and.returnValue(width);
-
-      component.onResize();
+      component.setColsRowsMatGrid();
       expect(component.getBreakpoint()).toEqual(5);
     });
 
-    it('onResize should set breakpoint value to 1 when getInnerWidth return a value less than 800', () => {
-      const width = 700;
+    it('should setColsRowsMatGrid method set breakpoint value to 5 when getInnerWidth return a value equal to 801', 
+    () => {
+      const width = 801;
       const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
 
-      component.onResize();
+      component.setColsRowsMatGrid();
+      expect(component.getBreakpoint()).toEqual(5);
+    });
+
+    it('should setColsRowsMatGrid method set breakpoint value to 1 when getInnerWidth return a value less than 801', () => {
+      const width = 800;
+      const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
+
+      component.setColsRowsMatGrid();
 
       expect(component.getBreakpoint()).toEqual(1);
     });
 
-    it('onResize should set cols_tabs value to 3 when getInnerWidth return a value greater than 800', () => {
-      let width = 1000;
-      let spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
+    it('should setColsRowsMatGrid method set cols_tabs value to 3 when getInnerWidth return a value greater than 801', () => {
+      const width = 1000;
+      const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
 
-      component.onResize();
-      expect(component.getColsTabs()).toEqual(3);
-
-      width = 800;
-      spy_window.and.returnValue(width);
-
-      component.onResize();
+      component.setColsRowsMatGrid();
       expect(component.getColsTabs()).toEqual(3);
     });
 
-    it('onResize should set cols_tabs value to 1 when getInnerWidth return a value less than 800', () => {
-      const width = 700;
+    it('should setColsRowsMatGrid method set cols_tabs value to 3 when getInnerWidth return a value equal to 801', () => {
+      const width = 801;
       const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
 
-      component.onResize();
+      component.setColsRowsMatGrid();
+      expect(component.getColsTabs()).toEqual(3);
+    });
+
+    it('should setColsRowsMatGrid method set cols_tabs value to 1 when getInnerWidth return a value less than 801', () => {
+      const width = 800;
+      const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
+
+      component.setColsRowsMatGrid();
 
       expect(component.getColsTabs()).toEqual(1);
     });
 
-    it('onResize should set cols_buttons value to 2 when getInnerWidth return a value greater or equal than 800', () => {
-      let width = 1000;
-      let spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
+    it('should setColsRowsMatGrid method set cols_buttons value to 2 when getInnerWidth return a value greater than 801', () => {
+      const width = 1000;
+      const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
 
-      component.onResize();
-      expect(component.getColsButtons()).toEqual(2);
+      component.setColsRowsMatGrid();
 
-      width = 800;
-      spy_window.and.returnValue(width);
-
-      component.onResize();
       expect(component.getColsButtons()).toEqual(2);
     });
 
-    it('onResize should set cols_buttons value to 0 when getInnerWidth return a value less than 800', () => {
-      const width = 700;
+    it('should setColsRowsMatGrid method set cols_buttons value to 2 when getInnerWidth return a value equal to 801', () => {
+      const width = 801;
       const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
 
-      component.onResize();
+      component.setColsRowsMatGrid();
 
-      expect(component.getColsButtons()).toEqual(0);
+      expect(component.getColsButtons()).toEqual(2);
+    });
+
+    it('should setColsRowsMatGrid method set cols_buttons value to 1 when getInnerWidth return a value less than 801', () => {
+      const width = 800;
+      const spy_window = spyOn(component, 'getInnerWidth').and.returnValue(width);
+
+      component.setColsRowsMatGrid();
+
+      expect(component.getColsButtons()).toEqual(1);
+    });
+
+    it('should setColsRowsMatGrid method set _rows_btns value to 6 when getInnerWidth return a value greatern than 801', () => {
+      const width = 1000;
+      const spy_window = spyOn(component, "getInnerWidth").and.returnValue(width);
+
+      component.setColsRowsMatGrid();
+
+      expect(component.getRowsBtns()).toBe(6);
+    });
+
+    it('should setColsRowsMatGrid method set _rows_btns value to 6 when getInnerWidth return a value equal than 801', () => {
+      const width = 801;
+      const spy_window = spyOn(component, "getInnerWidth").and.returnValue(width);
+
+      component.setColsRowsMatGrid();
+
+      expect(component.getRowsBtns()).toBe(6);
+    });
+
+    it('should setColsRowsMatGrid method set _rows_btns value to 3 when getInnerWidth return a value less than 801', () => {
+      const width = 800;
+      const spy_window = spyOn(component, "getInnerWidth").and.returnValue(width);
+
+      component.setColsRowsMatGrid();
+
+      expect(component.getRowsBtns()).toBe(3);
     });
 
     it('should call openSnackBar method from snack_bar service when method openSnackBar is called', () => {

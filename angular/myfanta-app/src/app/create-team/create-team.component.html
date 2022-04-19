@@ -1,35 +1,74 @@
 <header class="subtitle-position primary-color">
-    <h1>CREATE TEAM</h1>
+    <h1 class="no-margin">CREATE TEAM</h1>
 </header>
-<mat-grid-list [cols]="getBreakpoint()" rowHeight="100px" (window:resize)="onResize()">
-    <mat-grid-tile [colspan]="getColsTabs()" [rowspan]="getRows()">
-        <app-tabs></app-tabs>
-    </mat-grid-tile>
-    <mat-grid-tile [colspan]="getColsButtons()" [rowspan]="getRows()">
-        <div class="input">
-            <app-search-add-player></app-search-add-player>
-            <div id="display-error" *ngIf="getErrorMessage() != ''">
-                <div class="error-container">
-                    <span class="text error-txt">{{ getErrorMessage() }}</span>
-                    <button *ngIf="getErrorMessage()" mat-icon-button aria-label="Clear" 
-                    (click)="clearErrorMessage()">
-                        <mat-icon>close</mat-icon>
-                    </button>
+<mat-grid-list [cols]="getBreakpoint()" rowHeight="100px" (window:resize)="setColsRowsMatGrid()">
+    <mat-grid-tile [colspan]="getColsButtons()" [rowspan]="getRowsBtns()"
+    *ngIf="isLayoutMobile()">
+        <div class="container-input-error-btn">
+            <div class="generate-btn-position-mobile">
+                <button mat-raised-button 
+                class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
+                (click)="generateTeam()">
+                    Generate Team
+                </button>
+                <div class="space-between-btn no-margin"></div>
+                <button mat-raised-button 
+                class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
+                (click)="generateTeamWithFavoritList()">
+                    <p class="no-margin">Generate Team </p>
+                    <h4 class="no-margin">with favorit list</h4>
+                </button>
+            </div>
+            <div class="input">
+                <app-search-add-player></app-search-add-player>
+                <div id="display-error" *ngIf="getErrorMessage() != ''">
+                    <div class="error-container">
+                        <span class="text error-txt">{{ getErrorMessage() }}</span>
+                        <button mat-icon-button aria-label="Clear"
+                        *ngIf="getErrorMessage()"
+                        class="icon-close-error" 
+                        (click)="clearErrorMessage()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="generate-btn-position">
-            <button mat-raised-button 
-            class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
-            (click)="generateTeam()">
-                Generate Team
-            </button>
-            <div class="space-between-btn"></div>
-            <button mat-raised-button 
-            class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
-            (click)="generateTeamWithFavoritList()">
-                Generate Team with favorit list
-            </button>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="getColsTabs()" [rowspan]="getRowsTabs()">
+        <app-tabs></app-tabs>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="getColsButtons()" [rowspan]="getRowsBtns()"
+    *ngIf="!isLayoutMobile()">
+        <div class="container-input-error-btn">
+            <div class="input">
+                <app-search-add-player></app-search-add-player>
+                <div id="display-error" *ngIf="getErrorMessage() != ''">
+                    <div class="error-container">
+                        <span class="text error-txt">{{ getErrorMessage() }}</span>
+                        <button mat-icon-button aria-label="Clear" 
+                        class="icon-close-error" 
+                        *ngIf="getErrorMessage()"
+                        (click)="clearErrorMessage()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="generate-btn-position">
+                <button mat-raised-button 
+                class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
+                (click)="generateTeam()">
+                    Generate Team
+                </button>
+                <div class="space-between-btn"></div>
+                <button mat-raised-button 
+                class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
+                (click)="generateTeamWithFavoritList()">
+                    <p class="no-margin">Generate Team </p>
+                    <h4 class="no-margin">with favorit list</h4>
+                </button>
+            </div>
         </div>
     </mat-grid-tile>
 </mat-grid-list>
