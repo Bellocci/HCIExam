@@ -92,24 +92,30 @@ describe('SearchAddPlayerComponent', () => {
 
       expect(component.players).toEqual(players_matched);
     }));
+  });
 
-    it('testing subscribe method of getTabSelected from internal_data service', () => {
+  describe('ngAterViewInit', () => {
+    
+    it('testing subscribe method of getTabSelected from internal_data service', fakeAsync(() => {
       const textTab = 'test';
+      
       const spy_getTab = spyOn(internal_data, "getTabSelected").and.returnValue(of(textTab));
       const spy_sub = spyOn(internal_data.getTabSelected(), "subscribe");
 
-      component.ngOnInit();
+      component.ngAfterViewInit();
+      tick();
 
       expect(spy_getTab).toHaveBeenCalledBefore(spy_sub);
       expect(spy_sub).toHaveBeenCalled();
-    });
+    }));
 
-    it('should set tab_selected with tab_name got from internal_data service', () => {
+    it('should set tab_selected with tab_name got from internal_data service', fakeAsync(() => {
       let textTab:string = 'test';
       const spy_getTab = spyOn(internal_data, "getTabSelected").and.returnValue(of(textTab));
       fixture.detectChanges();
 
-      component.ngOnInit();
+      component.ngAfterViewInit();
+      tick();
 
       expect(component.getTabSelected()).toEqual(textTab);
 
@@ -117,34 +123,47 @@ describe('SearchAddPlayerComponent', () => {
       spy_getTab.and.returnValue(of(textTab));
       fixture.detectChanges();
 
-      component.ngOnInit();
+      component.ngAfterViewInit();
+      tick();
 
       expect(component.getTabSelected()).toEqual(textTab);
-    });
+    }));
 
-    it('should set inputVisible to true when tab_name is not equal to Options', 
-    () => {
+    it('should set value_input_text to empty string when got tab_selected from internal_data service', fakeAsync(() => {
+      component.value_input_text = 'test';
+      const text_tab = 'tab_test';
+      const spy_getTab = spyOn(internal_data, "getTabSelected").and.returnValue(of(text_tab));
+      fixture.detectChanges();
+
+      component.ngAfterViewInit();
+      tick();
+
+      expect(component.value_input_text).toBe('');
+    }));
+
+    it('should set input_visible to true when tab_name is not equal to Options', fakeAsync(() => {
       const textTab:string = 'test';
       component.input_visible = false;
       const spy_getTab = spyOn(internal_data, "getTabSelected").and.returnValue(of(textTab));
       fixture.detectChanges();
 
-      component.ngOnInit();
+      component.ngAfterViewInit();
+      tick();
 
       expect(component.input_visible).toBeTrue();
-    });
+    }));
 
-    it('should set inputVisible to false when tab_name is equal to Options', 
-    () => {
+    it('should set input_visible to false when tab_name is equal to Options', fakeAsync(() => {
       const textTab:string = 'Options';
       component.input_visible = true;
       const spy_getTab = spyOn(internal_data, "getTabSelected").and.returnValue(of(textTab));
       fixture.detectChanges();
 
-      component.ngOnInit();
+      component.ngAfterViewInit();
+      tick();
 
       expect(component.input_visible).toBeFalse();
-    });
+    }));
   });
 
   describe('Methods called from template', () => {
@@ -156,6 +175,15 @@ describe('SearchAddPlayerComponent', () => {
       component.addPlayer(player_name);
 
       expect(spy_addPlayer).toHaveBeenCalled();
+    });
+
+    it('should set value_input_text as empty string when addPlayer method is called', () => {
+      component.value_input_text = 'test';
+      const player_name:string = 'test';
+
+      component.addPlayer(player_name);
+
+      expect(component.value_input_text).toBe('');
     });
 
     it('testing next method of _search_players when searchPlayer is called', () => {

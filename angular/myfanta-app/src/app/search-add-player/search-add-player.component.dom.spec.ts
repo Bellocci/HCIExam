@@ -18,6 +18,7 @@ import { FormsModule } from "@angular/forms";
 
 import { SearchAddPlayerComponent } from "./search-add-player.component";
 import { SharedService } from "../service/shared.service";
+import { MatButtonHarness } from "@angular/material/button/testing";
 
 const PLAYER_AUTOCOMPLETE = [
     {
@@ -101,8 +102,8 @@ describe('SearchAddPlayerComponent DOM', () => {
           await input.setValue('a');
     
           const autocomplete = await loader.getHarness(MatAutocompleteHarness);
-    
           const options = await autocomplete.getOptions();
+          
           expect(options.length).toBe(3);
           expect(await options[0].getText()).toBe('Andrea Belotti');
           expect(await options[1].getText()).toBe('Dusan Vlahovic');
@@ -249,6 +250,7 @@ describe('SearchAddPlayerComponent DOM', () => {
         it('should call addPlayer method when button add is clicked', () => {
             const spy_addPlayer = spyOn(component, "addPlayer");
             const btn_txt:string = 'addtest';
+            component.value_input_text = 'test';
             const spy_tabSelected = spyOn(component, "getTabSelected").and.returnValue('test');
             fixture.detectChanges();
         
@@ -317,6 +319,26 @@ describe('SearchAddPlayerComponent DOM', () => {
         
             const btns_list = fixture.debugElement.queryAll(By.css('button'));
             expect(findButton(btns_list, btn_txt)).toBeFalse();
+        });
+
+        it('should disable add button when value_input_text is an empty string', async () => {
+          const input = await loader.getHarness(MatInputHarness);
+          await input.setValue('');
+
+          const btn_add = await loader.getAllHarnesses(MatButtonHarness.with({text: 'add'}));
+
+          expect(btn_add.length).toBe(1);
+          expect(await btn_add[0].isDisabled()).toBeTrue();
+        });
+
+        it('should not disable add button when value_input_text is not an empty string', async () => {
+          const input = await loader.getHarness(MatInputHarness);
+          await input.setValue('test');
+
+          const btn_add = await loader.getAllHarnesses(MatButtonHarness.with({text: 'add'}));
+
+          expect(btn_add.length).toBe(1);
+          expect(await btn_add[0].isDisabled()).toBeFalse();
         });
     });
 })

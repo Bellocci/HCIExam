@@ -18,7 +18,8 @@
     </button>
 </mat-form-field>
 <button mat-raised-button 
-class="text secondary-color mat-elevation-z3"
+class="text secondary-color mat-elevation-z3 add-btn"
+[disabled]="value_input_text == ''"
 *ngIf="input_visible"
 (click)="addPlayer(value_input_text)">
     <mat-icon>add</mat-icon>

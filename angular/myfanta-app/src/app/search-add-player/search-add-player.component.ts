@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { debounceTime, distinctUntilChanged, Subject, switchMap} from 'rxjs';
 import { InternalDataService } from '../service/internal-data.service';
 import { SharedService } from '../service/shared.service';
 import { TeamDataService } from '../service/team-data.service';
@@ -9,7 +9,7 @@ import { TeamDataService } from '../service/team-data.service';
   templateUrl: './search-add-player.component.html',
   styleUrls: ['./search-add-player.component.css']
 })
-export class SearchAddPlayerComponent implements OnInit {
+export class SearchAddPlayerComponent implements OnInit, AfterViewInit {
 
   private _tab_selected:string = '';
   input_visible:boolean = true;
@@ -25,6 +25,7 @@ export class SearchAddPlayerComponent implements OnInit {
     private _team_data:TeamDataService) { }
 
   ngOnInit(): void {
+
     this._search_players.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
@@ -38,11 +39,20 @@ export class SearchAddPlayerComponent implements OnInit {
         this.players = players;
       }
     );
+  }
 
+  ngAfterViewInit(): void {
+    Promise.resolve().then(() => {
+      this.subscribeTabSelected();
+    })
+  }
+
+  private subscribeTabSelected() : void {
     this._internal_data.getTabSelected().subscribe((tab_name) => {
       this._tab_selected = tab_name;
+      this.value_input_text = '';
       this.setInputVible(tab_name);
-    })
+    });
   }
 
   private setInputVible(textTab:string) {
@@ -62,6 +72,7 @@ export class SearchAddPlayerComponent implements OnInit {
   }
 
   addPlayer(player:any) : void {
+    this.value_input_text = '';
     this._team_data.addPlayerToTeam(player);
   }
 }
