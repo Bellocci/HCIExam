@@ -104,7 +104,7 @@ describe("ToolbarMobileComponent DOM", () => {
     describe('max-width : 800px', () => {
 
         beforeEach(() => {
-            window.innerWidth = 500;
+            window.innerWidth = 800;
         });
 
         describe('Template elements', () => {

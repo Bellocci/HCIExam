@@ -103,10 +103,10 @@ describe('ToolbarBaseComponent DOM', () => {
         internal_data = TestBed.inject(InternalDataService);
     });
 
-    describe('min-width : 800px', () => {
+    describe('min-width : 801px', () => {
         
         beforeEach(() => {
-            window.innerWidth = 800;
+            window.innerWidth = 801;
         });
 
         describe("Template elements", () => {

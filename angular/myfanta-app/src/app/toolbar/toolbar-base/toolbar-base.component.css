@@ -52,7 +52,7 @@
 }
 
 @media
-    (min-width: 800px) and
+    (min-width: 801px) and
     (max-width: 1200px) {
 
         .toolbar-two-element {

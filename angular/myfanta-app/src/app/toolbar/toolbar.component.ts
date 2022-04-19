@@ -31,7 +31,7 @@ export class ToolbarComponent implements OnInit {
 
     this.getChampionshipSelected();
 
-    this.is_mobile = window.innerWidth < 800;
+    this.is_mobile = window.innerWidth < 801;
   }
 
   ngOnDestroy(): void {
@@ -58,7 +58,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   isMobileLayout(event:any) {
-    this.is_mobile = event.target.innerWidth < 800 ? true : false;
+    this.is_mobile = event.target.innerWidth < 801 ? true : false;
   }
 
   openSidenav() {

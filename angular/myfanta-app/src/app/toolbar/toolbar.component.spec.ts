@@ -167,7 +167,7 @@ describe('ToolbarComponent', () => {
       expect(component.championshipsList).toEqual(CHAMPIONSHIP_DATA);
     });
 
-    it('should set is_mobile to false when window is greater than 800', () => {
+    it('should set is_mobile to false when window is greater than 801', () => {
       window.innerWidth = 1500;
       fixture.detectChanges();
 
@@ -176,8 +176,8 @@ describe('ToolbarComponent', () => {
       expect(component.is_mobile).toBeFalse();
     });
 
-    it('should set is_mobile to false when window is equalt to 800', () => {
-      window.innerWidth = 800;
+    it('should set is_mobile to false when window is equalt to 801', () => {
+      window.innerWidth = 801;
       fixture.detectChanges();
 
       component.ngOnInit();
@@ -185,8 +185,8 @@ describe('ToolbarComponent', () => {
       expect(component.is_mobile).toBeFalse();
     });
 
-    it('should set is_mobile to true when window is less than 800', () => {
-      window.innerWidth = 700;
+    it('should set is_mobile to true when window is less than 801', () => {
+      window.innerWidth = 800;
       fixture.detectChanges(),
 
       component.ngOnInit();
