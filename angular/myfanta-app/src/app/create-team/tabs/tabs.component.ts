@@ -1,35 +1,204 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
-import { InternalDimensionService } from 'src/app/service/internal-dimension.service';
+import { InternalDataService } from 'src/app/service/internal-data.service';
+import { SharedService } from 'src/app/service/shared.service';
+import { SnackBarService } from 'src/app/service/snack-bar.service';
+import { TeamDataService } from 'src/app/service/team-data.service';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.css']
 })
-export class TabsComponent implements OnInit {
+export class TabsComponent implements OnInit, AfterViewInit {
 
-  @Output() tab_selected = new EventEmitter<string>();
+  constructor(
+    private _internal_data:InternalDataService,
+    private _team_data:TeamDataService,
+    private _snack_bar:SnackBarService,
+    private _shared:SharedService
+  ) { }
+
   @ViewChild('tab_group') private tab_group!:MatTabGroup;
+  private _tab_selected:string = '';
 
-  constructor(private internal_dimension:InternalDimensionService) { }
+  private _disable_clear_team_btn: boolean = false;
+  private _clear_btn_blacklist_disabled: boolean = false;
+  private _save_btn_disabled: boolean = false;
+
+  private _player_selected: any = null;
+
+  private _breakpoint: number = 0;
+  private _rows_table: number = 0;
+  private _cols_table:number = 0;
+  private _rows_btns:number = 0;
+  private _cols_btns:number = 0;
+
+  row_height:number = 100;
 
 
   ngOnInit(): void {
-    let height = 350;
-    this.internal_dimension.setTableHeight(height);
-    this.internal_dimension.setOptionsHeight(height);
-
-    let width = 450;
-    this.internal_dimension.setTableWidth(width);
-    this.internal_dimension.setOptionsWidth(width);
+    this._cols_btns = 1;
+    this._rows_table = 5;
+    this.setColsAndRowsMatGrid();
+    
+    this.subscribePlayerSelected();
+    this.subscribeDisableClearTeamBtn();
+    this.subscribeSaveBtnDisabled();
+    this.subscribeClearBlacklistBtnDisabled();
   }
 
-  ngAfterViewInit():void {
-    this.tab_selected.emit(this.tab_group._tabs.first.textLabel);
+  ngAfterViewInit(): void {
+    const tab_name = this.tab_group?._tabs?.first.textLabel;
+    this._internal_data.setTabSelected(tab_name);
+
+    this._internal_data.getTabSelected().subscribe((tab:string) => {
+      this._tab_selected = tab;
+    });
   }
 
-  tabClick(event:any) {
-    this.tab_selected.emit(event.tab.textLabel)
+  /* PRIVATE METHODS */
+
+  private subscribePlayerSelected() : void {
+    this._internal_data.getPlayerSelected().subscribe((player:any) => {
+      this._player_selected = player;
+    });
+  }
+
+  private subscribeDisableClearTeamBtn() : void {
+    this._internal_data.isDisabledClearTeamBtn().subscribe((is_disable:boolean) => {
+      this._disable_clear_team_btn = is_disable;
+    });
+  }
+
+  private subscribeSaveBtnDisabled() : void {
+    this._internal_data.isSaveBtnDisabled().subscribe((is_disabled) => {
+      this._save_btn_disabled = is_disabled;
+    });
+  }
+
+  private subscribeClearBlacklistBtnDisabled() : void {
+    this._internal_data.isClearBlacklistBtnDisabled().subscribe((is_disabled) => {
+      this._clear_btn_blacklist_disabled = is_disabled;
+    }); 
+  }
+
+  /* GETTER METHODS */
+
+  getInnerWidth() : number {
+    return window.innerWidth;
+  }
+
+  getRowsTable() : number {
+    return this._rows_table;
+  }
+
+  getRowHeight() : number {
+    return this.row_height;
+  }
+
+  getRowsBtns() : number {
+    return this._rows_btns;
+  }
+
+  getBreakpoint() : number {
+    return this._breakpoint;
+  }
+
+  getColumnTable() : number {
+    return this._cols_table;
+  }
+
+  getColumnButtons() : number {
+    return this._cols_btns;
+  }
+
+  getTabSelected() : string {
+    return this._tab_selected;
+  }
+
+  getPlayerSelected() : any {
+    return this._player_selected;
+  }
+
+  /* SETTER METHOD */
+
+  setTab(tab_name:string) : void {
+    this._internal_data.setTabSelected(tab_name);
+  }
+
+  setPlayerSelected() : void {
+    this._internal_data.setPlayerSelected(null);
+  }
+
+  setColsAndRowsMatGrid() : void {
+    this._breakpoint = this.getInnerWidth() >= 501 ? 4
+      : 1;
+    this._cols_table = this.getInnerWidth() >= 501 ? 3 
+      : 1;
+    this._rows_btns = this.getInnerWidth() >= 1000 ? 5
+      : this.getInnerWidth() >= 501 ? 4
+      : 1;
+  }
+  
+  /* METHODS */
+
+  isDisableClearTeamBtn() : boolean {
+    return this._disable_clear_team_btn;
+  }
+
+  isBreakpointOneColumn() : boolean {
+    return this.getBreakpoint() == 1 ? true : false;
+  }
+
+  clearAll() : void {
+      this._tab_selected == 'Team' && !this.isDisableClearTeamBtn() ? this._team_data.clearTeam() 
+        : this._tab_selected == 'Blacklist' && !this.isClearBlacklistBtnDisabled() ? this._team_data.clearBlacklist()
+        : this._snack_bar.openSnackBarError("Errore: impossibile rimuovere tutti i giocatori dalla lista.");
+  }
+
+  isPlayerSelected() : boolean {
+    return this._player_selected != null ? true : false;
+  }
+  
+  removePlayer() : void {
+    if(this._player_selected != null) {
+      this._tab_selected == 'Team' ? this._team_data.removePlayerFromTeam(this._player_selected)
+        : this._tab_selected == 'Blacklist' ? this._team_data.removePlayerFromBlacklist(this._player_selected)
+        : this._snack_bar.openSnackBarError("Errore: il tab selezionato non esiste. Impossibile eseguire l'operazione 'Remove'");
+    }
+    else {
+      this._snack_bar.openSnackBarError("Nessun giocatore è stato selezionato. Impossibile eseguire l'operazione");
+    }
+  }
+
+  moveToBlacklist() : void {
+    if(this._player_selected != null) {
+      this._tab_selected == 'Team' ? this._team_data.addToBlacklistFromTeam(this._player_selected)
+        : this._snack_bar.openSnackBarError("Errore: il tab selezionato non esiste. Impossibile eseguire l'operazione");
+    }
+    else {
+      this._snack_bar.openSnackBarError("Nessun giocatore è stato selezionato. Impossibile eseguire l'operazione");
+    }
+  }
+
+  resetOptions() : void {
+    this._shared.resetOptions();
+  }
+
+  isClearBlacklistBtnDisabled() : boolean {
+    return this._clear_btn_blacklist_disabled ? true : false;
+  }
+
+  isSaveBtnDisabled() : boolean {
+    return this._save_btn_disabled ? true : false;
+  }
+
+  saveOptions() : void {
+    this._internal_data.saveOptions();
+  }
+
+  isLayoutMobile() : boolean {
+    return this.getInnerWidth() < 801 ? true : false;
   }
 }
