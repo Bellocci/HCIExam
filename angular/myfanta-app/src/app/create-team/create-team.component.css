@@ -62,8 +62,13 @@ app-tabs {
 }
 
 .generate-btn-text {
+    padding-top: 5px;
     font-size: 20px;
     font-weight: 400;
+}
+
+.generate-btn-text:hover {
+    font-weight: bold;
 }
 
 .generate-btn-width {
@@ -89,6 +94,10 @@ app-tabs {
     margin: 0;
 }
 
+.sub-text {
+    font-size: 16px;
+}
+
 /* RESPONSIVE */
 
 @media screen and (1200px >= width >= 601px) {
@@ -101,15 +110,6 @@ app-tabs {
 
     h1 {
         font-size: 20px;
-    }
-}
-
-@media screen and (1000px >= width >= 801px) {
-
-    /* GENERATE BUTTONS */
-
-    .generate-btn-width {
-        height: 60px;
     }
 }
 
@@ -142,7 +142,7 @@ app-tabs {
     /* APP-TABS */
 
     app-tabs {
-        width: calc(100% - 50px);
+        width: calc(100% - 10px);
     }
 }
 
