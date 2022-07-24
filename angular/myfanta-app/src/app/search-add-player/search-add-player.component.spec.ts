@@ -168,6 +168,36 @@ describe('SearchAddPlayerComponent', () => {
 
   describe('Methods called from template', () => {
 
+    it('should isValueInputTextEmpty method return true if value_input_text is an empty string', () => {
+      component.value_input_text = '';
+      
+      expect(component.isValueInputTextEmpty()).toBeTrue();
+    });
+
+    it('should isValueInputTextEmpty method return true if value_input_text has only empty space characters', () => {
+      component.value_input_text = '  ';
+      
+      expect(component.isValueInputTextEmpty()).toBeTrue();
+    });
+
+    it('should isValueInputTextEmpty method return true if value_input_text has only tab characters', () => {
+      component.value_input_text = '\t\t';
+      
+      expect(component.isValueInputTextEmpty()).toBeTrue();
+    });
+
+    it('should isValueInputTextEmpty method return false if value_input_text is not an empty string', () => {
+      component.value_input_text = 'test';
+      
+      expect(component.isValueInputTextEmpty()).toBeFalse();
+    });
+
+    it('should isValueInputTextEmpty method return false if value_input_text is not an empty string and first character is space', () => {
+      component.value_input_text = ' test';
+      
+      expect(component.isValueInputTextEmpty()).toBeFalse();
+    });
+
     it('should call addPlayerToTeam from internal_data when method addPlayer is called', () => {
       const player_name:string = 'test';
       const spy_addPlayer = spyOn(team_data, "addPlayerToTeam");
@@ -198,6 +228,14 @@ describe('SearchAddPlayerComponent', () => {
     it('should return true when filterText method is called with alphabetic character parameter', () => {
       const event = new KeyboardEvent("keypress", {
         "key": "b",
+      });
+
+      expect(component.filterText(event)).toBeTrue();
+    });
+
+    it('should return true when filterText method is called with space parameter', () => {
+      const event = new KeyboardEvent("keypress", {
+        "key": " ",
       });
 
       expect(component.filterText(event)).toBeTrue();
