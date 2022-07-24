@@ -1,0 +1,138 @@
+/* MatTabGroup */
+
+mat-tab-group {
+    min-width: 300px;
+}
+
+/* MatTabLabel */
+
+::ng-deep.mat-tab-label {
+    opacity: 1 !important;
+    font-size: 16px;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+}
+
+::ng-deep.mat-tab-label:hover {
+    background-color: #b6e3ff;
+    font-weight: bold;
+}
+
+::ng-deep.mat-tab-label.mat-tab-label-active {
+    background-color: #b6e3ff;
+    font-weight: bold;
+}
+
+::ng-deep.mat-ink-bar {
+    background-color: #4d82cb !important;
+}
+
+@media screen and (1000px >= width >= 801px) {
+    
+    ::ng-deep.mat-tab-label {
+        font-size: 14px;
+        min-width: 150px !important;
+    }
+}
+
+@media screen and (800px >= width >= 320px) {
+
+    mat-tab-group {
+        margin-top: 100px;
+    }
+}
+
+
+/* Table container */
+
+.table-container {
+    margin-left: 20px;
+    width: 100%;
+    max-height: 400px;
+    height: 100%;
+    overflow: auto;
+}
+
+@media screen and (500px >= width >= 320px) {
+
+    .container-single-tile {
+        display: flex;
+        width: 95%;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-top: 70px;
+        padding-left: 10px;
+    }
+
+    .table-container {
+        margin-left: 0;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        max-height: max-content;
+    }
+
+}
+
+/* Buttons */
+
+button {
+    max-width: 120px;
+    width: 100%;
+}
+
+.tile-btns {
+    display: grid;
+    align-self: flex-start;
+    margin-top: 50px;
+    row-gap: 100px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.btn-tab-team-position {
+    display: grid;
+    row-gap: 10px;
+}
+
+@media screen and (500px >= width >= 320px) {
+
+    /* BUTTONS */
+
+    button {
+        min-width: 80px;
+        font-size: 14px;
+    }
+
+    .operation-btn {
+        align-self: flex-start;
+    }
+
+    .display-inline-btn {
+        display: inline-flex;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .distance-inline-btns {
+        width: 70%;
+    }
+}
+
+/* Font */
+
+.text:hover {
+    font-weight: bold;
+}
+
+.text:disabled:hover {
+    font-weight: 400;
+}
+
+/* Color */
+
+.secondary-color:hover {
+    background-color: #ffffb3;
+}
+
+.secondary-color:disabled:hover {
+    background-color: rgba(0,0,0,.12) !important;
+}

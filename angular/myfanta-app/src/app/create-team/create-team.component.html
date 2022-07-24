@@ -1,0 +1,74 @@
+<header class="subtitle-position primary-color">
+    <h1 class="no-margin">CREATE TEAM</h1>
+</header>
+<mat-grid-list [cols]="getBreakpoint()" rowHeight="100px" *ngIf="!isLayoutMobile()">
+    <mat-grid-tile [colspan]="getColsTabs()" [rowspan]="getRows()">
+        <app-tabs></app-tabs>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="getColsButtons()" [rowspan]="getRows()">
+        <div class="container-input-error-btn">
+            <div class="input">
+                <app-search-add-player></app-search-add-player>
+                <div id="display-error" *ngIf="getErrorMessage() != ''">
+                    <div class="error-container">
+                        <span class="text error-txt">{{ getErrorMessage() }}</span>
+                        <button mat-icon-button aria-label="Clear" 
+                        class="icon-close-error" 
+                        *ngIf="getErrorMessage()"
+                        (click)="clearErrorMessage()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="generate-btn-position">
+                <button mat-raised-button 
+                class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
+                (click)="generateTeam()">
+                    Generate Team
+                </button>
+                <div class="space-between-btn"></div>
+                <button mat-raised-button 
+                class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
+                (click)="generateTeamWithFavoritList()">
+                    <p class="no-margin">Generate Team </p>
+                    <p class="sub-text">with favorit list</p>
+                </button>
+            </div>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<div *ngIf="isLayoutMobile()">
+    <div class="container-input-error-btn">
+        <div class="generate-btn-position-mobile">
+            <button mat-raised-button 
+            class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
+            (click)="generateTeam()">
+                Generate Team
+            </button>
+            <div class="space-between-btn no-margin"></div>
+            <button mat-raised-button 
+            class="generate-btn-text generate-btn-width secondary-color mat-elevation-z3"
+            (click)="generateTeamWithFavoritList()">
+                <p class="no-margin">Generate Team </p>
+                <p class="sub-text">with favorit list</p>
+            </button>
+        </div>
+        <div class="input">
+            <app-search-add-player></app-search-add-player>
+            <div id="display-error" *ngIf="getErrorMessage() != ''">
+                <div class="error-container">
+                    <span class="text error-txt">{{ getErrorMessage() }}</span>
+                    <button mat-icon-button aria-label="Clear"
+                    *ngIf="getErrorMessage()"
+                    class="icon-close-error" 
+                    (click)="clearErrorMessage()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-tabs></app-tabs>
+</div>

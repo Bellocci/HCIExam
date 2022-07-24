@@ -1,0 +1,56 @@
+/* Sidenav settings */
+
+.sidenav-container {
+    height: 100%;
+}
+
+.sidenav {
+    width: 300px;
+}
+
+.sidenav .mat-toolbar {
+    background: inherit;
+}
+
+@media
+    (min-width: 320px) and
+    (max-width: 500px) {
+
+        .sidenav {
+            width: 60%;
+        }
+}
+
+/* Navbar element */
+
+.mat-expansion-panel {
+    border-top: 2px black;
+}
+
+.mat-expansion-panel-header {
+    border-style: solid;
+    border-bottom: 2px !important;
+    border-width: 0.5px;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+    background: #FFCF82 !important;
+}
+
+/* Color  */
+
+.mat-expansion-panel-header:hover {
+    background-color: #ffffb3    !important;
+}
+
+/* Icon */
+
+.icon {
+    padding-right: 10px;
+}
+
+/* Text */
+
+.text:hover {
+    font-weight: 600;
+}

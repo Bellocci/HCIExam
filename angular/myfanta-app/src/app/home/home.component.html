@@ -13,66 +13,31 @@
 
 <h2 class = "subtitle-position subtitle-font">Click the sport and choose your championship</h2>
 
-<div class="padding-home" [ngClass]="panelOpenState == true ? 'grid-expansion-panel-open' : 'grid-expansion-panel-close'">  
-    <mat-accordion>
-        <mat-expansion-panel class="mat-elevation-z9" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header [collapsedHeight]="'80px'" class="primary-color">
-                <mat-panel-title class="text" id="text-interactive">
-                    <div>
-                        Football
-                    </div>
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="link element-panel element-color">
-                <a mat-list-item class="text" id="text-interactive" (click)="sendChampionshipSelected('Serie A')" link="#">
-                    <mat-icon class="icon">arrow_right</mat-icon>
-                    Serie A
-                </a>
+<div class="padding-home grid-expansion-panel">  
+    <div *ngFor="let sport of sportsList">
+        <button mat-raised-button
+        class="primary-color mat-elevation-z6 btn-color text btn-width text-interactive"
+        [ngClass]="!isActiveBtn(sport.sportName) ? 'btn-sport-close' : 'btn-sport-open'"
+        (click)="toggleSportBtn($event.target)">
+            <span class="txt-btn">{{sport.sportName}}</span>
+            <mat-icon class="icon-btn arrow-down-animation"
+            [ngClass]="isActiveBtn(sport.sportName) ? 'icon-open-btn' : 'icon-close-btn'"
+            (click)="toggleSportBtnFromIcon($event.target)">keyboard_arrow_down</mat-icon>
+        </button>
+        <div class="mat-elevation-z6 btn-width">
+            <div *ngFor="let champ of championshipsList">
+                <div class="color" 
+                [@champListAnimation]="isActiveBtn(sport.sportName) ? 'openList' : 'closeList'">
+                    <a mat-list-item class="txt-btn text-interactive link"
+                    [@champElement]="isActiveBtn(sport.sportName) ? 'show' : 'hide'"
+                    *ngIf="filterChampionship(champ, sport) && isActiveBtn(sport.sportName)"
+                    (click)="setChampionshipSelected(champ.championshipName); setActivePage('Create team')"
+                    routerLink="createTeam">
+                        <mat-icon class="icon-champ">arrow_right</mat-icon>
+                        {{ champ.championshipName }}
+                    </a>
+                </div>
             </div>
-            <mat-divider></mat-divider>
-            <div class="link element-panel element-color">
-                <a mat-list-item class="text" id="text-interactive" (click)="sendChampionshipSelected('Premier League')" link="#">
-                    <mat-icon class="icon">arrow_right</mat-icon>
-                    Premier League
-                </a>
-            </div>
-            <mat-divider></mat-divider>
-        </mat-expansion-panel>
-    </mat-accordion>
-    <mat-accordion>
-        <mat-expansion-panel class="mat-elevation-z9" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header [collapsedHeight]="'80px'" class="primary-color">
-                <mat-panel-title class="text" id="text-interactive">
-                    <div>
-                        Volleyball
-                    </div>
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="link element-panel element-color">
-                <a mat-list-item class="text" id="text-interactive" (click)="sendChampionshipSelected('Serie A Female')" link="#">
-                    <mat-icon  class="icon">arrow_right</mat-icon>
-                    Serie A Female
-                </a>
-            </div>
-            <mat-divider></mat-divider>
-        </mat-expansion-panel>
-    </mat-accordion>
-    <mat-accordion>
-        <mat-expansion-panel class="mat-elevation-z9" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header [collapsedHeight]="'80px'" class="primary-color">
-                <mat-panel-title class="text" id="text-interactive">
-                    <div>
-                        Basketball
-                    </div>
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="link element-panel element-color">
-                <a mat-list-item class="text" id="text-interactive" (click)="sendChampionshipSelected('NBA')" link="#">
-                    <mat-icon class="icon">arrow_right</mat-icon>
-                    NBA
-                </a>
-            </div>
-            <mat-divider></mat-divider>
-        </mat-expansion-panel>
-    </mat-accordion>
+        </div>
+    </div>
 </div>

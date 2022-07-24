@@ -1,0 +1,86 @@
+/* INPUT */
+
+.form-field {
+    margin: 0;
+    padding-right: 3%;
+    max-width: 300px;
+    width: 70%;
+}
+
+/* ADD BUTTON */
+
+.add-btn {
+    font-size: 18px;
+    font-weight: 400;
+    max-width: 120px;
+    min-width: 80px;
+    width: 27%;
+    padding: 0;
+}
+
+.add-btn:hover {
+    font-weight: 500;
+}
+
+/* COLOR */
+
+.secondary-color:hover {
+    background-color: #ffffb3;
+}
+
+.secondary-color:disabled:hover {
+    background-color: rgba(0,0,0,.12) !important;
+}
+
+/* TEXT */
+
+.text:disabled:hover {
+    font-weight: 400;
+}
+
+/* RESPONSIVE */
+
+@media screen and (1200px >= width >= 1001px) {
+
+    .add-btn {
+        font-size: 14px;
+    }
+}
+
+@media screen and (1000px >= width >= 901px) {
+
+    .form-field {
+        padding-right: 3%;
+        width: 65%;
+    }
+
+    .add-btn {
+        font-size: 12px;
+        width: 32%;
+    }
+}
+
+@media screen and (900px >= width >= 801px) {
+
+    .form-field {
+        padding-right: 3%;
+        width: 60%;
+    }
+
+    .add-btn {
+        font-size: 12px;
+        width: 37%;
+    }
+}
+
+@media screen and (800px >= width >= 320px) {
+
+    .add-btn {
+        font-size: 14px;
+        font-weight: 500;
+        max-width: 100px;
+        width: 27%;
+        vertical-align: middle;
+        margin-bottom: 3px;
+    }
+}

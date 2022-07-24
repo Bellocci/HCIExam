@@ -1,0 +1,177 @@
+<mat-tab-group #tab_group
+[ngClass]="isLayoutMobile() ? '' : 'mat-elevation-z2'"
+[attr.mat-align-tabs]="isLayoutMobile() ? 'center' : 'left'"
+(window:resize)="setBtnRows()"
+(selectedTabChange)="setTab($event.tab.textLabel); setPlayerSelected(); setPlayersToView($event.tab.textLabel)">
+    <mat-tab class="text" label="Team">
+        <mat-grid-list 
+        *ngIf="isGridDisplayed()"
+        [cols]="getBreakpoint()" [rowHeight]="getRowHeight()">
+            <mat-grid-tile 
+            [colspan]="getColumnTable()" [rowspan]="getRowsTable()">
+                <div class="table-container mat-elevation-z3">
+                    <div>
+                        <app-table></app-table>
+                    </div>
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile
+            [colspan]="getColumnButtons()" [rowspan]="getRowsBtns()">
+                <div class="tile-btns">
+                    <button mat-raised-button
+                    class="text secondary-color mat-elevation-z3"
+                    [disabled]="isDisableClearTeamBtn()"
+                    (click)="clearAll()">
+                        <mat-icon>clear</mat-icon>
+                        Clear
+                    </button>
+                    <div class="btn-tab-team-position">
+                        <button mat-raised-button
+                        class="text secondary-color mat-elevation-z3"
+                        [disabled]="!isPlayerSelected()"
+                        (click)="removePlayer()">
+                            <mat-icon>delete</mat-icon>
+                            Remove
+                        </button>
+                        <button mat-raised-button 
+                        class="text secondary-color mat-elevation-z3"
+                        [disabled]="!isPlayerSelected()"
+                        (click)="moveToBlacklist()">
+                            <mat-icon>arrow_forward</mat-icon>
+                            Blacklist
+                        </button>
+                    </div>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <div class="container-single-tile" *ngIf="!isGridDisplayed()">
+            <button mat-raised-button
+            class="text secondary-color mat-elevation-z2 operation-btn"
+            [disabled]="!isPlayerSelected()"
+            (click)="removePlayer()">
+                <mat-icon>delete</mat-icon>
+                Remove
+            </button>
+            <div class="display-inline-btn operation-btn">
+                <button mat-raised-button 
+                class="text secondary-color mat-elevation-z2"
+                [disabled]="!isPlayerSelected()"
+                (click)="moveToBlacklist()">
+                    <mat-icon>arrow_forward</mat-icon>
+                    Blacklist
+                </button>
+                <div class="distance-inline-btns"></div>
+                <button mat-raised-button
+                class="clear-btn secondary-color text mat-elevation-z2"
+                [disabled]="isDisableClearTeamBtn()"
+                (click)="clearAll()">
+                    <mat-icon>clear</mat-icon>
+                    Clear
+                </button>
+            </div>
+            <div class="table-container">
+                <app-table></app-table>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab class="primary-color-light" label="Blacklist">
+        <mat-grid-list 
+        *ngIf="isGridDisplayed()"
+        [cols]="getBreakpoint()" [rowHeight]="getRowHeight()">
+            <mat-grid-tile [colspan]="getColumnTable()" [rowspan]="getRowsTable()">
+                <div class="table-container">
+                    <app-table></app-table>
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="getColumnButtons()" [rowspan]="getRowsBtns()">
+                <div class="tile-btns">
+                    <button mat-raised-button 
+                    class="text secondary-color mat-elevation-z3"
+                    [disabled]="isClearBlacklistBtnDisabled()"
+                    (click)="clearAll()">
+                        <mat-icon>clear</mat-icon>
+                        Clear
+                    </button>
+                    <button mat-raised-button 
+                        class="text secondary-color mat-elevation-z3"
+                        [disabled]="!isPlayerSelected()"
+                        (click)="removePlayer()">
+                            <mat-icon>delete</mat-icon>
+                            Remove
+                    </button>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <div class="container-single-tile" *ngIf="!isGridDisplayed()">
+            <div class="display-inline-btn operation-btn">
+                <button mat-raised-button 
+                class="text secondary-color mat-elevation-z3"
+                [disabled]="!isPlayerSelected()"
+                (click)="removePlayer()">
+                    <mat-icon>delete</mat-icon>
+                    Remove
+                </button>
+                <div class="distance-inline-btns"></div>
+                <button mat-raised-button 
+                    class="clear-btn text secondary-color mat-elevation-z2"
+                    [disabled]="isClearBlacklistBtnDisabled()"
+                    (click)="clearAll()">
+                        <mat-icon>clear</mat-icon>
+                        Clear
+                </button>
+            </div>
+            <div class="table-container">
+                <app-table></app-table>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab class="primary-color-light" label="Options"> 
+        <mat-grid-list 
+        *ngIf="isGridDisplayed()"
+        [cols]="getBreakpoint()" [rowHeight]="getRowHeight()">
+            <mat-grid-tile [colspan]="getColumnTable()" [rowspan]="getRowsTable()">
+                <div class="table-container">
+                    <app-options></app-options>
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="getColumnButtons()" [rowspan]="getRowsBtns()">
+                <div class="tile-btns">
+                    <button mat-raised-button 
+                    class="text secondary-color mat-elevation-z3"
+                    (click)="resetOptions()">
+                        <mat-icon>clear</mat-icon>
+                        Reset
+                    </button>
+                    <button mat-raised-button 
+                    class="text secondary-color mat-elevation-z3"
+                    [disabled]="isSaveBtnDisabled()"
+                    (click)="saveOptions()">
+                        <mat-icon>save</mat-icon>
+                        Save
+                    </button>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <div class="container-single-tile" *ngIf="!isGridDisplayed()">
+            <div class="display-inline-btn operation-btn">
+                <button mat-raised-button 
+                class="text secondary-color mat-elevation-z2"
+                (click)="resetOptions()">
+                    <mat-icon>clear</mat-icon>
+                    Reset
+                </button>
+                <div class="distance-inline-btns"></div>
+                <button mat-raised-button 
+                class="text secondary-color mat-elevation-z2"
+                [disabled]="isSaveBtnDisabled()"
+                (click)="saveOptions()">
+                    <mat-icon>save</mat-icon>
+                    Save
+                </button>
+            </div>
+            <div class="table-container">
+                <app-options></app-options>
+            </div>
+        </div>
+    </mat-tab> 
+</mat-tab-group>

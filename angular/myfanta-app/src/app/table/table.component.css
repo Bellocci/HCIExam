@@ -1,0 +1,66 @@
+.container {
+  margin-left: 20px;
+}
+
+.table {
+  position: relative;
+  min-height: 200px;
+  max-height: 700px;
+  max-width: 700px;
+  overflow-x: hidden;
+}
+
+.primary-color {
+  background-color: #82B1FF;
+}
+
+.header-text {
+  font-size: 14px;
+  color: #000000;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+tr.element-row:hover {
+  cursor: pointer;
+  background: #efefef;
+}
+
+tr.element-row:not(.example-expanded-row):hover {
+  cursor: pointer;
+  background: whitesmoke;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
