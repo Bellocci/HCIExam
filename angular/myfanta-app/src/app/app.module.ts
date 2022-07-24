@@ -13,12 +13,11 @@ import { TabsComponent } from './create-team/tabs/tabs.component';
 import { TableComponent } from './table/table.component';
 import { OptionsComponent } from './create-team/tabs/options/options.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TableEmptyComponent } from './table/table-empty/table-empty.component';
-import { TableBlacklistComponent } from './table/table-blacklist/table-blacklist.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ToolbarBaseComponent } from './toolbar/toolbar-base/toolbar-base.component';
 import { ToolbarMobileComponent } from './toolbar/toolbar-mobile/toolbar-mobile.component';
 import { SearchAddPlayerComponent } from './search-add-player/search-add-player.component';
+import { PlayerListComponent } from './player-list/player-list.component';
 
 @NgModule({
   declarations: [
@@ -28,12 +27,11 @@ import { SearchAddPlayerComponent } from './search-add-player/search-add-player.
     TabsComponent,
     TableComponent,
     OptionsComponent,
-    TableEmptyComponent,
-    TableBlacklistComponent,
     ToolbarComponent,
     ToolbarBaseComponent,
     ToolbarMobileComponent,
     SearchAddPlayerComponent,
+    PlayerListComponent,
   ],
   imports: [
     BrowserModule,
