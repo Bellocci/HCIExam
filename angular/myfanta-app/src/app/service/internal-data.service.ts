@@ -17,6 +17,12 @@ export class InternalDataService {
   private _tab_selected = new BehaviorSubject('');
   private _current_tab = this._tab_selected.asObservable();
 
+  private _clear_team_btn = new BehaviorSubject(true);
+  private _current_clear_team = this._clear_team_btn.asObservable();
+
+  private _player_selected = new BehaviorSubject(null);
+  private _current_player = this._player_selected.asObservable();
+
   setChampionshipSelected(champ:string) {
     this._championship_selected.next(champ);
   }
@@ -40,5 +46,31 @@ export class InternalDataService {
   getTabSelected() : Observable<string> {
     return this._current_tab;
   }
+
+  setActiveClearTeamBtn() {
+  }
   
+  isDisabledClearTeamBtn() : Observable<boolean> {
+    return this._current_clear_team;
+  }
+
+  setPlayerSelected(player:any) {
+    this._player_selected.next(player)
+  }
+
+  getPlayerSelected() : Observable<any> {
+    return this._current_player;
+  }
+
+  isClearBlacklistBtnDisabled() : Observable<boolean> {
+    return of(true);
+  }
+
+  isSaveBtnDisabled() : Observable<boolean> {
+    return of(true);
+  }
+
+  saveOptions() {
+    
+  }
 }

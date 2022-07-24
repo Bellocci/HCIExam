@@ -51,4 +51,8 @@ export class SharedService {
     }
     return of(find);
   }
+
+  resetOptions() {
+    
+  }
 }

@@ -18,4 +18,8 @@ export class SnackBarService {
   openSnackBar(textMessage:string) {
     this._snackBar.open(textMessage, this._action, this._config);
   }
+
+  openSnackBarError(textMessage:string) {
+    
+  }
 }
