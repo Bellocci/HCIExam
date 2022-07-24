@@ -3,4 +3,74 @@
 html, body { height: 100%; }
 body { 
     margin: 0; 
+    font-family: Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+.primary-color {
+    background-color: #82B1FF;
+}
+
+.primary-color-light {
+    background-color: #b6e3ff;
+}
+
+.primary-color-dark {
+    background-color: #4d82cb;
+}
+
+.secondary-color {
+    background-color: #FFCF82;
+}
+
+.hidden-element {
+    display: none;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.link {
+    text-align: center;
+    text-decoration: none;
+    color: #000000;
+}
+
+@media 
+    (min-width: 1200px) {
+
+        .text { 
+            font-size: 18px;
+            font-weight: 400;
+        }
+}
+
+@media 
+    (min-width: 800px)
+    and (max-width: 1200px) {
+    
+        .text { 
+            font-size: 16px;
+            font-weight: 400;
+        }
+}
+
+@media 
+    (min-width: 500px)
+    and (max-width: 800px) {
+    
+        .text { 
+            font-size: 15px;
+            font-weight: 400;
+        }
+}
+
+@media 
+    (min-width: 320px)
+    and (max-width: 500px) {
+    
+        .text { 
+            font-size: 13px;
+            font-weight: 400;
+        }
 }
