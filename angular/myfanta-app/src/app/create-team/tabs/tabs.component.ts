@@ -28,20 +28,19 @@ export class TabsComponent implements OnInit, AfterViewInit {
 
   private _player_selected: any = null;
 
-  private _breakpoint: number = 0;
-  private _rows_table: number = 0;
-  private _cols_table:number = 0;
+  private _breakpoint: number = 4;
+  private _rows_table: number = 5;
+  private _cols_table:number = 3;
   private _rows_btns:number = 0;
-  private _cols_btns:number = 0;
+  private _cols_btns:number = 1;
 
   row_height:number = 100;
 
 
   ngOnInit(): void {
-    this._cols_btns = 1;
-    this._rows_table = 5;
-    this.setColsAndRowsMatGrid();
+    this.setBtnRows();
     
+    this._team_data.showTeam();
     this.subscribePlayerSelected();
     this.subscribeDisableClearTeamBtn();
     this.subscribeSaveBtnDisabled();
@@ -131,14 +130,8 @@ export class TabsComponent implements OnInit, AfterViewInit {
     this._internal_data.setPlayerSelected(null);
   }
 
-  setColsAndRowsMatGrid() : void {
-    this._breakpoint = this.getInnerWidth() >= 501 ? 4
-      : 1;
-    this._cols_table = this.getInnerWidth() >= 501 ? 3 
-      : 1;
-    this._rows_btns = this.getInnerWidth() >= 1000 ? 5
-      : this.getInnerWidth() >= 501 ? 4
-      : 1;
+  setBtnRows() : void {
+    this._rows_btns = this.getInnerWidth() >= 1000 ? 5 : 4;
   }
   
   /* METHODS */
@@ -147,8 +140,8 @@ export class TabsComponent implements OnInit, AfterViewInit {
     return this._disable_clear_team_btn;
   }
 
-  isBreakpointOneColumn() : boolean {
-    return this.getBreakpoint() == 1 ? true : false;
+  isGridDisplayed() : boolean {
+    return this.getInnerWidth() >= 501 ? true : false;
   }
 
   clearAll() : void {
@@ -200,5 +193,12 @@ export class TabsComponent implements OnInit, AfterViewInit {
 
   isLayoutMobile() : boolean {
     return this.getInnerWidth() < 801 ? true : false;
+  }
+
+  setPlayersToView(tab_name:string) : void {
+    if (tab_name == 'Team')
+      this._team_data.showTeam();
+    else if(tab_name == 'Blacklist')
+      this._team_data.showBlacklist();
   }
 }

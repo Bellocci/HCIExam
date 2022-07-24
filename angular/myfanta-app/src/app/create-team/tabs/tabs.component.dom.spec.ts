@@ -80,9 +80,9 @@ describe('TabsComponent DOM', () => {
             expect(await label_list[2].getLabel()).toBe('Options');
         }));
 
-        it('should have two mat-grid-tile inside tab "Team" when isBreakpointOneColumn return false', 
+        it('should have two mat-grid-tile inside tab "Team" when isGridDisplayed method return true', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Team'});
@@ -94,51 +94,51 @@ describe('TabsComponent DOM', () => {
             expect(grid_tiles.length).toBe(2);
         }));
 
-        it('should have one mat-grid-tile inside tab "Team" when isBreakpointOneColumn return true', 
+        it('should not have mat-grid-list inside tab "Team" when isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Team'});
             await fixture.whenStable();
 
             const tab_selected = await mat_tab.getSelectedTab();
-            const grid_tiles = await tab_selected.getAllHarnesses(MatGridTileHarness);
+            const grid_tiles = await tab_selected.getAllHarnesses(MatGridListHarness);
 
-            expect(grid_tiles.length).toBe(1);
+            expect(grid_tiles.length).toBe(0);
         }));
 
-        it('should show app-table-empty component inside tab "Team" when isBreakpointOneColumn return false', 
+        it('should show app-table component inside tab "Team" when isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Team'});
             await fixture.whenStable();
 
             const tab_selected = await mat_tab.getSelectedTab();
-            const table_empty = await tab_selected.getAllChildLoaders('app-table-empty');
+            const table_empty = await tab_selected.getAllChildLoaders('app-table');
             
             expect(table_empty.length).toBe(1);
         }));
 
-        it('should show app-table-empty component inside tab "Team" when isBreakpointOneColumn return true', 
+        it('should show app-table component inside tab "Team" when isGridDisplayed method return true', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Team'});
             await fixture.whenStable();
 
             const tab_selected = await mat_tab.getSelectedTab();
-            const table_empty = await tab_selected.getAllChildLoaders('app-table-empty');
+            const table_empty = await tab_selected.getAllChildLoaders('app-table');
             
             expect(table_empty.length).toBe(1);
         }));
 
-        it('should show button with mat-icon "clear" and text "Clear" inside tab "Team" when isBreakpointOneColumn return false', 
+        it('should show button with mat-icon "clear" and text "Clear" inside tab "Team" when isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Team'});
@@ -150,9 +150,9 @@ describe('TabsComponent DOM', () => {
             expect(btn_clear.length).toBe(1);
         }));
 
-        it('should show button with mat-icon "clear" and text "Clear" inside tab "Team" when isBreakpointOneColumn return true', 
+        it('should show button with mat-icon "clear" and text "Clear" inside tab "Team" when isGridDisplayed method return true', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Team'});
@@ -164,9 +164,9 @@ describe('TabsComponent DOM', () => {
             expect(btn_clear.length).toBe(1);
         }));
 
-        it('should show button with mat-icon "delete" and text "Remove" inside tab "Team" when isBreakpointOneColumn return false', 
+        it('should show button with mat-icon "delete" and text "Remove" inside tab "Team" when isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Team'});
@@ -178,9 +178,9 @@ describe('TabsComponent DOM', () => {
             expect(btn_remove.length).toBe(1);
         }));
 
-        it('should show button with mat-icon "delete" and text "Remove" inside tab "Team"  when isBreakpointOneColumn return true',
+        it('should show button with mat-icon "delete" and text "Remove" inside tab "Team"  when isGridDisplayed method return true',
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Team'});
@@ -193,9 +193,9 @@ describe('TabsComponent DOM', () => {
         }));
 
         it('should show button with mat-icon "arrow_forward" and text "Blacklist" inside tab "Team" when ' +
-        'isBreakpointOneColumn return false', 
+        'isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Team'});
@@ -208,9 +208,9 @@ describe('TabsComponent DOM', () => {
         }));
 
         it('should show button with mat-icon "arrow_forward" and text "Blacklist" inside tab "Team" when ' +
-        'isBreakpointOneColumn return true', 
+        'isGridDisplayed method return true', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Team'});
@@ -222,9 +222,9 @@ describe('TabsComponent DOM', () => {
             expect(btn_blacklist.length).toBe(1);
         }));
 
-        it('should have two mat-grid-tile inside tab "Blacklist" when isBreakpointOneColumn return false', 
+        it('should have two mat-grid-tile inside tab "Blacklist" when isGridDisplayed method return true', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Blacklist'});
@@ -236,51 +236,51 @@ describe('TabsComponent DOM', () => {
             expect(grid_tiles.length).toBe(2);
         }));
 
-        it('should have one mat-grid-tile inside tab "Blacklist" when isBreakpointOneColumn return true', 
+        it('should not have mat-grid-list inside tab "Blacklist" when isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Blacklist'});
             await fixture.whenStable();
 
             const tab_selected = await mat_tab.getSelectedTab();
-            const grid_tiles = await tab_selected.getAllHarnesses(MatGridTileHarness);
+            const grid_tiles = await tab_selected.getAllHarnesses(MatGridListHarness);
 
-            expect(grid_tiles.length).toBe(1);
+            expect(grid_tiles.length).toBe(0);
         }));
 
-        it('should show app-table-blacklist component inside tab "Blacklist" when isBreakpointOneColumn return false', 
+        it('should show app-table component inside tab "Blacklist" when isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Blacklist'});
             await fixture.whenStable();
 
             const tab_selected = await mat_tab.getSelectedTab();
-            const table_blacklist = await tab_selected.getAllChildLoaders('app-table-blacklist');
+            const table_blacklist = await tab_selected.getAllChildLoaders('app-table');
 
             expect(table_blacklist.length).toBe(1);
         }));
 
-        it('should show app-table-blacklist component inside tab "Blacklist" when isBreakpointOneColumn return true', 
+        it('should show app-table component inside tab "Blacklist" when isGridDisplayed method return true', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Blacklist'});
             await fixture.whenStable();
 
             const tab_selected = await mat_tab.getSelectedTab();
-            const table_blacklist = await tab_selected.getAllChildLoaders('app-table-blacklist');
+            const table_blacklist = await tab_selected.getAllChildLoaders('app-table');
 
             expect(table_blacklist.length).toBe(1);
         }));
 
-        it('should show button with mat-icon "clear" and text "Clear" inside tab "Blacklist" when isBreakpointOneColumn return false', 
+        it('should show button with mat-icon "clear" and text "Clear" inside tab "Blacklist" when isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Blacklist'});
@@ -292,9 +292,9 @@ describe('TabsComponent DOM', () => {
             expect(btn_clear.length).toBe(1);
         }));
 
-        it('should show button with mat-icon "clear" and text "Clear" inside tab "Blacklist" when isBreakpointOneColumn return true', 
+        it('should show button with mat-icon "clear" and text "Clear" inside tab "Blacklist" when isGridDisplayed method return true', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Blacklist'});
@@ -307,9 +307,9 @@ describe('TabsComponent DOM', () => {
         }));
 
         it('should show button with mat-icon "delete" and text "Remove" inside tab "Blacklist" when ' +
-        'isBreakpointOneColumn return false', 
+        'isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Blacklist'});
@@ -322,9 +322,9 @@ describe('TabsComponent DOM', () => {
         }));
 
         it('should show button with mat-icon "delete" and text "Remove" inside tab "Blacklist" when ' +
-        'isBreakpointOneColumn return true', 
+        'isGridDisplayed method return true', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Blacklist'});
@@ -336,9 +336,9 @@ describe('TabsComponent DOM', () => {
             expect(btn_remove.length).toBe(1);
         }));
 
-        it('should have two mat-grid-tile inside tab "Options" when isBreakpointOneColumn return false', 
+        it('should have two mat-grid-tile inside tab "Options" when isGridDisplayed method return true', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Options'});
@@ -350,9 +350,9 @@ describe('TabsComponent DOM', () => {
             expect(grid_tiles.length).toBe(2);
         }));
 
-        it('should have one mat-grid-tile inside tab "Blacklist" when isBreakpointOneColumn return true', 
+        it('should not have mat-grid-list inside tab "Options" when isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Options'});
@@ -361,12 +361,12 @@ describe('TabsComponent DOM', () => {
             const tab_selected = await mat_tab.getSelectedTab();
             const grid_tiles = await tab_selected.getAllHarnesses(MatGridTileHarness);
 
-            expect(grid_tiles.length).toBe(1);
+            expect(grid_tiles.length).toBe(0);
         }));
 
-        it('should show app-options component inside tab "Options" when isBreakpointOneColumn return false', 
+        it('should show app-options component inside tab "Options" when isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Options'});
@@ -378,9 +378,9 @@ describe('TabsComponent DOM', () => {
             expect(options.length).toBe(1);
         }));
 
-        it('should show app-options component inside tab "Options" when isBreakpointOneColumn return true', 
+        it('should show app-options component inside tab "Options" when isGridDisplayed method return true', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Options'});
@@ -392,9 +392,9 @@ describe('TabsComponent DOM', () => {
             expect(options.length).toBe(1);
         }));
 
-        it('should show button with mat-icon "clear" and text "Reset" inside tab "Options" when isBreakpointOneColumn return false', 
+        it('should show button with mat-icon "clear" and text "Reset" inside tab "Options" when isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Options'});
@@ -406,9 +406,9 @@ describe('TabsComponent DOM', () => {
             expect(btn_reset.length).toBe(1);
         }));
 
-        it('should show button with mat-icon "clear" and text "Reset" inside tab "Options" when isBreakpointOneColumn return true', 
+        it('should show button with mat-icon "clear" and text "Reset" inside tab "Options" when isGridDisplayed method return true', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Options'});
@@ -420,9 +420,9 @@ describe('TabsComponent DOM', () => {
             expect(btn_reset.length).toBe(1);
         }));
 
-        it('should show button with mat-icon "save" and text "Save" inside tab "Options" when isBreakpointOneColumn return false', 
+        it('should show button with mat-icon "save" and text "Save" inside tab "Options" when isGridDisplayed method return false', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(false);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Options'});
@@ -434,9 +434,9 @@ describe('TabsComponent DOM', () => {
             expect(btn_save.length).toBe(1);
         }));
 
-        it('should show button with mat-icon "save" and text "Save" inside tab "Options" when isBreakpointOneColumn return true', 
+        it('should show button with mat-icon "save" and text "Save" inside tab "Options" when isGridDisplayed method return true', 
         fakeAsync(async () => {
-            const spy_breakpoint = spyOn(component, "isBreakpointOneColumn").and.returnValue(true);
+            const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
             const mat_tab = await loader.getHarness(MatTabGroupHarness);
             await mat_tab.selectTab({label: 'Options'});
@@ -471,8 +471,18 @@ describe('TabsComponent DOM', () => {
             expect(spy_setPlayer).toHaveBeenCalled();
         }));
 
-        it('should call setColumnsMatGrid method when window:resize event occurs', () => {
-            const spy_onResize = spyOn(component, "setColsAndRowsMatGrid");
+        it('should mat-tab-group call setPlayersToView when selectedTabChange event occurs', fakeAsync(async () => {
+            const spy_player_views = spyOn(component, "setPlayersToView");
+            const tab_selected = 'Blacklist';
+            const mat_tab = await loader.getHarness(MatTabGroupHarness);
+
+            await mat_tab.selectTab({label: tab_selected});
+
+            expect(spy_player_views).toHaveBeenCalledWith(tab_selected);
+        }));
+
+        it('should call setBtnRows method when window:resize event occurs', () => {
+            const spy_onResize = spyOn(component, "setBtnRows");
             const mat_grid = fixture.debugElement.query(By.css('mat-grid-list'));
             
             window.dispatchEvent(new Event('resize'));
@@ -501,17 +511,6 @@ describe('TabsComponent DOM', () => {
 
             expect(await (await mat_tab.getSelectedTab()).getLabel()).toBe('Options');
         }));
-
-        let getButton = (btns_list:DebugElement[], btn_txt:string, btn_icon:string) : DebugElement | undefined => {
-            let text_btn = btn_icon + ' ' + btn_txt;
-            for(let btn of btns_list) {
-                let text = btn.nativeElement.textContent.trim();
-                if(text == text_btn) {
-                    return btn;
-                }
-            }
-            return undefined;
-        };
 
         it('should call clearAll method when button "Clear" in "Team" tab is clicked', fakeAsync(async () => {
             const spy_clear = spyOn(component, "clearAll");

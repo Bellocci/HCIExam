@@ -26,6 +26,21 @@ mat-tab-group {
     background-color: #4d82cb !important;
 }
 
+@media screen and (1000px >= width >= 801px) {
+    
+    ::ng-deep.mat-tab-label {
+        font-size: 14px;
+        min-width: 150px !important;
+    }
+}
+
+@media screen and (800px >= width >= 320px) {
+
+    mat-tab-group {
+        margin-top: 100px;
+    }
+}
+
 
 /* Table container */
 
@@ -34,8 +49,27 @@ mat-tab-group {
     width: 100%;
     max-height: 400px;
     height: 100%;
-    border-style: solid;
-    border-width: 1px;
+    overflow: auto;
+}
+
+@media screen and (500px >= width >= 320px) {
+
+    .container-single-tile {
+        display: flex;
+        width: 95%;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-top: 70px;
+        padding-left: 10px;
+    }
+
+    .table-container {
+        margin-left: 0;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        max-height: max-content;
+    }
+
 }
 
 /* Buttons */
@@ -54,9 +88,33 @@ button {
     margin-right: 5px;
 }
 
-.remove-blacklist-btn-position {
+.btn-tab-team-position {
     display: grid;
     row-gap: 10px;
+}
+
+@media screen and (500px >= width >= 320px) {
+
+    /* BUTTONS */
+
+    button {
+        min-width: 80px;
+        font-size: 14px;
+    }
+
+    .operation-btn {
+        align-self: flex-start;
+    }
+
+    .display-inline-btn {
+        display: inline-flex;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .distance-inline-btns {
+        width: 70%;
+    }
 }
 
 /* Font */
@@ -77,62 +135,4 @@ button {
 
 .secondary-color:disabled:hover {
     background-color: rgba(0,0,0,.12) !important;
-}
-
-/* RESPONSIVE */
-
-@media screen and (1000px >= width >= 801px) {
-    
-    ::ng-deep.mat-tab-label {
-        font-size: 14px;
-        min-width: 150px !important;
-    }
-}
-
-@media screen and (800px >= width >= 320px) {
-
-    mat-tab-group {
-        margin-top: 100px;
-    }
-}
-
-@media screen and (500px >= width >= 320px) {
-
-    .container-single-tile {
-        display: flex;
-        width: 95%;
-        flex-direction: column;
-        align-self: flex-start;
-        align-items: flex-end;
-    }
-
-    .table-container {
-        margin-left: 0;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        max-height: max-content;
-    }
-
-    /* BUTTONS */
-
-    button {
-        min-width: 80px;
-        font-size: 14px;
-    }
-
-    .clear-btn {
-        margin-top: 20px;
-    }
-
-    .display-inline-btn {
-        display: inline-flex;
-    }
-
-    .distance-inline-btns {
-        width: 40px;
-    }
-
-    .options-btns {
-        margin-top: 20px;
-    }
 }

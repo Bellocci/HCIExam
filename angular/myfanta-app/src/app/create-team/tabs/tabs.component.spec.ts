@@ -78,24 +78,8 @@ describe('TabsComponent', () => {
 
   describe('ngOnInit', () => {
 
-    it('should set _cols_btns to 1', () => {
-      component['_cols_btns'] = 0;
-
-      component.ngOnInit();
-
-      expect(component.getColumnButtons()).toBe(1);
-    });
-
-    it('should set _rows_table to 5', () => {
-      component['_rows_table'] = 0;
-
-      component.ngOnInit();
-
-      expect(component.getRowsTable()).toBe(5);
-    });
-
-    it('should call setColumnsMatGrid', () => {
-      const spy_setComuns = spyOn(component, "setColsAndRowsMatGrid");
+    it('should call setBtnRows method', () => {
+      const spy_setComuns = spyOn(component, "setBtnRows");
 
       component.ngOnInit();
 
@@ -201,6 +185,14 @@ describe('TabsComponent', () => {
 
       expect(component['_save_btn_disabled']).toBeTrue();
     });
+
+    it('should call showTeam method from team data service', () => {
+      const spy_player_team = spyOn(team_data, "showTeam");
+
+      component.ngOnInit();
+
+      expect(spy_player_team).toHaveBeenCalled();
+    });
   });
 
   describe('ngAfterViewInit', () => {
@@ -236,114 +228,32 @@ describe('TabsComponent', () => {
 
   describe('Template methods', () => {
 
-    it('should setColsAndRowsMatGrid mehtod set _breakpoint to 4 when window width greater or equal than 501', 
-    () => {
-      let width = 501;
-      component['_breakpoint'] = 1;
-      const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width);
-
-      component.setColsAndRowsMatGrid();
-
-      expect(component.getBreakpoint()).toBe(4);
-
-      width = 1000;
-      component['_breakpoint'] = 1;
-      spy_width.and.returnValue(width);
-
-      component.setColsAndRowsMatGrid();
-
-      expect(component.getBreakpoint()).toBe(4);
-    });
-
-    it('should setColsAndRowsMatGrid method set _breakpoint to 1 when window width less than 501', () => {
-      const width = 500;
-      component['_breakpoint'] = 3;
-      const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width);
-
-      component.setColsAndRowsMatGrid();
-
-      expect(component.getBreakpoint()).toBe(1);
-    });
-
-    it('should setColsAndRowsMatGrid mehtod set _cols_table to 3 when window width greater or equal than 501', 
-    () => {
-      let width = 501;
-      component['_cols_table'] = 1;
-      const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width);
-
-      component.setColsAndRowsMatGrid();
-
-      expect(component.getColumnTable()).toBe(3);
-
-      width = 1000;
-      component['_cols_table'] = 1;
-      spy_width.and.returnValue(width);
-
-      component.setColsAndRowsMatGrid();
-
-      expect(component.getColumnTable()).toBe(3);
-    });
-
-    it('should setColsAndRowsMatGrid method set _cols_table to 1 when window width less than 501', () => {
-      const width = 500;
-      component['_cols_table'] = 2;
-      const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width);
-
-      component.setColsAndRowsMatGrid();
-
-      expect(component.getColumnTable()).toBe(1);
-    });
-
-    it('should setColsAndRowsMatGrid method set _rows_btns to 5 when window width is greater or equal than 1000', () => {
+    it('should setBtnRows method set _rows_btns to 5 when window width is greater or equal than 1000', () => {
       let width = 1000;
       component['_rows_btns'] = 0;
       const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width);
 
-      component.setColsAndRowsMatGrid();
+      component.setBtnRows();
 
       expect(component.getRowsBtns()).toBe(5);
 
       width = 1200;
       spy_width.and.returnValue(width);
 
-      component.setColsAndRowsMatGrid();
+      component.setBtnRows();
 
       expect(component.getRowsBtns()).toBe(5);
     });
 
-    it('should setColsAndRowsMatGrid method set _rows_btns to 4 when window width is greater or equal than 501 and less than 1000', 
+    it('should setBtnRows method set _rows_btns to 4 when window width is less than 1000', 
     () => {
-      let width = 501;
+      let width = 999;
       component['_rows_btns'] = 0;
       const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width);
 
-      component.setColsAndRowsMatGrid();
+      component.setBtnRows();
 
       expect(component.getRowsBtns()).toBe(4);
-
-      width = 999;
-      spy_width.and.returnValue(width);
-
-      component.setColsAndRowsMatGrid();
-
-      expect(component.getRowsBtns()).toBe(4);
-
-      width = 1000;
-      spy_width.and.returnValue(width);
-
-      component.setColsAndRowsMatGrid();
-
-      expect(component.getRowsBtns()).not.toBe(4);
-    });
-
-    it('should setColsAndRowsMatGrid method set _rows_btns to 1 when window width is less than 501', () => {
-      let width = 500;
-      component['_rows_btns'] = 0;
-      const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width);
-
-      component.setColsAndRowsMatGrid();
-
-      expect(component.getRowsBtns()).toBe(1);
     });
 
     it('should call setPlayerSelected method from internal_data with params null when setPlayerSelected is called', () => {
@@ -620,18 +530,54 @@ describe('TabsComponent', () => {
       expect(component.isLayoutMobile()).toBeFalse();
     });
 
-    it('should return true if breakpoint value is 1 when isBreakpointOneColumn method is called', () => {
-      const value = 1;
-      const spy_breakdown = spyOn(component, "getBreakpoint").and.returnValue(value);
+    it('should isGridDisplayed method return true if window.width is greater or equal than 501', () => {
+      let width = 501;
+      const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width);
 
-      expect(component.isBreakpointOneColumn()).toBeTrue();
+      expect(component.isGridDisplayed()).toBeTrue();
+
+      width = 1000;
+      spy_width.and.returnValue(width);
+
+      expect(component.isGridDisplayed()).toBeTrue();
     });
 
-    it('should return false if breakpoint value is not 1 when isBreakpointOneColumn method is called', () => {
-      const value = 2;
-      const spy_breakdown = spyOn(component, "getBreakpoint").and.returnValue(value);
+    it('should isGridDisplayed method return false if window.width is less than 501', () => {
+      const width = 500;
+      const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width);
 
-      expect(component.isBreakpointOneColumn()).toBeFalse();
+      expect(component.isGridDisplayed()).toBeFalse();
+    });
+
+    it('should setPlayersToView method call showTeam method from team data service when "Team" is given as argument', () => {
+      const spy_player_team = spyOn(team_data, "showTeam");
+      const spy_blacklist = spyOn(team_data, "showBlacklist");
+
+      component.setPlayersToView('Team');
+
+      expect(spy_blacklist).not.toHaveBeenCalled();
+      expect(spy_player_team).toHaveBeenCalled();
+    });
+
+    it('should setPlayersToView method call showBlacklist from team data service when "Blacklist" is given as argument', () => {
+      const spy_blacklist = spyOn(team_data, "showBlacklist");
+      const spy_player_team = spyOn(team_data, "showTeam");
+
+      component.setPlayersToView('Blacklist');
+
+      expect(spy_player_team).not.toHaveBeenCalled();
+      expect(spy_blacklist).toHaveBeenCalled();
+    });
+
+    it('should setPlayersToView method not call "showTeam" and "showBlacklist" methods from team data service when ' +
+    'argument is not "Blacklist" or "Team"', () => {
+      const spy_player_team = spyOn(team_data, "showTeam");
+      const spy_blacklist = spyOn(team_data, "showBlacklist");
+
+      component.setPlayersToView('error');
+
+      expect(spy_player_team).not.toHaveBeenCalled();
+      expect(spy_blacklist).not.toHaveBeenCalled();
     });
   });
 });
