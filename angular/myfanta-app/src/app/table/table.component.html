@@ -1,44 +1,52 @@
-<div class="container">
-  <div class="table" [style.height.px]="height" [style.width.px]="width">
-    <table mat-table [style.width.px]="width" [dataSource]="dataSource" multiTemplateDataRows matSort>
-      <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
-        <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-      </ng-container>
+<div class="table-container"> 
+  <table mat-table [dataSource]="getDataSource()" matSort multiTemplateDataRows>
 
-      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-      <ng-container matColumnDef="expandedDetail">
-        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-          <div class="element-detail"
-              [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-            <div class="example-element-diagram">
-              <div class="example-element-position"> {{element.position}} </div>
-              <div class="example-element-symbol"> {{element.symbol}} </div>
-              <div class="example-element-name"> {{element.name}} </div>
-              <div class="example-element-weight"> {{element.weight}} </div>
-            </div>
-            <div class="example-element-description">
-              {{element.description}}
-              <span class="example-element-description-attribution"> -- Wikipedia </span>
-            </div>
-          </div>
-        </td>
-      </ng-container>
+    <ng-container matColumnDef="Name">
+      <th class="primary-color text" mat-header-cell mat-sort-header="playerName" *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let player">
+        <a class="txt-link text" routerLink="/detail/{{player.playerName}}">
+          {{ player.playerName }}
+        </a>
+      </td>
+    </ng-container>
 
-      <tr mat-header-row class="primary-color" *matHeaderRowDef="columnsToDisplay; sticky: true;"></tr>
-      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-          class="element-row"
-          [class.example-expanded-row]="expandedElement === element"
-          (click)="expandedElement = expandedElement === element ? null : element">
-      </tr>
-      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    <ng-container matColumnDef="Team">
+      <th class="primary-color text" mat-header-cell mat-sort-header="team" *matHeaderCellDef>Team</th>
+      <td class="text" mat-cell *matCellDef="let player">{{ player.team }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Cost">
+      <th class="primary-color text" mat-header-cell mat-sort-header="cost" *matHeaderCellDef>Cost</th>
+      <td class="text" mat-cell *matCellDef="let player">{{ player.cost }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="favoritePlayer">
+      <th class="primary-color text" mat-header-cell *matHeaderCellDef>Favorite player</th>
+      <td mat-cell *matCellDef="let player">
+        <button mat-icon-button
+        *ngIf="!isFavoritePlayer(player)"
+        (click)="setPlayerAsFavorite(player)">
+            <mat-icon>favorite_border</mat-icon>
+        </button>
+        <button mat-icon-button
+        *ngIf="isFavoritePlayer(player)"
+        (click)="removePlayerAsFavorite(player)">
+          <mat-icon>favorite</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="getColumns(); sticky: true" class="txt-row"></tr>
+    <tr mat-row *matRowDef="let row; columns: getColumns();" class="txt-row"></tr>
   </table>
-  </div>
-  <mat-paginator [style.width.px]="width" class="primary-color" #paginator 
-    [length]="dataSource?.data?.length"
-    [pageIndex]="0"
-    [pageSize]="7"
-    [pageSizeOptions]="[5, 10]"
+
+  <mat-paginator
+    class="primary-color"
+    (page)="handlePageEvent($event)"
+    [pageSize]="getPageSize()"
+    [pageIndex]="getPageIndex()"
+    [pageSizeOptions]="getPageSizeOptions()"
+    showFirstLastButtons
     aria-label="Select page">
   </mat-paginator>
 </div>
