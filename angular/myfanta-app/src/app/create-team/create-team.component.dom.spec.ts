@@ -72,14 +72,17 @@ describe('CreateTeamComponent DOM', () => {
         expect(h1.nativeElement.textContent).toBe('CREATE TEAM');
     });
 
-    it('should have mat-grid-list', () => {
-        const grid_list = fixture.debugElement.query(By.css('mat-grid-list'));
+    it('should have mat-grid-list when window width is greater than 800', () => {
+      const width = 801;
+      const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width)
+      fixture.detectChanges();
+      const grid_list = fixture.debugElement.query(By.css('mat-grid-list'));
 
-        expect(grid_list).toBeTruthy();
+      expect(grid_list).toBeTruthy();
     });
 
     it('should have two mat-grid-tile when window width is greater than 800', () => {
-        const width = 1000;
+        const width = 801;
         const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width)
         fixture.detectChanges();
         const grid_tiles = fixture.debugElement.queryAll(By.css('mat-grid-tile'));
@@ -88,24 +91,24 @@ describe('CreateTeamComponent DOM', () => {
         expect(grid_tiles.length).toBe(2);
     })
 
-    it('should have two mat-grid-tile when window width is equal to 800', () => {
+    it('should not have mat-grid-list when window width is equal to 800', () => {
       const width = 800;
       const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width)
       fixture.detectChanges();
-      const grid_tiles = fixture.debugElement.queryAll(By.css('mat-grid-tile'));
 
-      expect(grid_tiles).toBeTruthy();
-      expect(grid_tiles.length).toBe(2);
+      const grid_list = fixture.debugElement.query(By.css('mat-grid-list'));
+
+      expect(grid_list).not.toBeTruthy();
     })
 
-    it('should have two mat-grid-tile when window width is less than 800', () => {
+    it('should not have mat-grid-list when window width is less than 800', () => {
       const width = 799;
       const spy_width = spyOn(component, "getInnerWidth").and.returnValue(width)
       fixture.detectChanges();
-      const grid_tiles = fixture.debugElement.queryAll(By.css('mat-grid-tile'));
 
-      expect(grid_tiles).toBeTruthy();
-      expect(grid_tiles.length).toBe(2);
+      const grid_list = fixture.debugElement.query(By.css('mat-grid-list'));
+
+      expect(grid_list).not.toBeTruthy();
     })
 
     it('should have app-table component', () => {
@@ -148,15 +151,6 @@ describe('CreateTeamComponent DOM', () => {
   });
 
   describe('Template methods', () => {
-
-    it('should call setColsRowsMatGrid method when window resize event occurs', () => {
-      const spy_onResize = spyOn(component, "setColsRowsMatGrid");
-      
-      window.dispatchEvent(new Event('resize'));
-      fixture.detectChanges();
-      
-      expect(spy_onResize).toHaveBeenCalled();
-    });
 
     let getButton = (btns_list:DebugElement[], btn_txt:string) : DebugElement | undefined => {
       for(let btn of btns_list) {
