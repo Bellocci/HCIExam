@@ -1,6 +1,6 @@
 import { Observable, of } from "rxjs";
 
-export class Championship {
+class Championship {
     championshipId:number = -1;
     championshipName:string = '';
     sport:number = -1;
