@@ -111,25 +111,14 @@ describe('ToolbarBaseComponent DOM', () => {
 
         describe("Template elements", () => {
 
-            let findButtonWithIcon = async (text_btn:string, icon:string): Promise<boolean> => {
-                const buttons = await loader.getAllHarnesses(MatButtonHarness);
-                for(let btn of buttons) {
-                    let text = (await btn.getText()).trim();
-                    if(text == (icon + ' ' + text_btn)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
+            it('should have button with icon "menu" and text equal to "Categories"', fakeAsync(async () => {
+                const categories_menu = await loader.getAllHarnesses(MatButtonHarness.with({text : 'menu Categories'}))
 
-            it('should have button with icon "menu" and text equal to "Categories"', async () => {
-                let result = findButtonWithIcon('Categories', 'menu');
-    
-                expect((await result).valueOf()).toBeTrue();
-            });
+                expect(categories_menu.length).toBe(1)
+            }));
         
             it('should have button with mat-icon "help"', async () => {
-                const icon = await loader.getAllHarnesses(MatIconHarness.with({name: 'help'}));
+                const icon = await loader.getAllHarnesses(MatButtonHarness.with({text: 'help'}));
                 
                 expect(icon.length).toBe(1);
             });

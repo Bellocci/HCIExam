@@ -59,8 +59,16 @@ export class SearchAddPlayerComponent implements OnInit, AfterViewInit {
     this.input_visible = textTab != 'Options' ? true : false;
   }
 
+  /* GETTER */
+
   getTabSelected() : string {
     return this._tab_selected;
+  }
+
+  /* METHODS */
+
+  isValueInputTextEmpty() : boolean {
+    return this.value_input_text.trimStart() == '' ? true : false;
   }
 
   searchPlayer(player_name:string) : void {
@@ -68,7 +76,7 @@ export class SearchAddPlayerComponent implements OnInit, AfterViewInit {
   }
 
   filterText(event:KeyboardEvent) : boolean {
-    return event.key.match(/[^a-zA-Z]/g) === null;
+    return event.key.match(/[^a-zA-Z ,]/g) === null;
   }
 
   addPlayer(player:any) : void {

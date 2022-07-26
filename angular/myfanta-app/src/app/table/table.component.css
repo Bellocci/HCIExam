@@ -1,66 +1,71 @@
-.container {
-  margin-left: 20px;
+/* TABLE */
+
+table {
+  width: 100%;
 }
 
-.table {
-  position: relative;
-  min-height: 200px;
-  max-height: 700px;
-  max-width: 700px;
-  overflow-x: hidden;
+/* HEADER TABLE */
+
+.mat-header-cell {
+  padding-left: 24px !important;
+  font-weight: 500 !important;
 }
 
-.primary-color {
-  background-color: #82B1FF;
+/* ROW TABLE */
+
+.mat-cell {
+  padding-left: 24px !important;
+
+  border-style: solid;
+  border-width: 0.5px;
+  border-left: 0;
+  border-right: 0;
 }
 
-.header-text {
-  font-size: 14px;
-  color: #000000;
+/* COLUMN TABLE */
+
+.mat-column-Name {
+  width: 40%;
 }
 
-tr.example-detail-row {
-  height: 0;
+.mat-column-Team {
+  width: 30%;
 }
 
-.element-detail {
-  overflow: hidden;
-  display: flex;
+.mat-column-Cost {
+  width: 15%;
 }
 
-tr.element-row:hover {
-  cursor: pointer;
-  background: #efefef;
+.mat-column-favoritePlayer {
+  width: 15%;
+  text-align: center;
 }
 
-tr.element-row:not(.example-expanded-row):hover {
-  cursor: pointer;
-  background: whitesmoke;
+/* LINK */
+
+a {
+  color: black;
+  text-decoration: none;
 }
 
-.element-row td {
-  border-bottom-width: 0;
+a:hover {
+  font-weight: 500;
+  text-decoration: underline;
 }
 
-.example-element-diagram {
-  min-width: 80px;
-  border: 2px solid black;
-  padding: 8px;
-  font-weight: lighter;
-  margin: 8px 0;
-  height: 104px;
-}
+/* TEXT TABLE */
 
-.example-element-symbol {
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
-}
+@media screen and (900px >= width >= 801px) {
 
-.example-element-description {
-  padding: 16px;
-}
+  .mat-header-cell {
+    font-size: 12px;
+  }
 
-.example-element-description-attribution {
-  opacity: 0.5;
+  .mat-cell {
+    font-size: 12px !important;
+  }
+
+  a {
+    font-size: 12px;
+  }
 }

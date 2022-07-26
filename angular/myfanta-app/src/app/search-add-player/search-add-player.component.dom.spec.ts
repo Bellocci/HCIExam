@@ -173,7 +173,7 @@ describe('SearchAddPlayerComponent DOM', () => {
             input.nativeElement.dispatchEvent(event);
             fixture.detectChanges();
         
-            expect(spy_filter).toHaveBeenCalled();
+            expect(spy_filter).toHaveBeenCalledWith(event);
         });
     
         it('should input call searchPlayer method when set text', async () => {
@@ -331,9 +331,29 @@ describe('SearchAddPlayerComponent DOM', () => {
           expect(await btn_add[0].isDisabled()).toBeTrue();
         });
 
+        it('should disable add button when value_input_text has only blank space', async () => {
+          const input = await loader.getHarness(MatInputHarness);
+          await input.setValue('  ');
+
+          const btn_add = await loader.getAllHarnesses(MatButtonHarness.with({text: 'add'}));
+
+          expect(btn_add.length).toBe(1);
+          expect(await btn_add[0].isDisabled()).toBeTrue();
+        });
+
+        it('should disable add button when value_input_text has only tabs', async () => {
+          const input = await loader.getHarness(MatInputHarness);
+          await input.setValue('\t\t');
+
+          const btn_add = await loader.getAllHarnesses(MatButtonHarness.with({text: 'add'}));
+
+          expect(btn_add.length).toBe(1);
+          expect(await btn_add[0].isDisabled()).toBeTrue();
+        });
+
         it('should not disable add button when value_input_text is not an empty string', async () => {
           const input = await loader.getHarness(MatInputHarness);
-          await input.setValue('test');
+          await input.setValue(' test');
 
           const btn_add = await loader.getAllHarnesses(MatButtonHarness.with({text: 'add'}));
 

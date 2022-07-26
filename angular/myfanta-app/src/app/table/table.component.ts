@@ -1,76 +1,82 @@
-import { OnInit, Component } from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { OnInit, Component, ViewChild, AfterViewInit } from '@angular/core';
 
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
-import { InternalDimensionService } from '../service/internal-dimension.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { TeamDataService } from '../service/team-data.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed, void', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, AfterViewInit {
 
-  columnsToDisplay = ['Name', 'Team', 'Cost'];
-  dataSource!:MatTableDataSource<any>;
-  expandedElement!: any | null;
+  private _dataSource!:MatTableDataSource<any>;
+  @ViewChild(MatPaginator) private _paginator!: MatPaginator;
+  @ViewChild(MatSort) private _sort!: MatSort;
+  private _pageIndex:number = 0;
+  private _pageSize:number = 10;
+  private _pageSizeOptions:number[] = [5, 10, 20]
 
-  height:string = '0';
-  width:string = '0';
-  private _default_height:number = 200;
-  private _default_width:number = 200;
+  private _columns:string[] = ['Name', 'Team', 'Cost', 'favoritePlayer'];
 
-  subscrip_height:Subscription = new Subscription;
-  subscrip_width:Subscription = new Subscription;
+  constructor(private _team_data_service: TeamDataService) { }
 
-  constructor(private internal_dimension:InternalDimensionService) {
+  ngOnInit(): void { 
+    this._dataSource = new MatTableDataSource<any>();
+    this.subscribePlayerList();
   }
 
-  ngOnInit(): void {
-    this.getTableHeight();
-    this.getTableWidth();
+  ngAfterViewInit() {
+    this._dataSource.paginator = this._paginator;
+    this._dataSource.sort = this._sort;
   }
 
-  ngOnDestroy() {
-    if(this.subscrip_height) {
-      this.subscrip_height.unsubscribe();
-    }
-    if(this.subscrip_width) {
-      this.subscrip_width.unsubscribe();
-    }
-  }
-
-  getDefaultHeight():string {
-    return this._default_height.toString();
-  }
-
-  getDefaultWidth():string {
-    return this._default_width.toString();
-  }
-
-  getTableHeight() {
-    this.subscrip_height = this.internal_dimension.getTableHeight().subscribe(height => {
-      if(!height.match('^[0-9]*$'))
-        this.height = this.getDefaultHeight();
-      else
-        this.height = height;
+  private subscribePlayerList() : void {
+    this._team_data_service.getPlayerList().subscribe((list) => {
+      this._dataSource.data = list;
     });
   }
 
-  getTableWidth() {
-    this.subscrip_width = this.internal_dimension.getTableWidth().subscribe(width => {
-      if(!width.match('^[0-9]*$'))
-        this.width = this.getDefaultWidth();
-      else
-        this.width = width;
-    })
+  /* GETTER */
+
+  getColumns() : string[] {
+    return this._columns;
+  }
+
+  getDataSource() : MatTableDataSource<any> {
+    return this._dataSource;
+  }
+
+  getPageIndex() : number {
+    return this._pageIndex;
+  }
+
+  getPageSize() : number {
+    return this._pageSize;
+  }
+
+  getPageSizeOptions() : number[] {
+    return this._pageSizeOptions;
+  }
+
+  /* METHODS */
+
+  isFavoritePlayer(player:any) : boolean {
+    return this._team_data_service.isPlayerIntoFavoriteList(player);
+  }
+
+  setPlayerAsFavorite(player:any) : void {
+    this._team_data_service.addPlayerIntoFavoriteList(player);
+  }
+
+  removePlayerAsFavorite(player:any) : void {
+    this._team_data_service.removePlayerFromFavoriteList(player);
+  }
+
+  handlePageEvent(event: PageEvent) : void {
+    this._pageIndex = event.pageIndex;
+    this._pageSize = event.pageSize;
   }
 }

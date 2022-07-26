@@ -1,0 +1,17 @@
+<header class="subtitle-position primary-color">
+    <h1 class="no-margin">PLAYER LIST</h1>
+</header>
+<div class="view-list-page">
+    <mat-form-field class="text filter" appearance="standard">
+        <mat-label>Find player</mat-label>
+        <input matInput 
+          type="text" 
+          [(ngModel)]="input_txt"
+          (keypress)="filterText($event)"
+          (input)="searchPlayer(input_txt)"
+          placeholder="Ex. ium">
+    </mat-form-field>
+    <div class="mat-elevation-z5">
+        <app-table class="table"></app-table>
+    </div>
+</div>

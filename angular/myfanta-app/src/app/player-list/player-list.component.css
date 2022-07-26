@@ -1,0 +1,70 @@
+/* HEADER */
+
+.subtitle-position {
+    padding: 35px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+@media screen and (1200px >= width >= 601px) {
+ 
+    /* HEADER */
+
+    .subtitle-position {
+        padding: 24px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
+
+@media screen and (600px >= width >= 320px) {
+
+    /* HEADER */
+
+    header {
+        display: none;
+    }
+
+    /* GENERATE BUTTONS */
+
+    .generate-btn-text {
+        font-size: 16px;
+    }
+}
+
+/* TABLE WITH FILTER */
+
+.view-list-page {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.filter {
+    width:70%
+}
+
+.table {
+    width: 100%;
+}
+
+@media screen and (600px >= width >= 320px) {
+
+    .view-list-page {
+        margin: 0;
+    }
+
+    .table {
+        width: 90%;
+    }
+
+    .filter {
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-top: 0;
+        margin-left: 0;
+    }
+}
