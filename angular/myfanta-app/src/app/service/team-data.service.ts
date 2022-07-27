@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PLAYER_DATA_SERIE_A, PLAYER_DATA_SERIE_A_FEMALE } from 'src/model/player.model';
 
 @Injectable({
@@ -8,6 +8,9 @@ import { PLAYER_DATA_SERIE_A, PLAYER_DATA_SERIE_A_FEMALE } from 'src/model/playe
 export class TeamDataService {
 
   private _favorite_list:Set<any> = new Set<any>();
+
+  private _player_selected = new BehaviorSubject(null);
+  private _current_player_selected = this._player_selected.asObservable();
 
   constructor() { }
 
@@ -100,5 +103,13 @@ export class TeamDataService {
 
   showBlacklist() : void {
     
+  }
+
+  getPlayerSelected() : Observable<any> {
+    return this._current_player_selected;
+  }
+
+  setPlayerSelected(player:any) : void {
+    this._player_selected.next(player);
   }
 }
