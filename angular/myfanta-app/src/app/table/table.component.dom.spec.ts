@@ -216,15 +216,15 @@ describe('TableComponent DOM', () => {
             expect(component.getPageIndex()).toBe(0);
         });
 
-        it('should be able to set the page size', async () => {
+        it('should be able to set the page size', fakeAsync(async () => {
             const paginator = await loader.getHarness(MatPaginatorHarness);
         
             expect(component.getPageSize()).toBe(10);
             await paginator.setPageSize(20);
             expect(component.getPageSize()).toBe(20);
-        });
+        }));
 
-        it('should mat-sort get the sorted direction of a header', async () => {
+        it('should mat-sort get the sorted direction of a header', fakeAsync(async () => {
             const sort = await loader.getHarness(MatSortHarness);
             const secondHeader = (await sort.getSortHeaders())[1];
         
@@ -235,7 +235,18 @@ describe('TableComponent DOM', () => {
         
             await secondHeader.click();
             expect(await secondHeader.getSortDirection()).toBe('desc');
-        });
+        }));
+
+        it('should call setPlayerSelected when row of table is clicked', fakeAsync(async () => {
+            const spy_playerSelected = spyOn(component, "setPlayerSelected");
+            const rows = fixture.debugElement.queryAll(By.css('tr'));
+            const player_toloi = rows[2];
+
+            player_toloi.nativeElement.click();
+            tick();
+
+            expect(spy_playerSelected).toHaveBeenCalledWith(PLAYER_DATA[1]);
+        }));
     });
 
     describe('Routing', () => {
