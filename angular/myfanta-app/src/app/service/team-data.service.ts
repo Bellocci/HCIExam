@@ -30,6 +30,10 @@ export class TeamDataService {
     
   }
 
+  addPlayerToBlacklist(player_name:any) {
+
+  }
+
   clearTeam() {
 
   }

@@ -198,13 +198,24 @@ describe('SearchAddPlayerComponent', () => {
       expect(component.isValueInputTextEmpty()).toBeFalse();
     });
 
-    it('should call addPlayerToTeam from internal_data when method addPlayer is called', () => {
+    it('should addPlayer method call addPlayerToTeam method from team data service when tab selected is "Team"', () => {
       const player_name:string = 'test';
+      component['_tab_selected'] = 'Team'
       const spy_addPlayer = spyOn(team_data, "addPlayerToTeam");
 
       component.addPlayer(player_name);
 
-      expect(spy_addPlayer).toHaveBeenCalled();
+      expect(spy_addPlayer).toHaveBeenCalledWith(player_name);
+    });
+
+    it('should addPlayer method call addPlayerToBlacklist from team data service when tab selected is "Blacklist"', () => {
+      const player_name:string = 'test';
+      component['_tab_selected'] = 'Blacklist'
+      const spy_addPlayer = spyOn(team_data, "addPlayerToBlacklist");
+
+      component.addPlayer(player_name);
+
+      expect(spy_addPlayer).toHaveBeenCalledWith(player_name);
     });
 
     it('should set value_input_text as empty string when addPlayer method is called', () => {

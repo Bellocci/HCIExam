@@ -81,6 +81,9 @@ export class SearchAddPlayerComponent implements OnInit, AfterViewInit {
 
   addPlayer(player:any) : void {
     this.value_input_text = '';
-    this._team_data.addPlayerToTeam(player);
+    if(this._tab_selected == 'Blacklist')
+      this._team_data.addPlayerToBlacklist(player);
+    else
+      this._team_data.addPlayerToTeam(player);
   }
 }
