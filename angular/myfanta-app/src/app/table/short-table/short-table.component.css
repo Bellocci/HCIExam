@@ -1,0 +1,14 @@
+.short-table-container {
+    position: relative;
+    min-height: 200px;
+    max-height: 350px;
+    overflow-y: scroll;
+}
+
+@media screen and (width <= 500px) { 
+    
+    .short-table-container {
+        min-height: auto;
+        max-height: max-content;
+    }
+}

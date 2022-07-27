@@ -1,0 +1,59 @@
+<div  class="short-table-container">    
+    <table mat-table [dataSource]="getDataSource()" matSort multiTemplateDataRows>
+
+        <ng-container matColumnDef="Name">
+        <th class="primary-color text" mat-header-cell mat-sort-header="playerName" *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let player">
+            <a class="txt-link text" routerLink="/detail/{{player.playerName}}">
+            {{ player.playerName }}
+            </a>
+        </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="Team">
+        <th class="primary-color text" mat-header-cell mat-sort-header="team" *matHeaderCellDef>Team</th>
+        <td class="text" mat-cell *matCellDef="let player">{{ player.team }}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="Cost">
+        <th class="primary-color text" mat-header-cell mat-sort-header="cost" *matHeaderCellDef>Cost</th>
+        <td class="text" mat-cell *matCellDef="let player">{{ player.cost }}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="favoritePlayer">
+        <th class="primary-color text" mat-header-cell *matHeaderCellDef>Favorite player</th>
+        <td mat-cell *matCellDef="let player">
+            <button mat-icon-button
+            *ngIf="!isFavoritePlayer(player)"
+            (click)="setPlayerAsFavorite(player)">
+                <mat-icon>favorite_border</mat-icon>
+            </button>
+            <button mat-icon-button
+            *ngIf="isFavoritePlayer(player)"
+            (click)="removePlayerAsFavorite(player)">
+            <mat-icon>favorite</mat-icon>
+            </button>
+        </td>
+        </ng-container>
+    
+        <tr mat-header-row 
+        *matHeaderRowDef="getColumns(); sticky: true" 
+        class="txt-row">
+        </tr>
+        <tr mat-row 
+        *matRowDef="let row; columns: getColumns();" 
+        (click)="setPlayerSelected(row)" 
+        [ngClass]="isPlayerSelected(row) ? 'row-selected' : ''"
+        class="txt-row">
+        </tr>
+    </table>
+</div>
+<mat-paginator
+    class="primary-color"
+    (page)="handlePageEvent($event)"
+    [pageSize]="getPageSize()"
+    [pageIndex]="getPageIndex()"
+    [pageSizeOptions]="getPageSizeOptions()"
+    showFirstLastButtons
+    aria-label="Select page">
+</mat-paginator>

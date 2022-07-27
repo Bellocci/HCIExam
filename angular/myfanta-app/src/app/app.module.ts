@@ -18,6 +18,7 @@ import { ToolbarBaseComponent } from './toolbar/toolbar-base/toolbar-base.compon
 import { ToolbarMobileComponent } from './toolbar/toolbar-mobile/toolbar-mobile.component';
 import { SearchAddPlayerComponent } from './search-add-player/search-add-player.component';
 import { PlayerListComponent } from './player-list/player-list.component';
+import { ShortTableComponent } from './table/short-table/short-table.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { PlayerListComponent } from './player-list/player-list.component';
     ToolbarMobileComponent,
     SearchAddPlayerComponent,
     PlayerListComponent,
+    ShortTableComponent,
   ],
   imports: [
     BrowserModule,
