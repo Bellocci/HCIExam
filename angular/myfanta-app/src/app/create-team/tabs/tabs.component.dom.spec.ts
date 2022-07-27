@@ -108,7 +108,7 @@ describe('TabsComponent DOM', () => {
             expect(grid_tiles.length).toBe(0);
         }));
 
-        it('should show app-table component inside tab "Team" when isGridDisplayed method return false', 
+        it('should show app-short-table component inside tab "Team" when isGridDisplayed method return false', 
         fakeAsync(async () => {
             const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
@@ -117,12 +117,12 @@ describe('TabsComponent DOM', () => {
             await fixture.whenStable();
 
             const tab_selected = await mat_tab.getSelectedTab();
-            const table_empty = await tab_selected.getAllChildLoaders('app-table');
+            const table_empty = await tab_selected.getAllChildLoaders('app-short-table');
             
             expect(table_empty.length).toBe(1);
         }));
 
-        it('should show app-table component inside tab "Team" when isGridDisplayed method return true', 
+        it('should show app-short-table component inside tab "Team" when isGridDisplayed method return true', 
         fakeAsync(async () => {
             const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
@@ -131,7 +131,7 @@ describe('TabsComponent DOM', () => {
             await fixture.whenStable();
 
             const tab_selected = await mat_tab.getSelectedTab();
-            const table_empty = await tab_selected.getAllChildLoaders('app-table');
+            const table_empty = await tab_selected.getAllChildLoaders('app-short-table');
             
             expect(table_empty.length).toBe(1);
         }));
@@ -250,7 +250,7 @@ describe('TabsComponent DOM', () => {
             expect(grid_tiles.length).toBe(0);
         }));
 
-        it('should show app-table component inside tab "Blacklist" when isGridDisplayed method return false', 
+        it('should show app-short-table component inside tab "Blacklist" when isGridDisplayed method return false', 
         fakeAsync(async () => {
             const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(false);
             fixture.detectChanges();
@@ -259,12 +259,12 @@ describe('TabsComponent DOM', () => {
             await fixture.whenStable();
 
             const tab_selected = await mat_tab.getSelectedTab();
-            const table_blacklist = await tab_selected.getAllChildLoaders('app-table');
+            const table_blacklist = await tab_selected.getAllChildLoaders('app-short-table');
 
             expect(table_blacklist.length).toBe(1);
         }));
 
-        it('should show app-table component inside tab "Blacklist" when isGridDisplayed method return true', 
+        it('should show app-short-table component inside tab "Blacklist" when isGridDisplayed method return true', 
         fakeAsync(async () => {
             const spy_grid_display = spyOn(component, "isGridDisplayed").and.returnValue(true);
             fixture.detectChanges();
@@ -273,7 +273,7 @@ describe('TabsComponent DOM', () => {
             await fixture.whenStable();
 
             const tab_selected = await mat_tab.getSelectedTab();
-            const table_blacklist = await tab_selected.getAllChildLoaders('app-table');
+            const table_blacklist = await tab_selected.getAllChildLoaders('app-short-table');
 
             expect(table_blacklist.length).toBe(1);
         }));

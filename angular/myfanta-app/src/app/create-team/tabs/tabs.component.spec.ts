@@ -87,8 +87,8 @@ describe('TabsComponent', () => {
     });
 
     it('testing subscribe method from result of getPlayerSelected method of internal_data is called', () => {
-      const spy_getPlayerSelected = spyOn(internal_data, "getPlayerSelected").and.returnValue(of());
-      const spy_sub = spyOn(internal_data.getPlayerSelected(), "subscribe");
+      const spy_getPlayerSelected = spyOn(team_data, "getPlayerSelected").and.returnValue(of());
+      const spy_sub = spyOn(team_data.getPlayerSelected(), "subscribe");
 
       component.ngOnInit();
 
@@ -96,8 +96,8 @@ describe('TabsComponent', () => {
       expect(spy_sub).toHaveBeenCalled();
     });
 
-    it('should set _player_selected with value returned by getPlayerSelected method of internal_data', () => {
-      const spy_getPlayerSelected = spyOn(internal_data, "getPlayerSelected").and.returnValue(of(PLAYER_DATA[0]));
+    it('should set _player_selected with value returned by getPlayerSelected method of team_data', () => {
+      const spy_getPlayerSelected = spyOn(team_data, "getPlayerSelected").and.returnValue(of(PLAYER_DATA[0]));
       component['_player_selected'] = null;
 
       component.ngOnInit();
@@ -256,8 +256,8 @@ describe('TabsComponent', () => {
       expect(component.getRowsBtns()).toBe(4);
     });
 
-    it('should call setPlayerSelected method from internal_data with params null when setPlayerSelected is called', () => {
-      const spy_setPlayerSelected = spyOn(internal_data, "setPlayerSelected");
+    it('should call setPlayerSelected method from team_data with params null when setPlayerSelected is called', () => {
+      const spy_setPlayerSelected = spyOn(team_data, "setPlayerSelected");
 
       component.setPlayerSelected();
 

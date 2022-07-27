@@ -59,7 +59,7 @@ export class TabsComponent implements OnInit, AfterViewInit {
   /* PRIVATE METHODS */
 
   private subscribePlayerSelected() : void {
-    this._internal_data.getPlayerSelected().subscribe((player:any) => {
+    this._team_data.getPlayerSelected().subscribe((player:any) => {
       this._player_selected = player;
     });
   }
@@ -127,7 +127,7 @@ export class TabsComponent implements OnInit, AfterViewInit {
   }
 
   setPlayerSelected() : void {
-    this._internal_data.setPlayerSelected(null);
+    this._team_data.setPlayerSelected(null);
   }
 
   setBtnRows() : void {
