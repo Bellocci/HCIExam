@@ -189,8 +189,8 @@ describe('CreateTeamComponent DOM', () => {
 
     it('should show div with error message and close button if error_message variable is not empty string', () => {
       const error_message:string = "Error test";
+      component['_error_message'] = error_message;
       const icon = 'close';
-      component.setErrorMessage(error_message);
       fixture.detectChanges();
 
       const error = fixture.debugElement.query(By.css('#display-error'));
@@ -208,7 +208,7 @@ describe('CreateTeamComponent DOM', () => {
 
     it('should call clearErrorMessage method when close button of div error is clicked', () => {
       const spy_clear = spyOn(component, "clearErrorMessage");
-      component.setErrorMessage('test');
+      component['_error_message'] = 'test'
       fixture.detectChanges();
 
       const error = fixture.debugElement.query(By.css('.error-container'));

@@ -10,12 +10,15 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CreateTeamComponent } from './create-team.component';
 import { SnackBarService } from '../service/snack-bar.service';
 import { TeamDataService } from '../service/team-data.service';
+import { InternalDataService } from '../service/internal-data.service';
+import { of } from 'rxjs';
 
 describe('CreateTeamComponent', () => {
   let component: CreateTeamComponent;
   let fixture: ComponentFixture<CreateTeamComponent>;
   let snackbar_service:SnackBarService;
   let team_data:TeamDataService;
+  let internal_data:InternalDataService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -31,6 +34,7 @@ describe('CreateTeamComponent', () => {
       providers: [
         SnackBarService,
         TeamDataService,
+        InternalDataService
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })
@@ -42,6 +46,7 @@ describe('CreateTeamComponent', () => {
     component = fixture.componentInstance;
     snackbar_service = TestBed.inject(SnackBarService);
     team_data = TestBed.inject(TeamDataService);
+    internal_data = TestBed.inject(InternalDataService);
     fixture.detectChanges();
   });
 
@@ -76,6 +81,15 @@ describe('CreateTeamComponent', () => {
       expect(component.getColsButtons()).toEqual(2);
     });
 
+    it('testing subscribe getErrorMessage from internal data service', () => {
+      const spy_getMessage = spyOn(internal_data, 'getErrorMessage').and.returnValue(of());
+      const spy_subscribe = spyOn(internal_data.getErrorMessage(), 'subscribe');
+
+      component.ngOnInit();
+
+      expect(spy_getMessage).toHaveBeenCalledBefore(spy_subscribe);
+      expect(spy_subscribe).toHaveBeenCalled();
+    });
   });
 
   describe('Methods called by template', () => {
@@ -106,12 +120,12 @@ describe('CreateTeamComponent', () => {
       expect(spy_generateWithFavorit).toHaveBeenCalled();
     });
 
-    it('should set empty string to error_message when clearErrorMessage method is called', () => {
-      component.setErrorMessage('test');
+    it('should clearErrorMessage method call setErrorMessage method from internal_data service with empty string argument', () => {
+      const spy_clearMsg = spyOn(internal_data, "setErrorMessage");
 
       component.clearErrorMessage();
 
-      expect(component.getErrorMessage()).toBe('');
+      expect(spy_clearMsg).toHaveBeenCalledWith('');
     });
   });
 

@@ -62,4 +62,12 @@ export class InternalDataService {
   saveOptions() {
     
   }
+
+  getErrorMessage() : Observable<string> {
+    return of();
+  }
+
+  setErrorMessage(msg: string) : void {
+
+  }
 }
