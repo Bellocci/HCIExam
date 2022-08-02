@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject, switchMap} from 'rxjs';
-import { InternalDataService } from '../service/internal-data.service';
-import { SharedService } from '../service/shared.service';
-import { TeamDataService } from '../service/team-data.service';
+import { InternalDataService } from '../../service/internal-data.service';
+import { SharedService } from '../../service/shared.service';
+import { TeamDataService } from '../../service/team-data.service';
 
 @Component({
   selector: 'app-search-add-player',

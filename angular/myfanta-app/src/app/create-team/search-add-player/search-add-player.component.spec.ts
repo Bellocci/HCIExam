@@ -5,13 +5,13 @@ import { of } from 'rxjs';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MaterialModule } from '../material-module';
+import { MaterialModule } from '../../material-module';
 import { FormsModule } from '@angular/forms';
 
 import { SearchAddPlayerComponent } from './search-add-player.component';
-import { SharedService } from '../service/shared.service';
-import { InternalDataService } from '../service/internal-data.service';
-import { TeamDataService } from '../service/team-data.service';
+import { SharedService } from '../../service/shared.service';
+import { InternalDataService } from '../../service/internal-data.service';
+import { TeamDataService } from '../../service/team-data.service';
 
 const PLAYERS_DATA = [
   {
