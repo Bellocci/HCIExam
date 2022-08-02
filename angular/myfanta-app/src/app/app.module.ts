@@ -16,7 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ToolbarBaseComponent } from './toolbar/toolbar-base/toolbar-base.component';
 import { ToolbarMobileComponent } from './toolbar/toolbar-mobile/toolbar-mobile.component';
-import { SearchAddPlayerComponent } from './search-add-player/search-add-player.component';
+import { SearchAddPlayerComponent } from './create-team/search-add-player/search-add-player.component';
 import { PlayerListComponent } from './player-list/player-list.component';
 import { ShortTableComponent } from './table/short-table/short-table.component';
 
