@@ -22,6 +22,25 @@ table {
   border-right: 0;
 }
 
+@media screen and (width <= 600px) {
+
+  .mat-header-cell {
+    padding-left: 8px !important;
+  }
+  
+  /* ROW TABLE */
+  
+  .mat-cell {
+    padding-left: 8px !important;
+  
+    border-style: solid;
+    border-width: 0.5px;
+    border-left: 0;
+    border-right: 0;
+  }
+}
+
+
 tr.mat-row:hover {
   background-color: #eeeeee;
   cursor: pointer;
@@ -34,15 +53,19 @@ tr.mat-row:hover {
 /* COLUMN TABLE */
 
 .mat-column-Name {
-  width: 40%;
+  width: 55%;
 }
 
 .mat-column-Team {
-  width: 30%;
+  width: 10%;
+}
+
+.mat-column-Role {
+  width: 10%;
 }
 
 .mat-column-Cost {
-  width: 15%;
+  width: 10%;
 }
 
 .mat-column-favoritePlayer {

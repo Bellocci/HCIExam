@@ -20,7 +20,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   private _pageIndex:number = 0;
   private _pageSize:number = 10;
   private _pageSizeOptions:number[] = [5, 10, 20]
-  private _columns:string[] = ['Name', 'Team', 'Cost', 'favoritePlayer'];
+  private _columns:string[] = ['Name', 'Team', 'Role', 'Cost', 'favoritePlayer'];
 
   constructor(private _team_data_service: TeamDataService) { }
 
