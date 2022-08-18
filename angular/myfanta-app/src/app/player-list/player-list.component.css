@@ -1,7 +1,9 @@
 /* HEADER */
 
 .subtitle-position {
-    padding: 35px;
+    padding-left: 5%;
+    padding-top: 30px;
+    padding-bottom: 10px;
 }
 
 h1 {
@@ -13,7 +15,9 @@ h1 {
     /* HEADER */
 
     .subtitle-position {
-        padding: 24px;
+        padding-left: 5%;
+        padding-top: 24px;
+        padding-bottom: 8px;
     }
 
     h1 {
@@ -29,10 +33,106 @@ h1 {
         display: none;
     }
 
-    /* GENERATE BUTTONS */
+}
 
-    .generate-btn-text {
-        font-size: 16px;
+/* ROLES */
+
+.role-container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.btns-role {
+    display: inline-flex;
+}
+
+.btn-role {
+    margin-right: 20px;
+    font-size: 18px;
+    background-color: #e0e0e0;
+    color: black;
+}
+
+.btn-role:hover {
+    background-color: #ffffb3;
+}
+
+.btn-selected {
+    background-color: #FFCF82;
+}
+
+.btn-selected:focus {
+    background-color: #FFCF82;
+}
+
+.btn-selected:focus:hover {
+    background-color: #ffffb3;
+}
+
+.btn-not-selected {
+    background-color: #e0e0e0;
+}
+
+.btn-not-selected:hover {
+    background-color: #ffffb3;
+}
+
+.btn-not-selected:focus {
+    background-color: #e0e0e0;
+}
+
+.btn-not-selected:focus:hover {
+    background-color: #ffffb3;
+}
+
+@media screen and (width <= 600px) {
+
+    .role-container {
+        text-align: center;
+    }
+
+    .btn-role {
+        font-size: 15px;
+    }
+}
+
+/* TEAMS */
+
+.team-container {
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.mat-chip {
+    font-size: 18px;
+    width: 100px;
+    justify-content: center;
+    margin-right: 20px !important;
+    margin-bottom: 10px !important;
+}
+
+.mat-chip.mat-standard-chip::after {
+    background-color: #ffffb3 !important;
+}
+
+.mat-chip:hover {
+    cursor: pointer;
+}
+
+@media screen and (800px >= width >= 601px) {
+
+    .mat-chip {
+        font-size: 15px;
+        margin-right: 10px !important;
+        width: 80px;
+    }
+}
+
+@media screen and (width <= 600px) {
+    
+    .team-container {
+        text-align: center;
     }
 }
 
@@ -53,18 +153,42 @@ h1 {
 
 @media screen and (600px >= width >= 320px) {
 
+    .filter-container {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
     .view-list-page {
         margin: 0;
     }
 
     .table {
-        width: 90%;
+        width: 70%;
     }
 
     .filter {
-        margin-left: 15%;
-        margin-right: 15%;
-        margin-top: 0;
-        margin-left: 0;
+        width:100%;
     }
+}
+
+/* TEXT */
+
+.text-filter {
+    font-weight: bold;
+}
+
+@media screen and (width <= 800px) {
+
+    .text-filter {
+        font-size: 16px !important;
+    }
+    
+}
+
+@media screen and (width <= 600px) {
+
+    .text-filter {
+        text-align: center;
+    }
+    
 }
