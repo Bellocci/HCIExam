@@ -14,6 +14,11 @@
         <th class="primary-color text" mat-header-cell mat-sort-header="team" *matHeaderCellDef>Team</th>
         <td class="text" mat-cell *matCellDef="let player">{{ player.team }}</td>
         </ng-container>
+
+        <ng-container matColumnDef="Role">
+            <th class="primary-color text" mat-header-cell mat-sort-header="role" *matHeaderCellDef>Role</th>
+            <td class="text" mat-cell *matCellDef="let player">{{ player.role }}</td>
+        </ng-container>
     
         <ng-container matColumnDef="Cost">
         <th class="primary-color text" mat-header-cell mat-sort-header="cost" *matHeaderCellDef>Cost</th>
