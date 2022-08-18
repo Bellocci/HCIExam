@@ -116,4 +116,27 @@ export class TeamDataService {
   setPlayerSelected(player:any) : void {
     this._player_selected.next(player);
   }
+
+  /*
+  Deve restituire tutti i team del campionato selezionato
+  */
+
+  getTeamName() : Observable<any> {
+    return of(['Atalanta', 'Fiorentina', 'Juventus', 'Inter', 'Milan', 'Napoli', 'Roma', 'Verona', 'Empoli', 'Udinese']);
+    //return of(['Atalanta', 'Fiorentina', 'Juventus']);
+  }
+
+  /* Deve filtrare i giocatori */
+
+  filterPlayersByName(player_name:string) : void {
+    
+  };
+
+  filterPlayerByRoles(role : string, selected : boolean) : void {
+
+  };
+
+  filterPlayersByTeam(teams : string, selected : boolean) : void {
+
+  };
 }
