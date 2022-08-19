@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { TeamDataService } from '../service/team-data.service';
 
 @Component({
@@ -10,7 +9,6 @@ import { TeamDataService } from '../service/team-data.service';
 })
 export class PlayerListComponent implements OnInit {
 
-  input_txt:string = '';
   private _teams : {name : string, selected : boolean}[] = [];
   private _roles : {name : string, selected : boolean}[] = [
     {name : 'P', 'selected' : false},
@@ -21,22 +19,9 @@ export class PlayerListComponent implements OnInit {
 
   team_form = new FormControl('');
 
-  private _search_players = new Subject<string>();
-
   constructor(private _team_data_service: TeamDataService) { }
 
   ngOnInit(): void {
-    this._search_players.pipe(
-      // wait 300ms after each keystroke before considering the term
-      debounceTime(300),
-
-      // ignore new term if same as previous term
-      distinctUntilChanged(),
-
-    ).subscribe((player_name:string) => {
-      this._team_data_service.filterPlayersByName(player_name);
-    });
-
     this._team_data_service.getTeamName().subscribe((teams) => {
       for(let team of teams) {
         this._teams.push({name : team, selected : false});
@@ -112,13 +97,5 @@ export class PlayerListComponent implements OnInit {
 
   filterPlayerByTeam(team : {name : string, selected : boolean}) : void {
     this._team_data_service.filterPlayersByTeam(team.name, team.selected);
-  }
-
-  filterText(event: KeyboardEvent) : boolean {
-    return event.key.match(/[^a-zA-Z ,]/g) === null;
-  }
-
-  searchPlayer(player_name:string) {
-    this._search_players.next(player_name);
   }
 }

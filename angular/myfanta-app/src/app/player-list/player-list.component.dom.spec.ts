@@ -1,19 +1,20 @@
+import { ComponentFixture, fakeAsync, TestBed } from "@angular/core/testing";
+import { Component } from "@angular/core";
+
 import { HarnessLoader } from "@angular/cdk/testing";
 import { TestbedHarnessEnvironment } from "@angular/cdk/testing/testbed";
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
+import { MatSelectHarness } from "@angular/material/select/testing";
+import { MatFormFieldHarness } from '@angular/material/form-field/testing';
+import { MatButtonHarness } from "@angular/material/button/testing";
+import { MatChipListboxHarness } from '@angular/material/chips/testing';
+
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
+import { By } from "@angular/platform-browser";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+
 import { MaterialModule } from "../material-module";
 import { PlayerListComponent } from "./player-list.component";
-import { MatFormFieldHarness } from '@angular/material/form-field/testing';
-import { By } from "@angular/platform-browser";
-import { MatInputHarness } from "@angular/material/input/testing";
-import { MatButtonHarness } from "@angular/material/button/testing";
-import { MatChipHarness, MatChipListboxHarness } from '@angular/material/chips/testing';
-import { Component } from "@angular/core";
-import { MatSelectHarness } from "@angular/material/select/testing";
-
-
 
 describe('PlayerListComponent DOM', () => {
     let component: PlayerListComponent;
@@ -117,24 +118,30 @@ describe('PlayerListComponent DOM', () => {
             expect(await options[2].getText()).toEqual(TEAMS[2]);
         }));
 
-        it('should have a form-field when isShortSelectedTeam method return false', fakeAsync(async () => {
+        it('should not have a form-field when isShortSelectedTeam method return false', fakeAsync(async () => {
             const spy_short_select = spyOn(component, "isShortSelectedTeam").and.returnValue(false);
+            fixture.detectChanges();
+            const form_field = await loader.getAllHarnesses(MatFormFieldHarness);
+
+            expect(form_field.length).toBe(0);
+        }));
+
+        it('should have a form-field when isShortSelectedTeam method return true', fakeAsync(async () => {
+            const spy_short_select = spyOn(component, "isShortSelectedTeam").and.returnValue(true);
             fixture.detectChanges();
             const form_field = await loader.getAllHarnesses(MatFormFieldHarness);
 
             expect(form_field.length).toBe(1);
         }));
 
-        it('should have two form-field when isShortSelectedTeam method return true', fakeAsync(async () => {
-            const spy_short_select = spyOn(component, "isShortSelectedTeam").and.returnValue(true);
-            fixture.detectChanges();
-            const form_field = await loader.getAllHarnesses(MatFormFieldHarness);
-
-            expect(form_field.length).toBe(2);
-        }));
-
         it('should have app-table component', () => {
             const table = fixture.debugElement.query(By.css('app-table'));
+    
+            expect(table).toBeTruthy();
+        });
+
+        it('should have app-filter-player component', () => {
+            const table = fixture.debugElement.query(By.css('app-filter-player'));
     
             expect(table).toBeTruthy();
         });
@@ -187,51 +194,6 @@ describe('PlayerListComponent DOM', () => {
             await options[1].click();
 
             expect(spy_selected).toHaveBeenCalledWith(TEAMS[1]);
-        }));
-
-        it('should mat-form for select show name of team selected', fakeAsync(async () => {
-            const spy_short_select = spyOn(component, "isShortSelectedTeam").and.returnValue(true);
-            const spy_team = spyOn(component, "getTeam").and.returnValue(TEAM_DICT);
-            fixture.detectChanges();
-            const form = await loader.getHarness(MatFormFieldHarness);
-            const select = await loader.getHarness(MatSelectHarness);
-
-            await select.open();
-            const options = await select.getOptions();
-            await options[1].click();
-
-
-        }));
-
-        it('should mat-input set value of input into input_text when text is written', fakeAsync(async () => {
-            const input = await loader.getHarness(MatInputHarness);
-
-            await input.setValue('test');
-            tick(300);
-
-            expect(component.input_txt).toEqual('test');
-        }));
-
-        it('should mat-input call filterText method when keypress event occurs', () => {
-            const spy_filter = spyOn(component, "filterText");
-            const input = fixture.debugElement.query(By.css('input'));
-            const event = new KeyboardEvent("keypress", {
-                "key": "b",
-            });
-        
-            input.nativeElement.dispatchEvent(event);
-            fixture.detectChanges();
-        
-            expect(spy_filter).toHaveBeenCalledWith(event);
-        });
-
-        it('should input call searchPlayer method when set text', fakeAsync(async () => {
-            const spy_search = spyOn(component, "searchPlayer");
-        
-            const input = await loader.getHarness(MatInputHarness);
-            await input.setValue('test');
-        
-            expect(spy_search).toHaveBeenCalled();
         }));
     });
 })

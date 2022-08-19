@@ -1,12 +1,15 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { TeamDataService } from '../service/team-data.service';
-import { MaterialModule } from "../material-module";
-
-import { PlayerListComponent } from './player-list.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
+
+import { of } from 'rxjs';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MaterialModule } from "../material-module";
+import { TeamDataService } from '../service/team-data.service';
+import { PlayerListComponent } from './player-list.component';
 
 describe('PlayerListComponent', () => {
   let component: PlayerListComponent;
@@ -67,25 +70,6 @@ describe('PlayerListComponent', () => {
   });
 
   describe('ngOnInit', () => {
-
-    it('testing subscribe method from pipe method of _search_players is getting called', () => {
-      const spy_pipe = spyOn(component['_search_players'], "pipe").and.returnValue(of());
-      const spy_subscribe = spyOn(component['_search_players'].pipe(), "subscribe");
-
-      component.ngOnInit();
-
-      expect(spy_pipe).toHaveBeenCalledBefore(spy_subscribe);
-      expect(spy_subscribe).toHaveBeenCalled();
-    });
-
-    it('should call filterPlayersByName method from team data service inside pipe method', fakeAsync(() => {
-      const spy_filter = spyOn(team_data, "filterPlayersByName");
-
-      component['_search_players'].next('test');
-      tick(300);
-
-      expect(spy_filter).toHaveBeenCalledWith('test');
-    }));
 
     it('testing subscribe from getTeamName method from team data service', () => {
       const spy_getTeam = spyOn(team_data, "getTeamName").and.returnValue(of());
@@ -233,48 +217,6 @@ describe('PlayerListComponent', () => {
       fixture.detectChanges();
 
       expect(component.isShortSelectedTeam()).toBeTrue();
-    });
-
-
-    it('should return true when filterText method is called with alphabetic character parameter', () => {
-      const event = new KeyboardEvent("keypress", {
-        "key": "b",
-      });
-
-      expect(component.filterText(event)).toBeTrue();
-    });
-
-    it('should return true when filterText method is called with space parameter', () => {
-      const event = new KeyboardEvent("keypress", {
-        "key": " ",
-      });
-
-      expect(component.filterText(event)).toBeTrue();
-    });
-
-    it('should return false when filterText method is called with numeric character parameter', () => {
-      const event = new KeyboardEvent("keypress", {
-        "key": "1",
-      });
-
-      expect(component.filterText(event)).toBeFalse();
-    });
-
-    it('should return false when filterText method is called with special character parameter', () => {
-      const event = new KeyboardEvent("keypress", {
-        "key": "*",
-      });
-
-      expect(component.filterText(event)).toBeFalse();
-    });
-
-    it('testing next method of _search_players when searchPlayer is called', () => {
-      const player_name:string = 'test';
-      const spy_next = spyOn(component['_search_players'], "next");
-
-      component.searchPlayer(player_name);
-
-      expect(spy_next).toHaveBeenCalled();
     });
   });
 

@@ -44,15 +44,9 @@
                   </mat-form-field>
             </div>
         </div>
-        <mat-form-field class="text filter" appearance="standard">
-            <mat-label>Find player</mat-label>
-            <input matInput 
-            type="text" 
-            [(ngModel)]="input_txt"
-            (keypress)="filterText($event)"
-            (input)="searchPlayer(input_txt)"
-            placeholder="Ex. ium">
-        </mat-form-field>
+        <div class="filter">
+            <app-filter-player></app-filter-player>
+        </div>
     </div>
     <div class="mat-elevation-z5">
         <app-table class="table"></app-table>
