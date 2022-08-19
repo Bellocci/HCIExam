@@ -20,6 +20,7 @@ import { SearchAddPlayerComponent } from './create-team/search-add-player/search
 import { PlayerListComponent } from './player-list/player-list.component';
 import { ShortTableComponent } from './table/short-table/short-table.component';
 import { FavoriteListComponent } from './favorite-list/favorite-list.component';
+import { FilterPlayerComponent } from './filter-player/filter-player.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { FavoriteListComponent } from './favorite-list/favorite-list.component';
     PlayerListComponent,
     ShortTableComponent,
     FavoriteListComponent,
+    FilterPlayerComponent,
   ],
   imports: [
     BrowserModule,
