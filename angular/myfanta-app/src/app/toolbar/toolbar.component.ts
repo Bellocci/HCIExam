@@ -28,12 +28,12 @@ export class ToolbarComponent implements OnInit {
   ngOnInit(): void {
     this.refreshSportsList();
     this.refreshChampionshipsList();
-    this.getChampionshipSelected();
+    this.subscribeChampionshipSelected();
     this.subscribeActiveLink();
     this.is_mobile = window.innerWidth < 801;
   }
 
-  private getChampionshipSelected() {
+  private subscribeChampionshipSelected() {
     this.internal_data.getChampionshipSelected().subscribe(champ => {
       this.championship_selected = champ;
     })
@@ -57,16 +57,34 @@ export class ToolbarComponent implements OnInit {
     });
   }
 
+  /* GETTER */
+
   getActiveLink() : string {
     return this.activeLink.toUpperCase();
   }
 
-  onResize(event:any) {
-    this.is_mobile = event.target.innerWidth < 801 ? true : false;
+  getChampionshipSelected() : string {
+    return this.championship_selected;
+  }
+
+  /* SETTER */
+
+  setChampionshipSelected(champ:string) {
+    this.internal_data.setChampionshipSelected(champ);
+  }
+
+  setActiveLink(link_name:string) {
+    this.internal_data.setActiveLink(link_name);
   }
 
   isMobileLayout() : boolean {
     return this.is_mobile;
+  }
+
+  /* METHODS */
+
+  onResize(event:any) {
+    this.is_mobile = event.target.innerWidth < 801 ? true : false;
   }
 
   openSidenav() {
@@ -77,18 +95,8 @@ export class ToolbarComponent implements OnInit {
     this.sidenav.close();
   }
 
-  setChampionshipSelected(champ:string) {
-    this.internal_data.setChampionshipSelected(champ);
-  }
-
   filterChampionship(champ:any, sport:any):boolean {
-    if(champ.sport != sport.sportId)
-      return false;
-    return true;
-  }
-
-  setActiveLink(link_name:string) {
-    this.internal_data.setActiveLink(link_name);
+    return champ.sport == sport.sportId ? true : false
   }
 
   isActiveLink (link_name:string):boolean {

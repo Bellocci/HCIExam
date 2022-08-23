@@ -86,7 +86,7 @@ describe('ToolbarComponent', () => {
 
   describe("ngOnInit", () => {
 
-    it('testing subscribe method into getChampionshipSelected is getting called', () => {
+    it('testing subscribe method into getChampionshipSelected from internal data service is getting called', () => {
       const champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of(championship_selected));
       const subSpy = spyOn(internal_data_service.getChampionshipSelected(), 'subscribe');
 
@@ -96,23 +96,15 @@ describe('ToolbarComponent', () => {
       expect(subSpy).toHaveBeenCalled();
     });
 
-    it('should call getChamprionshipSelected and return an empty string', () => {
-      const champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of(championship_selected));
+    it('should set championship_selected variable with value returned from getChamprionshipSelected method from ' + 
+    'internal data service', () => {
+      const champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of('test'));
+      fixture.detectChanges();
 
       component.ngOnInit();
 
       expect(component.championship_selected).toBeDefined();
-      expect(component.championship_selected).toEqual(championship_selected);
-    });
-
-    it('should call getChampionshipSelected and return a string', () => {
-      championship_selected = 'Football soccer';
-      const champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of(championship_selected));
-
-      component.ngOnInit();
-
-      expect(component.championship_selected).toBeDefined();
-      expect(component.championship_selected).toEqual(championship_selected);
+      expect(component.championship_selected).toEqual('test');
     });
 
     it('testing subscribe method into refreshSportsList is getting called', () => {
