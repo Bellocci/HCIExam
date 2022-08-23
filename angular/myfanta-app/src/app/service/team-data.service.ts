@@ -139,4 +139,9 @@ export class TeamDataService {
   filterPlayersByTeam(teams : string, selected : boolean) : void {
 
   };
+
+  /* Rimuove i dati non necessari quando si naviga tra le pagine (Es: il player selezionato nella tabella) */
+  clearData() : void {
+
+  }
 }

@@ -70,4 +70,8 @@ export class InternalDataService {
   setErrorMessage(msg: string) : void {
 
   }
+
+  clearData() : void {
+    
+  }
 }
