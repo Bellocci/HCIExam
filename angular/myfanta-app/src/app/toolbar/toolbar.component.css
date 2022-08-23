@@ -54,3 +54,35 @@
 .text:hover {
     font-weight: 600;
 }
+
+/* ACTIVE LINK TITLE */
+
+.subtitle-position {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+@media screen and (1200px >= width >= 601px) {
+
+    .subtitle-position {
+        padding-top: 24px;
+        padding-bottom: 8px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
+
+@media screen and (600px >= width >= 320px) {
+
+    .hidden {
+        display: none;
+    }
+
+}

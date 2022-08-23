@@ -3,6 +3,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
 import { InternalDataService } from '../service/internal-data.service';
 import { SharedService } from '../service/shared.service';
+import { TeamDataService } from '../service/team-data.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,7 +12,7 @@ import { SharedService } from '../service/shared.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private service:SharedService, private internal_data:InternalDataService) { }
+  constructor(private service:SharedService, private internal_data:InternalDataService, private team_data:TeamDataService) { }
 
   @ViewChild(MatSidenav) sidenav!:MatSidenav;
 
@@ -20,7 +21,6 @@ export class ToolbarComponent implements OnInit {
   is_mobile:boolean = false;
 
   championship_selected:string = "";
-  subscrip_champ:Subscription = new Subscription;
   
   sportsList:any = [];
   championshipsList:any = [];
@@ -28,19 +28,13 @@ export class ToolbarComponent implements OnInit {
   ngOnInit(): void {
     this.refreshSportsList();
     this.refreshChampionshipsList();
-
     this.getChampionshipSelected();
-
+    this.subscribeActiveLink();
     this.is_mobile = window.innerWidth < 801;
   }
 
-  ngOnDestroy(): void {
-    if(this.subscrip_champ)
-      this.subscrip_champ.unsubscribe();
-  }
-
   private getChampionshipSelected() {
-    this.subscrip_champ = this.internal_data.getChampionshipSelected().subscribe(champ => {
+    this.internal_data.getChampionshipSelected().subscribe(champ => {
       this.championship_selected = champ;
     })
   }
@@ -57,8 +51,22 @@ export class ToolbarComponent implements OnInit {
     });
   }
 
-  isMobileLayout(event:any) {
+  private subscribeActiveLink() {
+    this.internal_data.getActiveLink().subscribe(link => {
+      this.activeLink = link;
+    });
+  }
+
+  getActiveLink() : string {
+    return this.activeLink.toUpperCase();
+  }
+
+  onResize(event:any) {
     this.is_mobile = event.target.innerWidth < 801 ? true : false;
+  }
+
+  isMobileLayout() : boolean {
+    return this.is_mobile;
   }
 
   openSidenav() {
@@ -89,5 +97,10 @@ export class ToolbarComponent implements OnInit {
       current_link = link;
     });
     return current_link === link_name;
+  }
+
+  clearData() : void {
+    this.internal_data.clearData();
+    this.team_data.clearData();
   }
 }
