@@ -1,5 +1,5 @@
 <mat-toolbar class="mat-elevation-z8 primary-color-dark"
-[ngClass]="championship_selected == '' ? 'toolbar-two-element' : 'toolbar-six-element'">
+[ngClass]="getChampionshipSelected() == '' ? 'toolbar-simple' : 'toolbar-complete'">
   <button type="button" mat-flat-button 
   class="text primary-color-dark color toolbar-el-height" 
   (click)="openSidenavFromChild()">
@@ -7,27 +7,32 @@
     Categories
   </button>
   <div></div>
-  <div class="container-link" *ngIf="championship_selected != ''">
+  <div class="container-link" *ngIf="getChampionshipSelected() != ''">
     <a class="link text color"
     [ngClass]="isActiveLink('Create team') == true ? 'link-toolbar-color' : 'primary-color-dark'" 
-    (click)="setActiveLink('Create team')"
+    (click)="setActiveLink('Create team'); clearData()"
     routerLink="createTeam">Create team</a>
 
     <a class="link text color"
     [ngClass]="isActiveLink('Player list') == true ? 'link-toolbar-color' : 'primary-color-dark'" 
-    (click)="setActiveLink('Player list')"
+    (click)="setActiveLink('Player list'); clearData()"
     routerLink="playerList">Player list</a>
 
     <a class="link text color" 
     [ngClass]="isActiveLink('Favorit list') == true ? 'link-toolbar-color' : 'primary-color-dark'" 
-    (click)="setActiveLink('Favorit list')"
+    (click)="setActiveLink('Favorit list'); clearData()"
     routerLink="favoritList">Favorit list</a>
+
+    <a class="link text color"
+    [ngClass]="isActiveLink('Blacklist') == true ? 'link-toolbar-color' : 'primary-color-dark'" 
+    (click)="setActiveLink('Blacklist'); clearData()"
+    routerLink="blackList">Blacklist</a>
 
     <div></div>
   </div>
   <a class="link text color"
-  *ngIf="championship_selected != ''"
-  (click)="setChampionshipSelected(''); setActiveLink('')"
+  *ngIf="getChampionshipSelected() != ''"
+  (click)="setChampionshipSelected(''); setActiveLink(''); clearData()"
   routerLink="">My Fanta</a>
   <button type="button" class="primary-color-dark color" mat-icon-button routerLink="help">
     <mat-icon>help</mat-icon>
