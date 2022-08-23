@@ -10,7 +10,11 @@ const routes: Routes = [
   {path: "home/createTeam", redirectTo: '/createTeam', pathMatch: "full"},
   {path: 'createTeam', component: CreateTeamComponent},
   {path: "home/playerList", redirectTo: '/playerList', pathMatch: 'full'},
-  {path: "playerList", component: PlayerListComponent}
+  {path: "playerList", component: PlayerListComponent},
+  {path: "home/favoritList", redirectTo: '/favoritList', pathMatch: 'full'},
+  {path: "favoritList", component: PlayerListComponent},
+  {path: "home/blackList", redirectTo: '/blackList', pathMatch: 'full'},
+  {path: "blackList", component: PlayerListComponent},
 ];
 
 @NgModule({
