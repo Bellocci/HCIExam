@@ -8,6 +8,7 @@ import { PLAYER_DATA_SERIE_A, PLAYER_DATA_SERIE_A_FEMALE } from 'src/model/playe
 export class TeamDataService {
 
   private _favorite_list:Set<any> = new Set<any>();
+  private _blacklist:Set<any> = new Set<any>();
 
   private _player_selected = new BehaviorSubject(null);
   private _current_player_selected = this._player_selected.asObservable();
@@ -34,6 +35,12 @@ export class TeamDataService {
 
   }
 
+  /* CLEAR */
+
+  clearAllPlayers() {
+    // Rimuove tutti i giocatori dalla lista, in base al link attivo.
+  }
+
   clearTeam() {
 
   }
@@ -48,10 +55,6 @@ export class TeamDataService {
 
   clearBlacklist() {
     
-  }
-
-  removePlayerFromBlacklist(player: any) {
-
   }
 
   setPlayerListViewOptions(players_to_view: number, last_id:number) : void {
@@ -81,8 +84,26 @@ export class TeamDataService {
     this._favorite_list.add(player);
   }
 
+  /* REMOVE PLAYER */
+
+  removePlayer(player:string) {
+    // Deve guardare quale link è attivo e poi rimuoverlo dalla lista opportuna.
+  }
+
   removePlayerFromFavoriteList(player:any) : void {
     this._favorite_list.delete(player);
+  }
+
+  isPlayerIntoBlacklist(player:any) : boolean {
+    return this._blacklist.has(player);
+  }
+
+  addPlayerIntoBlacklist(player:any) : void {
+    this._blacklist.add(player);
+  }
+
+  removePlayerFromBlacklist(player:any) : void {
+    this._blacklist.delete(player);
   }
 
   /*
@@ -122,8 +143,53 @@ export class TeamDataService {
   */
 
   getTeamName() : Observable<any> {
-    return of(['Atalanta', 'Fiorentina', 'Juventus', 'Inter', 'Milan', 'Napoli', 'Roma', 'Verona', 'Empoli', 'Udinese']);
-    //return of(['Atalanta', 'Fiorentina', 'Juventus']);
+    return of([
+      {
+        name : 'Atalanta',
+        short_name : 'ATA',
+      },
+      {
+        name : 'Fiorentina',
+        short_name : 'FIO',
+      },
+      {
+        name : 'Juventus',
+        short_name : 'JUV',
+      },
+      {
+        name : 'Inter',
+        short_name : 'INT',
+      },
+      {
+        name : 'Milan',
+        short_name : 'MIL',
+      },
+      {
+        name : 'Napoli',
+        short_name : 'NAP',
+      },
+      {
+        name : 'Roma',
+        short_name : 'ROM',
+      },
+      {
+        name : 'Verona',
+        short_name : 'VER',
+      },
+      {
+        name : 'Empoli',
+        short_name : 'EMP',
+      },
+      {
+        name : 'Udinese',
+        short_name : 'UDI',
+      },
+      {
+        name : 'Sampdoria',
+        short_name : 'SAM',
+      },
+    ])
+    //return of([{'Atalanta', 'Fiorentina', 'Juventus', 'Inter', 'Milan', 'Napoli', 'Roma', 'Verona', 'Empoli', 'Udinese']);
   }
 
   /* Deve filtrare i giocatori */
