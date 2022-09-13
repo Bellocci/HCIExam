@@ -1,103 +1,213 @@
 /* TABLE */
 
-table {
+.table-player {
   width: 100%;
-}
-
-/* HEADER TABLE */
-
-.mat-header-cell {
-  padding-left: 24px !important;
-  font-weight: 500 !important;
-}
-
-/* ROW TABLE */
-
-.mat-cell {
-  padding-left: 24px !important;
-
-  border-style: solid;
-  border-width: 0.5px;
-  border-left: 0;
-  border-right: 0;
-}
-
-@media screen and (width <= 600px) {
-
-  .mat-header-cell {
-    padding-left: 8px !important;
-  }
-  
-  /* ROW TABLE */
-  
-  .mat-cell {
-    padding-left: 8px !important;
-  
-    border-style: solid;
-    border-width: 0.5px;
-    border-left: 0;
-    border-right: 0;
-  }
-}
-
-
-tr.mat-row:hover {
-  background-color: #eeeeee;
-  cursor: pointer;
-}
-
-.row-selected {
-  background-color: #e0e0e0;
 }
 
 /* COLUMN TABLE */
 
 .mat-column-Name {
-  width: 55%;
+  width: 30%;
 }
 
 .mat-column-Team {
-  width: 10%;
-}
-
-.mat-column-Role {
-  width: 10%;
-}
-
-.mat-column-Cost {
-  width: 10%;
-}
-
-.mat-column-favoritePlayer {
   width: 15%;
+}
+
+.mat-column-Favorit {
   text-align: center;
 }
 
-/* LINK */
-
-a {
-  color: black;
-  text-decoration: none;
+.mat-column-Blacklist {
+  text-align: center;
 }
 
-a:hover {
-  font-weight: 500;
-  text-decoration: underline;
+@media screen and (500px >= width >= 401px) {
+  
+  .mat-column-Name {
+    width: 20%;
+    padding-left: 12px !important;
+  }
+
+  .mat-column-Role {
+    width: 10%;
+  }
+
+  .mat-column-Cost {
+    width: 10%;
+  }
+
+  .mat-column-Blacklist {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}
+
+@media screen and (400px >= width >= 320px) {
+
+  .mat-column-Name {
+    padding-left: 12px !important;
+    width: 40%;
+  }
+
+  .mat-column-Team {
+    width: 25%;
+  }
+
+  .mat-column-Role {
+    width: 15%;
+  }
+
+  .mat-column-Cost {
+    width: 15%;
+  }
+  
+  .mat-column-Expand {
+    width: 5%;
+    padding-right: 12px !important;
+  }
+}
+
+/* ROW TABLE */
+
+.row-selected {
+  background-color: #e0e0e0;
+}
+
+@media (hover : hover) {
+
+  .player-row:hover {
+    background-color: #eeeeee;
+  }
+
+}
+
+/* EXPANDED ROW */
+
+tr.detail-row {
+  height: 0;
+}
+
+.expanded-player-detail {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.border-bottom-0 td {
+  border-bottom-width: 0;
+}
+
+.container-expanded-detail-btn {
+  width: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.container-expanded-detail-btn button {
+  margin-top: 10px;
+}
+
+/* ICON BUTTON */
+
+td .icon-btn {
+  border-style: solid;
+  border-width: 1px;
+  line-height: 0px;
+  width: 30px;
+  height: 30px;
+}
+
+@media (hover : hover) {
+  
+  .icon-btn:hover {
+    background-color: #ffffb3;
+  }
+  
+}
+
+@media screen and (400px >= width >= 320px) {
+  
+  .mat-column-Expand .icon-btn {
+    width: 25px;
+    height: 25px;
+  }
 }
 
 /* TEXT TABLE */
 
-@media screen and (900px >= width >= 801px) {
+.txt-header {
+  font-size: 20px;
+  font-weight: 500;
+}
 
-  .mat-header-cell {
+.player-row td {
+  font-size: 18px;
+}
+
+@media screen and (1100px >= width >= 901px) {
+  
+  .txt-header {
+    font-size: 18px;
+  }
+
+  .player-row td {
+    font-size: 16px;
+  }
+}
+
+@media screen and (900px >= width >= 601px) {
+  
+  .txt-header {
+    font-size: 16px;
+  }
+
+  .player-row td {
+    font-size: 14px;
+  }
+}
+
+@media screen and (600px >= width >= 320px) {
+  
+  .txt-header {
+    font-size: 14px;
+  }
+}
+
+@media screen and (600px >= width >= 451px) {
+  
+  .player-row td {
+    font-size: 14px;
+  }
+}
+
+@media screen and (450px >= width >= 320px) {
+  
+  .player-row td {
     font-size: 12px;
   }
+}
 
-  .mat-cell {
-    font-size: 12px !important;
-  }
+@media (hover : hover) {
 
-  a {
-    font-size: 12px;
+  .txt-link {
+    color: black;
   }
+  
+  .txt-link:hover {
+    font-weight: 500;
+    text-decoration: underline;
+  }
+}
+
+/* COLOR */
+
+.active-block-icon {
+  color : red;
+  background-color: #FFCF82;
+}
+
+.not-active-block-icon {
+  color : black;
 }
