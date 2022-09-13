@@ -1,0 +1,38 @@
+<div class="container">
+    <mat-form-field class="form-field pr-3" appearance="fill">
+        <mat-label>Nome giocatore</mat-label>
+        <input matInput type='text'
+            (keypress)="filterText($event)"
+            placeholder="Nome giocatore..."
+            matInput
+            [(ngModel)]="value_input_text"
+            [matAutocomplete]="auto"
+            (input)="searchPlayer(value_input_text)">
+        <button mat-icon-button matSuffix aria-label="Clear" 
+        *ngIf="value_input_text"
+        (click)="value_input_text=''; searchPlayer('')">
+        <mat-icon>close</mat-icon>
+        </button>
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <ng-container *ngFor="let player of players">
+                <mat-option [value]="player.playerName">
+                    {{player.playerName}}
+                </mat-option>
+            </ng-container>
+        </mat-autocomplete>
+    </mat-form-field>
+    <button mat-raised-button 
+    class="txt-input secondary-color mat-elevation-z3 add-btn"
+    [disabled]="isValueInputTextEmpty()"
+    (click)="addPlayer(value_input_text)">
+        <span>Aggiungi giocatore</span>
+    </button>
+    <div class="error-container">
+        <span class="text error-txt">
+            Errore di prvoa.Supercalifragilistichespiralidosofevaccaxatartrgggggggg
+        </span>
+        <button mat-icon-button aria-label="Clear">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+</div>

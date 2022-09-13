@@ -13,11 +13,11 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 import { of } from "rxjs";
 
-import { MaterialModule } from "../../material-module";
+import { MaterialModule } from "../material-module";
 import { FormsModule } from "@angular/forms";
 
 import { SearchAddPlayerComponent } from "./search-add-player.component";
-import { SharedService } from "../../service/shared.service";
+import { SharedService } from "../service/shared.service";
 import { MatButtonHarness } from "@angular/material/button/testing";
 
 const PLAYER_AUTOCOMPLETE = [

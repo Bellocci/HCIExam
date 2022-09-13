@@ -1,18 +1,17 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject, switchMap} from 'rxjs';
-import { InternalDataService } from '../../service/internal-data.service';
-import { SharedService } from '../../service/shared.service';
-import { TeamDataService } from '../../service/team-data.service';
+import { InternalDataService } from '../service/internal-data.service';
+import { SharedService } from '../service/shared.service';
+import { TeamDataService } from '../service/team-data.service';
 
 @Component({
   selector: 'app-search-add-player',
   templateUrl: './search-add-player.component.html',
   styleUrls: ['./search-add-player.component.css']
 })
-export class SearchAddPlayerComponent implements OnInit, AfterViewInit {
+export class SearchAddPlayerComponent implements OnInit {
 
-  private _tab_selected:string = '';
-  input_visible:boolean = true;
+  private _active_link:string = '';
 
   value_input_text:string = '';
 
@@ -41,30 +40,6 @@ export class SearchAddPlayerComponent implements OnInit, AfterViewInit {
     );
   }
 
-  ngAfterViewInit(): void {
-    Promise.resolve().then(() => {
-      this.subscribeTabSelected();
-    })
-  }
-
-  private subscribeTabSelected() : void {
-    this._internal_data.getTabSelected().subscribe((tab_name) => {
-      this._tab_selected = tab_name;
-      this.value_input_text = '';
-      this.setInputVible(tab_name);
-    });
-  }
-
-  private setInputVible(textTab:string) {
-    this.input_visible = textTab != 'Options' ? true : false;
-  }
-
-  /* GETTER */
-
-  getTabSelected() : string {
-    return this._tab_selected;
-  }
-
   /* METHODS */
 
   isValueInputTextEmpty() : boolean {
@@ -81,9 +56,9 @@ export class SearchAddPlayerComponent implements OnInit, AfterViewInit {
 
   addPlayer(player:any) : void {
     this.value_input_text = '';
-    if(this._tab_selected == 'Blacklist')
+    if(this._active_link == 'Blacklist')
       this._team_data.addPlayerToBlacklist(player);
     else
-      this._team_data.addPlayerToTeam(player);
+      this._team_data.addPlayerIntoFavoriteList(player);
   }
 }
