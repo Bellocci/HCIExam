@@ -25,6 +25,7 @@ export class TabsComponent implements OnInit, AfterViewInit {
   private _disable_clear_team_btn: boolean = false;
   private _clear_btn_blacklist_disabled: boolean = false;
   private _save_btn_disabled: boolean = false;
+  save_btn_clicked:boolean = false;
 
   private _player_selected: any = null;
 
@@ -43,7 +44,7 @@ export class TabsComponent implements OnInit, AfterViewInit {
     this._team_data.showTeam();
     this.subscribePlayerSelected();
     this.subscribeDisableClearTeamBtn();
-    this.subscribeSaveBtnDisabled();
+    this.subscribeSaveBtnEnabled();
     this.subscribeClearBlacklistBtnDisabled();
   }
 
@@ -70,9 +71,10 @@ export class TabsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private subscribeSaveBtnDisabled() : void {
-    this._internal_data.isSaveBtnDisabled().subscribe((is_disabled) => {
-      this._save_btn_disabled = is_disabled;
+  private subscribeSaveBtnEnabled() : void {
+    this._internal_data.isSaveOptionEnable().subscribe((is_enable) => {
+      this._save_btn_disabled = is_enable;
+      this.save_btn_clicked = false;
     });
   }
 
@@ -183,12 +185,12 @@ export class TabsComponent implements OnInit, AfterViewInit {
     return this._clear_btn_blacklist_disabled ? true : false;
   }
 
-  isSaveBtnDisabled() : boolean {
-    return this._save_btn_disabled ? true : false;
+  isSaveBtnEnabled() : boolean {
+    return this._save_btn_disabled;
   }
 
   saveOptions() : void {
-    this._internal_data.saveOptions();
+    this.save_btn_clicked = true;
   }
 
   isLayoutMobile() : boolean {
