@@ -1,101 +1,254 @@
-/* ROLES */
+/* MAT-EXPANSION-PANEL */
 
-.role-container {
-    margin-top: 50px;
-    margin-bottom: 50px;
+.mat-expansion-panel {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.btns-role {
-    display: inline-flex;
+.mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+    max-width: 60%;
 }
 
-.btn-role {
+@media (hover: hover) {
+
+    .color-panel:hover {
+        background: #ffffb3 !important;
+    }
+}
+
+@media (hover: none) {
+
+    .color-panel {
+        background-color: inherit;
+    }
+
+    .secondary-color {
+        background-color: #FFCF82 !important;
+    }
+}
+
+@media screen and (1000px >= width >= 801px) {
+    
+    .mat-expansion-panel {
+        width: 90%;
+    }
+}
+
+@media screen and (800px >= width >= 501px) {
+    
+    .mat-expansion-panel {
+        width: 100%;
+    }
+
+}
+
+@media screen and (500px >= width >= 320px) {
+    
+    .mat-expansion-panel {
+        width: 100%;      
+    }
+
+    ::ng-deep .mat-expansion-panel-body {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+
+/* BUTTONS */
+
+.btn {
     margin-right: 20px;
-    font-size: 18px;
-    background-color: #e0e0e0;
-    color: black;
+    background-color: #e0e0e0;    
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.btn-role:hover {
-    background-color: #ffffb3;
+@media(hover : hover) {
+
+    .btn:hover {
+        background-color: #ffffb3 !important;
+    }
+
+    .btn-selected:focus {
+        background-color: #FFCF82;
+    }
+    
+    .btn-selected:focus:hover {
+        background-color: #ffffb3 !important;
+    }
+
+    .btn-not-selected:hover {
+        background-color: #ffffb3;
+    }
+    
+    .btn-not-selected:focus {
+        background-color: #e0e0e0;
+    }
+    
+    .btn-not-selected:focus:hover {
+        background-color: #ffffb3;
+    }
 }
 
 .btn-selected {
     background-color: #FFCF82;
 }
 
-.btn-selected:focus {
-    background-color: #FFCF82;
-}
-
-.btn-selected:focus:hover {
-    background-color: #ffffb3;
-}
-
 .btn-not-selected {
     background-color: #e0e0e0;
 }
 
-.btn-not-selected:hover {
-    background-color: #ffffb3;
+@media screen and (900px >= width >= 701px) {
+
+    .btn {
+        height: 35px;
+        max-width: 60px;
+        min-width: 60px;
+    }
 }
 
-.btn-not-selected:focus {
-    background-color: #e0e0e0;
+@media screen and (700px >= width >= 551px) {
+
+    .btn {
+        height: 35px;
+        max-width: 50px;
+        min-width: 50px;
+    }
 }
 
-.btn-not-selected:focus:hover {
-    background-color: #ffffb3;
+@media screen and (550px >= width >= 501px) {
+    
+    .btn {
+        height: 30px;
+        max-width: 40px;
+        min-width: 40px;
+    }
 }
 
-@media screen and (width <= 600px) {
+@media screen and (500px >= width >= 351px) {
 
-    .role-container {
-        text-align: center;
+    .btn {
+        height: 30px;
+        max-width: 40px;
+        min-width: 40px;
+        margin-right: 10px;
+    }
+}
+
+@media screen and (400px >= width >= 351px) {
+
+    .btn {
+        height: 25px;
+        max-width: 35px;
+        min-width: 35px;
+        margin-right: 8px;
+    }
+}
+
+@media screen and (350px >= width >= 320px) {
+
+    .btn {
+        height: 25px;
+        max-width: 35px;
+        min-width: 35px;
+        margin-right: 5px;
+    }
+}
+
+/* TEXT BUTTON ROLE AND TEAM */
+
+.txt-role-team {
+    color: black;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+@media (hover : hover) {
+
+    .txt-role-team:hover {
+        font-weight: 500;
+    }
+}
+
+@media screen and (1000px >= width >= 801px) {
+    
+    .txt-role-team {
+        font-size: 16px;
+    }
+}
+
+@media screen and (800px >= width >= 551px) {
+    
+    .txt-role-team {
+        font-size: 14px;
+    }
+}
+
+@media screen and (550px >= width >= 401px) {
+
+    .txt-role-team {
+        font-size: 12px;
+    }
+}
+
+@media screen and (400px >= width >= 320px) {
+
+    .txt-role-team {
+        font-size: 10px;
     }
 
-    .btn-role {
-        font-size: 15px;
-    }
 }
 
 /* TEAMS */
 
 .team-container {
-    width: 100%;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    width: 90%;
+    margin-top: 20px;
 }
 
-.mat-chip {
-    font-size: 18px;
+@media screen and (width <= 1100px) {
+    
+    .team-container {
+        width: 100%;
+    }
+}
+
+.chip {
     width: 100px;
     justify-content: center;
     margin-right: 20px !important;
     margin-bottom: 10px !important;
 }
 
-.mat-chip.mat-standard-chip::after {
-    background-color: #ffffb3 !important;
-}
-
-.mat-chip:hover {
-    cursor: pointer;
-}
-
-@media screen and (800px >= width >= 601px) {
-
-    .mat-chip {
-        font-size: 15px;
+@media screen and (1100px >= width >= 951px) {
+    
+    .chip {
+        width: 95px;
         margin-right: 10px !important;
-        width: 80px;
     }
 }
 
-@media screen and (width <= 600px) {
+@media screen and (950px >= width >= 801px) {
+
+    .chip {
+        width: 90px;
+        margin-right: 10px !important;
+    }
+}
+
+.chip.mat-standard-chip::after {
+    background-color: #ffffb3 !important;
+}
+
+@media (hover : hover) {
     
-    .team-container {
-        text-align: center;
+    .chip:hover {
+        cursor: pointer;
     }
 }
 
@@ -110,7 +263,11 @@
     width:70%
 }
 
-.table {
+.filter-field {
+    width: 100%;
+}
+
+.container-table {
     width: 100%;
 }
 
@@ -122,11 +279,8 @@
     }
 
     .view-list-page {
-        margin: 0;
-    }
-
-    .table {
-        width: 70%;
+        margin-left: 5px;
+        margin-right: 5px;
     }
 
     .filter {
@@ -135,6 +289,42 @@
 }
 
 /* TEXT */
+
+.txt-bold {
+    font-weight: bold;
+}
+
+.txt-panel-title {
+    font-size: 20px;
+}
+
+.txt-panel {
+    font-size: 16px;
+}
+
+@media screen and (1000px >= width >= 801px ) {
+
+    .txt-panel-title {
+        font-size: 18px;
+    }
+    
+    .txt-panel {
+        font-size: 14px;
+    }
+
+}
+
+@media screen and (width <= 800px) {
+
+    .txt-panel-title {
+        font-size: 16px;
+    }
+    
+    .txt-panel {
+        font-size: 12px;
+    }
+
+}
 
 .text-filter {
     font-weight: bold;
@@ -148,10 +338,38 @@
     
 }
 
-@media screen and (width <= 600px) {
+@media screen and (width <= 450px) {
 
     .text-filter {
         text-align: center;
     }
     
+}
+
+/* DISPLAY */
+
+.block {
+    display: block;
+}
+
+.flex {
+    display: flex;
+}
+
+.inline-flex {
+    display: inline-flex;
+}  
+
+/* MARGIN */
+
+.mt-40px {
+    margin-top: 40px;
+}
+
+.mt-10px {
+    margin-top: 10px;
+}
+
+.mb-40px {
+    margin-bottom: 40px;
 }
