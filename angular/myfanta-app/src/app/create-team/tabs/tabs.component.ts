@@ -20,7 +20,6 @@ export class TabsComponent implements OnInit, AfterViewInit {
   ) { }
 
   @ViewChild('tab_group') private tab_group!:MatTabGroup;
-  private _tab_selected:string = '';
 
   private _disable_clear_team_btn: boolean = false;
   private _clear_btn_blacklist_disabled: boolean = false;
@@ -50,11 +49,6 @@ export class TabsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     const tab_name = this.tab_group?._tabs?.first.textLabel;
-    this._internal_data.setTabSelected(tab_name);
-
-    this._internal_data.getTabSelected().subscribe((tab:string) => {
-      this._tab_selected = tab;
-    });
   }
 
   /* PRIVATE METHODS */
@@ -113,20 +107,12 @@ export class TabsComponent implements OnInit, AfterViewInit {
   getColumnButtons() : number {
     return this._cols_btns;
   }
-
-  getTabSelected() : string {
-    return this._tab_selected;
-  }
-
+  
   getPlayerSelected() : any {
     return this._player_selected;
   }
 
   /* SETTER METHOD */
-
-  setTab(tab_name:string) : void {
-    this._internal_data.setTabSelected(tab_name);
-  }
 
   setPlayerSelected() : void {
     this._team_data.setPlayerSelected(null);
@@ -147,9 +133,8 @@ export class TabsComponent implements OnInit, AfterViewInit {
   }
 
   clearAll() : void {
-      this._tab_selected == 'Team' && !this.isDisableClearTeamBtn() ? this._team_data.clearTeam() 
-        : this._tab_selected == 'Blacklist' && !this.isClearBlacklistBtnDisabled() ? this._team_data.clearBlacklist()
-        : this._snack_bar.openSnackBarError("Errore: impossibile rimuovere tutti i giocatori dalla lista.");
+    if(!this.isDisableClearTeamBtn())
+      this._team_data.clearTeam();
   }
 
   isPlayerSelected() : boolean {
@@ -158,22 +143,15 @@ export class TabsComponent implements OnInit, AfterViewInit {
   
   removePlayer() : void {
     if(this._player_selected != null) {
-      this._tab_selected == 'Team' ? this._team_data.removePlayerFromTeam(this._player_selected)
-        : this._tab_selected == 'Blacklist' ? this._team_data.removePlayerFromBlacklist(this._player_selected)
-        : this._snack_bar.openSnackBarError("Errore: il tab selezionato non esiste. Impossibile eseguire l'operazione 'Remove'");
-    }
-    else {
-      this._snack_bar.openSnackBarError("Nessun giocatore è stato selezionato. Impossibile eseguire l'operazione");
+      this._team_data.removePlayerFromTeam(this._player_selected);
+      this._player_selected = null;
     }
   }
 
   moveToBlacklist() : void {
     if(this._player_selected != null) {
-      this._tab_selected == 'Team' ? this._team_data.addToBlacklistFromTeam(this._player_selected)
-        : this._snack_bar.openSnackBarError("Errore: il tab selezionato non esiste. Impossibile eseguire l'operazione");
-    }
-    else {
-      this._snack_bar.openSnackBarError("Nessun giocatore è stato selezionato. Impossibile eseguire l'operazione");
+      this._team_data.addPlayerIntoBlacklist(this._player_selected)
+      this._player_selected = null;
     }
   }
 
