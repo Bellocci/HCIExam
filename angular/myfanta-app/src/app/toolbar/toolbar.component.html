@@ -43,9 +43,11 @@
         (window:resize)="onResize($event)"
         (sidenav_emit)="openSidenav()">
       </app-toolbar-mobile>
+      <!--
       <div class="hidden subtitle-position primary-color" *ngIf="getActiveLink() != ''">
         <h1 class="no-margin">{{ getActiveLink() }}</h1>
       </div>
+      -->
       <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
