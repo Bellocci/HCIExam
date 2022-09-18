@@ -165,4 +165,31 @@ export class PlayerListComponent implements OnInit {
   searchPlayer(player_name:string) {
     this._search_players.next(player_name);
   }
+
+
+
+
+  /* NEW  */
+
+  match_filter : string[] = ['Tutte', '>75%', '>50%', '>25%'];
+  match_filter_selected : string = 'Tutte';
+  
+  roles_view : string[] = ['Classic', 'Mantra'];
+  role_view_selected : string = 'Classic';
+
+  isRoleViewSelected(role_view:string) : boolean {
+    return this.role_view_selected == role_view ? true : false;
+  }
+
+  setRoleView(role_view:string) : void {
+    this.role_view_selected = role_view;
+  }
+
+  isMatchFilterSelected(match:string) : boolean {
+    return this.match_filter_selected == match ? true : false;
+  }
+
+  setMatchSelected(match:string) : void {
+    this.match_filter_selected = match;
+  }
 }
