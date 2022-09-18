@@ -1,6 +1,6 @@
 <mat-tab-group #tab_group
 mat-align-tabs="center"
-(selectedTabChange)="setTab($event.tab.textLabel); setPlayerSelected(); setPlayersToView($event.tab.textLabel)">
+(selectedTabChange)="setPlayerSelected(); setPlayersToView($event.tab.textLabel)">
     <mat-tab class="text" label="Team">
         <mat-grid-list
         *ngIf="isGridDisplayed()"
