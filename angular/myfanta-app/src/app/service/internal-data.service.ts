@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { SessionStorageService } from './session-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InternalDataService {
 
-  constructor() { }
+  constructor(private _session_storage:SessionStorageService) { }
 
-  private _championship_selected = new BehaviorSubject('');
+
+  private _championship_selected = new BehaviorSubject(this._session_storage.getData('championship'));
   private _current_championship = this._championship_selected.asObservable();
 
-  private _active_link = new BehaviorSubject('');
+  private _active_link = new BehaviorSubject(this._session_storage.getData('link'));
   private _current_link = this._active_link.asObservable();
-
-  private _tab_selected = new BehaviorSubject('');
-  private _current_tab = this._tab_selected.asObservable();
 
   private _clear_team_btn = new BehaviorSubject(true);
   private _current_clear_team = this._clear_team_btn.asObservable();
@@ -26,6 +25,7 @@ export class InternalDataService {
   private _current_save_options_clicked = this._save_options_clicked.asObservable();
 
   setChampionshipSelected(champ:string) {
+    this._session_storage.saveData('championship', champ)
     this._championship_selected.next(champ);
   }
 
@@ -34,19 +34,12 @@ export class InternalDataService {
   }
 
   setActiveLink(link_name:string) {
+    this._session_storage.saveData('link', link_name);
     this._active_link.next(link_name);
   }
 
   getActiveLink() {
     return this._current_link;
-  }
-
-  setTabSelected(tab_name:string) {
-    this._tab_selected.next(tab_name);
-  }
-
-  getTabSelected() : Observable<string> {
-    return this._current_tab;
   }
 
   setActiveClearTeamBtn() {
