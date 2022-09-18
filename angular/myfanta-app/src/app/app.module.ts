@@ -1,10 +1,12 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material-module';
+
+import { AppInitService } from './service/app-init.service';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
@@ -21,6 +23,12 @@ import { PlayerListComponent } from './player-list/player-list.component';
 import { ShortTableComponent } from './table/short-table/short-table.component';
 import { FilterPlayerComponent } from './filter-player/filter-player.component';
 import { TableFavBlackPlayerComponent } from './table/table-fav-black-player/table-fav-black-player.component';
+
+export function initializeApp(appInitService: AppInitService) {
+  return (): Promise<any> => { 
+    return appInitService.Init();
+  }
+}
 
 @NgModule({
   declarations: [
@@ -48,7 +56,10 @@ import { TableFavBlackPlayerComponent } from './table/table-fav-black-player/tab
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    AppInitService,
+    { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [AppInitService], multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
