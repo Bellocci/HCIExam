@@ -1,13 +1,13 @@
 import { Observable, of } from "rxjs";
 
-class Team {
+class TeamEntity {
     teamId!:number;
     teamName!:string;
     teamAbbreviation!:string;
     championship!:number;
 }
 
-export const TEAM_DATA:Observable<Team[]> = of([
+export const TEAM_DATA:Observable<TeamEntity[]> = of([
     {
         teamId :  1,
         teamName : 'Atalanta',

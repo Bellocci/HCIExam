@@ -19,6 +19,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from "@angular/core";
 import { InternalDataService } from "../service/internal-data.service";
 import { Location } from "@angular/common";
 import { Router, Routes } from "@angular/router";
+import { By } from "@angular/platform-browser";
 
 const SPORT_DATA = [
     {
@@ -176,6 +177,46 @@ describe('AppComponent DOM', () => {
             expect((await mat_basketball.getTextContent()).includes(CHAMPIONSHIP_DATA[0].championshipName)).toBeFalse();
             expect((await mat_basketball.getTextContent()).includes(CHAMPIONSHIP_DATA[1].championshipName)).toBeFalse();
             expect((await mat_basketball.getTextContent()).includes(CHAMPIONSHIP_DATA[2].championshipName)).toBeTrue();
+        });
+
+        it('should show toolbar-base component and not toolbar-mobile component when isMobileLayout method return false', () => {
+            const spy_mobile = spyOn(component, "isMobileLayout").and.returnValue(false);
+            fixture.detectChanges();
+
+            const toolbar_base = fixture.debugElement.queryAll(By.css('app-toolbar-base'));
+            const toolbar_mobile = fixture.debugElement.queryAll(By.css('app-toolbar-mobile'));
+
+            expect(toolbar_base.length).toBe(1);
+            expect(toolbar_mobile.length).toBe(0);
+        });
+
+        it('should show toolbar-mobile component and not toolbar-base component when isMobileLayout method return true', () => {
+            const spy_mobile = spyOn(component, "isMobileLayout").and.returnValue(true);
+            fixture.detectChanges();
+
+            const toolbar_base = fixture.debugElement.queryAll(By.css('app-toolbar-base'));
+            const toolbar_mobile = fixture.debugElement.queryAll(By.css('app-toolbar-mobile'));
+
+            expect(toolbar_base.length).toBe(0);
+            expect(toolbar_mobile.length).toBe(1);
+        });
+
+        it('should show h1 element when activeLink is not an empty string', () => {
+            const spy_link = spyOn(component, "getActiveLink").and.returnValue('test');
+            fixture.detectChanges();
+
+            const h1 = fixture.debugElement.queryAll(By.css('h1'));
+
+            expect(h1.length).toBe(1);
+        });
+
+        it('should not show h1 element when activeLink is an empty string', () => {
+            const spy_link = spyOn(component, "getActiveLink").and.returnValue('');
+            fixture.detectChanges();
+
+            const h1 = fixture.debugElement.queryAll(By.css('h1'));
+
+            expect(h1.length).toBe(0);
         });
     });
 

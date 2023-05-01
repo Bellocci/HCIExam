@@ -6,6 +6,8 @@ body {
     font-family: Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
+/* Colors */
+
 .primary-color {
     background-color: #82B1FF;
 }
@@ -22,6 +24,29 @@ body {
     background-color: #FFCF82;
 }
 
+.secondary-color:hover {
+    background-color: #ffffb3;
+}
+
+.white-color {
+    background-color: #F9F9F9;
+}
+
+.white-color:hover {
+    background-color: #E0E0E0;
+}
+
+.error-color {
+    color: #f44336;
+}
+
+/* Icon colors */
+
+.material-icons.color_green { color: #248232; }
+.material-icons.color_red { color: #f44336; }
+
+/* FINE COLORE */
+
 .hidden-element {
     display: none;
 }
@@ -32,8 +57,108 @@ body {
 
 .link {
     text-align: center;
-    text-decoration: none;
+    text-decoration: underline;
     color: #000000;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/* MARGINI DA UTILIZZARE NEI CASI STANDARD */
+
+/* 10px */
+
+.m-10px {
+    margin: 10px !important;
+}
+
+.mt-10px {
+    margin-top: 10px !important;
+}
+
+.mb-10px {
+    margin-bottom: 10px !important;
+}
+
+.ml-10px {
+    margin-left: 10px !important;
+}
+
+.mr-10px {
+    margin-right: 10px !important;
+}
+
+/* 30px */
+
+.m-30px {
+    margin: 30px;
+}
+
+.mt-30px {
+    margin-top: 30px;
+}
+
+.mb-30px {
+    margin-bottom: 30px;
+}
+
+.ml-30px {
+    margin-left: 30px;
+}
+
+.mr-30px {
+    margin-right: 30px;
+}
+
+/* Container and item */
+
+.flex-container {
+    display: flex !important;
+}
+
+.flex-and-align-items-center {
+    display: flex !important;
+    align-items: center;
+}
+
+.flex-item-1-1-auto {
+    flex: 1 1 auto;
+}
+
+.flex-direction-column {
+    flex-direction: column;
+}
+
+/* Tooltip */
+
+.tooltip {
+    position: relative;
+    display: inline-block;    
+}
+
+.tooltip .tooltiptext {
+    border: 1px solid black;
+    visibility: hidden;
+    width: 120px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    background-color: blanchedalmond;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 0px;
+    right: 0;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.mat-tooltip {
+    font-size: 14px;
 }
 
 @media 
@@ -41,6 +166,11 @@ body {
 
         .text { 
             font-size: 18px;
+            font-weight: 400;
+        }
+
+        .label {
+            font-size: 16px;
             font-weight: 400;
         }
 }
@@ -53,6 +183,11 @@ body {
             font-size: 16px;
             font-weight: 400;
         }
+
+        .label {
+            font-size: 12px;
+            font-weight: 400;
+        }
 }
 
 @media 
@@ -60,7 +195,12 @@ body {
     and (max-width: 800px) {
     
         .text { 
-            font-size: 15px;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .label {
+            font-size: 12px;
             font-weight: 400;
         }
 }
@@ -70,7 +210,12 @@ body {
     and (max-width: 500px) {
     
         .text { 
-            font-size: 13px;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .label {
+            font-size: 12px;
             font-weight: 400;
         }
 }

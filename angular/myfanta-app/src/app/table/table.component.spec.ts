@@ -1,8 +1,9 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { PageEvent } from '@angular/material/paginator';
-import { of } from 'rxjs';
-import { TeamDataService } from '../service/team-data.service';
 
+import { of } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
+
+import { TeamDataService } from '../service/team-data.service';
 import { TableComponent } from './table.component';
 
 describe('TableComponent', () => {
@@ -53,6 +54,16 @@ describe('TableComponent', () => {
       component.ngOnInit();
 
       expect(component.getDataSource().data.length).toBe(PLAYER_DATA.length);
+    });
+
+    it('testing subscribe method into getPlayerSelected method from internal data service', () => {
+      const spy_playerSelected = spyOn(team_data, "getPlayerSelected").and.returnValue(of());
+      const spy_subscribe = spyOn(team_data.getPlayerSelected(), "subscribe");
+
+      component.ngOnInit();
+
+      expect(spy_playerSelected).toHaveBeenCalledBefore(spy_subscribe);
+      expect(spy_subscribe).toHaveBeenCalled();
     });
   });
 
@@ -140,6 +151,24 @@ describe('TableComponent', () => {
       component.handlePageEvent(event);
 
       expect(component.getPageSize()).toBe(20);
+    });
+
+    it('should setPlayerSelected method call setPlayerSelected method from team data service', () => {
+      const spy_setPlayerSelected = spyOn(team_data, "setPlayerSelected");
+
+      component.setPlayerSelected(PLAYER_DATA[0]);
+
+      expect(spy_setPlayerSelected).toHaveBeenCalledWith(PLAYER_DATA[0]);
+    });
+
+    it('should setPlayerSelected method call setPlayerSelected method from team data service with argument null if '+
+    'player selected is already selected', () => {
+      const spy_setPlayerSelected = spyOn(team_data, "setPlayerSelected");
+      component['_playerSelected'] = PLAYER_DATA[0];
+
+      component.setPlayerSelected(PLAYER_DATA[0]);
+
+      expect(spy_setPlayerSelected).toHaveBeenCalledWith(null);
     });
   });
 });

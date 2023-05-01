@@ -1,25 +1,87 @@
-/* INPUT */
+/* CONTAINER */
+
+.container {
+    max-width: 500px;
+    width: 100%;
+}
+
+/* FORM FIELD*/
 
 .form-field {
-    margin: 0;
-    padding-right: 3%;
-    max-width: 300px;
-    width: 70%;
+    max-width: 350px;
+    width: 100%;
+    max-height: 80px;
+}
+
+@media screen and (800px >= width >= 501px) {
+    
+    .form-field {
+        width: 70%;
+    }
+}
+
+@media screen and (500px >= width >= 320px) {
+    
+    .form-field {
+        max-width: 60%;
+    }
+}
+
+/* INPUT */
+
+.form-field input {
+    width: 80%;
 }
 
 /* ADD BUTTON */
 
 .add-btn {
-    font-size: 18px;
-    font-weight: 400;
+    vertical-align: top;
     max-width: 120px;
     min-width: 80px;
-    width: 27%;
-    padding: 0;
+    height: 50px;
+    width: 100%;
 }
 
-.add-btn:hover {
-    font-weight: 500;
+@media screen and (800px >= width >= 501px) {
+    
+    .add-btn {
+        max-width: 100px;
+    }
+}
+
+@media screen and (500px >= width >= 320px) {
+    
+    .add-btn {
+        max-width: 100px;
+        min-width: 40px;
+    }
+}
+
+/* ERROR CONTAINER */
+
+.error-container {
+    display: flex;
+    margin-bottom: 20px;
+    border-width: 0.5px;
+    border-radius: 7px;
+    border-style: solid;
+    background-color: #ffcdd2;
+    width: 100%;
+    color: #b71c1c;
+}
+
+.error-txt {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    max-width: 85%;
+    word-wrap: break-word;
+}
+
+.error-container button {
+    margin-right: 0;
+    margin-left: auto;
 }
 
 /* COLOR */
@@ -34,53 +96,37 @@
 
 /* TEXT */
 
-.text:disabled:hover {
+.txt-input:disabled:hover {
     font-weight: 400;
 }
 
-/* RESPONSIVE */
+.txt-input:hover {
+    font-weight: bold;
+}
 
-@media screen and (1200px >= width >= 1001px) {
+.txt-input {
+    font-weight: 400;
+    font-size: 16px;
+    white-space: inherit;
+    line-height: normal;
+}
 
-    .add-btn {
+@media screen and (800px >= width >= 501px) {
+    
+    .txt-input {
+        font-size: 16px;
+    }
+}
+
+@media screen and (500px >= width >= 320px) {
+    
+    .txt-input {
         font-size: 14px;
     }
 }
 
-@media screen and (1000px >= width >= 901px) {
+/* PADDING */
 
-    .form-field {
-        padding-right: 3%;
-        width: 65%;
-    }
-
-    .add-btn {
-        font-size: 12px;
-        width: 32%;
-    }
-}
-
-@media screen and (900px >= width >= 801px) {
-
-    .form-field {
-        padding-right: 3%;
-        width: 60%;
-    }
-
-    .add-btn {
-        font-size: 12px;
-        width: 37%;
-    }
-}
-
-@media screen and (800px >= width >= 320px) {
-
-    .add-btn {
-        font-size: 14px;
-        font-weight: 500;
-        max-width: 100px;
-        width: 27%;
-        vertical-align: middle;
-        margin-bottom: 3px;
-    }
+.pr-3 {
+    padding-right: 3%;
 }

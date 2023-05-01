@@ -1,13 +1,13 @@
 import { Observable, of } from "rxjs";
 
-class Player {
-    playerId!:number;
-    playerName!:string;
-    team!:number;
-    cost!:number;
-    role!:string;
-    age!:number;
-    matchPlayed!:number;
+export interface Player {
+    playerId:number;
+    playerName:string;
+    team:number;
+    cost:number;
+    role:string;
+    age:number;
+    matchPlayed:number;
 }
 
 export const PLAYER_DATA_SERIE_A:Player[] = [

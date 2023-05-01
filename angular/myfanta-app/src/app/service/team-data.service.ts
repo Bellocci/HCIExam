@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PLAYER_DATA_SERIE_A, PLAYER_DATA_SERIE_A_FEMALE } from 'src/model/player.model';
 
 @Injectable({
@@ -8,6 +8,10 @@ import { PLAYER_DATA_SERIE_A, PLAYER_DATA_SERIE_A_FEMALE } from 'src/model/playe
 export class TeamDataService {
 
   private _favorite_list:Set<any> = new Set<any>();
+  private _blacklist:Set<any> = new Set<any>();
+
+  private _player_selected = new BehaviorSubject(null);
+  private _current_player_selected = this._player_selected.asObservable();
 
   constructor() { }
 
@@ -27,6 +31,16 @@ export class TeamDataService {
     
   }
 
+  addPlayerToBlacklist(player_name:any) {
+
+  }
+
+  /* CLEAR */
+
+  clearAllPlayers() {
+    // Rimuove tutti i giocatori dalla lista, in base al link attivo.
+  }
+
   clearTeam() {
 
   }
@@ -41,10 +55,6 @@ export class TeamDataService {
 
   clearBlacklist() {
     
-  }
-
-  removePlayerFromBlacklist(player: any) {
-
   }
 
   setPlayerListViewOptions(players_to_view: number, last_id:number) : void {
@@ -74,8 +84,26 @@ export class TeamDataService {
     this._favorite_list.add(player);
   }
 
+  /* REMOVE PLAYER */
+
+  removePlayer(player:string) {
+    // Deve guardare quale link è attivo e poi rimuoverlo dalla lista opportuna.
+  }
+
   removePlayerFromFavoriteList(player:any) : void {
     this._favorite_list.delete(player);
+  }
+
+  isPlayerIntoBlacklist(player:any) : boolean {
+    return this._blacklist.has(player);
+  }
+
+  addPlayerIntoBlacklist(player:any) : void {
+    this._blacklist.add(player);
+  }
+
+  removePlayerFromBlacklist(player:any) : void {
+    this._blacklist.delete(player);
   }
 
   /*
@@ -100,5 +128,86 @@ export class TeamDataService {
 
   showBlacklist() : void {
     
+  }
+
+  getPlayerSelected() : Observable<any> {
+    return this._current_player_selected;
+  }
+
+  setPlayerSelected(player:any) : void {
+    this._player_selected.next(player);
+  }
+
+  /*
+  Deve restituire tutti i team del campionato selezionato
+  */
+
+  getTeamName() : Observable<any> {
+    return of([
+      {
+        name : 'Atalanta',
+        short_name : 'ATA',
+      },
+      {
+        name : 'Fiorentina',
+        short_name : 'FIO',
+      },
+      {
+        name : 'Juventus',
+        short_name : 'JUV',
+      },
+      {
+        name : 'Inter',
+        short_name : 'INT',
+      },
+      {
+        name : 'Milan',
+        short_name : 'MIL',
+      },
+      {
+        name : 'Napoli',
+        short_name : 'NAP',
+      },
+      {
+        name : 'Roma',
+        short_name : 'ROM',
+      },
+      {
+        name : 'Verona',
+        short_name : 'VER',
+      },
+      {
+        name : 'Empoli',
+        short_name : 'EMP',
+      },
+      {
+        name : 'Udinese',
+        short_name : 'UDI',
+      },
+      {
+        name : 'Sampdoria',
+        short_name : 'SAM',
+      },
+    ])
+    //return of([{'Atalanta', 'Fiorentina', 'Juventus', 'Inter', 'Milan', 'Napoli', 'Roma', 'Verona', 'Empoli', 'Udinese']);
+  }
+
+  /* Deve filtrare i giocatori */
+
+  filterPlayersByName(player_name:string) : void {
+    
+  };
+
+  filterPlayerByRoles(role : string, selected : boolean) : void {
+
+  };
+
+  filterPlayersByTeam(teams : string, selected : boolean) : void {
+
+  };
+
+  /* Rimuove i dati non necessari quando si naviga tra le pagine (Es: il player selezionato nella tabella) */
+  clearData() : void {
+
   }
 }

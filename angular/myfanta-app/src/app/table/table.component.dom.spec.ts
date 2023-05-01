@@ -105,6 +105,16 @@ describe('TableComponent DOM', () => {
             expect(cellColumnNames.includes('Team')).toBeTrue();
         }));
 
+        it('should table have a columns "Role"', fakeAsync(async () => {
+            const table = await loader.getHarness(MatTableHarness);
+            const header = (await table.getRows())[0];
+            const cells = await header.getCells();
+
+            const cellColumnNames = await parallel(() => cells.map(cell => cell.getColumnName()));
+
+            expect(cellColumnNames.includes('Role')).toBeTrue();
+        }));
+
         it('should table have a column "Cost"', fakeAsync(async () => {
             const table = await loader.getHarness(MatTableHarness);
             const firstRow = (await table.getRows())[0];
@@ -128,9 +138,9 @@ describe('TableComponent DOM', () => {
         it('should table show details about players', fakeAsync(async () => {
             const table = await loader.getHarness(MatTableHarness);
 
-            const first_player = (await (await table.getRows())[0].getCellTextByIndex()).splice(0, 3);
-            const second_player = (await (await table.getRows())[1].getCellTextByIndex()).splice(0, 3);
-            const third_player = (await (await table.getRows())[2].getCellTextByIndex()).splice(0, 3);
+            const first_player = (await (await table.getRows())[0].getCellTextByIndex()).splice(0, 4);
+            const second_player = (await (await table.getRows())[1].getCellTextByIndex()).splice(0, 4);
+            const third_player = (await (await table.getRows())[2].getCellTextByIndex()).splice(0, 4);
 
             expect(first_player).toEqual(PLAYER_1);
             expect(second_player).toEqual(PLAYER_2);
@@ -216,15 +226,15 @@ describe('TableComponent DOM', () => {
             expect(component.getPageIndex()).toBe(0);
         });
 
-        it('should be able to set the page size', async () => {
+        it('should be able to set the page size', fakeAsync(async () => {
             const paginator = await loader.getHarness(MatPaginatorHarness);
         
             expect(component.getPageSize()).toBe(10);
             await paginator.setPageSize(20);
             expect(component.getPageSize()).toBe(20);
-        });
+        }));
 
-        it('should mat-sort get the sorted direction of a header', async () => {
+        it('should mat-sort get the sorted direction of a header', fakeAsync(async () => {
             const sort = await loader.getHarness(MatSortHarness);
             const secondHeader = (await sort.getSortHeaders())[1];
         
@@ -235,7 +245,18 @@ describe('TableComponent DOM', () => {
         
             await secondHeader.click();
             expect(await secondHeader.getSortDirection()).toBe('desc');
-        });
+        }));
+
+        it('should call setPlayerSelected when row of table is clicked', fakeAsync(async () => {
+            const spy_playerSelected = spyOn(component, "setPlayerSelected");
+            const rows = fixture.debugElement.queryAll(By.css('tr'));
+            const player_toloi = rows[2];
+
+            player_toloi.nativeElement.click();
+            tick();
+
+            expect(spy_playerSelected).toHaveBeenCalledWith(PLAYER_DATA[1]);
+        }));
     });
 
     describe('Routing', () => {
@@ -372,9 +393,9 @@ const PLAYER_DATA = [
     },
 ]
 
-const PLAYER_1 = ['Musso', 'Atalanta', '12'];
-const PLAYER_2 = ['Toloi', 'Atalanta', '8'];
-const PLAYER_3 = ['Malinovskyi', 'Atalanta', '22'];
+const PLAYER_1 = ['Musso', 'Atalanta', 'P', '12'];
+const PLAYER_2 = ['Toloi', 'Atalanta', 'D', '8'];
+const PLAYER_3 = ['Malinovskyi', 'Atalanta', 'C', '22'];
 
 @Component({
 })

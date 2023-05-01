@@ -13,19 +13,19 @@
     height: 56px;
 }
 
-.toolbar-two-elements {
+.toolbar-simple {
     display: grid;
-    grid-template-columns: 5% 43% 44% 8%;
+    grid-template-columns: 5% 87% 8%;
 }
 
-.toolbar-three-elements {
+.toolbar-complete {
     display: grid;
-    grid-template-columns: 5% 32% 25% 30% 8%;
+    grid-template-columns: 7% 85% 2% 8%;
 }
 
 .toolbar-row-link {
     display: grid;
-    grid-template-columns: 33% 33% 33%;
+    grid-template-columns: 25% 25% 25% 25%;
     text-align: center;
 }
 

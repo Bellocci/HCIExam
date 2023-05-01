@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { ToolbarComponent } from './toolbar.component';
 import { SharedService } from '../service/shared.service';
 import { InternalDataService } from '../service/internal-data.service';
+import { TeamDataService } from '../service/team-data.service';
 
 const SPORT_DATA = [
   {
@@ -43,6 +44,7 @@ describe('ToolbarComponent', () => {
   let fixture: ComponentFixture<ToolbarComponent>;
   let shared_service:SharedService;
   let internal_data_service:InternalDataService;
+  let team_data_service: TeamDataService;
 
   let championship_selected:string;
   let sportsList = SPORT_DATA;
@@ -58,7 +60,8 @@ describe('ToolbarComponent', () => {
       ],
       providers : [
         SharedService, 
-        InternalDataService
+        InternalDataService,
+        TeamDataService
       ],
       schemas: [ 
         CUSTOM_ELEMENTS_SCHEMA 
@@ -72,17 +75,18 @@ describe('ToolbarComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  beforeEach(() => {
+    championship_selected = '';
+    fixture = TestBed.createComponent(ToolbarComponent);
+    internal_data_service = TestBed.inject(InternalDataService);
+    shared_service = TestBed.inject(SharedService);
+    team_data_service = TestBed.inject(TeamDataService);
+    component = fixture.componentInstance;
+  });
+
   describe("ngOnInit", () => {
 
-    beforeEach(() => {
-      championship_selected = '';
-      fixture = TestBed.createComponent(ToolbarComponent);
-      component = fixture.componentInstance;
-      internal_data_service = TestBed.inject(InternalDataService);
-      shared_service = TestBed.inject(SharedService);
-    });
-
-    it('testing subscribe method into getChampionshipSelected is getting called', () => {
+    it('testing subscribe method into getChampionshipSelected from internal data service is getting called', () => {
       const champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of(championship_selected));
       const subSpy = spyOn(internal_data_service.getChampionshipSelected(), 'subscribe');
 
@@ -92,23 +96,15 @@ describe('ToolbarComponent', () => {
       expect(subSpy).toHaveBeenCalled();
     });
 
-    it('should call getChamprionshipSelected and return an empty string', () => {
-      const champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of(championship_selected));
+    it('should set championship_selected variable with value returned from getChamprionshipSelected method from ' + 
+    'internal data service', () => {
+      const champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of('test'));
+      fixture.detectChanges();
 
       component.ngOnInit();
 
       expect(component.championship_selected).toBeDefined();
-      expect(component.championship_selected).toEqual(championship_selected);
-    });
-
-    it('should call getChampionshipSelected and return a string', () => {
-      championship_selected = 'Football soccer';
-      const champSpy = spyOn(internal_data_service, 'getChampionshipSelected').and.returnValue(of(championship_selected));
-
-      component.ngOnInit();
-
-      expect(component.championship_selected).toBeDefined();
-      expect(component.championship_selected).toEqual(championship_selected);
+      expect(component.championship_selected).toEqual('test');
     });
 
     it('testing subscribe method into refreshSportsList is getting called', () => {
@@ -257,24 +253,15 @@ describe('ToolbarComponent', () => {
       expect(spy_getActiveLink).toHaveBeenCalled();
       expect(isActive).toBeFalse();
     });
-  });
 
-  describe('ngOnDestroy', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(ToolbarComponent);
-      component = fixture.componentInstance;
-      internal_data_service = TestBed.inject(InternalDataService);
-      shared_service = TestBed.inject(SharedService);
+    it('should clearData method call clearData method from internal data service and team data service', () => {
+      const spy_clearDataInternal = spyOn(internal_data_service, "clearData");
+      const spy_clearDataTeam = spyOn(team_data_service, "clearData");
+
+      component.clearData();
+
+      expect(spy_clearDataInternal).toHaveBeenCalled();
+      expect(spy_clearDataTeam).toHaveBeenCalled();
     });
-
-    it('should unsubscribe subscrip_champ when it is not empty and ngOnDestroy is called', () => {
-      let spy_subscrip_champ = spyOn(component.subscrip_champ, 'unsubscribe');
-
-      component.ngOnDestroy();
-
-      expect(spy_subscrip_champ).toHaveBeenCalled();
-      expect(spy_subscrip_champ).toHaveBeenCalledTimes(1);
-    })
-
   });
 });

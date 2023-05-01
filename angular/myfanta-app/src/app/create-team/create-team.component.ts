@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { InternalDataService } from '../service/internal-data.service';
 import { SnackBarService } from '../service/snack-bar.service';
 import { TeamDataService } from '../service/team-data.service';
 
@@ -18,7 +19,8 @@ export class CreateTeamComponent implements OnInit {
 
   constructor(
     private _snackBar:SnackBarService,
-    private _team_data:TeamDataService
+    private _team_data:TeamDataService,
+    private _internal_data:InternalDataService
   ) { }
 
   ngOnInit(): void {
@@ -26,6 +28,13 @@ export class CreateTeamComponent implements OnInit {
     this._breakpoint = 5;
     this._cols_tabs = 3;
     this._cols_buttons = 2;
+    this.subscribeErrorMessage();
+  }
+
+  private subscribeErrorMessage() {
+    this._internal_data.getErrorMessage().subscribe((msg) => {
+      this._error_message = msg;
+    })
   }
 
   /* GETTER METHODS */
@@ -54,12 +63,6 @@ export class CreateTeamComponent implements OnInit {
     return this._error_message;
   }
 
-  /* SETTER METHODS */
-
-  setErrorMessage(msg: string) {
-    this._error_message = msg;
-  }
-
   /* EVENT METHODS */
 
   openSnackBar(textMessage:string) : void {
@@ -75,7 +78,7 @@ export class CreateTeamComponent implements OnInit {
   }
 
   clearErrorMessage() {
-    this._error_message = '';
+    this._internal_data.setErrorMessage('');
   }
 
   isLayoutMobile() : boolean {

@@ -1,0 +1,69 @@
+
+<form class="login-container">
+
+  <!-- Input username -->
+  <div>
+    <label class="label" [ngClass]="{'error-color' : isLoginErrorMessageVisible()}">Username</label>
+    <mat-form-field appearance="outline" class="input-txt">
+      <input matInput type="text" class="text"
+        placeholder="Campo obbligatorio*"
+        (focus)="tooltipUsername.show()"
+        (input)="disableLogin();"
+        [formControl]="usernameControl">
+      <button mat-icon-button matSuffix 
+      [ngClass]="hasInputUsernameErrors() || isLoginErrorMessageVisible() ? 'material-icons color_red' : 'material-icons color_green'"
+      #tooltipUsername="matTooltip"
+      [matTooltip]="hasInputUsernameErrors() ? 'Campo obbligatorio' : ''">
+        <mat-icon *ngIf="hasInputUsernameErrors() || isLoginErrorMessageVisible()">error</mat-icon>
+        <mat-icon *ngIf="!hasInputUsernameErrors() && !isLoginErrorMessageVisible()">check_circle</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <!-- Input password -->
+  <div class="mt-30px">
+    <div class="flex-container">
+      <label class="label" [ngClass]="{'error-color' : isLoginErrorMessageVisible()}">Password</label>
+      <span class="flex-item-1-1-auto"></span>
+      <label class="registation-txt" (click)="recoveryPassword()">Password dimenticata?</label>
+    </div>        
+    <mat-form-field appearance="outline" class="input-txt">
+      <input matInput [type]="isPasswordVisible() ? 'text' : 'password'" class="text"
+        placeholder="Campo obbligatorio*"
+        (focus)="tooltipPassword.show()"
+        (input)="disableLogin()"
+        [formControl]="passwordControl">   
+
+      <button mat-icon-button matSuffix (click)="togglePasswordVisibility()">
+        <mat-icon>{{ isPasswordVisible() ? 'visibility' : 'visibility_off' }}</mat-icon>
+      </button>
+      <button mat-icon-button matSuffix 
+      [ngClass]="hasInputPasswordErrors() || isLoginErrorMessageVisible() ? 'material-icons color_red' : 'material-icons color_green'"
+      #tooltipPassword="matTooltip"
+      [matTooltip]="hasInputPasswordErrors() ? 'Campo obbligatorio' : ''">
+        <mat-icon *ngIf="hasInputPasswordErrors() || isLoginErrorMessageVisible()">error</mat-icon>
+        <mat-icon *ngIf="!hasInputPasswordErrors() && !isLoginErrorMessageVisible()">check_circle</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <!-- Invalid username/password message -->
+  <div class="txt-center mt-10px">
+    <span class="validation-error-label error-color"
+    *ngIf="isLoginErrorMessageVisible()">
+      Username e/o password sbagliati!
+    </span>
+  </div>    
+
+  <!-- Pulsante di Login -->
+  <div class="flex-container mt-30px mb-10px">
+    <span class="flex-item-1-1-auto"></span>
+    <button mat-raised-button class="text secondary-color login-btn"
+      [disabled]="isLoginBtnDisabled()" 
+      (click)="login()">
+        Login
+    </button>
+    <span class="flex-item-1-1-auto"></span>
+  </div>
+
+</form>

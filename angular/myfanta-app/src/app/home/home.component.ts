@@ -1,7 +1,10 @@
 import { animate, state, style, transition, trigger, group, keyframes, query, animateChild } from '@angular/animations';
 import { Component, OnInit} from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Sport } from 'src/decorator/sport.model';
+import { FilterDataService } from '../service/filter-data.service';
 import { InternalDataService } from '../service/internal-data.service';
+import { LoadDataService } from '../service/load-data.service';
 import { SharedService } from '../service/shared.service';
 
 @Component({
@@ -36,7 +39,8 @@ import { SharedService } from '../service/shared.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private service:SharedService, private internal_data:InternalDataService) { }
+  constructor(private service:SharedService, private loadDataService:LoadDataService,
+    private filterDataService:FilterDataService, private internal_data:InternalDataService) { }
 
   private _state_btns = new Map<string, boolean>();
   private _active_btn!:string;
@@ -48,8 +52,6 @@ export class HomeComponent implements OnInit {
   championshipsList:any = [];
 
   ngOnInit(): void {
-    this.loadSportsList();
-    this.loadChampionshipsList();
 
     this.getChampionshipSelected();
 
@@ -68,32 +70,28 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  private loadSportsList() {
-    this.service.getSportList().subscribe(data => {
-      this.sportsList = data;
-    });
+  // GETTER
+
+  getSportsList():Sport[] {
+    return this.loadDataService.getSportsList();
   }
 
-  private loadChampionshipsList() {
-    this.service.getChampionshipList().subscribe(data => {
-      this.championshipsList = data;
-    });
+  // SETTER
+
+  setChampionshipSelected(name:string) {
+    this.internal_data.setChampionshipSelected(name);
   }
 
-  private initStateBtns() {
-    for(let sport of this.sportsList) {
-      this._state_btns.set(sport.sportName, false);
-    }
+  setActivePage(page_name: string) {
+    this.internal_data.setActiveLink(page_name);
   }
+
+  // OTHER METHODS
 
   filterChampionship(champ:any, sport:any):boolean {
     if(champ.sport != sport.sportId)
       return false;
     return true;
-  }
-
-  setChampionshipSelected(name:string) {
-    this.internal_data.setChampionshipSelected(name);
   }
 
   toggleSportBtnFromIcon(icon:any) {
@@ -103,7 +101,15 @@ export class HomeComponent implements OnInit {
   toggleSportBtn(btn:any) {
     const btn_text = btn.textContent.split('keyboard');
     this.setStateBtn(btn_text[0].trim());
+  }  
+
+  isActiveBtn(text_btn:string) : boolean {
+    return this._state_btns.get(text_btn) ? true : false
   }
+
+  
+
+  // PRIVATE METHODS
 
   private setStateBtn(text_btn:string) {
     if(this._state_btns.has(text_btn)) {
@@ -121,11 +127,9 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  isActiveBtn(text_btn:string) : boolean {
-    return this._state_btns.get(text_btn) ? true : false
-  }
-
-  setActivePage(page_name: string) {
-    this.internal_data.setActiveLink(page_name);
+  private initStateBtns() {
+    for(let sport of this.sportsList) {
+      this._state_btns.set(sport.sportName, false);
+    }
   }
 }

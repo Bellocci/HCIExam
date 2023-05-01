@@ -1,8 +1,12 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Subscription } from 'rxjs';
+import { Sport } from 'src/decorator/sport.model';
+import { League } from 'src/decorator/League.model';
 import { InternalDataService } from '../service/internal-data.service';
+import { LoadDataService } from '../service/load-data.service';
 import { SharedService } from '../service/shared.service';
+import { TeamDataService } from '../service/team-data.service';
+import { FilterDataService } from '../service/filter-data.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,55 +15,73 @@ import { SharedService } from '../service/shared.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private service:SharedService, private internal_data:InternalDataService) { }
+  constructor(private service:SharedService, private loadDataService:LoadDataService, 
+    private filterDataService:FilterDataService, private internal_data:InternalDataService, private team_data:TeamDataService) { }
 
   @ViewChild(MatSidenav) sidenav!:MatSidenav;
 
-  panelOpenState:boolean = false;
   activeLink:string = '';
   is_mobile:boolean = false;
 
-  championship_selected:string = "";
-  subscrip_champ:Subscription = new Subscription;
-  
-  sportsList:any = [];
-  championshipsList:any = [];
+  leagueSelected!:League | null;
+  sportSelected:number = -1;
+
+  sportsList!:Sport[];
+  leagueList!:League[];
+  championshipsList!:string[];
 
   ngOnInit(): void {
-    this.refreshSportsList();
-    this.refreshChampionshipsList();
-
-    this.getChampionshipSelected();
+    this.subscribeLeagueSelected();
+    this.subscribeActiveLink();
 
     this.is_mobile = window.innerWidth < 801;
   }
 
-  ngOnDestroy(): void {
-    if(this.subscrip_champ)
-      this.subscrip_champ.unsubscribe();
-  }
-
-  private getChampionshipSelected() {
-    this.subscrip_champ = this.internal_data.getChampionshipSelected().subscribe(champ => {
-      this.championship_selected = champ;
+  private subscribeLeagueSelected() {
+    this.internal_data.getLeagueSelected().subscribe(league => {
+      this.leagueSelected = league;
     })
   }
 
-  private refreshChampionshipsList() {
-    this.service.getChampionshipList().subscribe(data => {
-      this.championshipsList = data;
+  private subscribeActiveLink() {
+    this.internal_data.getActiveLink().subscribe(link => {
+      this.activeLink = link;
     });
   }
 
-  private refreshSportsList() {
-    this.service.getSportList().subscribe(data => {
-      this.sportsList = data;
-    });
+  /* GETTER */
+
+  getSports() : Sport[] {
+    return this.loadDataService.getSportsList();
   }
 
-  isMobileLayout(event:any) {
-    this.is_mobile = event.target.innerWidth < 801 ? true : false;
+  getChampionships(sport:Sport) : string[] {
+    return this.filterDataService.filterChampionshipsBySport(sport);
   }
+
+  getLeagues(sport:Sport, championship:string) : League[] {
+    return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
+  }
+
+  getActiveLink() : string {
+    return this.activeLink.toUpperCase();
+  }
+
+  getLeagueSelected() : League | null {
+    return this.leagueSelected;
+  }
+
+  /* SETTER */
+
+  setLeagueSelected(league:League | null) {
+    this.internal_data.setLeagueSelected(league);
+  }
+
+  setActiveLink(link_name:string) {
+    this.internal_data.setActiveLink(link_name);
+  }
+
+  /* Metodi sidenav */
 
   openSidenav() {
     this.sidenav.open();
@@ -69,18 +91,28 @@ export class ToolbarComponent implements OnInit {
     this.sidenav.close();
   }
 
-  setChampionshipSelected(champ:string) {
-    this.internal_data.setChampionshipSelected(champ);
+  /* Methods expansion panel */
+
+  panelSportOpened(index:number) : void {
+    this.sportSelected = index;
   }
 
-  filterChampionship(champ:any, sport:any):boolean {
-    if(champ.sport != sport.sportId)
-      return false;
-    return true;
+  panelSportClosed() : void {
+    this.sportSelected = -1;
   }
 
-  setActiveLink(link_name:string) {
-    this.internal_data.setActiveLink(link_name);
+  isPanelSportOpen(index:number) : boolean {
+    return this.sportSelected == index;
+  }
+
+  /* METHODS */
+
+  isMobileLayout() : boolean {
+    return this.is_mobile;
+  }
+
+  onResize(event:any) {
+    this.is_mobile = event.target.innerWidth < 801 ? true : false;
   }
 
   isActiveLink (link_name:string):boolean {
@@ -89,5 +121,10 @@ export class ToolbarComponent implements OnInit {
       current_link = link;
     });
     return current_link === link_name;
+  }
+
+  clearData() : void {
+    this.internal_data.clearData();
+    this.team_data.clearData();
   }
 }
