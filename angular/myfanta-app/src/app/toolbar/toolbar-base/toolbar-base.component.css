@@ -1,75 +1,54 @@
 
+/* variabili personalizzate */
+:host {
+    --toolbar-height: 70px;
+}
+
 /* Toolbar style */
 
-.mat-toolbar {
+.toolbar {
     position: sticky;
     top: 0;
     z-index: 100;
+    height: var(--toolbar-height);
 }
 
-.mat-toolbar-single-row {
+.toolbar.mat-toolbar-single-row {
     padding: 0;
 }
 
-.toolbar-simple {
-    display: grid;
-    grid-template-columns: 10% 85% 5%; 
-    gap: 5px;
-}
-
-.toolbar-complete {
-    display: grid;
-    grid-template-columns: 10% 2% 75% 8% 5%; 
-    gap: 5px;
-}
-
-.container-link {
-    display: grid;
-    grid-template-columns: 12% 12% 12% 12% 52%; 
-    gap: 5px;
-}
-
-@media screen and(1200px <= width <= 801px) {
-
-        .toolbar-simple {
-            display: grid;
-            grid-template-columns: 16% 76% 8%; 
-            gap: 5px;
-        }
-        
-        .toolbar-complete {
-            display: grid;
-            grid-template-columns: 16% 4% 64% 8% 8%; 
-            gap: 5px;
-        }
-
-        .container-link {
-            display: grid;
-            grid-template-columns: 18% 18% 18% 18% 28%; 
-            gap: 5px;
-        }
-}
-
 .toolbar-el-height {
-    height: inherit;
+    height: calc(var(--toolbar-height) * 0.6);
 }
 
-/* Link */
+/* Buttons */
 
-.link {
-    text-align: center;
-    border-radius: 10px;
-    text-decoration: none;
-    color: #000000;
+.btn-menu-sports {
+    height: var(--toolbar-height);
+}
+
+.btn-flat {
+    background-color: inherit;
+}
+
+/* Input */
+
+.login-form {
+    width: 90%;
+}
+
+.input-txt {
+    width: 300px;
 }
 
 /* COLOR  */
 
-.link-toolbar-color {
+.link-toolbar-border {
     background-color: #82B1FF;
     border-style: solid;
     border-width: 2px;
     border-color: white;
+    border-radius: 10px;
 }
 
 .color:hover{
@@ -81,3 +60,13 @@
 .text:hover {
     font-weight: 600;
 }
+
+.bold {
+    font-weight: bold;
+}
+
+/* Classe per distanziare i bottoni */
+.spacer-left-right {
+    flex: 1 1 auto;
+}
+  

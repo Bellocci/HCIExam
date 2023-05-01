@@ -1,12 +1,12 @@
 <mat-toolbar class="mat-elevation-z8 primary-color-dark">
-    <mat-toolbar-row [ngClass]="getChampionshipSelected() == '' ? 'toolbar-simple' : 'toolbar-complete'">
+    <mat-toolbar-row [ngClass]="!getLeagueSelected() ? 'toolbar-simple' : 'toolbar-complete'">
         <button mat-icon-button (click)="openSidenavFromChild()">
             <mat-icon>menu</mat-icon>
         </button>
         <a class="link text primary-color-dark"
         id="myfanta-link" 
-        *ngIf="getChampionshipSelected() != ''"
-        (click)="setActiveLink(''); setChampionshipSelected(''); clearData()"
+        *ngIf="!!getLeagueSelected()"
+        (click)="setActiveLink(''); setLeagueSelected(null); clearData()"
         routerLink="">
             My Fanta
         </a>
@@ -17,7 +17,7 @@
         </button>
     </mat-toolbar-row>
     <mat-toolbar-row class="toolbar-row-link"
-    *ngIf="getChampionshipSelected() != ''">
+    *ngIf="!!getLeagueSelected()">
         <a class="link text" 
         [ngClass]="isActiveLink('Create team') == true ? 'link-toolbar-color' : ''"
         (click)="setActiveLink('Create team'); clearData()"

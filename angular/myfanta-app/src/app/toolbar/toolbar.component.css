@@ -23,36 +23,46 @@
 
 /* Navbar element */
 
-.mat-expansion-panel {
-    border-top: 2px black;
-}
-
-.mat-expansion-panel-header {
+.expansion-panel-header-sport {
     border-style: solid;
     border-bottom: 2px !important;
     border-width: 0.5px;
 }
 
-.mat-expansion-panel-header.mat-expanded {
+.expansion-panel-header-sport.mat-expanded {
     background: #FFCF82 !important;
 }
 
-/* Color  */
-
-.mat-expansion-panel-header:hover {
+.expansion-panel-header-sport:hover {
     background-color: #ffffb3 !important;
+}
+
+:host ::ng-deep .mat-expansion-panel-body {
+    padding: 0px;
+}
+
+.expansion-panel-title-championship {
+    justify-content: center;
+}
+
+.championship-label {
+    margin: 0;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/* Lists */
+
+.list-ul {
+    width: 100%;
 }
 
 /* Icon */
 
 .icon {
     padding-right: 10px;
-}
-
-/* Text */
-
-.text:hover {
-    font-weight: 600;
 }
 
 /* ACTIVE LINK TITLE */

@@ -1,9 +1,12 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Subscription } from 'rxjs';
+import { Sport } from 'src/decorator/sport.model';
+import { League } from 'src/decorator/League.model';
 import { InternalDataService } from '../service/internal-data.service';
+import { LoadDataService } from '../service/load-data.service';
 import { SharedService } from '../service/shared.service';
 import { TeamDataService } from '../service/team-data.service';
+import { FilterDataService } from '../service/filter-data.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -12,43 +15,32 @@ import { TeamDataService } from '../service/team-data.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private service:SharedService, private internal_data:InternalDataService, private team_data:TeamDataService) { }
+  constructor(private service:SharedService, private loadDataService:LoadDataService, 
+    private filterDataService:FilterDataService, private internal_data:InternalDataService, private team_data:TeamDataService) { }
 
   @ViewChild(MatSidenav) sidenav!:MatSidenav;
 
-  panelOpenState:boolean = false;
   activeLink:string = '';
   is_mobile:boolean = false;
 
-  championship_selected:string = "";
-  
-  sportsList:any = [];
-  championshipsList:any = [];
+  leagueSelected!:League | null;
+  sportSelected:number = -1;
+
+  sportsList!:Sport[];
+  leagueList!:League[];
+  championshipsList!:string[];
 
   ngOnInit(): void {
-    this.refreshSportsList();
-    this.refreshChampionshipsList();
-    this.subscribeChampionshipSelected();
+    this.subscribeLeagueSelected();
     this.subscribeActiveLink();
+
     this.is_mobile = window.innerWidth < 801;
   }
 
-  private subscribeChampionshipSelected() {
-    this.internal_data.getChampionshipSelected().subscribe(champ => {
-      this.championship_selected = champ;
+  private subscribeLeagueSelected() {
+    this.internal_data.getLeagueSelected().subscribe(league => {
+      this.leagueSelected = league;
     })
-  }
-
-  private refreshChampionshipsList() {
-    this.service.getChampionshipList().subscribe(data => {
-      this.championshipsList = data;
-    });
-  }
-
-  private refreshSportsList() {
-    this.service.getSportList().subscribe(data => {
-      this.sportsList = data;
-    });
   }
 
   private subscribeActiveLink() {
@@ -59,33 +51,37 @@ export class ToolbarComponent implements OnInit {
 
   /* GETTER */
 
+  getSports() : Sport[] {
+    return this.loadDataService.getSportsList();
+  }
+
+  getChampionships(sport:Sport) : string[] {
+    return this.filterDataService.filterChampionshipsBySport(sport);
+  }
+
+  getLeagues(sport:Sport, championship:string) : League[] {
+    return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
+  }
+
   getActiveLink() : string {
     return this.activeLink.toUpperCase();
   }
 
-  getChampionshipSelected() : string {
-    return this.championship_selected;
+  getLeagueSelected() : League | null {
+    return this.leagueSelected;
   }
 
   /* SETTER */
 
-  setChampionshipSelected(champ:string) {
-    this.internal_data.setChampionshipSelected(champ);
+  setLeagueSelected(league:League | null) {
+    this.internal_data.setLeagueSelected(league);
   }
 
   setActiveLink(link_name:string) {
     this.internal_data.setActiveLink(link_name);
   }
 
-  isMobileLayout() : boolean {
-    return this.is_mobile;
-  }
-
-  /* METHODS */
-
-  onResize(event:any) {
-    this.is_mobile = event.target.innerWidth < 801 ? true : false;
-  }
+  /* Metodi sidenav */
 
   openSidenav() {
     this.sidenav.open();
@@ -95,8 +91,28 @@ export class ToolbarComponent implements OnInit {
     this.sidenav.close();
   }
 
-  filterChampionship(champ:any, sport:any):boolean {
-    return champ.sport == sport.sportId ? true : false
+  /* Methods expansion panel */
+
+  panelSportOpened(index:number) : void {
+    this.sportSelected = index;
+  }
+
+  panelSportClosed() : void {
+    this.sportSelected = -1;
+  }
+
+  isPanelSportOpen(index:number) : boolean {
+    return this.sportSelected == index;
+  }
+
+  /* METHODS */
+
+  isMobileLayout() : boolean {
+    return this.is_mobile;
+  }
+
+  onResize(event:any) {
+    this.is_mobile = event.target.innerWidth < 801 ? true : false;
   }
 
   isActiveLink (link_name:string):boolean {

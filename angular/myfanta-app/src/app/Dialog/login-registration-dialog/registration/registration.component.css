@@ -1,0 +1,54 @@
+/* IMMAGINE */
+
+.image-container {
+    flex: 1;
+}
+
+.image-container .fig-container {
+    margin: 0;
+    width: 100%;
+    height: 70%;
+}
+
+.image-container .img-signup {
+    width: 100%;
+    height: 100%;
+}
+
+/* FINE IMMAGINE */
+
+/* FORM REGISTRAZIONE */
+
+.registration-forms-container {
+    flex: 1;
+}
+
+/* Serve per ridimensionare l'altezza del form-field */
+.registration-forms-container .form-field-container {
+    font-size: 14px;
+}
+
+.registration-forms-container .form-field-100 {
+    width: 100%;
+}
+
+.registration-forms-container .form-field-max-width {
+    max-width: 200px;
+    width: auto;
+}
+
+.registration-forms-container .validation-error-label {
+    font-size: 14px;
+}
+
+.registration-forms-container .registration-btn-container {
+    justify-content: center;
+}
+
+.registration-forms-container .registration-btn {
+    max-width: 200px;
+    height: 50px;
+    width: 100%;
+}
+
+/* FINE FORM REGISTRAZIONE */

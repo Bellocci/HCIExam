@@ -1,0 +1,55 @@
+<!-- Bottone per chiusura della dialog -->
+<div class="flex-container">
+    <ng-container *ngIf="!isLoginViewShowed()">
+        <button mat-flat-button class="close-btn" (click)="showLoginView()">
+            <mat-icon>reply</mat-icon>
+            <span class="ml-10px text">Login</span>
+        </button>
+    </ng-container>
+    <span class="flex-item-1-1-auto"></span>
+    <button mat-icon-button class="close-btn" [mat-dialog-close]="true">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<!-- Login Dialog -->
+
+<ng-container *ngIf="isLoginViewShowed()">    
+
+    <h1 mat-dialog-title class="title">
+        Accedi
+    </h1>
+
+    <mat-dialog-content>
+        <app-login (recoveryPasswordView)="showRecoveryPasswordView()"></app-login>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="mt-30px">
+        <!-- Link per visualizzare la pagina di Registrazione -->
+        <p class="label">Non hai ancora un account?
+          <span class="registation-txt" (click)="showRegistrationView()">Registrati</span>
+        </p>
+    </mat-dialog-actions>
+</ng-container>
+
+<!-- Registration Dialog -->
+<ng-container *ngIf="isRegistrationViewShowed()">
+    <h1 mat-dialog-title class="title">
+        Registrazione
+    </h1>
+
+    <mat-dialog-content>    
+        <app-registration></app-registration>
+    </mat-dialog-content>
+</ng-container>
+
+<!-- Dialog recupero password -->
+<ng-container *ngIf="isRecoveryPasswordViewShowed()">
+    <h1 mat-dialog-title class="title">
+        Recupero password
+    </h1>
+
+    <mat-dialog-content>
+        <app-recovery-password></app-recovery-password>
+    </mat-dialog-content>
+</ng-container>

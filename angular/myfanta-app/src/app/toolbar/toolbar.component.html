@@ -2,33 +2,52 @@
     <mat-sidenav class="sidenav" mode="over">
       <div class="secondary-color">
         <mat-toolbar>
-          <button class="text secondary-color" type="button" mat-flat-button (click)="closeSidenav()">
+          <button class="text secondary-color " mat-flat-button (click)="closeSidenav()">
             <mat-icon class="icon">arrow_back</mat-icon>
-            Championships
+            Sports
           </button>
         </mat-toolbar>
       </div>
       <mat-nav-list>
         <mat-accordion>
-          <mat-expansion-panel *ngFor="let sport of sportsList" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header class="secondary-color">
-              <mat-panel-title class="text">
-                <div>
-                  {{ sport.sportName }}
+          <ng-container *ngFor="let sport of getSports(); let indexSport = index;">
+          <mat-expansion-panel 
+            [expanded]="isPanelSportOpen(indexSport)" 
+            (opened)="panelSportOpened(indexSport)" (closed)="panelSportClosed()">
+            <mat-expansion-panel-header 
+            class="expansion-panel-header-sport secondary-color mat-elevation-z3">
+              <mat-panel-title>
+                <div class="text" [ngClass]="isPanelSportOpen(indexSport) ? 'bold' : ''">
+                  {{ sport.getName() }}
                 </div>
               </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div *ngFor="let champ of championshipsList">
-              <a mat-list-item
-              *ngIf="filterChampionship(champ, sport)" 
-              (click)="setChampionshipSelected(champ.championshipName); closeSidenav(); setActiveLink('Create team');" 
-              routerLink="createTeam">
-                <mat-icon>arrow_right</mat-icon>
-                <span class="text"> {{ champ.championshipName }} </span>
-                <mat-divider></mat-divider>
-              </a>
-            </div>
+            </mat-expansion-panel-header>            
+            <ng-container *ngFor="let championship of getChampionships(sport); let indexChamp = index;">
+              <mat-expansion-panel class="expansion-panel-header-championship" [expanded]="false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="expansion-panel-title-championship">
+                    <div class="label championship-label">
+                      {{ championship }}
+                    </div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <ng-container *ngFor="let league of getLeagues(sport, championship)">
+                  <mat-panel-description>
+                    <ul class="list-ul">
+                      <li>
+                        <a mat-list-item
+                          (click)="setLeagueSelected(league); closeSidenav(); setActiveLink('Create team'); clearData();" 
+                          routerLink="createTeam">
+                            <span class="text link"> {{ league.getName() }} </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </mat-panel-description>
+                </ng-container>
+              </mat-expansion-panel>                                                  
+            </ng-container>
           </mat-expansion-panel>
+        </ng-container>
         </mat-accordion>
       </mat-nav-list>
     </mat-sidenav>
@@ -43,11 +62,6 @@
         (window:resize)="onResize($event)"
         (sidenav_emit)="openSidenav()">
       </app-toolbar-mobile>
-      <!--
-      <div class="hidden subtitle-position primary-color" *ngIf="getActiveLink() != ''">
-        <h1 class="no-margin">{{ getActiveLink() }}</h1>
-      </div>
-      -->
       <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>

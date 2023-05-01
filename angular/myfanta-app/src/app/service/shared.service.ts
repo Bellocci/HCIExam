@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { SPORT_DATA } from 'src/model/sport.model';
-import { CHAMPIONSHIP_DATA } from 'src/model/championship.model';
+import { SportEntity, SPORT_DATA } from 'src/model/sportEntity.model';
 import { PLAYER_DATA_NBA, PLAYER_DATA_PREMIER_LEAGUE, PLAYER_DATA_SERIE_A, PLAYER_DATA_SERIE_A_FEMALE } from 'src/model/player.model'
 
 @Injectable({
@@ -13,12 +12,8 @@ export class SharedService {
 
   constructor(private http:HttpClient) { }
 
-  getSportList():Observable<any[]> {
+  getSportList():SportEntity[] {
     return SPORT_DATA;
-  }
-
-  getChampionshipList():Observable<any[]> {
-    return CHAMPIONSHIP_DATA;
   }
 
   getPlayerList(championship:string):Observable<any[]> {

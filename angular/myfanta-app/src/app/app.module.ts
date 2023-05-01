@@ -23,6 +23,10 @@ import { PlayerListComponent } from './player-list/player-list.component';
 import { ShortTableComponent } from './table/short-table/short-table.component';
 import { FilterPlayerComponent } from './filter-player/filter-player.component';
 import { TableFavBlackPlayerComponent } from './table/table-fav-black-player/table-fav-black-player.component';
+import { LoginComponent } from './Dialog/login-registration-dialog/login/login.component';
+import { RegistrationComponent } from './Dialog/login-registration-dialog/registration/registration.component';
+import { LoginRegistrationDialogComponent } from './Dialog/login-registration-dialog/login-registration-dialog.component';
+import { RecoveryPasswordComponent } from './Dialog/login-registration-dialog/recovery-password/recovery-password.component';
 
 export function initializeApp(appInitService: AppInitService) {
   return (): Promise<any> => { 
@@ -46,6 +50,10 @@ export function initializeApp(appInitService: AppInitService) {
     ShortTableComponent,
     FilterPlayerComponent,
     TableFavBlackPlayerComponent,
+    LoginComponent,
+    RegistrationComponent,
+    LoginRegistrationDialogComponent,
+    RecoveryPasswordComponent,
   ],
   imports: [
     BrowserModule,
