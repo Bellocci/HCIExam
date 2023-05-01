@@ -43,7 +43,7 @@ Risultati attesi da questo progetto:
 Lo scopo di questo progetto è di realizzare un website responsive adatto a qualunque utente, principiante o esperto, per creare la miglior squadra per il fantasport a cui vogliono giocare. Il website aiuta gli utenti che si interfacciano per la prima volta a questa tipologia di giochi rendendo semplice ed intuitivo la creazione di una propria squadra e le operazioni base, mentre per gli utenti esperti li aiuta offrendo funzionalità più sofisticate permettendo la modifica dei criteri per la scelta dei giocatori.
 
 
-# Bibliografia
+# Sitografia
 
 [1] https://angular.io/
 
@@ -54,3 +54,10 @@ Lo scopo di questo progetto è di realizzare un website responsive adatto a qual
 [4] https://pypi.org/project/PuLP/
 
 [5] https://www.docker.com/
+
+
+# Immagini
+
+[1] https://www.freepik.com/free-vector/flat-design-colorful-characters-welcoming_5403010.htm#query=welcome%20sport&position=48&from_view=search&track=ais
+
+[2] https://www.freepik.com/free-vector/business-cartoon-with-key-padlock_1013681.htm#page=4&query=unlock%20password&position=2&from_view=search&track=robertav1_2_sidr
