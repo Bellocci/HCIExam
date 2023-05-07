@@ -31,16 +31,6 @@
     background-color: inherit;
 }
 
-/* Input */
-
-.login-form {
-    width: 90%;
-}
-
-.input-txt {
-    width: 300px;
-}
-
 /* COLOR  */
 
 .link-toolbar-border {
@@ -65,8 +55,6 @@
     font-weight: bold;
 }
 
-/* Classe per distanziare i bottoni */
-.spacer-left-right {
-    flex: 1 1 auto;
+::ng-deep .mat-menu-panel {
+    width: 150px;
 }
-  

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { UserService } from 'src/app/service/user.service';
+import { User } from 'src/decorator/user.model';
 
 @Component({
   selector: 'app-login-registration-dialog',
@@ -14,9 +17,15 @@ export class LoginRegistrationDialogComponent implements OnInit  {
   // Attributi disabilitare bottoni
   disableRecoveryPasswordBtn:boolean = true;
 
-  constructor() { }
+  constructor(private dialog: MatDialog, private userService:UserService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.userService.getUser().subscribe(user => {
+      if(user.isUserDefined()) {
+        this.dialog.closeAll();
+      }
+    });
+  }
 
   /* METODI VISIBILITA' */
 

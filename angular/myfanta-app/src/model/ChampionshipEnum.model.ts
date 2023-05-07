@@ -1,10 +1,26 @@
 
+export interface Championship {
+    id:number;
+    description:string;
+}
 
 export class ChampionshipEnum {
+    
+    // ITALIA
+    static readonly IT_CHAMP:Championship = {
+        id: 1,
+        description : "Campionato italiano"
+    };
 
-    static readonly CHAMPIONSHIPS : Map<number, string> = new Map([
-        [1, "Campionato italiano"],
-        [2, "Campionato inglese"],
-        [3, "Campionato americano"]
-    ]);
+    // INGHILTERRA
+    static readonly EN_CHAMP:Championship = {
+        id: 2,
+        description : "Campionato inglese"
+    };
+
+    // STATI UNITI D'AMERICA
+    static readonly USA_CHAMP:Championship = {
+        id: 3,
+        description : "Campionato americano"
+    };
 }

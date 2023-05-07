@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from 'src/decorator/user.model';
 import { USER_DATA, UserEntity } from 'src/model/userEntity.model';
 
 @Injectable({
@@ -6,49 +8,47 @@ import { USER_DATA, UserEntity } from 'src/model/userEntity.model';
 })
 export class UserService {
 
-  private user:UserEntity | undefined;
+  private user:BehaviorSubject<User> = new BehaviorSubject(new User());
+  private currentUser:Observable<User> = this.user.asObservable();
 
   constructor() { }
 
-  getUser() : UserEntity | undefined {
-    return this.user;
+  getUser() : Observable<User> {
+    return this.currentUser;
+  }
+
+  private setUser(user:User) {
+    this.user.next(user);
   }
 
   // LOGIN
 
-  login(username:string, password:string):UserEntity | undefined {
+  login(username:string, password:string) : void {
     // Qui avverrà la comunicazione con il backend
     console.log("user : " + username + " psw: " + password);
     let result:UserEntity | undefined = USER_DATA.find(user => user.username == username && user.password == password);
-    console.log(result)
-    if(result != undefined) {
-      this.user = result;
-    }
-    return result;
+    !result ? this.setUser(new User()) : this.setUser(new User(result));
   }
 
   logout() : void {
-    this.user = undefined;
-  }
-
-  isUserLogged() : boolean {
-    return this.user != undefined;
+    this.setUser(new User());
   }
 
   // REGISTRAZIONE
 
-  createNewUser(name:string, surname:string, username:string, password:string) : UserEntity | undefined {
+  createNewUser(name:string, surname:string, username:string, password:string) : User | undefined {
     // Chiamata al backend
     const result:UserEntity[] = USER_DATA.filter(user => user.username == username);
-    console.log("RESULT: " + result);
     if(result.length == 0) {
-      return {
-        userId : 2,
+      const entity:UserEntity = {
+        userId : USER_DATA.length,
         name : name,
         surname : surname,
         username : username,
         password : password
-      }
+      };
+      USER_DATA.push(entity)
+      return new User(entity);
     }
     return undefined;
   }

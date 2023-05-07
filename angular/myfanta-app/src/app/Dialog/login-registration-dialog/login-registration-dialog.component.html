@@ -22,24 +22,20 @@
 
     <mat-dialog-content>
         <app-login (recoveryPasswordView)="showRecoveryPasswordView()"></app-login>
+        <div class="mt-30px">
+            <!-- Link per visualizzare la pagina di Registrazione -->
+            <p class="label">Non hai ancora un account?
+              <span class="registation-txt" (click)="showRegistrationView()">Registrati</span>
+            </p>
+        </div>
     </mat-dialog-content>
 
-    <mat-dialog-actions class="mt-30px">
-        <!-- Link per visualizzare la pagina di Registrazione -->
-        <p class="label">Non hai ancora un account?
-          <span class="registation-txt" (click)="showRegistrationView()">Registrati</span>
-        </p>
-    </mat-dialog-actions>
 </ng-container>
 
 <!-- Registration Dialog -->
 <ng-container *ngIf="isRegistrationViewShowed()">
-    <h1 mat-dialog-title class="title">
-        Registrazione
-    </h1>
-
     <mat-dialog-content>    
-        <app-registration></app-registration>
+        <app-registration (showLogin)="showLoginView()"></app-registration>
     </mat-dialog-content>
 </ng-container>
 

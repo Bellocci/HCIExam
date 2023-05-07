@@ -24,4 +24,8 @@ export class ToolbarMobileComponent extends ToolbarComponent implements OnInit {
   openSidenavFromChild() {
     this.sidenav_emit.emit();
   }
+
+  getLeagueSelected() {
+    return this.leagueSelected;
+  }
 }

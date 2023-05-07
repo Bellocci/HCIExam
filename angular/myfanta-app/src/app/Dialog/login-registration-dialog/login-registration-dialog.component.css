@@ -1,9 +1,4 @@
 
-.login-container {
-    max-width: 500px;
-    min-width: 300px;
-}
-
 /* Text */
 
 .title {
@@ -22,20 +17,6 @@
 
 /* Pulsanti */
 
-.login-btn {
-    font-size: 15px;
-}
-
 .close-btn:hover {
     background-color: #E0E0E0;
-}
-
-
-
-.registration-forms-container {
-    flex: 1;
-}
-
-.image-container {
-    flex: 1;
 }

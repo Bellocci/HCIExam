@@ -27,11 +27,16 @@ export class League {
     }
 
     getChampionshipId() : number {
-        return this.leagueEntity.championshipId;
+        return this.leagueEntity.championship.id
     }
 
     getChampionshipName() : string {
-        let name:string | undefined = ChampionshipEnum.CHAMPIONSHIPS.get(this.leagueEntity.championshipId);
-        return !name ? "" : name;
+        return this.leagueEntity.championship.description;
+    }
+
+    toString() : string {
+        return "Id:" + this.leagueEntity.leagueId + ", Nome: " + this.leagueEntity.name +  
+            ", Campionato: " + this.leagueEntity.championship.description +
+            ", Sport: " + this.leagueEntity.sport.name;
     }
 }

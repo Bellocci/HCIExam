@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { League } from 'src/decorator/League.model';
 import { SessionStorageService } from './session-storage.service';
 
@@ -11,11 +10,7 @@ export class InternalDataService {
 
   constructor(private _session_storage:SessionStorageService) { }
 
-
-  private _championship_selected = new BehaviorSubject(this._session_storage.getData('championship'));
-  private _current_championship = this._championship_selected.asObservable();
-
-  private _leagueSelected:BehaviorSubject<League | null> = new BehaviorSubject<League | null>(this._session_storage.getData('league'));
+  private _leagueSelected:BehaviorSubject<League | null> = new BehaviorSubject<League | null>(null);
   private _currentLeagueSelected = this._leagueSelected.asObservable();
 
   private _active_link = new BehaviorSubject(this._session_storage.getData('link'));
@@ -30,21 +25,14 @@ export class InternalDataService {
   private _current_save_options_clicked = this._save_options_clicked.asObservable();
 
   setLeagueSelected(league: League | null): void {
-    this._session_storage.saveData('league', league);
-    this._leagueSelected.next(league);
+    if(league != this._leagueSelected.getValue()) {
+      this._session_storage.saveData('league', league);
+      this._leagueSelected.next(league);
+    }
   }  
 
   getLeagueSelected() : Observable<League | null> {
     return this._currentLeagueSelected;
-  }
-
-  setChampionshipSelected(champ:string) {
-    this._session_storage.saveData('championship', champ)
-    this._championship_selected.next(champ);
-  }
-
-  getChampionshipSelected() {
-    return this._current_championship;
   }
 
   setActiveLink(link_name:string) {

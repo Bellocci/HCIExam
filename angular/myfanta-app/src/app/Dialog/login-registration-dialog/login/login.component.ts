@@ -27,11 +27,20 @@ export class LoginComponent implements OnInit {
   private disableLoginBtn:boolean = true;
   private showLoginErrorMessage:boolean = false;
   private showPassword:boolean = false;
+  private firstLogin:boolean = true;
 
   constructor(private _userService:UserService) {
   }
   
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._userService.getUser().subscribe(user => {
+      if(user.isUserDefined()) {
+        this.setLoginErrorMessageVisibility(false)
+      } else if(!this.firstLogin) {
+        this.setLoginErrorMessageVisibility(true);
+      }
+    });
+  }
 
   /* Metodi di visibilità */
 
@@ -83,12 +92,9 @@ export class LoginComponent implements OnInit {
    /* Login */
 
    login() : void {
-    const user:UserEntity | undefined = 
-      this._userService.login(this.usernameControl.value as string, this.passwordControl.value as string);
-    if(!user) {
-      this.setLoginErrorMessageVisibility(true);
-    } else {
-      this.setLoginErrorMessageVisibility(false);
+    if(this.firstLogin) {
+      this.firstLogin = false;
     }
+    this._userService.login(this.usernameControl.value as string, this.passwordControl.value as string);
    }
 }

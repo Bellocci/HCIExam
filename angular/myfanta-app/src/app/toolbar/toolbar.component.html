@@ -1,8 +1,8 @@
 <mat-sidenav-container class="sidenav-container" (backdropClick)="closeSidenav()">
-    <mat-sidenav class="sidenav" mode="over">
+    <mat-sidenav autoFocus="false" class="sidenav" mode="over">
       <div class="secondary-color">
         <mat-toolbar>
-          <button class="text secondary-color " mat-flat-button (click)="closeSidenav()">
+          <button class="text secondary-color secondary-color-light" mat-flat-button (click)="closeSidenav()">
             <mat-icon class="icon">arrow_back</mat-icon>
             Sports
           </button>
@@ -15,7 +15,7 @@
             [expanded]="isPanelSportOpen(indexSport)" 
             (opened)="panelSportOpened(indexSport)" (closed)="panelSportClosed()">
             <mat-expansion-panel-header 
-            class="expansion-panel-header-sport secondary-color mat-elevation-z3">
+            class="expansion-panel-header-sport secondary-color secondary-color-light mat-elevation-z3">
               <mat-panel-title>
                 <div class="text" [ngClass]="isPanelSportOpen(indexSport) ? 'bold' : ''">
                   {{ sport.getName() }}

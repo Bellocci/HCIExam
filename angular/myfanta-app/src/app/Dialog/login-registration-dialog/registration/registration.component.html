@@ -1,7 +1,7 @@
 
-<!-- Pagina registrazione -->
+<!-- FORM REGISTRAZIONE -->
 
-<div class="flex-container mt-30px">
+<div class="flex-container mt-30px" *ngIf="!hasNewUserBeenCreated()">
 
   <div class="image-container mr-10px">
     <figure class="flex-container fig-container tooltip">
@@ -117,5 +117,18 @@
     </div>
 
   </form>
+</div>
+
+<!-- Registrazione completata -->
+<div class="signup-complete-container mt-30px" *ngIf="hasNewUserBeenCreated()">
+  <p class="title">Registrazione completata!</p>
+  <p class="message">
+    Grazie per esserti registrato al nostro sito. 
+    Ora puoi effettuare il login e iniziare ad utilizzare tutte le nostre funzionalità. Buon divertimento!!
+  </p>
+  <button mat-raised-button
+  class="secondary-color text" (click)="backToLogin()">
+    Torna al login
+  </button>
 </div>
 

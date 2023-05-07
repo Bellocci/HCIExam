@@ -2,7 +2,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { UserService } from 'src/app/service/user.service';
-import { UserEntity } from 'src/model/userEntity.model';
+import { User } from 'src/decorator/user.model';
 
 @Component({
   selector: 'app-registration',
@@ -17,6 +17,8 @@ import { UserEntity } from 'src/model/userEntity.model';
   encapsulation: ViewEncapsulation.None
 })
 export class RegistrationComponent implements OnInit {
+
+  @Output() showLogin:EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /*
     - ^[\s] : se la parola inizia con uno spazio, tab o nuova linea allora abbiamo match    
@@ -47,6 +49,8 @@ export class RegistrationComponent implements OnInit {
   private showError:boolean = false;
   private disableRegistrationBtn:boolean = true;
   private showPassword:boolean = false;
+
+  private createdNewUser:boolean = false;
   
   /* FORM CONTROL */
   nameFormControl:FormControl = new FormControl('', {
@@ -146,6 +150,10 @@ export class RegistrationComponent implements OnInit {
     return !this.passwordFormControl.valid;
   }
 
+  hasNewUserBeenCreated() : boolean {
+    return this.createdNewUser;
+  }
+
   /* Getter */
 
   getErrorNameMessage() : string {
@@ -219,9 +227,19 @@ export class RegistrationComponent implements OnInit {
   }
 
   registration() : void {
-    const user:UserEntity | undefined = this._userService.createNewUser(
+    const user:User | undefined = this._userService.createNewUser(
       this.nameFormControl.value, this.surnameFormControl.value, this.usernameFormControl.value, this.passwordFormControl.value);
     
-    !user ? this.showError = true : this.showError = false;
+    if(!user) {
+      this.showError = true;
+      this.createdNewUser = false;
+    } else {
+      this.showError = false;
+      this.createdNewUser = true;
+    }
+  }
+
+  backToLogin() : void {
+    this.showLogin.emit(true);
   }
 }

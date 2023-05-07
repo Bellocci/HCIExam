@@ -53,8 +53,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.getChampionshipSelected();
-
     this._active_btn = '';
     this.initStateBtns();
   }
@@ -64,12 +62,6 @@ export class HomeComponent implements OnInit {
       this.subscrip_champ.unsubscribe();
   }
 
-  private getChampionshipSelected() {
-    this.subscrip_champ = this.internal_data.getChampionshipSelected().subscribe(champ => {
-      this.championship_selected = champ;
-    })
-  }
-
   // GETTER
 
   getSportsList():Sport[] {
@@ -77,10 +69,6 @@ export class HomeComponent implements OnInit {
   }
 
   // SETTER
-
-  setChampionshipSelected(name:string) {
-    this.internal_data.setChampionshipSelected(name);
-  }
 
   setActivePage(page_name: string) {
     this.internal_data.setActiveLink(page_name);

@@ -67,10 +67,6 @@ export class ToolbarComponent implements OnInit {
     return this.activeLink.toUpperCase();
   }
 
-  getLeagueSelected() : League | null {
-    return this.leagueSelected;
-  }
-
   /* SETTER */
 
   setLeagueSelected(league:League | null) {
@@ -101,8 +97,18 @@ export class ToolbarComponent implements OnInit {
     this.sportSelected = -1;
   }
 
+  /* Metodi visibilità */
+
   isPanelSportOpen(index:number) : boolean {
     return this.sportSelected == index;
+  }
+
+  isActiveLink (link_name:string):boolean {
+    let current_link:string = '';
+    this.internal_data.getActiveLink().subscribe(link => {
+      current_link = link;
+    });
+    return current_link === link_name;
   }
 
   /* METHODS */
@@ -113,14 +119,6 @@ export class ToolbarComponent implements OnInit {
 
   onResize(event:any) {
     this.is_mobile = event.target.innerWidth < 801 ? true : false;
-  }
-
-  isActiveLink (link_name:string):boolean {
-    let current_link:string = '';
-    this.internal_data.getActiveLink().subscribe(link => {
-      current_link = link;
-    });
-    return current_link === link_name;
   }
 
   clearData() : void {

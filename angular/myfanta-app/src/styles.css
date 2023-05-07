@@ -24,8 +24,8 @@ body {
     background-color: #FFCF82;
 }
 
-.secondary-color:hover {
-    background-color: #ffffb3;
+.secondary-color-light:hover {
+    background-color: #ffffb3 !important;
 }
 
 .white-color {
@@ -47,23 +47,17 @@ body {
 
 /* FINE COLORE */
 
-.hidden-element {
-    display: none;
-}
-
-.link:hover {
-    cursor: pointer;
-}
-
-.link {
-    text-align: center;
-    text-decoration: underline;
-    color: #000000;
-}
+/* TESTO */
 
 .bold {
     font-weight: bold;
 }
+
+.txt-center {
+    text-align: center;
+}
+
+/* FINE TESTO */
 
 /* MARGINI DA UTILIZZARE NEI CASI STANDARD */
 
@@ -159,6 +153,34 @@ body {
 
 .mat-tooltip {
     font-size: 14px;
+}
+
+/* Snackbar */
+
+.snackbar {
+    width: auto;
+    height: 40px;
+}
+
+.white-snackbar {
+    background: #fffeef;
+    color: black;
+}
+
+/* STYLE GENERALI */
+
+.hidden-element {
+    display: none;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.link {
+    text-align: center;
+    text-decoration: underline;
+    color: #000000;
 }
 
 @media 
