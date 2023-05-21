@@ -27,6 +27,8 @@ import { LoginComponent } from './Dialog/login-registration-dialog/login/login.c
 import { RegistrationComponent } from './Dialog/login-registration-dialog/registration/registration.component';
 import { LoginRegistrationDialogComponent } from './Dialog/login-registration-dialog/login-registration-dialog.component';
 import { RecoveryPasswordComponent } from './Dialog/login-registration-dialog/recovery-password/recovery-password.component';
+import { UserPageComponent } from './user-page/user-page.component';
+import { CreateNewTeamDialogComponent } from './Dialog/create-new-team-dialog/create-new-team-dialog.component';
 
 export function initializeApp(appInitService: AppInitService) {
   return (): Promise<any> => { 
@@ -54,14 +56,16 @@ export function initializeApp(appInitService: AppInitService) {
     RegistrationComponent,
     LoginRegistrationDialogComponent,
     RecoveryPasswordComponent,
+    UserPageComponent,
+    CreateNewTeamDialogComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
-    MaterialModule,
     BrowserAnimationsModule,
-    HttpClientModule,
+    BrowserModule,
     FormsModule,
+    HttpClientModule,
+    MaterialModule,
     ReactiveFormsModule,
   ],
   providers: [

@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -25,27 +26,28 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   exports: [
-    MatToolbarModule,
-    MatIconModule,
+    MatAutocompleteModule,
     MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
+    MatCardModule,
+    MatChipsModule,
+    MatDialogModule,
     MatExpansionModule,
     MatGridListModule,
-    MatTabsModule,
+    MatIconModule,
     MatInputModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatSnackBarModule,
-    MatAutocompleteModule,
-    MatChipsModule,
-    MatSelectModule,
-    MatSliderModule,
-    MatCardModule,
+    MatListModule,
     MatMenuModule,
-    MatDialogModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSliderModule,
+    MatSnackBarModule,
+    MatSortModule,
     MatStepperModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
     MatTooltipModule
   ]
 })
