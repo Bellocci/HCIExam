@@ -1,0 +1,42 @@
+
+<!-- Dialog per la creazione di un nuovo team -->
+
+<!-- Titolo dialog -->
+<h1 mat-dialog-title>Creazione nuovo team</h1>
+
+<!-- Sezione centrale -->
+<div class="create-team-dialog-content mat-dialog-content">
+
+    <!-- Scelta sport -->
+    <div class="flex-container flex-direction-column">
+        <label class="label">Sport</label>
+        <mat-form-field appearance="outline" class="form-field-container">
+            <mat-select [(ngModel)]="selectedSport" disableOptionCentering panelClass="custom-panel">
+                <mat-option>-- Seleziona uno sport --</mat-option>
+                <mat-option *ngFor="let sport of getSport()" [value]="sport">
+                    {{ sport.description }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <!-- Scelta -->
+
+</div>
+
+<!-- Sezione pulsanti -->
+<mat-dialog-actions align="center">
+    
+    <!-- Pulsante di creazione -->
+    <button mat-flat-button class="secondary-color secondary-color-light">
+        <label>Aggiungi</label>
+    </button>
+
+    <span class="ml-30px mr-30px"></span>
+
+    <!-- Pulsante per annullare -->
+    <button mat-flat-button class="secondary-color secondary-color-light"
+    (click)="closeDialog()">
+        <label>Annulla</label>
+    </button>
+</mat-dialog-actions>
