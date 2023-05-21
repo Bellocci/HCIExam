@@ -1,11 +1,11 @@
 import { animate, state, style, transition, trigger, group, keyframes, query, animateChild } from '@angular/animations';
 import { Component, OnInit} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Sport } from 'src/decorator/sport.model';
 import { FilterDataService } from '../service/filter-data.service';
 import { InternalDataService } from '../service/internal-data.service';
 import { LoadDataService } from '../service/load-data.service';
 import { SharedService } from '../service/shared.service';
+import { SportEnum } from 'src/enum/SportEnum.model';
 
 @Component({
   selector: 'app-home',
@@ -64,8 +64,8 @@ export class HomeComponent implements OnInit {
 
   // GETTER
 
-  getSportsList():Sport[] {
-    return this.loadDataService.getSportsList();
+  getSportsList(): String[] {
+    return Object.values(SportEnum);
   }
 
   // SETTER

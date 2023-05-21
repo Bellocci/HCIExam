@@ -8,13 +8,22 @@ import { SessionStorageService } from './session-storage.service';
 })
 export class InternalDataService {
 
-  constructor(private _session_storage:SessionStorageService) { }
+  static readonly KEY_SESSION_LINK = "link";
+  static readonly KEY_SESSION_LEAGUE = "league";
 
-  private _leagueSelected:BehaviorSubject<League | null> = new BehaviorSubject<League | null>(null);
-  private _currentLeagueSelected = this._leagueSelected.asObservable();
+  constructor(private sessionStorageLink:SessionStorageService<string>, private sessionStorageLeague:SessionStorageService<League>) {
+    const link = this.sessionStorageLink.getData(InternalDataService.KEY_SESSION_LINK);
+    link != undefined ? this.activeLink.next(link) : this.activeLink.next("");
 
-  private _active_link = new BehaviorSubject(this._session_storage.getData('link'));
-  private _current_link = this._active_link.asObservable();
+    const league = this.sessionStorageLeague.getData(InternalDataService.KEY_SESSION_LEAGUE);
+    league != null ? this.leagueSelected.next(league) : null;
+  }
+
+  private leagueSelected:BehaviorSubject<League | null> = new BehaviorSubject<League | null>(null);
+  private currentLeagueSelected = this.leagueSelected.asObservable();
+
+  private activeLink = new BehaviorSubject("");
+  private currentLink = this.activeLink.asObservable();
 
   private _clear_team_btn = new BehaviorSubject(true);
   private _current_clear_team = this._clear_team_btn.asObservable();
@@ -25,23 +34,24 @@ export class InternalDataService {
   private _current_save_options_clicked = this._save_options_clicked.asObservable();
 
   setLeagueSelected(league: League | null): void {
-    if(league != this._leagueSelected.getValue()) {
-      this._session_storage.saveData('league', league);
-      this._leagueSelected.next(league);
+    if(league != this.leagueSelected.getValue()) {
+      league != null ? this.sessionStorageLeague.saveData(InternalDataService.KEY_SESSION_LEAGUE, league) : 
+        this.sessionStorageLeague.saveData(InternalDataService.KEY_SESSION_LEAGUE, null);
+      this.leagueSelected.next(league);
     }
   }  
 
   getLeagueSelected() : Observable<League | null> {
-    return this._currentLeagueSelected;
+    return this.currentLeagueSelected;
   }
 
-  setActiveLink(link_name:string) {
-    this._session_storage.saveData('link', link_name);
-    this._active_link.next(link_name);
+  setActiveLink(link_name:string) : void {
+    this.sessionStorageLink.saveData(InternalDataService.KEY_SESSION_LINK, link_name);
+    this.activeLink.next(link_name);
   }
 
-  getActiveLink() {
-    return this._current_link;
+  getActiveLink() : Observable<string> {
+    return this.currentLink;
   }
 
   setActiveClearTeamBtn() {

@@ -1,11 +1,10 @@
-import { ChampionshipEnum } from "src/model/ChampionshipEnum.model";
+import { ChampionshipEnum } from "src/enum/ChampionshipEnum.model";
+import { SportEnum } from "src/enum/SportEnum.model";
 import { LeagueEntity } from "src/model/leagueEntity.model";
-import { Sport } from "./sport.model";
 
 export class League {
 
     private leagueEntity!:LeagueEntity;
-    private sport!:Sport;
 
     constructor(leagueEntity:LeagueEntity) {
         this.leagueEntity = leagueEntity;
@@ -15,28 +14,34 @@ export class League {
         return this.leagueEntity.leagueId;
     }
 
-    getSport() : Sport {
-        if(!this.sport) {
-            this.sport = new Sport(this.leagueEntity.sport);
-        }
-        return this.sport;
+    getSport() : SportEnum {
+        return this.leagueEntity.sport;
     }
 
     getName() : string {
         return this.leagueEntity.name;
     }
-
-    getChampionshipId() : number {
-        return this.leagueEntity.championship.id
-    }
-
-    getChampionshipName() : string {
-        return this.leagueEntity.championship.description;
+    
+    getChampionship() : ChampionshipEnum {
+        return this.leagueEntity.championship;
     }
 
     toString() : string {
         return "Id:" + this.leagueEntity.leagueId + ", Nome: " + this.leagueEntity.name +  
-            ", Campionato: " + this.leagueEntity.championship.description +
-            ", Sport: " + this.leagueEntity.sport.name;
+            ", Campionato: " + this.leagueEntity.championship +
+            ", Sport: " + this.leagueEntity.sport;
+    }
+
+    equals(other: any) : boolean {
+        if(other == null) {
+            return false;
+        }
+
+        if(!(other instanceof League)) {
+            return false;
+        }
+
+        return this.leagueEntity.leagueId == other.leagueEntity.leagueId && this.leagueEntity.name == other.leagueEntity.name &&
+            this.leagueEntity.sport == other.leagueEntity.sport && this.leagueEntity.championship == other.leagueEntity.championship;
     }
 }

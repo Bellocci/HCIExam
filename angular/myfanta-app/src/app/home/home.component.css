@@ -1,12 +1,16 @@
-/* Block title */
+/* Titolo */
 
-#block-title {
-    padding-top: 5%;
-    padding-bottom: 2%;
+.title-container {
+    max-height: 200px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    padding-top: 30px
+    /* Distanza tra le colonne */
 }
 
-.title-position {
-    text-align: center;
+.title-container h2 {
+    margin-top: 30px !important;
 }
 
 .title-font {
@@ -26,81 +30,9 @@
     100% {opacity: 1;}
 }
 
-.subtitle-position {
-    text-align: center;
-    padding: 3% 3% 0 3%;
-}
-
 .subtitle-font {
     font-size: 30px;
     font-weight: 500;
-}
-
-@media 
-(min-width: 800px) and
-(max-width: 1200px) 
-{
-    #block-title {
-        padding: 5% 2% 2% 2%;
-    }
-
-    .subtitle-font {
-        font-size: 24px;
-    }
-}
-
-@media
-(min-width: 500px) and
-(max-width: 800px) {
-
-    .title-font {
-        font-size: 50px;
-        font-weight: bold;
-        font-family: Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .subtitle-position {
-        text-align: center;
-        padding: 2%;
-    }
-
-    .subtitle-font {
-        font-size: 20px;
-    }
-}
-
-@media
-(min-width: 320px) and
-(max-width: 500px) {
-
-    #block-title {
-        padding-top: 5%;
-        padding-bottom: 1%;
-    }
-
-    .title-font {
-        font-size: 40px;
-        font-weight: bold;
-        font-family: Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .subtitle-position {
-        text-align: center;
-        padding-top: 2%;
-        padding-left: 2%;
-        padding-right: 2%;
-    }
-
-    .subtitle-font {
-        font-size: 16px;
-    }
-}
-
-/* Block description text */
-
-.text-position {
-    text-align: left;
-    padding: 5% 5% 0;
 }
 
 /* Container button */
@@ -111,11 +43,6 @@
     column-gap: 8%;
     row-gap: 2%;
     height: 80%;
-}
-
-.padding-home {
-    align-content: baseline;
-    padding: 5% 10% 10% 10%;
 }
 
 @media

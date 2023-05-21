@@ -124,6 +124,14 @@ body {
     flex-direction: column;
 }
 
+.flex-start-content {
+    justify-content: flex-start;
+}
+
+.alignCenter {
+    align-self: center;
+}
+
 /* Tooltip */
 
 .tooltip {
@@ -183,17 +191,26 @@ body {
     color: #000000;
 }
 
+/* TEXT */
+
+.title-txt {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.bold {
+    font-weight: 600;
+}
+
 @media 
     (min-width: 1200px) {
 
         .text { 
             font-size: 18px;
-            font-weight: 400;
         }
 
         .label {
             font-size: 16px;
-            font-weight: 400;
         }
 }
 
@@ -203,12 +220,10 @@ body {
     
         .text { 
             font-size: 16px;
-            font-weight: 400;
         }
 
         .label {
             font-size: 12px;
-            font-weight: 400;
         }
 }
 
@@ -218,12 +233,10 @@ body {
     
         .text { 
             font-size: 14px;
-            font-weight: 400;
         }
 
         .label {
             font-size: 12px;
-            font-weight: 400;
         }
 }
 
@@ -233,11 +246,9 @@ body {
     
         .text { 
             font-size: 14px;
-            font-weight: 400;
         }
 
         .label {
             font-size: 12px;
-            font-weight: 400;
         }
 }

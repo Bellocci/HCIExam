@@ -19,12 +19,6 @@ export class SharedService {
   getPlayerList(championship:string):Observable<any[]> {
     if(championship == 'Serie A')
       return of(PLAYER_DATA_SERIE_A);
-    if(championship == 'Premier League')
-      return PLAYER_DATA_PREMIER_LEAGUE;
-    if(championship == 'Serie A Female')
-      return PLAYER_DATA_SERIE_A_FEMALE;
-    if(championship == 'NBA')
-      return PLAYER_DATA_NBA;
     return of([]);
   }
 

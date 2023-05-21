@@ -39,7 +39,11 @@ export class PlayerListComponent implements OnInit {
     });
 
     this._internal_data_service.getActiveLink().subscribe((link) => {
-      this._active_link = link;
+      if(link != undefined) {
+        this._active_link = link;
+      } else {
+        this._active_link = "";
+      }
     })
 
     this._search_players.pipe(
@@ -50,7 +54,7 @@ export class PlayerListComponent implements OnInit {
       distinctUntilChanged(),
 
     ).subscribe((player_name:string) => {
-      this._team_data_service.filterPlayersByName(player_name);
+      // this._team_data_service.filterPlayersByName(player_name);
     });
   }
 
@@ -151,11 +155,11 @@ export class PlayerListComponent implements OnInit {
   }
 
   filterPlayerByRole(role : {name : string, selected : boolean}) : void {
-    this._team_data_service.filterPlayerByRoles(role.name, role.selected)
+    
   }
 
   filterPlayerByTeam(team : {name : string, selected : boolean}) : void {
-    this._team_data_service.filterPlayersByTeam(team.name, team.selected);
+    
   }
 
   filterText(event: KeyboardEvent) : boolean {

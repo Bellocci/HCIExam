@@ -8,6 +8,7 @@ export interface Player {
     role:string;
     age:number;
     matchPlayed:number;
+    active:boolean;
 }
 
 export const PLAYER_DATA_SERIE_A:Player[] = [
@@ -19,6 +20,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'P',
         age : 27,
         matchPlayed : 24,
+        active: true,
     },
     {
         playerId : 2,
@@ -28,6 +30,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'D',
         age : 31,
         matchPlayed : 16,
+        active: true,
     },
     {
         playerId : 3,
@@ -37,6 +40,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'C',
         age : 28,
         matchPlayed : 22,
+        active: true,
     },
     {
         playerId : 4,
@@ -46,6 +50,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'C',
         age : 27,
         matchPlayed : 24,
+        active: true,
     },
     {
         playerId : 5,
@@ -55,6 +60,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'A',
         age : 32,
         matchPlayed : 23,
+        active: true,
     },
     {
         playerId : 6,
@@ -64,6 +70,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'D',
         age : 33,
         matchPlayed : 23,
+        active: true,
     },
     {
         playerId : 7,
@@ -73,6 +80,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'C',
         age : 31,
         matchPlayed : 25,
+        active: true,
     },
     {
         playerId : 8,
@@ -82,6 +90,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'P',
         age : 30,
         matchPlayed : 27,
+        active: true,
     },
     {
         playerId : 9,
@@ -91,6 +100,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'D',
         age : 21,
         matchPlayed : 22,
+        active: true,
     },
     {
         playerId : 10,
@@ -100,6 +110,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'C',
         age : 25,
         matchPlayed : 18,
+        active: true,
     },
     {
         playerId : 11,
@@ -109,6 +120,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'A',
         age : 30,
         matchPlayed : 16,
+        active: true,
     },
     {
         playerId : 12,
@@ -118,6 +130,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'A',
         age : 30,
         matchPlayed : 17,
+        active: true,
     },
     {
         playerId : 13,
@@ -127,6 +140,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'D',
         age : 29,
         matchPlayed : 21,
+        active: true,
     },
     {
         playerId : 14,
@@ -136,6 +150,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'C',
         age : 30,
         matchPlayed : 21,
+        active: true,
     },
     {
         playerId : 15,
@@ -145,10 +160,11 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
         role : 'A',
         age : 25,
         matchPlayed : 16,
+        active: true,
     }
 ]
 
-export const PLAYER_DATA_PREMIER_LEAGUE:Observable<Player[]> = of([
+export const PLAYER_DATA_PREMIER_LEAGUE:Player[] = [
 
     {
         playerId : 16,
@@ -158,6 +174,7 @@ export const PLAYER_DATA_PREMIER_LEAGUE:Observable<Player[]> = of([
         role : 'P',
         age : 24,
         matchPlayed : 19,
+        active: true,
     },
     {
         playerId : 17,
@@ -167,6 +184,7 @@ export const PLAYER_DATA_PREMIER_LEAGUE:Observable<Player[]> = of([
         role : 'D',
         age : 25,
         matchPlayed : 19,
+        active: true,
     },
     {
         playerId : 18,
@@ -176,6 +194,7 @@ export const PLAYER_DATA_PREMIER_LEAGUE:Observable<Player[]> = of([
         role : 'C',
         age : 29,
         matchPlayed : 17,
+        active: true,
     },
     {
         playerId : 19,
@@ -185,6 +204,7 @@ export const PLAYER_DATA_PREMIER_LEAGUE:Observable<Player[]> = of([
         role : 'A',
         age : 27,
         matchPlayed : 20,
+        active: true,
     },
     {
         playerId : 20,
@@ -194,10 +214,11 @@ export const PLAYER_DATA_PREMIER_LEAGUE:Observable<Player[]> = of([
         role : 'A',
         age : 27,
         matchPlayed : 2,
+        active: true,
     }
-])
+]
 
-export const PLAYER_DATA_SERIE_A_FEMALE:Observable<Player[]> = of([
+export const PLAYER_DATA_SERIE_A_FEMALE:Player[] = [
     {
         playerId : 21,
         playerName : 'Lippmann ',
@@ -206,6 +227,7 @@ export const PLAYER_DATA_SERIE_A_FEMALE:Observable<Player[]> = of([
         role : 'O',
         age : 28,
         matchPlayed : 23,
+        active: true,
     },
     {
         playerId : 22,
@@ -215,6 +237,7 @@ export const PLAYER_DATA_SERIE_A_FEMALE:Observable<Player[]> = of([
         role : 'L',
         age : 28,
         matchPlayed : 2,
+        active: true,
     },
     {
         playerId : 23,
@@ -224,6 +247,7 @@ export const PLAYER_DATA_SERIE_A_FEMALE:Observable<Player[]> = of([
         role : 'S',
         age : 32,
         matchPlayed : 23,
+        active: true,
     },
     {
         playerId : 24,
@@ -233,6 +257,7 @@ export const PLAYER_DATA_SERIE_A_FEMALE:Observable<Player[]> = of([
         role : 'C',
         age : 29,
         matchPlayed : 23,
+        active: true,
     },
     {
         playerId : 25,
@@ -242,11 +267,12 @@ export const PLAYER_DATA_SERIE_A_FEMALE:Observable<Player[]> = of([
         role : 'P',
         age : 26,
         matchPlayed : 23,
+        active: true,
     }
 
-])
+]
 
-export const PLAYER_DATA_NBA:Observable<Player[]> = of([
+export const PLAYER_DATA_NBA:Player[] = [
     {
         playerId : 26,
         playerName : 'Lebron',
@@ -255,6 +281,7 @@ export const PLAYER_DATA_NBA:Observable<Player[]> = of([
         role : 'C',
         age : 29,
         matchPlayed : 20,
+        active: true,
     },
     {
         playerId : 27,
@@ -264,6 +291,7 @@ export const PLAYER_DATA_NBA:Observable<Player[]> = of([
         role : 'G',
         age : 32,
         matchPlayed : 16,
+        active: true,
     },
     {
         playerId : 28,
@@ -273,6 +301,7 @@ export const PLAYER_DATA_NBA:Observable<Player[]> = of([
         role : 'G',
         age : 22,
         matchPlayed : 7,
+        active: true,
     },
     {
         playerId : 29,
@@ -282,5 +311,6 @@ export const PLAYER_DATA_NBA:Observable<Player[]> = of([
         role : 'F',
         age : 38,
         matchPlayed : 15,
+        active: true,
     },
-])
+]

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { SessionStorageService } from './session-storage.service';
+import { UserService } from './user.service';
+import { User } from 'src/decorator/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppInitService {
 
-  constructor(private _session_service:SessionStorageService) {
+  constructor(private _session_service:SessionStorageService<string>) {
   }
   
   Init() {

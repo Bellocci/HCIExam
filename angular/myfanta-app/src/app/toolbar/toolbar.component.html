@@ -1,5 +1,7 @@
 <mat-sidenav-container class="sidenav-container" (backdropClick)="closeSidenav()">
     <mat-sidenav autoFocus="false" class="sidenav" mode="over">
+
+      <!-- Pulsante chiusura sidenav -->
       <div class="secondary-color">
         <mat-toolbar>
           <button class="text secondary-color secondary-color-light" mat-flat-button (click)="closeSidenav()">
@@ -8,7 +10,10 @@
           </button>
         </mat-toolbar>
       </div>
+
       <mat-nav-list>
+
+        <!-- Sport expansion panel -->
         <mat-accordion>
           <ng-container *ngFor="let sport of getSports(); let indexSport = index;">
           <mat-expansion-panel 
@@ -18,26 +23,29 @@
             class="expansion-panel-header-sport secondary-color secondary-color-light mat-elevation-z3">
               <mat-panel-title>
                 <div class="text" [ngClass]="isPanelSportOpen(indexSport) ? 'bold' : ''">
-                  {{ sport.getName() }}
+                  {{ sport.description }}
                 </div>
               </mat-panel-title>
-            </mat-expansion-panel-header>            
+            </mat-expansion-panel-header>   
+            
+            <!-- Championship expansion panel per uno specifico sport -->
             <ng-container *ngFor="let championship of getChampionships(sport); let indexChamp = index;">
               <mat-expansion-panel class="expansion-panel-header-championship" [expanded]="false">
                 <mat-expansion-panel-header>
                   <mat-panel-title class="expansion-panel-title-championship">
                     <div class="label championship-label">
-                      {{ championship }}
+                      {{ championship.description }}
                     </div>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
+
+                <!-- Elenco leghe per uno specifico sport e campionato -->
                 <ng-container *ngFor="let league of getLeagues(sport, championship)">
                   <mat-panel-description>
                     <ul class="list-ul">
                       <li>
                         <a mat-list-item
-                          (click)="setLeagueSelected(league); closeSidenav(); setActiveLink('Create team'); clearData();" 
-                          routerLink="createTeam">
+                          (click)="selectedLeagueListener(league);">
                             <span class="text link"> {{ league.getName() }} </span>
                         </a>
                       </li>

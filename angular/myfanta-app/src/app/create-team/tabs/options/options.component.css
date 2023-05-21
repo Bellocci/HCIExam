@@ -78,7 +78,7 @@ input {
     margin-left: 5%;
     margin-right: 5%;
 }
-
+/*
 .disable-color ::ng-deep .mat-slider-thumb {
     background-color: black !important;
 }
@@ -86,7 +86,7 @@ input {
 .disable-color ::ng-deep .mat-slider-thumb-label {
     background-color: black !important;
 }
-
+*/
 .slider-width {
     width: 50%;
 }

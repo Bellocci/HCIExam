@@ -1,8 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FilterDataService } from 'src/app/service/filter-data.service';
 import { InternalDataService } from 'src/app/service/internal-data.service';
-import { LoadDataService } from 'src/app/service/load-data.service';
-import { SharedService } from 'src/app/service/shared.service';
 import { TeamDataService } from 'src/app/service/team-data.service';
 import { ToolbarComponent } from '../toolbar.component';
 
@@ -12,6 +10,7 @@ import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/decorator/user.model';
 import { SnackBarService } from 'src/app/service/snack-bar.service';
 import { League } from 'src/decorator/League.model';
+import { RouterService } from 'src/app/service/router.service';
 
 @Component({
   selector: 'app-toolbar-base',
@@ -24,24 +23,25 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 
   private userLogged:boolean = false;
   private user:User | undefined;
-  private league!:League | null;
+  private league!:League | null;  
+  private link:string = "";
 
-  constructor(private shared_service:SharedService, 
-    private loadService:LoadDataService,
+  constructor(
     private filterService:FilterDataService,
-    private data_service:InternalDataService, 
-    private team_service:TeamDataService,
     private internalDataService:InternalDataService,
+    private teamDataService:TeamDataService,
     private userService:UserService,
     private snackbarService:SnackBarService,
-    public dialog:MatDialog) 
+    public dialog:MatDialog,
+    override routerService:RouterService) 
   { 
-    super(shared_service, loadService, filterService, data_service, team_service);
+    super(filterService, internalDataService, teamDataService, routerService);
   }
 
   override ngOnInit(): void {
     this.subscribeUser();
     this.subscribeLeague();
+    this.subscribeLink();
   }
 
   /* INIZIALIZZAZIONE OBSERVER */
@@ -62,6 +62,12 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
     this.internalDataService.getLeagueSelected().subscribe(league => {
       this.league = league;
     })
+  }
+
+  private subscribeLink() {
+    this.internalDataService.getActiveLink().subscribe(link => {
+      this.link = link;
+    });
   }
 
   /* FINE OBSERVER */
@@ -100,8 +106,42 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 
   /* Metodi funzionalità */
 
-  logout() : void {
+  logout() : void {    
     this.userService.logout();
-    this.snackbarService.openInfoSnackBar("Ti sei scollegato dal tuo account");
+    if(this.routerService.currentPageisMyProfile()) {
+      this.routerService.goToHomePage();
+    }
+    this.snackbarService.openInfoSnackBar("Ti sei scollegato dal tuo account");    
+  }
+
+  /* Routing */
+
+  goToHome() : void {
+    this.setLeagueSelected(null);
+    this.routerService.goToHomePage();
+  }
+
+  goToCreateTeam() : void {
+    this.routerService.goToCreateTeamPage();
+  }
+
+  goToPlayerList() : void {
+    this.routerService.goToPlayerListPage();
+  }
+
+  goToFavoritList() : void {
+    this.routerService.goToFavoritListPage();
+  }
+
+  goToBlacklist() : void {
+    this.routerService.goToBlacklistPage();
+  }
+
+  goToMyProfile() : void {
+    this.routerService.goToMyProfilePage();
+  }
+
+  override isActiveLink(link_name:string) : boolean {
+    return this.link === link_name;
   }
 }
