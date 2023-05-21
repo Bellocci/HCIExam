@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import { FormControl, UntypedFormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/service/user.service';
-import { UserEntity } from 'src/model/userEntity.model';
 
 @Component({
   selector: 'app-login',
@@ -15,11 +13,11 @@ export class LoginComponent implements OnInit {
   // Parametri in uscita verso il parent
   @Output() recoveryPasswordView = new EventEmitter<boolean>();  
 
-  usernameControl:FormControl = new FormControl('', {
+  usernameControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required],
   });
 
-  passwordControl:FormControl = new FormControl('', {
+  passwordControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators: [Validators.required]
   });  
 

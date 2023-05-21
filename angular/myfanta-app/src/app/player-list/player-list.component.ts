@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { InternalDataService } from '../service/internal-data.service';
 import { TeamDataService } from '../service/team-data.service';
@@ -27,7 +27,7 @@ export class PlayerListComponent implements OnInit {
     {name : 'A', selected : false},
   ];
 
-  team_form = new FormControl('');
+  team_form = new UntypedFormControl('');
 
   constructor(private _team_data_service: TeamDataService, private _internal_data_service:InternalDataService) { }
 

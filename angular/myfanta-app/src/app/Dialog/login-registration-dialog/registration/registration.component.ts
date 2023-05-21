@@ -1,6 +1,6 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/decorator/user.model';
 
@@ -53,22 +53,22 @@ export class RegistrationComponent implements OnInit {
   private createdNewUser:boolean = false;
   
   /* FORM CONTROL */
-  nameFormControl:FormControl = new FormControl('', {
+  nameFormControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required, Validators.minLength(this.minLength), 
       Validators.maxLength(this.maxLength), this.nameAndSurnameValidator(this.nameAndSurnameRe)]
   });
 
-  surnameFormControl:FormControl = new FormControl('', {
+  surnameFormControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required, Validators.minLength(this.minLength), 
       Validators.maxLength(this.maxLength), this.nameAndSurnameValidator(this.nameAndSurnameRe)]
   });
 
-  usernameFormControl:FormControl = new FormControl('', {
+  usernameFormControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required, Validators.minLength(this.minLength), 
       Validators.maxLength(this.maxLength), this.usernameValidator(this.usernameRe)]
   });
 
-  passwordFormControl:FormControl = new FormControl('', {
+  passwordFormControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required, Validators.minLength(this.minLengthPassword), 
       Validators.maxLength(this.maxLengthPassword), this.passwordValidator(this.passwordRe)]
   });
@@ -196,7 +196,7 @@ export class RegistrationComponent implements OnInit {
     return "";
   }
 
-  private getErrorMessage(formControl:FormControl, typeError:string) : string {
+  private getErrorMessage(formControl:UntypedFormControl, typeError:string) : string {
     let msg:string | undefined = this.errorMessageMap.get(typeError);
     if(!msg) {
       return this.errorMessageMap.get("undefined")!;
@@ -226,9 +226,13 @@ export class RegistrationComponent implements OnInit {
     this.canCompleteRegistration() ? this.disableRegistrationBtn = false : this.disableRegistrationBtn = true;
   }
 
-  registration() : void {
-    const user:User | undefined = this._userService.createNewUser(
-      this.nameFormControl.value, this.surnameFormControl.value, this.usernameFormControl.value, this.passwordFormControl.value);
+    registration() : void {
+    let user:User | undefined = undefined;    
+    if(this.canCompleteRegistration()) {
+      // Siamo sicuri che contengono valori dal controllo precedente
+      user = this._userService.createNewUser(
+        this.nameFormControl.value!, this.surnameFormControl.value!, this.usernameFormControl.value!, this.passwordFormControl.value!);
+    }
     
     if(!user) {
       this.showError = true;

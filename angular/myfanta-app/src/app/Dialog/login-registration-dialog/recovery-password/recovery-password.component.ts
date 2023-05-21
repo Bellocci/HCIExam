@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, UntypedFormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -10,15 +10,15 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class RecoveryPasswordComponent implements OnInit {
 
-  nameControl:FormControl = new FormControl('', {
+  nameControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required]
   });
 
-  surnameControl:FormControl = new FormControl('', {
+  surnameControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required]
   });
 
-  usernameControl:FormControl = new FormControl('', {
+  usernameControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required]
   });
 
@@ -75,8 +75,12 @@ export class RecoveryPasswordComponent implements OnInit {
   /* Metodi comunicazione con servizi */
 
   recoveryPassword() : void {
-    this.password = this._userService.recoveryPassword(
-      this.nameControl.value, this.surnameControl.value, this.usernameControl.value);
+    this.password = undefined;
+    if(this.areInputsValid()) {
+      // Siamo sicuri che siano presenti valori dal controllo precedente
+      this.password = this._userService.recoveryPassword(
+        this.nameControl.value!, this.surnameControl.value!, this.usernameControl.value!);
+    }
     !this.password ? this.showRecoveryPasswordError = true : this.showRecoveryPasswordError = false;
   } 
 
