@@ -1,9 +1,7 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { League } from 'src/decorator/League.model';
 import { InternalDataService } from '../service/internal-data.service';
-import { LoadDataService } from '../service/load-data.service';
-import { SharedService } from '../service/shared.service';
 import { TeamDataService } from '../service/team-data.service';
 import { FilterDataService } from '../service/filter-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
@@ -103,6 +101,9 @@ export class ToolbarComponent implements OnInit {
 
   panelSportClosed() : void {
     this.sportSelected = -1;
+    // Permette di rimuovere il focus dall'elemento attivo
+    const activeElement = document.activeElement as HTMLElement;
+    activeElement.blur();        
   }
 
   /* Metodi visibilità */

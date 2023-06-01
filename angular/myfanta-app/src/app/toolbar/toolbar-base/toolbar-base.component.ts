@@ -4,13 +4,12 @@ import { InternalDataService } from 'src/app/service/internal-data.service';
 import { TeamDataService } from 'src/app/service/team-data.service';
 import { ToolbarComponent } from '../toolbar.component';
 
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { LoginRegistrationDialogComponent } from 'src/app/Dialog/login-registration-dialog/login-registration-dialog.component';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/decorator/user.model';
 import { SnackBarService } from 'src/app/service/snack-bar.service';
 import { League } from 'src/decorator/League.model';
 import { RouterService } from 'src/app/service/router.service';
+import { DialogService } from 'src/app/service/dialog.service';
 
 @Component({
   selector: 'app-toolbar-base',
@@ -32,8 +31,8 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
     private teamDataService:TeamDataService,
     private userService:UserService,
     private snackbarService:SnackBarService,
-    public dialog:MatDialog,
-    override routerService:RouterService) 
+    override routerService:RouterService,
+    private dialogService:DialogService) 
   { 
     super(filterService, internalDataService, teamDataService, routerService);
   }
@@ -77,15 +76,7 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
   }
 
   openLoginDialog() : void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.maxWidth = "800px";
-    dialogConfig.width = "auto";
-    dialogConfig.height = "80%";
-
-    this.dialog.open(LoginRegistrationDialogComponent, dialogConfig);
+    this.dialogService.getLoginHelper().openDialog();
   }
 
   /* Getter */

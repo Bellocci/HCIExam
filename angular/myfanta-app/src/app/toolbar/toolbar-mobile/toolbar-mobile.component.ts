@@ -1,9 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { filter } from 'rxjs';
 import { FilterDataService } from 'src/app/service/filter-data.service';
 import { InternalDataService } from 'src/app/service/internal-data.service';
-import { LoadDataService } from 'src/app/service/load-data.service';
-import { SharedService } from 'src/app/service/shared.service';
 import { TeamDataService } from 'src/app/service/team-data.service';
 import { ToolbarComponent } from '../toolbar.component';
 import { RouterService } from 'src/app/service/router.service';

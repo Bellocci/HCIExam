@@ -6,8 +6,8 @@ import { By } from "@angular/platform-browser";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "src/app/material-module";
 import { TabsComponent } from "./tabs.component";
-import {MatTabGroupHarness, MatTabHarness } from '@angular/material/tabs/testing';
-import { MatButtonHarness } from "@angular/material/button/testing";
+import {MatLegacyTabGroupHarness as MatTabGroupHarness, MatLegacyTabHarness as MatTabHarness } from '@angular/material/legacy-tabs/testing';
+import { MatLegacyButtonHarness as MatButtonHarness } from "@angular/material/legacy-button/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import {MatGridListHarness, MatGridTileHarness} from '@angular/material/grid-list/testing';
 

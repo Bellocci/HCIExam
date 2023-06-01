@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SportEnum } from 'src/enum/SportEnum.model';
 
@@ -6,7 +6,6 @@ import { SportEnum } from 'src/enum/SportEnum.model';
   selector: 'app-create-new-team-dialog',
   templateUrl: './create-new-team-dialog.component.html',
   styleUrls: ['./create-new-team-dialog.component.css'],
-
 })
 export class CreateNewTeamDialogComponent implements OnInit {
 

@@ -2,16 +2,16 @@ import { TestbedHarnessEnvironment } from "@angular/cdk/testing/testbed";
 import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
 
 import { HarnessLoader, parallel } from "@angular/cdk/testing";
-import { MatTableHarness } from '@angular/material/table/testing';
-import { MatPaginatorHarness } from '@angular/material/paginator/testing';
-import { MatButtonHarness } from "@angular/material/button/testing";
+import { MatLegacyTableHarness as MatTableHarness } from '@angular/material/legacy-table/testing';
+import { MatLegacyPaginatorHarness as MatPaginatorHarness } from '@angular/material/legacy-paginator/testing';
+import { MatLegacyButtonHarness as MatButtonHarness } from "@angular/material/legacy-button/testing";
 import { MatSortHarness } from '@angular/material/sort/testing';
 
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { By } from "@angular/platform-browser";
 
 import { MaterialModule } from "../material-module";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
 import { FormsModule } from "@angular/forms";
 import {MatSortModule} from '@angular/material/sort';
 

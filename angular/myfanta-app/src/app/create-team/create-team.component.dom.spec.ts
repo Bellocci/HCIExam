@@ -9,8 +9,8 @@ import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from "@angular/core";
 import { By } from "@angular/platform-browser";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatLegacySnackBarModule as MatSnackBarModule } from "@angular/material/legacy-snack-bar";
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from "@angular/material/legacy-autocomplete";
 import { FormsModule } from "@angular/forms";
 
 import { CreateTeamComponent } from "./create-team.component";

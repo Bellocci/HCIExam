@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { SportEntity, SPORT_DATA } from 'src/model/sportEntity.model';
-import { PLAYER_DATA_NBA, PLAYER_DATA_PREMIER_LEAGUE, PLAYER_DATA_SERIE_A, PLAYER_DATA_SERIE_A_FEMALE } from 'src/model/player.model'
+import { PLAYER_DATA_SERIE_A } from 'src/model/player.model'
 
 @Injectable({
   providedIn: 'root'

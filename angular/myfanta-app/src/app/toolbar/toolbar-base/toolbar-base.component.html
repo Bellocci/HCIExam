@@ -3,15 +3,13 @@
   <button mat-flat-button
   class="btn-menu-sports btn-flat color"  
   (click)="openSidenavFromChild()">
-    <span class="mat-button-wrapper" >
-      <mat-icon>menu</mat-icon>
-      <span class="text">Sports</span>
-    </span>
+    <mat-icon class="icon-size">menu</mat-icon>
+    <span class="text">Sports</span>
   </button>
   <ng-container *ngIf="isLeagueSelected()">    
     <!-- Link alla pagina Create team -->
     <button mat-flat-button
-    class="color ml-10px mr-10px"
+    class="color btn-flat ml-10px mr-10px"
     [ngClass]="isActiveLink(linkEnum.CREATE_TEAM.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
     (click)="goToCreateTeam()">
       <span class="text"
@@ -21,7 +19,7 @@
     </button>
     <!-- link alla pagina Player list-->
     <button mat-flat-button
-    class="color mr-10px"
+    class="color btn-flat mr-10px"
     [ngClass]="isActiveLink(linkEnum.PLAYER_LIST.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
     (click)="goToPlayerList()">
       <span class="text"
@@ -31,7 +29,7 @@
     </button>
     <!-- Link alla pagina Favorit list -->
     <button mat-flat-button
-    class="color mr-10px"
+    class="color btn-flat mr-10px"
     [ngClass]="isActiveLink(linkEnum.FAVORIT_LIST.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
     (click)="goToFavoritList()">
       <span class="text"
@@ -41,7 +39,7 @@
     </button>
     <!-- Link alla pagina Blacklist -->
     <button mat-flat-button
-    class="color mr-10px"
+    class="color btn-flat mr-10px"
     [ngClass]="isActiveLink(linkEnum.BLACKLIST.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
     (click)="goToBlacklist()">
       <span class="text"
@@ -56,7 +54,7 @@
   class="toolbar-el-height btn-flat color"
   *ngIf="!isUserLogged()"
   (click)="openLoginDialog()">
-    <mat-icon>account_circle</mat-icon>
+    <mat-icon class="icon-size">account_circle</mat-icon>
     <span class="text">Login</span>
   </button>
   <!-- Menù utente -->
@@ -64,7 +62,7 @@
     <button mat-flat-button 
     class="toolbar-el-height btn-flat color"
     [matMenuTriggerFor]="menuUser">
-      <mat-icon>account_circle</mat-icon>
+      <mat-icon class="icon-size">account_circle</mat-icon>
       <span class="text">{{ getUser()!.getUsername() }}</span>
     </button>
     <mat-menu #menuUser="matMenu" xPosition="before">
@@ -85,7 +83,7 @@
   *ngIf="isLeagueSelected()"
   (click)="goToHome()"
   class="toolbar-el-height btn-flat color">
-    <mat-icon>home</mat-icon>
+    <mat-icon class="icon-size">home</mat-icon>
     <span class="text">{{ linkEnum.HOME.description }}</span>
   </button>
   <!-- Link alla pagina di help -->

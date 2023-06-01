@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { SportEntity, SPORT_DATA } from 'src/model/sportEntity.model';
 import { LeagueEntity, LEAGUE_DATA } from 'src/model/leagueEntity.model';
 import { League } from 'src/decorator/League.model';
 

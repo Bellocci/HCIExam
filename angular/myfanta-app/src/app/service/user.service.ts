@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from 'src/decorator/user.model';
 import { UserTeam } from 'src/decorator/userTeam.model';
 import { USER_DATA, UserEntity } from 'src/model/userEntity.model';
-import { CUSTOMS_TEAM_DATA, UserTeamEntity } from 'src/model/userTeamEntity.model';
+import { CUSTOMS_TEAM_DATA } from 'src/model/userTeamEntity.model';
 import { SessionStorageService } from './session-storage.service';
 import { ColorEnum } from 'src/enum/ColorEnum.model';
 

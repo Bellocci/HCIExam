@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SessionStorageService } from './session-storage.service';
-import { UserService } from './user.service';
-import { User } from 'src/decorator/user.model';
 
 @Injectable({
   providedIn: 'root'

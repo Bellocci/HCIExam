@@ -3,7 +3,8 @@
 html, body { height: 100%; }
 body { 
     margin: 0; 
-    font-family: Tahoma, Geneva, Verdana, sans-serif !important;
+    font-family: Roboto, sans-serif, Tahoma, Geneva, Verdana, sans-serif !important;
+
 }
 
 /* Colors */
@@ -21,23 +22,35 @@ body {
 }
 
 .secondary-color {
-    background-color: #FFCF82;
+    background-color: #FFCF82 !important;
 }
 
-.secondary-color-light:hover {
+.secondary-color-no-hover {
+    background-color: #FFCF82 !important;
+}
+
+.secondary-color:hover {
     background-color: #ffffb3 !important;
 }
 
-.white-color {
+.secondary-color:focus {
+    background-color: #ffffb3 !important;
+}
+
+.secondary-color-light {
+    background-color: #ffffb3;
+}
+
+.no-color {
     background-color: #F9F9F9;
 }
 
-.white-color:hover {
-    background-color: #E0E0E0;
+.no-color:hover {
+    background-color: #E0E0E0 !important;
 }
 
 .error-color {
-    color: #f44336;
+    color: #f44336 !important;
 }
 
 /* Icon colors */
@@ -46,6 +59,12 @@ body {
 .material-icons.color_red { color: #f44336; }
 
 /* FINE COLORE */
+
+/* DIMENSIONE ICONE */
+
+.icon-size {
+    transform: scale(1.5);
+}
 
 /* TESTO */
 
@@ -128,8 +147,16 @@ body {
     justify-content: flex-start;
 }
 
+.align-content-center {
+    align-content: center;
+}
+
 .alignCenter {
     align-self: center;
+}
+
+.txt-center {
+    text-align: center;
 }
 
 /* Tooltip */
@@ -177,6 +204,10 @@ body {
 
 /* STYLE GENERALI */
 
+.block-container {
+    display: block;
+}
+
 .hidden-element {
     display: none;
 }
@@ -207,10 +238,12 @@ body {
 
         .text { 
             font-size: 18px;
+            color: black;
         }
 
         .label {
             font-size: 16px;
+            color: black;
         }
 }
 
