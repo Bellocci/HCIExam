@@ -31,16 +31,6 @@
     background-color: inherit;
 }
 
-/* Input */
-
-.login-form {
-    width: 90%;
-}
-
-.input-txt {
-    width: 300px;
-}
-
 /* COLOR  */
 
 .link-toolbar-border {
@@ -65,8 +55,19 @@
     font-weight: bold;
 }
 
-/* Classe per distanziare i bottoni */
-.spacer-left-right {
-    flex: 1 1 auto;
+/* Menu user panel */
+
+.user-menu {
+    width: 150px !important;
 }
-  
+
+.username-menu-panel {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor:auto;
+}
+
+.username-menu-panel:hover {
+    background-color: inherit;
+}

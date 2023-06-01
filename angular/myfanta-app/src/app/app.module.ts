@@ -23,10 +23,11 @@ import { PlayerListComponent } from './player-list/player-list.component';
 import { ShortTableComponent } from './table/short-table/short-table.component';
 import { FilterPlayerComponent } from './filter-player/filter-player.component';
 import { TableFavBlackPlayerComponent } from './table/table-fav-black-player/table-fav-black-player.component';
-import { LoginComponent } from './Dialog/login-registration-dialog/login/login.component';
-import { RegistrationComponent } from './Dialog/login-registration-dialog/registration/registration.component';
-import { LoginRegistrationDialogComponent } from './Dialog/login-registration-dialog/login-registration-dialog.component';
-import { RecoveryPasswordComponent } from './Dialog/login-registration-dialog/recovery-password/recovery-password.component';
+import { LoginDialogComponent } from './Dialog/login-dialog/login-dialog.component';
+import { RegistrationDialogComponent } from './Dialog/registration-dialog/registration-dialog.component';
+import { RecoveryPasswordDialogComponent } from './Dialog/recovery-password-dialog/recovery-password-dialog.component';
+import { UserPageComponent } from './user-page/user-page.component';
+import { CreateNewTeamDialogComponent } from './Dialog/create-new-team-dialog/create-new-team-dialog.component';
 
 export function initializeApp(appInitService: AppInitService) {
   return (): Promise<any> => { 
@@ -50,18 +51,19 @@ export function initializeApp(appInitService: AppInitService) {
     ShortTableComponent,
     FilterPlayerComponent,
     TableFavBlackPlayerComponent,
-    LoginComponent,
-    RegistrationComponent,
-    LoginRegistrationDialogComponent,
-    RecoveryPasswordComponent,
+    LoginDialogComponent,
+    RegistrationDialogComponent,
+    RecoveryPasswordDialogComponent,
+    UserPageComponent,
+    CreateNewTeamDialogComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
-    MaterialModule,
     BrowserAnimationsModule,
-    HttpClientModule,
+    BrowserModule,
     FormsModule,
+    HttpClientModule,
+    MaterialModule,
     ReactiveFormsModule,
   ],
   providers: [

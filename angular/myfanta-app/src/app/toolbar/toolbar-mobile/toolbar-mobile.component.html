@@ -5,8 +5,7 @@
         </button>
         <a class="link text primary-color-dark"
         id="myfanta-link" 
-        *ngIf="!!getLeagueSelected()"
-        (click)="setActiveLink(''); setLeagueSelected(null); clearData()"
+        *ngIf="!!getLeagueSelected()"        
         routerLink="">
             My Fanta
         </a>
@@ -20,25 +19,21 @@
     *ngIf="!!getLeagueSelected()">
         <a class="link text" 
         [ngClass]="isActiveLink('Create team') == true ? 'link-toolbar-color' : ''"
-        (click)="setActiveLink('Create team'); clearData()"
         routerLink="createTeam">
             Create team
         </a>
         <a class="link text" 
         [ngClass]="isActiveLink('Player list') == true ? 'link-toolbar-color' : ''"
-        (click)="setActiveLink('Player list'); clearData()"
         routerLink="playerList">
             Player list
         </a>
         <a class="link text" 
         [ngClass]="isActiveLink('Favorit list') == true ? 'link-toolbar-color' : ''"
-        (click)="setActiveLink('Favorit list'); clearData()"
         routerLink="favoritList">
             Favorit list
         </a>
         <a class="link text" 
         [ngClass]="isActiveLink('Blacklist') == true ? 'link-toolbar-color' : ''"
-        (click)="setActiveLink('Blacklist'); clearData()"
         routerLink="blackList">
             Blacklist
         </a>

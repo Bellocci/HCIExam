@@ -5,7 +5,7 @@ mat-tab-group {
 }
 
 /* MatTabLabel */
-
+/*
 ::ng-deep.mat-tab-label {
     opacity: 1 !important;
     font-size: 18px;
@@ -60,7 +60,7 @@ mat-tab-group {
         width: 60px !important;
     }
 }
-
+*/
 /* Table container */
 
 .table-container {

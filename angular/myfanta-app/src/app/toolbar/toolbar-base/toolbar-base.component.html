@@ -3,76 +3,90 @@
   <button mat-flat-button
   class="btn-menu-sports btn-flat color"  
   (click)="openSidenavFromChild()">
-    <span class="mat-button-wrapper" >
-      <mat-icon>menu</mat-icon>
-      <span class="text">Sports</span>
-    </span>
+    <mat-icon class="icon-size">menu</mat-icon>
+    <span class="text">Sports</span>
   </button>
-  <span class="mr-10px"></span>
-  <ng-container *ngIf="getLeagueSelected() != undefined">    
+  <ng-container *ngIf="isLeagueSelected()">    
     <!-- Link alla pagina Create team -->
     <button mat-flat-button
-    class="color ml-10px mr-10px"
-    [ngClass]="isActiveLink('Create team') == true ? 'link-toolbar-border' : 'primary-color-dark'"
-    (click)="setActiveLink('Create team'); clearData()"
-    routerLink="createTeam">
+    class="color btn-flat ml-10px mr-10px"
+    [ngClass]="isActiveLink(linkEnum.CREATE_TEAM.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
+    (click)="goToCreateTeam()">
       <span class="text"
-      [ngClass]="isActiveLink('Create team') == true ? 'bold' : ''">
-        Crea team
+      [ngClass]="isActiveLink(linkEnum.CREATE_TEAM.label) == true ? 'bold' : ''">
+        {{ linkEnum.CREATE_TEAM.description }}
       </span>
     </button>
-    <span class="mr-10px"></span>
     <!-- link alla pagina Player list-->
     <button mat-flat-button
-    class="color ml-10px mr-10px"
-    [ngClass]="isActiveLink('Player list') == true ? 'link-toolbar-border' : 'primary-color-dark'"
-    (click)="setActiveLink('Player list'); clearData()"
-    routerLink="playerList">
+    class="color btn-flat mr-10px"
+    [ngClass]="isActiveLink(linkEnum.PLAYER_LIST.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
+    (click)="goToPlayerList()">
       <span class="text"
-      [ngClass]="isActiveLink('Player list') == true ? 'bold' : ''">
-        Lista giocatori
+      [ngClass]="isActiveLink(linkEnum.PLAYER_LIST.label) == true ? 'bold' : ''">
+        {{ linkEnum.PLAYER_LIST.description }}
       </span>
     </button>
-    <span class="mr-10px"></span>
     <!-- Link alla pagina Favorit list -->
     <button mat-flat-button
-    class="color ml-10px mr-10px"
-    [ngClass]="isActiveLink('Favorit list') == true ? 'link-toolbar-border' : 'primary-color-dark'"
-    (click)="setActiveLink('Favorit list'); clearData()"
-    routerLink="favoritList">
+    class="color btn-flat mr-10px"
+    [ngClass]="isActiveLink(linkEnum.FAVORIT_LIST.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
+    (click)="goToFavoritList()">
       <span class="text"
-      [ngClass]="isActiveLink('Favorit list') == true ? 'bold' : ''">
-        Giocatori preferiti
+      [ngClass]="isActiveLink(linkEnum.FAVORIT_LIST.label) == true ? 'bold' : ''">
+        {{ linkEnum.FAVORIT_LIST.description }}
       </span>
     </button>
-    <span class="mr-10px"></span>
     <!-- Link alla pagina Blacklist -->
     <button mat-flat-button
-    class="color ml-10px mr-10px"
-    [ngClass]="isActiveLink('Blacklist') == true ? 'link-toolbar-border' : 'primary-color-dark'"
-    (click)="setActiveLink('Blacklist'); clearData()"
-    routerLink="blackList">
+    class="color btn-flat mr-10px"
+    [ngClass]="isActiveLink(linkEnum.BLACKLIST.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
+    (click)="goToBlacklist()">
       <span class="text"
-      [ngClass]="isActiveLink('Blacklist') == true ? 'bold' : ''">
-        Giocatori esclusi
+      [ngClass]="isActiveLink(linkEnum.BLACKLIST.label) == true ? 'bold' : ''">
+        {{ linkEnum.BLACKLIST.description }}
       </span>
     </button>
   </ng-container>
-  <span class="spacer-left-right"></span>
+  <span class="flex-item-1-1-auto"></span>
+  <!-- Bottone per apertura dialog Login -->
   <button mat-flat-button
   class="toolbar-el-height btn-flat color"
+  *ngIf="!isUserLogged()"
   (click)="openLoginDialog()">
-    <mat-icon>account_circle</mat-icon>
+    <mat-icon class="icon-size">account_circle</mat-icon>
     <span class="text">Login</span>
   </button>
+  <!-- Menù utente -->
+  <ng-container *ngIf="isUserLogged()">
+    <button mat-flat-button 
+    class="toolbar-el-height btn-flat color"
+    [matMenuTriggerFor]="menuUser">
+      <mat-icon class="icon-size">account_circle</mat-icon>
+      <span class="text">{{ getUser()!.getUsername() }}</span>
+    </button>
+    <mat-menu #menuUser="matMenu" xPosition="before">
+      <div class="user-menu">
+        <span mat-menu-item (click) = "$event.stopPropagation()" disableRipple="true" class="label username-menu-panel">
+          {{ getUser()!.getUsername() }}
+        </span>
+        <button mat-menu-item (click)="goToMyProfile();">
+          Lista team
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">Logout</button>
+    </div>
+    </mat-menu>
+  </ng-container>
+  <!-- Link alla pagina di Home -->
   <button mat-flat-button 
-  *ngIf="getLeagueSelected() != undefined"
-  (click)="setLeagueSelected(null); setActiveLink(''); clearData()"
-  routerLink=""
+  *ngIf="isLeagueSelected()"
+  (click)="goToHome()"
   class="toolbar-el-height btn-flat color">
-    <mat-icon>home</mat-icon>
-    <span class="text">Home</span>
+    <mat-icon class="icon-size">home</mat-icon>
+    <span class="text">{{ linkEnum.HOME.description }}</span>
   </button>
+  <!-- Link alla pagina di help -->
   <button type="button" class="primary-color-dark color ml-10px mr-10px" mat-icon-button routerLink="help">
     <mat-icon>help</mat-icon>
   </button>

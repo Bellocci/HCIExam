@@ -23,7 +23,7 @@ export class FilterPlayerComponent implements OnInit {
       distinctUntilChanged(),
 
     ).subscribe((player_name:string) => {
-      this._team_data_service.filterPlayersByName(player_name);
+      // this._team_data_service.filterPlayersByName(player_name);
     });
   }
 

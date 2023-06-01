@@ -1,0 +1,84 @@
+<mat-dialog-content>
+
+  <!-- Bottone per chiusura della dialog -->
+  <div class="flex-container">
+    <span class="flex-item-1-1-auto"></span>
+    <button mat-icon-button class="no-color" (click)="closeAllDialog()">
+        <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="flex-container align-content-center mr-10px">
+
+    <div class="image-container mr-10px">
+      <figure class="flex-container fig-container tooltip">
+        <img class="img-signup" src="assets/images/welcome.jpg" alt="Benvenuto nuovo utente">
+        <span class="tooltiptext">
+          Image by <a href="https://www.freepik.com/free-vector/flat-design-colorful-characters-welcoming_5403010.htm#query=welcome%20sport&position=48&from_view=search&track=ais" target="_blank">Freepik</a>
+        </span>
+      </figure>
+    </div>
+  
+    <form class="ml-10px login-container">
+  
+      <h1 class="text txt-center">Accedi</h1>
+  
+      <!-- Input username -->
+      <div>
+        <label class="label" [ngClass]="{'error-color' : isLoginErrorMessageVisible()}">Username</label>
+        <mat-form-field appearance="outline" class="input-txt">
+          <input matInput type="text" class="text"
+            placeholder="Campo obbligatorio*"
+            (input)="disableLogin();"
+            [formControl]="usernameControl">
+        </mat-form-field>
+      </div>
+    
+      <!-- Input password -->
+      <div class="mt-30px">
+        <div class="flex-container">
+          <label class="label" [ngClass]="{'error-color' : isLoginErrorMessageVisible()}">Password</label>
+          <span class="flex-item-1-1-auto"></span>
+          <label class="label registation-txt" (click)="recoveryPassword()">Password dimenticata?</label>
+        </div>        
+        <mat-form-field appearance="outline" class="input-txt">
+          <input matInput [type]="isPasswordVisible() ? 'text' : 'password'" class="text"
+            placeholder="Campo obbligatorio*"
+            (input)="disableLogin()"
+            [formControl]="passwordControl">   
+    
+          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()">
+            <mat-icon>{{ isPasswordVisible() ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    
+      <!-- Invalid username/password message -->
+      <div class="txt-center mt-10px">
+        <span class="validation-error-label error-color"
+        *ngIf="isLoginErrorMessageVisible()">
+          Username e/o password sbagliati!
+        </span>
+      </div>    
+    
+      <!-- Pulsante di Login -->
+      <div class="flex-container mt-30px mb-10px">
+        <span class="flex-item-1-1-auto"></span>
+        <button mat-raised-button class="text secondary-color login-btn"
+          [disabled]="isLoginBtnDisabled()" 
+          (click)="login()">
+            Login
+        </button>
+        <span class="flex-item-1-1-auto"></span>
+      </div>
+  
+    </form>
+  </div>
+
+  <div class="mt-30px">
+    <!-- Link per visualizzare la pagina di Registrazione -->
+    <p class="label">Non hai ancora un account?
+      <span class="registation-txt" (click)="openRegistrationDialog()">Registrati</span>
+    </p>
+</div>
+</mat-dialog-content>

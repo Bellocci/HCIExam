@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MatSliderChange } from '@angular/material/slider';
+import { Component, OnInit } from '@angular/core';
 
 import { InternalDataService } from 'src/app/service/internal-data.service';
 
@@ -112,12 +111,12 @@ export class OptionsComponent implements OnInit {
 
   /* SETTER */
 
-  setNewValueMinAge(event : MatSliderChange) {
+  setNewValueMinAge(event : any) {
     if(event.value != undefined)
       this._option_age_min.new_value = event.value;
   }
 
-  setNewValueMaxAge(event : MatSliderChange) {
+  setNewValueMaxAge(event : any) {
     if(event.value != undefined)
       this._option_age_max.new_value = event.value;
   }

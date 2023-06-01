@@ -4,7 +4,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 
 import { HarnessLoader } from "@angular/cdk/testing";
 import { TestbedHarnessEnvironment } from "@angular/cdk/testing/testbed";
-import { MatButtonHarness } from "@angular/material/button/testing";
+import { MatLegacyButtonHarness as MatButtonHarness } from "@angular/material/legacy-button/testing";
 import { MatToolbarHarness } from '@angular/material/toolbar/testing';
 
 import { Router, Routes } from "@angular/router";

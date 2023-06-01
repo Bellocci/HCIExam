@@ -1,19 +1,51 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { PLAYER_DATA_SERIE_A, PLAYER_DATA_SERIE_A_FEMALE } from 'src/model/player.model';
+import { UserTeam } from 'src/decorator/userTeam.model';
+import { PLAYER_DATA_SERIE_A, PLAYER_DATA_SERIE_A_FEMALE, Player } from 'src/model/player.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamDataService {
 
-  private _favorite_list:Set<any> = new Set<any>();
-  private _blacklist:Set<any> = new Set<any>();
+  private favoriteList:Set<Player> = new Set<Player>();
+  private blacklist:Set<Player> = new Set<Player>();
+  private userTeam:Set<Player> = new Set<Player>();
 
   private _player_selected = new BehaviorSubject(null);
   private _current_player_selected = this._player_selected.asObservable();
 
   constructor() { }
+
+  /**
+   * Dato il team, procede al popolamento delle liste dei giocatori
+   * 
+   * @param team 
+   */
+  loadTeam(team:UserTeam) : void {
+    this.clearAllList();
+    // Per il team posso utilizzare questo approccio siccome non avrà molti elementi
+    team.getTeam().forEach(player => this.userTeam.add(player));
+
+    // Per l'aggiunta invece dei giocatori nelle liste dei giocatori preferiti meglio
+    // ciclo for normale siccome possono essere molto grandi
+    for(let player of team.getFavoritList()) {
+      this.favoriteList.add(player);
+    }
+
+    for(let player of team.getBlackList()) {
+      this.blacklist.add(player);
+    }
+  }
+
+  /**
+   * Svuota le liste del team, dei giocatori preferiti e dei giocatori esclusi
+   */
+  private clearAllList() : void {
+    this.userTeam.clear();
+    this.favoriteList.clear();
+    this.blacklist.clear();
+  }
 
   generateTeam():Observable<any[]> {
     return of([]);
@@ -77,11 +109,11 @@ export class TeamDataService {
   }
 
   isPlayerIntoFavoriteList(player:any) : boolean {
-    return this._favorite_list.has(player);
+    return this.favoriteList.has(player);
   }
 
   addPlayerIntoFavoriteList(player:any) : void {
-    this._favorite_list.add(player);
+    this.favoriteList.add(player);
   }
 
   /* REMOVE PLAYER */
@@ -91,19 +123,19 @@ export class TeamDataService {
   }
 
   removePlayerFromFavoriteList(player:any) : void {
-    this._favorite_list.delete(player);
+    this.favoriteList.delete(player);
   }
 
   isPlayerIntoBlacklist(player:any) : boolean {
-    return this._blacklist.has(player);
+    return this.blacklist.has(player);
   }
 
   addPlayerIntoBlacklist(player:any) : void {
-    this._blacklist.add(player);
+    this.blacklist.add(player);
   }
 
   removePlayerFromBlacklist(player:any) : void {
-    this._blacklist.delete(player);
+    this.blacklist.delete(player);
   }
 
   /*
@@ -190,24 +222,5 @@ export class TeamDataService {
       },
     ])
     //return of([{'Atalanta', 'Fiorentina', 'Juventus', 'Inter', 'Milan', 'Napoli', 'Roma', 'Verona', 'Empoli', 'Udinese']);
-  }
-
-  /* Deve filtrare i giocatori */
-
-  filterPlayersByName(player_name:string) : void {
-    
-  };
-
-  filterPlayerByRoles(role : string, selected : boolean) : void {
-
-  };
-
-  filterPlayersByTeam(teams : string, selected : boolean) : void {
-
-  };
-
-  /* Rimuove i dati non necessari quando si naviga tra le pagine (Es: il player selezionato nella tabella) */
-  clearData() : void {
-
   }
 }

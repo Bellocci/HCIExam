@@ -1,24 +1,25 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { DialogService } from 'src/app/service/dialog.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
-  selector: 'app-recovery-password',
-  templateUrl: './recovery-password.component.html',
-  styleUrls: ['./recovery-password.component.css'],
+  selector: 'app-recovery-password-dialog',
+  templateUrl: './recovery-password-dialog.component.html',
+  styleUrls: ['./recovery-password-dialog.component.css'],
   encapsulation : ViewEncapsulation.None
 })
-export class RecoveryPasswordComponent implements OnInit {
+export class RecoveryPasswordDialogComponent implements OnInit {
 
-  nameControl:FormControl = new FormControl('', {
+  nameControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required]
   });
 
-  surnameControl:FormControl = new FormControl('', {
+  surnameControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required]
   });
 
-  usernameControl:FormControl = new FormControl('', {
+  usernameControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required]
   });
 
@@ -26,7 +27,8 @@ export class RecoveryPasswordComponent implements OnInit {
   private password:string | undefined;
   private showRecoveryPasswordError:boolean = false;
 
-  constructor(private _userService:UserService) { }
+  constructor(private _userService:UserService,
+    private dialogService:DialogService) { }
 
   ngOnInit(): void { }
 
@@ -75,9 +77,28 @@ export class RecoveryPasswordComponent implements OnInit {
   /* Metodi comunicazione con servizi */
 
   recoveryPassword() : void {
-    this.password = this._userService.recoveryPassword(
-      this.nameControl.value, this.surnameControl.value, this.usernameControl.value);
+    this.password = undefined;
+    if(this.areInputsValid()) {
+      // Siamo sicuri che siano presenti valori dal controllo precedente
+      this.password = this._userService.recoveryPassword(
+        this.nameControl.value!, this.surnameControl.value!, this.usernameControl.value!);
+    }
     !this.password ? this.showRecoveryPasswordError = true : this.showRecoveryPasswordError = false;
   } 
 
+  /**
+   * Listener per la chiusura della RecoveryPasswordDialog ed
+   * apertura della LoginDialog
+   */
+  openLoginDialog() : void {
+    this.dialogService.getRecoveryPasswordDialogHelper().closeDialog();
+    this.dialogService.getLoginHelper().openDialog();
+  }
+
+  /**
+   * Listener per la chiusura della dialog
+   */
+  closeDialog() : void {
+    this.dialogService.getRecoveryPasswordDialogHelper().closeDialog();
+  }
 }

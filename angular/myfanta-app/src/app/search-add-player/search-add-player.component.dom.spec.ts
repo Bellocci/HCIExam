@@ -5,8 +5,8 @@ import { DebugElement } from "@angular/core";
 
 import { HarnessLoader } from "@angular/cdk/testing";
 import { TestbedHarnessEnvironment } from "@angular/cdk/testing/testbed";
-import { MatAutocompleteHarness } from "@angular/material/autocomplete/testing";
-import { MatInputHarness } from "@angular/material/input/testing";
+import { MatLegacyAutocompleteHarness as MatAutocompleteHarness } from "@angular/material/legacy-autocomplete/testing";
+import { MatLegacyInputHarness as MatInputHarness } from "@angular/material/legacy-input/testing";
 
 import { By } from "@angular/platform-browser";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
@@ -18,7 +18,7 @@ import { FormsModule } from "@angular/forms";
 
 import { SearchAddPlayerComponent } from "./search-add-player.component";
 import { SharedService } from "../service/shared.service";
-import { MatButtonHarness } from "@angular/material/button/testing";
+import { MatLegacyButtonHarness as MatButtonHarness } from "@angular/material/legacy-button/testing";
 
 const PLAYER_AUTOCOMPLETE = [
     {

@@ -3,7 +3,8 @@
 html, body { height: 100%; }
 body { 
     margin: 0; 
-    font-family: Tahoma, Geneva, Verdana, sans-serif !important;
+    font-family: Roboto, sans-serif, Tahoma, Geneva, Verdana, sans-serif !important;
+
 }
 
 /* Colors */
@@ -21,23 +22,35 @@ body {
 }
 
 .secondary-color {
-    background-color: #FFCF82;
+    background-color: #FFCF82 !important;
+}
+
+.secondary-color-no-hover {
+    background-color: #FFCF82 !important;
 }
 
 .secondary-color:hover {
+    background-color: #ffffb3 !important;
+}
+
+.secondary-color:focus {
+    background-color: #ffffb3 !important;
+}
+
+.secondary-color-light {
     background-color: #ffffb3;
 }
 
-.white-color {
+.no-color {
     background-color: #F9F9F9;
 }
 
-.white-color:hover {
-    background-color: #E0E0E0;
+.no-color:hover {
+    background-color: #E0E0E0 !important;
 }
 
 .error-color {
-    color: #f44336;
+    color: #f44336 !important;
 }
 
 /* Icon colors */
@@ -47,23 +60,23 @@ body {
 
 /* FINE COLORE */
 
-.hidden-element {
-    display: none;
+/* DIMENSIONE ICONE */
+
+.icon-size {
+    transform: scale(1.5);
 }
 
-.link:hover {
-    cursor: pointer;
-}
-
-.link {
-    text-align: center;
-    text-decoration: underline;
-    color: #000000;
-}
+/* TESTO */
 
 .bold {
     font-weight: bold;
 }
+
+.txt-center {
+    text-align: center;
+}
+
+/* FINE TESTO */
 
 /* MARGINI DA UTILIZZARE NEI CASI STANDARD */
 
@@ -130,6 +143,22 @@ body {
     flex-direction: column;
 }
 
+.flex-start-content {
+    justify-content: flex-start;
+}
+
+.align-content-center {
+    align-content: center;
+}
+
+.alignCenter {
+    align-self: center;
+}
+
+.txt-center {
+    text-align: center;
+}
+
 /* Tooltip */
 
 .tooltip {
@@ -161,17 +190,60 @@ body {
     font-size: 14px;
 }
 
+/* Snackbar */
+
+.snackbar {
+    width: auto;
+    height: 40px;
+}
+
+.white-snackbar {
+    background: #fffeef;
+    color: black;
+}
+
+/* STYLE GENERALI */
+
+.block-container {
+    display: block;
+}
+
+.hidden-element {
+    display: none;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.link {
+    text-align: center;
+    text-decoration: underline;
+    color: #000000;
+}
+
+/* TEXT */
+
+.title-txt {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.bold {
+    font-weight: 600;
+}
+
 @media 
     (min-width: 1200px) {
 
         .text { 
             font-size: 18px;
-            font-weight: 400;
+            color: black;
         }
 
         .label {
             font-size: 16px;
-            font-weight: 400;
+            color: black;
         }
 }
 
@@ -181,12 +253,10 @@ body {
     
         .text { 
             font-size: 16px;
-            font-weight: 400;
         }
 
         .label {
             font-size: 12px;
-            font-weight: 400;
         }
 }
 
@@ -196,12 +266,10 @@ body {
     
         .text { 
             font-size: 14px;
-            font-weight: 400;
         }
 
         .label {
             font-size: 12px;
-            font-weight: 400;
         }
 }
 
@@ -211,11 +279,9 @@ body {
     
         .text { 
             font-size: 14px;
-            font-weight: 400;
         }
 
         .label {
             font-size: 12px;
-            font-weight: 400;
         }
 }

@@ -1,3 +1,4 @@
+<!--
 <div class="container">
     <ng-container *ngFor="let option of SINGLE_OPTIONS" >
         <mat-card class="option"
@@ -21,8 +22,7 @@
                                 class="slider-width"
                                 [ngClass]="option.new_value != option.last_value ? '' : 'disable-color'"
                                 [max]="option.max_value"
-                                [min]="option.min_value"
-                                [thumbLabel]="true"                            
+                                [min]="option.min_value"                                                       
                                 [(ngModel)]="option.new_value"
                             >
                             </mat-slider>
@@ -71,8 +71,6 @@
                                 [ngClass]="option.new_value_min != option.last_value_min ? '' : 'disable-color'"
                                 [max]="option.new_value_max"
                                 [min]="option.min_value"
-                                [thumbLabel]="true"
-                                [vertical]="true"
                                 [(ngModel)]="option.new_value_min"
                             >
                             </mat-slider>
@@ -98,9 +96,7 @@
                                 class="double-slider-width"
                                 [ngClass]="option.new_value_max != option.last_value_max ? '' : 'disable-color'"
                                 [max]="option.max_value"
-                                [min]="option.new_value_min"
-                                [thumbLabel]="true"
-                                [vertical]="true"
+                                [min]="option.new_value_min"                                
                                 [(ngModel)]="option.new_value_max"
                             >
                             </mat-slider>
@@ -153,3 +149,4 @@
         </mat-card>
     </ng-container>
 </div>
+-->

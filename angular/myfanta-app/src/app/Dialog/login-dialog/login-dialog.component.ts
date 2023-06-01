@@ -1,25 +1,24 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
 import { UserService } from 'src/app/service/user.service';
-import { UserEntity } from 'src/model/userEntity.model';
+import { DialogService } from 'src/app/service/dialog.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: 'app-login-dialog',
+  templateUrl: './login-dialog.component.html',
+  styleUrls: ['./login-dialog.component.css'],
   encapsulation : ViewEncapsulation.None,
 })
-export class LoginComponent implements OnInit {
+export class LoginDialogComponent implements OnInit {
 
   // Parametri in uscita verso il parent
   @Output() recoveryPasswordView = new EventEmitter<boolean>();  
 
-  usernameControl:FormControl = new FormControl('', {
+  usernameControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required],
   });
 
-  passwordControl:FormControl = new FormControl('', {
+  passwordControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators: [Validators.required]
   });  
 
@@ -27,11 +26,20 @@ export class LoginComponent implements OnInit {
   private disableLoginBtn:boolean = true;
   private showLoginErrorMessage:boolean = false;
   private showPassword:boolean = false;
+  private firstLogin:boolean = true;
 
-  constructor(private _userService:UserService) {
-  }
+  constructor(private _userService:UserService,
+    private dialogService:DialogService) {}
   
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._userService.getUser().subscribe(user => {
+      if(user.isUserDefined()) {
+        this.setLoginErrorMessageVisibility(false)
+      } else if(!this.firstLogin) {
+        this.setLoginErrorMessageVisibility(true);
+      }
+    });
+  }
 
   /* Metodi di visibilità */
 
@@ -77,18 +85,28 @@ export class LoginComponent implements OnInit {
   /* Metodi comunicazione con parent */  
 
   recoveryPassword() : void {
-    this.recoveryPasswordView.emit(true);
+    this.dialogService.getLoginHelper().closeDialog();
+    this.dialogService.getRecoveryPasswordDialogHelper().openDialog();
   }
 
    /* Login */
 
    login() : void {
-    const user:UserEntity | undefined = 
-      this._userService.login(this.usernameControl.value as string, this.passwordControl.value as string);
-    if(!user) {
-      this.setLoginErrorMessageVisibility(true);
-    } else {
-      this.setLoginErrorMessageVisibility(false);
+    if(this.firstLogin) {
+      this.firstLogin = false;
     }
+    this._userService.login(this.usernameControl.value as string, this.passwordControl.value as string);
+    this.dialogService.getLoginHelper().closeDialog();
    }
+
+   /* Apertura dialog */
+
+   openRegistrationDialog() : void {
+    this.dialogService.getLoginHelper().closeDialog();
+    this.dialogService.getRegistrationDialogHelper().openDialog();
+   }
+
+  closeAllDialog() : void {
+    this.dialogService.closeAllDialog();
+  }
 }

@@ -66,7 +66,7 @@ export class CreateTeamComponent implements OnInit {
   /* EVENT METHODS */
 
   openSnackBar(textMessage:string) : void {
-    this._snackBar.openSnackBar(textMessage);
+    this._snackBar.openInfoSnackBar(textMessage);
   }
 
   generateTeam() {

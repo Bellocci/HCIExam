@@ -9,7 +9,7 @@ import { SessionStorageService } from './service/session-storage.service';
 export class AppComponent implements OnDestroy {
   title = 'myfanta-app';
 
-  constructor(private _session_service:SessionStorageService) { }
+  constructor(private _session_service:SessionStorageService<string>) { }
 
   public ngOnDestroy(): void {
     this._session_service.clearData();

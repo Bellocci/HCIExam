@@ -1,12 +1,13 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Sport } from 'src/decorator/sport.model';
 import { League } from 'src/decorator/League.model';
 import { InternalDataService } from '../service/internal-data.service';
-import { LoadDataService } from '../service/load-data.service';
-import { SharedService } from '../service/shared.service';
 import { TeamDataService } from '../service/team-data.service';
 import { FilterDataService } from '../service/filter-data.service';
+import { SportEnum } from 'src/enum/SportEnum.model';
+import { LinkEnum } from 'src/enum/LinkEnum.model';
+import { RouterService } from '../service/router.service';
+import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 
 @Component({
   selector: 'app-toolbar',
@@ -15,10 +16,14 @@ import { FilterDataService } from '../service/filter-data.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private service:SharedService, private loadDataService:LoadDataService, 
-    private filterDataService:FilterDataService, private internal_data:InternalDataService, private team_data:TeamDataService) { }
+  constructor(private filterDataService:FilterDataService, 
+    private internal_data:InternalDataService, 
+    private team_data:TeamDataService,
+    public routerService:RouterService) { }
 
   @ViewChild(MatSidenav) sidenav!:MatSidenav;
+  
+  linkEnum : typeof LinkEnum = LinkEnum;
 
   activeLink:string = '';
   is_mobile:boolean = false;
@@ -26,7 +31,6 @@ export class ToolbarComponent implements OnInit {
   leagueSelected!:League | null;
   sportSelected:number = -1;
 
-  sportsList!:Sport[];
   leagueList!:League[];
   championshipsList!:string[];
 
@@ -45,21 +49,23 @@ export class ToolbarComponent implements OnInit {
 
   private subscribeActiveLink() {
     this.internal_data.getActiveLink().subscribe(link => {
+      console.log("CAMBIO VALORE: " + link);
       this.activeLink = link;
+      console.log("ACTIVE LINK: " + this.activeLink);
     });
   }
 
   /* GETTER */
 
-  getSports() : Sport[] {
-    return this.loadDataService.getSportsList();
+  getSports() : SportEnum[] {
+    return SportEnum.getAllSport();
   }
 
-  getChampionships(sport:Sport) : string[] {
+  getChampionships(sport:SportEnum) : ChampionshipEnum[] {
     return this.filterDataService.filterChampionshipsBySport(sport);
   }
 
-  getLeagues(sport:Sport, championship:string) : League[] {
+  getLeagues(sport:SportEnum, championship:ChampionshipEnum) : League[] {
     return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
   }
 
@@ -67,17 +73,13 @@ export class ToolbarComponent implements OnInit {
     return this.activeLink.toUpperCase();
   }
 
-  getLeagueSelected() : League | null {
-    return this.leagueSelected;
-  }
-
   /* SETTER */
 
-  setLeagueSelected(league:League | null) {
+  protected setLeagueSelected(league:League | null) {
     this.internal_data.setLeagueSelected(league);
   }
 
-  setActiveLink(link_name:string) {
+  private setActiveLink(link_name:string) {
     this.internal_data.setActiveLink(link_name);
   }
 
@@ -99,32 +101,42 @@ export class ToolbarComponent implements OnInit {
 
   panelSportClosed() : void {
     this.sportSelected = -1;
+    // Permette di rimuovere il focus dall'elemento attivo
+    const activeElement = document.activeElement as HTMLElement;
+    activeElement.blur();        
   }
+
+  /* Metodi visibilità */
 
   isPanelSportOpen(index:number) : boolean {
     return this.sportSelected == index;
   }
 
-  /* METHODS */
+  isActiveLink(link_name:string) : boolean {
+    console.log(this.activeLink + " " + link_name)
+    return this.activeLink === link_name;
+  }
 
   isMobileLayout() : boolean {
     return this.is_mobile;
+  }
+
+  /* Metodi di funzionalità */
+
+  selectedLeagueListener(league: League) {
+    this.clearData();
+    this.setLeagueSelected(league);
+    this.setActiveLink(this.linkEnum.CREATE_TEAM.label);
+    this.closeSidenav();
+    this.routerService.goToCreateTeamPage();
   }
 
   onResize(event:any) {
     this.is_mobile = event.target.innerWidth < 801 ? true : false;
   }
 
-  isActiveLink (link_name:string):boolean {
-    let current_link:string = '';
-    this.internal_data.getActiveLink().subscribe(link => {
-      current_link = link;
-    });
-    return current_link === link_name;
-  }
-
-  clearData() : void {
+  private clearData() : void {
     this.internal_data.clearData();
-    this.team_data.clearData();
+    this.team_data.clearAllPlayers();
   }
 }

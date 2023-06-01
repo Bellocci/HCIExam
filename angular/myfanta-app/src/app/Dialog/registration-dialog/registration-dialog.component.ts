@@ -1,13 +1,14 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AbstractControl, FormControl, UntypedFormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { DialogService } from 'src/app/service/dialog.service';
 import { UserService } from 'src/app/service/user.service';
-import { UserEntity } from 'src/model/userEntity.model';
+import { User } from 'src/decorator/user.model';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css'],
+  selector: 'app-registration-dialog',
+  templateUrl: './registration-dialog.component.html',
+  styleUrls: ['./registration-dialog.component.css'],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -16,7 +17,7 @@ import { UserEntity } from 'src/model/userEntity.model';
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationDialogComponent implements OnInit {
 
   /*
     - ^[\s] : se la parola inizia con uno spazio, tab o nuova linea allora abbiamo match    
@@ -47,24 +48,26 @@ export class RegistrationComponent implements OnInit {
   private showError:boolean = false;
   private disableRegistrationBtn:boolean = true;
   private showPassword:boolean = false;
+
+  private createdNewUser:boolean = false;
   
   /* FORM CONTROL */
-  nameFormControl:FormControl = new FormControl('', {
+  nameFormControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required, Validators.minLength(this.minLength), 
       Validators.maxLength(this.maxLength), this.nameAndSurnameValidator(this.nameAndSurnameRe)]
   });
 
-  surnameFormControl:FormControl = new FormControl('', {
+  surnameFormControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required, Validators.minLength(this.minLength), 
       Validators.maxLength(this.maxLength), this.nameAndSurnameValidator(this.nameAndSurnameRe)]
   });
 
-  usernameFormControl:FormControl = new FormControl('', {
+  usernameFormControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required, Validators.minLength(this.minLength), 
       Validators.maxLength(this.maxLength), this.usernameValidator(this.usernameRe)]
   });
 
-  passwordFormControl:FormControl = new FormControl('', {
+  passwordFormControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required, Validators.minLength(this.minLengthPassword), 
       Validators.maxLength(this.maxLengthPassword), this.passwordValidator(this.passwordRe)]
   });
@@ -82,7 +85,8 @@ export class RegistrationComponent implements OnInit {
     ["undefined", "Errore di validazione"]    
   ]);
 
-  constructor(private _userService:UserService) {    
+  constructor(private _userService:UserService, 
+    private dialogService:DialogService) {    
   }
 
   ngOnInit(): void {}
@@ -146,6 +150,10 @@ export class RegistrationComponent implements OnInit {
     return !this.passwordFormControl.valid;
   }
 
+  hasNewUserBeenCreated() : boolean {
+    return this.createdNewUser;
+  }
+
   /* Getter */
 
   getErrorNameMessage() : string {
@@ -188,7 +196,7 @@ export class RegistrationComponent implements OnInit {
     return "";
   }
 
-  private getErrorMessage(formControl:FormControl, typeError:string) : string {
+  private getErrorMessage(formControl:UntypedFormControl, typeError:string) : string {
     let msg:string | undefined = this.errorMessageMap.get(typeError);
     if(!msg) {
       return this.errorMessageMap.get("undefined")!;
@@ -218,10 +226,29 @@ export class RegistrationComponent implements OnInit {
     this.canCompleteRegistration() ? this.disableRegistrationBtn = false : this.disableRegistrationBtn = true;
   }
 
-  registration() : void {
-    const user:UserEntity | undefined = this._userService.createNewUser(
-      this.nameFormControl.value, this.surnameFormControl.value, this.usernameFormControl.value, this.passwordFormControl.value);
+    registration() : void {
+    let user:User | undefined = undefined;    
+    if(this.canCompleteRegistration()) {
+      // Siamo sicuri che contengono valori dal controllo precedente
+      user = this._userService.createNewUser(
+        this.nameFormControl.value!, this.surnameFormControl.value!, this.usernameFormControl.value!, this.passwordFormControl.value!);
+    }
     
-    !user ? this.showError = true : this.showError = false;
+    if(!user) {
+      this.showError = true;
+      this.createdNewUser = false;
+    } else {
+      this.showError = false;
+      this.createdNewUser = true;
+    }
+  }
+
+  openLoginDialog() : void {
+    this.dialogService.getRegistrationDialogHelper().closeDialog();
+    this.dialogService.getLoginHelper().openDialog();
+  }
+
+  closeDialog() : void {
+    this.dialogService.getRegistrationDialogHelper().closeDialog();
   }
 }

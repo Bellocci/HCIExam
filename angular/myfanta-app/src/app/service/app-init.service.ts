@@ -6,7 +6,7 @@ import { SessionStorageService } from './session-storage.service';
 })
 export class AppInitService {
 
-  constructor(private _session_service:SessionStorageService) {
+  constructor(private _session_service:SessionStorageService<string>) {
   }
   
   Init() {

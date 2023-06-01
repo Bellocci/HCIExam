@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { SportEntity, SPORT_DATA } from 'src/model/sportEntity.model';
-import { PLAYER_DATA_NBA, PLAYER_DATA_PREMIER_LEAGUE, PLAYER_DATA_SERIE_A, PLAYER_DATA_SERIE_A_FEMALE } from 'src/model/player.model'
+import { PLAYER_DATA_SERIE_A } from 'src/model/player.model'
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +19,6 @@ export class SharedService {
   getPlayerList(championship:string):Observable<any[]> {
     if(championship == 'Serie A')
       return of(PLAYER_DATA_SERIE_A);
-    if(championship == 'Premier League')
-      return PLAYER_DATA_PREMIER_LEAGUE;
-    if(championship == 'Serie A Female')
-      return PLAYER_DATA_SERIE_A_FEMALE;
-    if(championship == 'NBA')
-      return PLAYER_DATA_NBA;
     return of([]);
   }
 
