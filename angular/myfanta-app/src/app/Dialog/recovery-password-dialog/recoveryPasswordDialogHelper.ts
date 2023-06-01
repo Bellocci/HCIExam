@@ -1,11 +1,11 @@
 import { MatDialog, MatDialogConfig, MatDialogRef } from "@angular/material/dialog";
 import { DialogHelper } from "../dialogHelper.interface";
-import { RecoveryPasswordComponent } from "./recovery-password.component";
+import { RecoveryPasswordDialogComponent } from "./recovery-password-dialog.component";
 
 /**
  * Classe di helper per la costruzione della RecoveryPasswordDialog component
  */
-export class RecoveryPasswordDialogHelper implements DialogHelper<RecoveryPasswordComponent> {
+export class RecoveryPasswordDialogHelper implements DialogHelper<RecoveryPasswordDialogComponent> {
 
     private static readonly MAX_HEIGHT:string = "1000px";
     private static readonly MAX_WIDTH:string = "800px";
@@ -14,8 +14,8 @@ export class RecoveryPasswordDialogHelper implements DialogHelper<RecoveryPasswo
     private static readonly STANDARD_EXIT_ANIMATION = "400ms";
 
     private dialog!:MatDialog;
-    private dialogConfig:MatDialogConfig<RecoveryPasswordComponent> = new MatDialogConfig();
-    private dialogRef!:MatDialogRef<RecoveryPasswordComponent> | null;
+    private dialogConfig:MatDialogConfig<RecoveryPasswordDialogComponent> = new MatDialogConfig();
+    private dialogRef!:MatDialogRef<RecoveryPasswordDialogComponent> | null;
 
     constructor(dialog:MatDialog) {
         if(!dialog) {
@@ -33,11 +33,11 @@ export class RecoveryPasswordDialogHelper implements DialogHelper<RecoveryPasswo
         this.dialogConfig.exitAnimationDuration = RecoveryPasswordDialogHelper.STANDARD_EXIT_ANIMATION;
     }
 
-    openDialog(dialogConfig?: MatDialogConfig<RecoveryPasswordComponent> | undefined): void {
+    openDialog(dialogConfig?: MatDialogConfig<RecoveryPasswordDialogComponent> | undefined): void {
         if(dialogConfig != undefined) {
-            this.dialogRef = this.dialog.open(RecoveryPasswordComponent, dialogConfig);
+            this.dialogRef = this.dialog.open(RecoveryPasswordDialogComponent, dialogConfig);
         } else {
-            this.dialogRef = this.dialog.open(RecoveryPasswordComponent, this.dialogConfig);
+            this.dialogRef = this.dialog.open(RecoveryPasswordDialogComponent, this.dialogConfig);
         }  
     }
     closeDialog(): void {
@@ -46,7 +46,7 @@ export class RecoveryPasswordDialogHelper implements DialogHelper<RecoveryPasswo
         }
         this.dialogRef.close();
     }
-    getDialogConfig(): MatDialogConfig<RecoveryPasswordComponent> {
+    getDialogConfig(): MatDialogConfig<RecoveryPasswordDialogComponent> {
         return {...this.dialogConfig};
     }
 

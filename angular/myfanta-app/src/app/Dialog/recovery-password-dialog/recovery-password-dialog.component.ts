@@ -4,12 +4,12 @@ import { DialogService } from 'src/app/service/dialog.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
-  selector: 'app-recovery-password',
-  templateUrl: './recovery-password.component.html',
-  styleUrls: ['./recovery-password.component.css'],
+  selector: 'app-recovery-password-dialog',
+  templateUrl: './recovery-password-dialog.component.html',
+  styleUrls: ['./recovery-password-dialog.component.css'],
   encapsulation : ViewEncapsulation.None
 })
-export class RecoveryPasswordComponent implements OnInit {
+export class RecoveryPasswordDialogComponent implements OnInit {
 
   nameControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required]
