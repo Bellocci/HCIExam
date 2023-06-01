@@ -1,13 +1,14 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormControl, UntypedFormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { DialogService } from 'src/app/service/dialog.service';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/decorator/user.model';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css'],
+  selector: 'app-registration-dialog',
+  templateUrl: './registration-dialog.component.html',
+  styleUrls: ['./registration-dialog.component.css'],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -16,9 +17,7 @@ import { User } from 'src/decorator/user.model';
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class RegistrationComponent implements OnInit {
-
-  @Output() showLogin:EventEmitter<boolean> = new EventEmitter<boolean>();
+export class RegistrationDialogComponent implements OnInit {
 
   /*
     - ^[\s] : se la parola inizia con uno spazio, tab o nuova linea allora abbiamo match    
@@ -86,7 +85,8 @@ export class RegistrationComponent implements OnInit {
     ["undefined", "Errore di validazione"]    
   ]);
 
-  constructor(private _userService:UserService) {    
+  constructor(private _userService:UserService, 
+    private dialogService:DialogService) {    
   }
 
   ngOnInit(): void {}
@@ -243,7 +243,12 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  backToLogin() : void {
-    this.showLogin.emit(true);
+  openLoginDialog() : void {
+    this.dialogService.getRegistrationDialogHelper().closeDialog();
+    this.dialogService.getLoginHelper().openDialog();
+  }
+
+  closeDialog() : void {
+    this.dialogService.getRegistrationDialogHelper().closeDialog();
   }
 }

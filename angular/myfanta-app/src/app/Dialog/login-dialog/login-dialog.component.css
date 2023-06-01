@@ -1,0 +1,65 @@
+
+.mat-mdc-dialog-content {
+    max-height: 100% !important;
+}
+
+/* IMMAGINE */
+
+.image-container {
+    flex: 1;
+}
+
+.image-container .fig-container {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.image-container .img-signup {
+    width: 100%;
+    height: 100%;
+}
+
+/* FINE IMMAGINE */
+
+.login-container {
+    flex: 1;
+}
+
+
+/* Text */
+
+.login-container .input-txt {
+    min-width: 400px;
+    width: 100%;
+}
+
+.login-container .registation-txt {
+    text-decoration: underline;
+    color: -webkit-link;
+}
+
+.login-container .registation-txt:hover {
+    cursor: pointer;
+}
+
+.login-container .validation-error-label {
+    font-size: 14px;
+}
+
+.registation-txt {
+    text-decoration: underline;
+    color: -webkit-link;
+}
+
+.registation-txt:hover {
+    cursor: pointer;
+}
+
+/* Login */
+
+.login-container .login-btn {
+    max-width: 200px;
+    height: 50px;
+    width: 100%;
+}

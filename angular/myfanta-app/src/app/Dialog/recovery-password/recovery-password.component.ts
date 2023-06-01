@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { FormControl, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { DialogService } from 'src/app/service/dialog.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -26,7 +27,8 @@ export class RecoveryPasswordComponent implements OnInit {
   private password:string | undefined;
   private showRecoveryPasswordError:boolean = false;
 
-  constructor(private _userService:UserService) { }
+  constructor(private _userService:UserService,
+    private dialogService:DialogService) { }
 
   ngOnInit(): void { }
 
@@ -84,4 +86,19 @@ export class RecoveryPasswordComponent implements OnInit {
     !this.password ? this.showRecoveryPasswordError = true : this.showRecoveryPasswordError = false;
   } 
 
+  /**
+   * Listener per la chiusura della RecoveryPasswordDialog ed
+   * apertura della LoginDialog
+   */
+  openLoginDialog() : void {
+    this.dialogService.getRecoveryPasswordDialogHelper().closeDialog();
+    this.dialogService.getLoginHelper().openDialog();
+  }
+
+  /**
+   * Listener per la chiusura della dialog
+   */
+  closeDialog() : void {
+    this.dialogService.getRecoveryPasswordDialogHelper().closeDialog();
+  }
 }
