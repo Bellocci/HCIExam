@@ -1,16 +1,12 @@
-
-.create-team-dialog-content {
-    min-width: 300px;
-    margin: 0 20px;
+.mat-mdc-dialog-content {
+    max-height: 100% !important;
 }
 
-.form-field-container {
-    width: 100%;
+.dialog-container {
+    min-width: 500px;
+    padding: 50px;
 }
 
-/*
-.custom-panel {
-    min-width: 50% !important;
-    background-color: white;
+.create-btn:disabled {
+    pointer-events: auto;
 }
-*/
