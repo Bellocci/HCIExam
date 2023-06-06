@@ -9,7 +9,7 @@ import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 })
 export class FilterDataService {
 
-  championshipMap:Map<SportEnum,Set<ChampionshipEnum>> = new Map<SportEnum,Set<ChampionshipEnum>>();
+  private championshipMap:Map<SportEnum,Set<ChampionshipEnum>> = new Map<SportEnum,Set<ChampionshipEnum>>();
 
   constructor(private loadDataService:LoadDataService) { }
 

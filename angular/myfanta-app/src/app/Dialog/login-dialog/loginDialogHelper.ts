@@ -2,11 +2,14 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from "@angular/material/dial
 import { DialogHelper } from "../dialogHelper.interface";
 import { LoginDialogComponent } from "./login-dialog.component";
 import { DialogConfig } from "@angular/cdk/dialog";
+import { Observable } from "rxjs";
 
 /**
  * Classe di helper per la costruzione della LoginDialog component
  */
 export class LoginDialogHelper implements DialogHelper<LoginDialogComponent> {
+
+    private static readonly ID:string = "loginDialog";
 
     private static readonly MAX_HEIGHT:string = "1000px";
     private static readonly MAX_WIDTH:string = "800px";
@@ -30,7 +33,7 @@ export class LoginDialogHelper implements DialogHelper<LoginDialogComponent> {
         this.dialogConfig.width = "auto";
         this.dialogConfig.maxHeight = LoginDialogHelper.MAX_HEIGHT;
         this.dialogConfig.height = "auto";
-        this.dialogConfig.id="loginDialog";
+        this.dialogConfig.id = LoginDialogHelper.ID;
         this.dialogConfig.enterAnimationDuration = LoginDialogHelper.STANDARD_ENTER_ANIMATION;
         this.dialogConfig.exitAnimationDuration = LoginDialogHelper.STANDARD_EXIT_ANIMATION;
     }
@@ -38,14 +41,9 @@ export class LoginDialogHelper implements DialogHelper<LoginDialogComponent> {
     /**
      * Metodo per l'apertura della LoginDialog
      * 
-     * @param maxWidth : opzionale
-     * @param maxHeight : opzionale
-     * @param enterAnimationDuration : opzionale 
-     * @param exitAnimationDuration : opzionale
      * @param dialogConfig : opzionale
      */
-    openDialog(dialogConfig?: MatDialogConfig<LoginDialogComponent> | undefined): void {
-        
+    openDialog(dialogConfig?: MatDialogConfig<LoginDialogComponent> | undefined): void {        
         if(dialogConfig != undefined) {
             this.dialogRef = this.dialog.open(LoginDialogComponent, dialogConfig);
         } else {
@@ -57,7 +55,7 @@ export class LoginDialogHelper implements DialogHelper<LoginDialogComponent> {
      * Listener che esegue la chiusura della LoginDialog
      */
     closeDialog(): void {
-        this.dialogRef = this.dialog.getDialogById('loginDialog');
+        this.dialogRef = this.dialog.getDialogById(LoginDialogHelper.ID);
         if(!this.dialogRef) {
             throw new Error("Login dialog ref not found!");
         }
@@ -69,5 +67,13 @@ export class LoginDialogHelper implements DialogHelper<LoginDialogComponent> {
      */
     getDialogConfig(): MatDialogConfig<LoginDialogComponent> {
         return {...this.dialogConfig};
+    }
+
+    afterClosed(): Observable<any> | undefined {
+        throw new Error("Method not implemented.");
+    }
+    
+    afterOpened(): Observable<any> | undefined {
+        throw new Error("Method not implemented.");
     }
 }

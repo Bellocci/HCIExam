@@ -9,6 +9,7 @@ import { InternalDataService } from '../service/internal-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CreateNewTeamDialogComponent } from '../Dialog/create-new-team-dialog/create-new-team-dialog.component';
+import { DialogService } from '../service/dialog.service';
 
 /**
  * Interfaccia utilizzata insieme alla mappa per definire una coppia
@@ -37,7 +38,7 @@ export class UserPageComponent implements OnInit {
     private teamDataService:TeamDataService, 
     private routerService:RouterService,
     private internalDataService:InternalDataService,
-    private dialog:MatDialog) { }
+    private dialogService:DialogService) { }
 
   ngOnInit(): void {
     this.subscribeUser();    
@@ -186,14 +187,6 @@ export class UserPageComponent implements OnInit {
    * Listener per l'apertura della dialog CreateNewTeamDialog
    */
   openCreateNewTeamDialog() {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.maxWidth = "800px";
-    dialogConfig.width = "auto";
-    dialogConfig.height = "80%";
-
-    this.dialog.open(CreateNewTeamDialogComponent, dialogConfig);
+    this.dialogService.getCreateNewTeamDialogHelper().openDialog();
   }
 }

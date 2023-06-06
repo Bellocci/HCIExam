@@ -1,11 +1,14 @@
 import { MatDialog, MatDialogConfig, MatDialogRef } from "@angular/material/dialog";
 import { DialogHelper } from "../dialogHelper.interface";
 import { RecoveryPasswordDialogComponent } from "./recovery-password-dialog.component";
+import { Observable } from "rxjs";
 
 /**
  * Classe di helper per la costruzione della RecoveryPasswordDialog component
  */
 export class RecoveryPasswordDialogHelper implements DialogHelper<RecoveryPasswordDialogComponent> {
+
+    private static readonly ID = "recoveryPasswordDialog";
 
     private static readonly MAX_HEIGHT:string = "1000px";
     private static readonly MAX_WIDTH:string = "800px";
@@ -29,6 +32,7 @@ export class RecoveryPasswordDialogHelper implements DialogHelper<RecoveryPasswo
         this.dialogConfig.width = "auto";
         this.dialogConfig.maxHeight = RecoveryPasswordDialogHelper.MAX_HEIGHT;
         this.dialogConfig.height = "auto";
+        this.dialogConfig.id = RecoveryPasswordDialogHelper.ID;
         this.dialogConfig.enterAnimationDuration = RecoveryPasswordDialogHelper.STANDARD_ENTER_ANIMATION;
         this.dialogConfig.exitAnimationDuration = RecoveryPasswordDialogHelper.STANDARD_EXIT_ANIMATION;
     }
@@ -40,14 +44,22 @@ export class RecoveryPasswordDialogHelper implements DialogHelper<RecoveryPasswo
             this.dialogRef = this.dialog.open(RecoveryPasswordDialogComponent, this.dialogConfig);
         }  
     }
+
     closeDialog(): void {
         if(!this.dialogRef) {
             throw new Error("Registration dialog is not open!");
         }
         this.dialogRef.close();
     }
+    
     getDialogConfig(): MatDialogConfig<RecoveryPasswordDialogComponent> {
         return {...this.dialogConfig};
     }
 
+    afterClosed(): Observable<any> | undefined {
+        throw new Error("Method not implemented.");
+    }
+    afterOpened(): Observable<any> | undefined {
+        throw new Error("Method not implemented.");
+    }
 }

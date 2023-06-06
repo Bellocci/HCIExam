@@ -1,6 +1,7 @@
 import { MatDialog, MatDialogConfig, MatDialogRef } from "@angular/material/dialog";
 import { DialogHelper } from "../dialogHelper.interface";
 import { RegistrationDialogComponent } from "./registration-dialog.component";
+import { Observable } from "rxjs";
 
 /**
  * Classe di helper per la costruzione della RegistrationDialog component
@@ -29,6 +30,7 @@ export class RegistrationDialogHelper implements DialogHelper<RegistrationDialog
         this.dialogConfig.width = "auto";
         this.dialogConfig.maxHeight = RegistrationDialogHelper.MAX_HEIGHT;
         this.dialogConfig.height = "auto";
+        this.dialogConfig.id = "registrationDialog"
         this.dialogConfig.enterAnimationDuration = RegistrationDialogHelper.STANDARD_ENTER_ANIMATION;
         this.dialogConfig.exitAnimationDuration = RegistrationDialogHelper.STANDARD_EXIT_ANIMATION;
     }
@@ -61,5 +63,12 @@ export class RegistrationDialogHelper implements DialogHelper<RegistrationDialog
      */
     getDialogConfig(): MatDialogConfig<RegistrationDialogComponent> {
         return {...this.dialogConfig};
+    }
+
+    afterClosed(): Observable<any> | undefined {
+        throw new Error("Method not implemented.");
+    }
+    afterOpened(): Observable<any> | undefined {
+        throw new Error("Method not implemented.");
     }
 }
