@@ -1,10 +1,10 @@
 import { MatDialog, MatDialogConfig, MatDialogRef } from "@angular/material/dialog";
 import { Observable } from "rxjs";
-import { DialogHelper } from "./dialogHelper.interface";
 import { ComponentType } from "@angular/cdk/portal";
+import { DialogHelper } from "./dialogHelper.interface";
 
 
-export class DialogHelperImpl<T> implements DialogHelper<T> {
+export class DialogHelperImpl implements DialogHelper {
 
     private static readonly MAX_HEIGHT:string = "1000px";
     private static readonly MAX_WIDTH:string = "800px";
@@ -13,8 +13,8 @@ export class DialogHelperImpl<T> implements DialogHelper<T> {
     private static readonly STANDARD_EXIT_ANIMATION = "400ms";
 
     private dialog!:MatDialog;
-    private dialogConfig:MatDialogConfig<T> = new MatDialogConfig();
-    private dialogRef!:MatDialogRef<T> | undefined;
+    private dialogConfig:MatDialogConfig<any> = new MatDialogConfig();
+    private dialogRef!:MatDialogRef<any> | undefined;
 
     constructor(dialog:MatDialog) {
         if(!dialog) {
@@ -35,6 +35,7 @@ export class DialogHelperImpl<T> implements DialogHelper<T> {
     /**
      * Listener per l'apertura della dialog
      * 
+     * @param component 
      * @param dialogConfig : Opzionale
      */
     openDialog<T>(component: ComponentType<T>, dialogConfig?: MatDialogConfig<T | undefined>): void {
@@ -45,19 +46,23 @@ export class DialogHelperImpl<T> implements DialogHelper<T> {
         } 
     }
 
-
-
+    /**
+     * Listener per la chiusura della dialog
+     */
     closeDialog(): void {
-        throw new Error("Method not implemented.");
+        if(!this.dialogRef) {
+            throw new Error("CreateNewTeam dialogRef not found!");
+        }
+        this.dialogRef.close();
     }
-    getDialogConfig(): MatDialogConfig<T> {
-        throw new Error("Method not implemented.");
+    getDialogConfig<T>(): MatDialogConfig<T> {
+        return {... this.dialogConfig};
     }
     afterClosed(): Observable<any> | undefined {
-        throw new Error("Method not implemented.");
+        return this.dialogRef?.afterClosed();
     }
     afterOpened(): Observable<any> | undefined {
-        throw new Error("Method not implemented.");
+        return this.dialogRef?.afterOpened();
     }
     
 }

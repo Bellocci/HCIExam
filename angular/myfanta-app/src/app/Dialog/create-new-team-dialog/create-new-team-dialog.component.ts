@@ -60,7 +60,7 @@ export class CreateNewTeamDialogComponent implements OnInit {
   /* METODI LISTENER */
 
   closeDialog() : void {
-    this.dialogService.getCreateNewTeamDialogHelper().closeDialog();
+    this.dialogService.getDialogHelper().closeDialog();
   }
 
   updateSelectedSport(sport:SportEnum | string) {

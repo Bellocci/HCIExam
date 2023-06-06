@@ -2,7 +2,7 @@ import { ComponentType } from "@angular/cdk/portal";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { Observable } from "rxjs";
 
-export interface DialogHelper<T> {
+export interface DialogHelper {
 
     /**
      * Metodo per l'apertura della dialog
@@ -18,7 +18,7 @@ export interface DialogHelper<T> {
     /**
      * Restituisce la configurazione della dialog
      */
-    getDialogConfig() : MatDialogConfig<T>;
+    getDialogConfig<T>() : MatDialogConfig<T>;
 
     /**
      * Restituisce un observable che è notificato quando la dialog viene chiusa, oppure

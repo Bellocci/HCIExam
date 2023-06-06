@@ -187,6 +187,6 @@ export class UserPageComponent implements OnInit {
    * Listener per l'apertura della dialog CreateNewTeamDialog
    */
   openCreateNewTeamDialog() {
-    this.dialogService.getCreateNewTeamDialogHelper().openDialog();
+    this.dialogService.getDialogHelper().openDialog(CreateNewTeamDialogComponent);
   }
 }

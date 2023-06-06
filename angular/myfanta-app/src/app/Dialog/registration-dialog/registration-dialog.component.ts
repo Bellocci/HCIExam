@@ -4,6 +4,7 @@ import { AbstractControl, FormControl, UntypedFormControl, ValidationErrors, Val
 import { DialogService } from 'src/app/service/dialog.service';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/decorator/user.model';
+import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-registration-dialog',
@@ -244,11 +245,11 @@ export class RegistrationDialogComponent implements OnInit {
   }
 
   openLoginDialog() : void {
-    this.dialogService.getRegistrationDialogHelper().closeDialog();
-    this.dialogService.getLoginHelper().openDialog();
+    this.dialogService.getDialogHelper().closeDialog();
+    this.dialogService.getDialogHelper().openDialog(LoginDialogComponent);
   }
 
   closeDialog() : void {
-    this.dialogService.getRegistrationDialogHelper().closeDialog();
+    this.dialogService.getDialogHelper().closeDialog();
   }
 }
