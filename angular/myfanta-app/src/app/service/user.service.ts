@@ -33,6 +33,10 @@ export class UserService {
     return this.currentUser;
   }
 
+  getUserValue(): User {
+    return this.user.getValue();
+  }
+
   private setUser(user:User) {
     this.user.next(user);
   }
@@ -128,5 +132,10 @@ export class UserService {
     let resultList:UserTeam[] = [];
     CUSTOMS_TEAM_DATA.filter(team => team.user.equals(this.user.getValue())).forEach(team => resultList.push(new UserTeam(team)));
     return resultList;
+  } 
+
+  addNewTeam(userTeam:UserTeam) : void {
+    // Query su db
+    CUSTOMS_TEAM_DATA.push(userTeam.getEntity());
   } 
 }

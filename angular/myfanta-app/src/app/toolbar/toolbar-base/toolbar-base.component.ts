@@ -96,6 +96,10 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
     return this.userLogged;
   }
 
+  isBtnHomeRendered() : boolean {
+    return this.isLeagueSelected() || this.routerService.currentPageisMyProfile();
+  }
+
   /* Metodi funzionalità */
 
   logout() : void {    
