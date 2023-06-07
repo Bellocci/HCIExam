@@ -4,7 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { DialogService } from 'src/app/service/dialog.service';
 import { FilterDataService } from 'src/app/service/filter-data.service';
+import { UserService } from 'src/app/service/user.service';
+import { UserTeamDecoratorFactoryService } from 'src/decorator-factory/user-team-decorator-factory.service';
 import { League } from 'src/decorator/League.model';
+import { UserTeam } from 'src/decorator/userTeam.model';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 import { SportEnum } from 'src/enum/SportEnum.model';
 
@@ -16,7 +19,9 @@ import { SportEnum } from 'src/enum/SportEnum.model';
 export class CreateNewTeamDialogComponent implements OnInit {
 
   constructor(private dialogService:DialogService,
-    private filterDataService:FilterDataService) { }
+    private filterDataService:FilterDataService,
+    private userService:UserService,
+    private userTeamDecoratorFactory:UserTeamDecoratorFactoryService) { }
   
   teamNameFormControl:FormControl = new FormControl('My team', { validators : [ Validators.required] });
   selectedSport:SportEnum | string = "";
@@ -59,8 +64,8 @@ export class CreateNewTeamDialogComponent implements OnInit {
 
   /* METODI LISTENER */
 
-  closeDialog() : void {
-    this.dialogService.getDialogHelper().closeDialog();
+  closeDialog(dialogResult?:any) : void {
+    this.dialogService.getDialogHelper().closeDialog(dialogResult);
   }
 
   updateSelectedSport(sport:SportEnum | string) {
@@ -81,8 +86,11 @@ export class CreateNewTeamDialogComponent implements OnInit {
     this.selectedLeague = league;
   }
 
-  addNewTeam() {
-    
+  addNewTeam() : void {
+    const newTeam:UserTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUserValue(), 
+      this.teamNameFormControl.value, this.selectedLeague!);
+    this.userService.addNewTeam(newTeam);
+    this.closeDialog(newTeam);
   }
 
   /* Metodi visibilità */
