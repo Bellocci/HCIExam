@@ -13,7 +13,7 @@ export interface DialogHelper {
     /**
      * Metodo per la chiusura della dialog
      */
-    closeDialog() : void;
+    closeDialog(dialogResult?: any) : void;
 
     /**
      * Restituisce la configurazione della dialog
@@ -25,10 +25,4 @@ export interface DialogHelper {
      * undefined se la dialog non è istanziata
      */
     afterClosed() : Observable<any> | undefined;
-
-    /**
-     * Restituisce un observable che è notficato quando la dialog viene aperta, oppure undefined
-     * se la dialog non è istanziata
-     */
-    afterOpened() : Observable<any> | undefined;
 }
