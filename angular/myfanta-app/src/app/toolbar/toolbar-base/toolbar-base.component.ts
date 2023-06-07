@@ -10,6 +10,7 @@ import { SnackBarService } from 'src/app/service/snack-bar.service';
 import { League } from 'src/decorator/League.model';
 import { RouterService } from 'src/app/service/router.service';
 import { DialogService } from 'src/app/service/dialog.service';
+import { LoginDialogComponent } from 'src/app/Dialog/login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-toolbar-base',
@@ -76,7 +77,7 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
   }
 
   openLoginDialog() : void {
-    this.dialogService.getLoginHelper().openDialog();
+    this.dialogService.getDialogHelper().openDialog(LoginDialogComponent);
   }
 
   /* Getter */
@@ -93,6 +94,10 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 
   isUserLogged() : boolean {
     return this.userLogged;
+  }
+
+  isBtnHomeRendered() : boolean {
+    return this.isLeagueSelected() || this.routerService.currentPageisMyProfile();
   }
 
   /* Metodi funzionalità */

@@ -2,6 +2,8 @@ import { Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angu
 import { FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/service/user.service';
 import { DialogService } from 'src/app/service/dialog.service';
+import { RegistrationDialogComponent } from '../registration-dialog/registration-dialog.component';
+import { RecoveryPasswordDialogComponent } from '../recovery-password-dialog/recovery-password-dialog.component';
 
 @Component({
   selector: 'app-login-dialog',
@@ -85,8 +87,8 @@ export class LoginDialogComponent implements OnInit {
   /* Metodi comunicazione con parent */  
 
   recoveryPassword() : void {
-    this.dialogService.getLoginHelper().closeDialog();
-    this.dialogService.getRecoveryPasswordDialogHelper().openDialog();
+    this.dialogService.getDialogHelper().closeDialog();
+    this.dialogService.getDialogHelper().openDialog(RecoveryPasswordDialogComponent);
   }
 
    /* Login */
@@ -96,17 +98,17 @@ export class LoginDialogComponent implements OnInit {
       this.firstLogin = false;
     }
     this._userService.login(this.usernameControl.value as string, this.passwordControl.value as string);
-    this.dialogService.getLoginHelper().closeDialog();
+    this.dialogService.getDialogHelper().closeDialog();
    }
 
    /* Apertura dialog */
 
    openRegistrationDialog() : void {
-    this.dialogService.getLoginHelper().closeDialog();
-    this.dialogService.getRegistrationDialogHelper().openDialog();
+    this.dialogService.getDialogHelper().closeDialog();
+    this.dialogService.getDialogHelper().openDialog(RegistrationDialogComponent);
    }
 
   closeAllDialog() : void {
-    this.dialogService.closeAllDialog();
+    this.dialogService.getDialogHelper().closeDialog();
   }
 }

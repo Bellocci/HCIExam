@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { DialogService } from 'src/app/service/dialog.service';
 import { UserService } from 'src/app/service/user.service';
+import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-recovery-password-dialog',
@@ -91,14 +92,14 @@ export class RecoveryPasswordDialogComponent implements OnInit {
    * apertura della LoginDialog
    */
   openLoginDialog() : void {
-    this.dialogService.getRecoveryPasswordDialogHelper().closeDialog();
-    this.dialogService.getLoginHelper().openDialog();
+    this.dialogService.getDialogHelper().closeDialog();
+    this.dialogService.getDialogHelper().openDialog(LoginDialogComponent);
   }
 
   /**
    * Listener per la chiusura della dialog
    */
   closeDialog() : void {
-    this.dialogService.getRecoveryPasswordDialogHelper().closeDialog();
+    this.dialogService.getDialogHelper().closeDialog();
   }
 }

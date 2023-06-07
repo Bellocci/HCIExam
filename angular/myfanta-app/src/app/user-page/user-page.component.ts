@@ -7,8 +7,9 @@ import { TeamDataService } from '../service/team-data.service';
 import { RouterService } from '../service/router.service';
 import { InternalDataService } from '../service/internal-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CreateNewTeamDialogComponent } from '../Dialog/create-new-team-dialog/create-new-team-dialog.component';
+import { DialogService } from '../service/dialog.service';
+import { DialogHelper } from '../Dialog/dialogHelper.interface';
 
 /**
  * Interfaccia utilizzata insieme alla mappa per definire una coppia
@@ -27,6 +28,8 @@ interface UserTeamCouple {
 })
 export class UserPageComponent implements OnInit {
 
+  private dialogHelper!:DialogHelper;
+
   private user!:User;
   private myTeams!:UserTeam[];
   private removedTeams:UserTeam[] = [];
@@ -37,10 +40,11 @@ export class UserPageComponent implements OnInit {
     private teamDataService:TeamDataService, 
     private routerService:RouterService,
     private internalDataService:InternalDataService,
-    private dialog:MatDialog) { }
+    private dialogService:DialogService) { }
 
   ngOnInit(): void {
     this.subscribeUser();    
+    this.dialogHelper = this.dialogService.getDialogHelper();
     this.myTeams = this.userService.loadTeams();
     this.buildSportTeamMap();
   }
@@ -186,14 +190,11 @@ export class UserPageComponent implements OnInit {
    * Listener per l'apertura della dialog CreateNewTeamDialog
    */
   openCreateNewTeamDialog() {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.maxWidth = "800px";
-    dialogConfig.width = "auto";
-    dialogConfig.height = "80%";
-
-    this.dialog.open(CreateNewTeamDialogComponent, dialogConfig);
+    this.dialogHelper.openDialog(CreateNewTeamDialogComponent);
+    this.dialogHelper.afterClosed()?.subscribe(result => {
+      if(result instanceof UserTeam) {
+        this.sportTeamMap.get(result.getLeague().getSport())!.activeList.push(result);
+      }
+    });
   }
 }

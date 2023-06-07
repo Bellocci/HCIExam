@@ -11,6 +11,10 @@ export class UserTeam {
         this.entity = entity;
     }
 
+    getEntity() : UserTeamEntity {
+        return this.entity;
+    }
+
     getId(): number {
         return this.entity.id;
     }
