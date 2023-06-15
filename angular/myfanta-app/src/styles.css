@@ -7,7 +7,7 @@ body {
 
 }
 
-/* Colors */
+/* --- COLORI --- */
 
 .primary-color {
     background-color: #82B1FF;
@@ -49,6 +49,14 @@ body {
     background-color: #E0E0E0 !important;
 }
 
+.no-color-light {
+    background-color: #F9F9F9;
+}
+
+.no-color-light:hover {
+    background-color: #f6f6f6 !important;
+}
+
 .error-color {
     color: #f44336 !important;
 }
@@ -58,15 +66,17 @@ body {
 .material-icons.color_green { color: #248232; }
 .material-icons.color_red { color: #f44336; }
 
-/* FINE COLORE */
+/* --- FINE COLORE --- */
 
-/* DIMENSIONE ICONE */
+/* --- ICONE --- */
 
 .icon-size {
     transform: scale(1.5);
 }
 
-/* TESTO */
+/* --- FINE SEZIONE ICONE ---  */
+
+/* --- TESTO --- */
 
 .bold {
     font-weight: bold;
@@ -76,9 +86,9 @@ body {
     text-align: center;
 }
 
-/* FINE TESTO */
+/* --- FINE SEZIONE TESTO --- */
 
-/* MARGINI DA UTILIZZARE NEI CASI STANDARD */
+/* --- MARGINI STANDARD --- */
 
 /* 10px */
 
@@ -124,7 +134,16 @@ body {
     margin-right: 30px;
 }
 
-/* Container and item */
+/* Margine standard da applicare in un div prima e dopo il contenuto della pagina */
+.margin-page-container {
+    width:10%;
+    height: 100vh;
+    flex-grow: 1;
+}
+
+/* --- FINE SEZIONE MARGINI --- */
+
+/* --- CONTAINER E ITEM STANDARD --- */
 
 .flex-container {
     display: flex !important;
@@ -147,6 +166,10 @@ body {
     justify-content: flex-start;
 }
 
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
 .align-content-center {
     align-content: center;
 }
@@ -155,11 +178,13 @@ body {
     align-self: center;
 }
 
-.txt-center {
-    text-align: center;
+.space-between {
+    justify-content: space-between;
 }
 
-/* Tooltip */
+/* --- FINE SEZIONE CONTAINER E ITEM */
+
+/* SEZIONE TOOLTIP IMMAGINI */
 
 .tooltip {
     position: relative;
@@ -190,6 +215,8 @@ body {
     font-size: 14px;
 }
 
+/* --- FINE SEZIONE TOOLTIP IMMAGINI --- */
+
 /* Snackbar */
 
 .snackbar {
@@ -213,13 +240,14 @@ body {
 }
 
 .link:hover {
-    cursor: pointer;
+    cursor: pointer !important;
+    font-weight: 500;
 }
 
 .link {
-    text-align: center;
+    color: #0000EE !important;
     text-decoration: underline;
-    color: #000000;
+    text-underline-offset: 2px;
 }
 
 /* TEXT */

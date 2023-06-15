@@ -35,152 +35,31 @@
     font-weight: 500;
 }
 
-/* Container button */
 
-.grid-expansion-panel {
-    display: grid;
-    grid-template-columns: 28% 28% 28%;
-    column-gap: 8%;
-    row-gap: 2%;
-    height: 80%;
+/* Contenuto pagin */
+
+.page-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
 }
 
-@media
-(min-width: 800px) and
-(max-width: 1200px) {
-
-    .grid-expansion-panel {
-        display: grid;
-        grid-template-columns: 42% 42%;
-        column-gap: 20%;
-        row-gap: 10%;
-        height: 80%;
-    }
-
-    .padding-home {
-        padding: 5% 20%;
-    }
+.txt-title-paragraph {
+    font-size: 25px !important;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
-@media
-(min-width: 700px) and
-(max-width: 800px) {
-
-    .grid-expansion-panel {
-        display: grid;
-        grid-template-columns: 42% 42%;
-        column-gap: 20%;
-        row-gap: 10%;
-        height: 80%;
-    }
-
-    .padding-home {
-        padding: 5% 10%;
-    }
-}
-
-@media
-(min-width: 320px) and
-(max-width: 700px) {
-    .grid-expansion-panel {
-        display: grid;
-        grid-template-columns: 100%;
-        row-gap: 5%;
-        height: 80%;
-    }
-
-    .padding-home {
-        align-content: baseline;
-    }
-}
-
-/* Button */
-
-.btn-width {
+.expansion-panel-container {
     width: 100%;
 }
 
-.btn-sport-close {
-    height: 80px;
-    transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.btn-sport-open {
-    height: 60px;
-    transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.txt-btn {
-    font-size: 18px;
-}
-
-@media
-(min-width: 320px) and
-(max-width: 500px) {
-
-    .btn-sport-close {
-        height: 60px;
-    }
-    
-    .btn-sport-open {
-        height: 40px;
-    }
-    
-    .txt-btn {
-        font-size: 16px;
-    }
-}
-
-/* Container link */
-
-.mat-list-item {
-    display: block;
-    height: 48px;
+.expansion-panel {
+    min-width: 250px;
     width: 100%;
-    padding-top: 25px;
+    margin: 10px;
 }
 
-/* Color */
-
-.btn-color:hover {
-    background-color: #b6e3ff;
-}
-
-.color:hover {
-    background-color: #f5f5f5;
-}
-
-/* icon */
-
-.icon-btn {
-    float: right;
-    margin-top: 5px;
-}
-
-.icon-champ {
-    vertical-align: middle;
-}
-
-.icon-close-btn {
-    transform: rotate(0deg);
-    transition: transform 0.2s linear;
-}
-
-.icon-open-btn {
-    transform: rotate(180deg);
-    transition: transform 0.2s linear;
-}
-
-
-/* Interactive text */
-
-.text-interactive:hover {
-    font-weight: 600;
-}
-
-.link {
-    text-align: left;
-    text-decoration: none;
-    color: #000000;
-    border-bottom: 1px solid lightgray;
+.expansion-panel-header {
+    justify-content: center;
 }

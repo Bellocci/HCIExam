@@ -1,11 +1,12 @@
-import { animate, state, style, transition, trigger, group, keyframes, query, animateChild } from '@angular/animations';
+import { animate, state, style, transition, trigger, group } from '@angular/animations';
 import { Component, OnInit} from '@angular/core';
-import { Subscription } from 'rxjs';
 import { FilterDataService } from '../service/filter-data.service';
 import { InternalDataService } from '../service/internal-data.service';
-import { LoadDataService } from '../service/load-data.service';
-import { SharedService } from '../service/shared.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
+import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
+import { League } from 'src/decorator/League.model';
+import { RouterService } from '../service/router.service';
+
 
 @Component({
   selector: 'app-home',
@@ -39,85 +40,40 @@ import { SportEnum } from 'src/enum/SportEnum.model';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private service:SharedService, private loadDataService:LoadDataService,
-    private filterDataService:FilterDataService, private internal_data:InternalDataService) { }
+  constructor(private routerService:RouterService,
+    private filterDataService:FilterDataService,
+    private internalDataService:InternalDataService) { }
 
-  private _state_btns = new Map<string, boolean>();
-  private _active_btn!:string;
+  ngOnInit(): void {}
 
-  championship_selected:string = '';
-  subscrip_champ:Subscription = new Subscription;
-
-  sportsList:any = [];
-  championshipsList:any = [];
-
-  ngOnInit(): void {
-
-    this._active_btn = '';
-    this.initStateBtns();
-  }
-
-  ngOnDestroy(): void {
-    if(this.subscrip_champ)
-      this.subscrip_champ.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 
   // GETTER
 
-  getSportsList(): String[] {
-    return Object.values(SportEnum);
+  getSports(): SportEnum[] {
+    return SportEnum.getAllSport();
+  }
+
+  getChampionships(sport:SportEnum) : ChampionshipEnum[] {
+    return this.filterDataService.filterChampionshipsBySport(sport);
+  }
+
+  getLeagues(sport:SportEnum, championship:ChampionshipEnum) : League[] {
+    return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
   }
 
   // SETTER
 
-  setActivePage(page_name: string) {
-    this.internal_data.setActiveLink(page_name);
+  private setLeagueSelected(league:League) : void {
+    this.internalDataService.setLeagueSelected(league);
   }
+  
+  /* LISTENER */
 
-  // OTHER METHODS
-
-  filterChampionship(champ:any, sport:any):boolean {
-    if(champ.sport != sport.sportId)
-      return false;
-    return true;
-  }
-
-  toggleSportBtnFromIcon(icon:any) {
-    this.toggleSportBtn(icon.parentElement);
-  }
-
-  toggleSportBtn(btn:any) {
-    const btn_text = btn.textContent.split('keyboard');
-    this.setStateBtn(btn_text[0].trim());
-  }  
-
-  isActiveBtn(text_btn:string) : boolean {
-    return this._state_btns.get(text_btn) ? true : false
+  selectedLeagueListener(league:League) : void {
+    this.setLeagueSelected(league);
+    this.routerService.goToCreateTeamPage();
   }
 
   
-
-  // PRIVATE METHODS
-
-  private setStateBtn(text_btn:string) {
-    if(this._state_btns.has(text_btn)) {
-      if(!this._state_btns.get(text_btn)) {
-        if(this._active_btn != '') {
-          this._state_btns.set(this._active_btn, false);
-        }
-        this._active_btn = text_btn;
-        this._state_btns.set(this._active_btn, true);
-      } 
-      else {
-        this._state_btns.set(this._active_btn, false);
-        this._active_btn = '';
-      }
-    }
-  }
-
-  private initStateBtns() {
-    for(let sport of this.sportsList) {
-      this._state_btns.set(sport.sportName, false);
-    }
-  }
 }

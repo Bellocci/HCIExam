@@ -49,9 +49,7 @@ export class ToolbarComponent implements OnInit {
 
   private subscribeActiveLink() {
     this.internal_data.getActiveLink().subscribe(link => {
-      console.log("CAMBIO VALORE: " + link);
       this.activeLink = link;
-      console.log("ACTIVE LINK: " + this.activeLink);
     });
   }
 
@@ -126,7 +124,6 @@ export class ToolbarComponent implements OnInit {
   selectedLeagueListener(league: League) {
     this.clearData();
     this.setLeagueSelected(league);
-    this.setActiveLink(this.linkEnum.CREATE_TEAM.label);
     this.closeSidenav();
     this.routerService.goToCreateTeamPage();
   }
