@@ -7,6 +7,11 @@ body {
 
 }
 
+/* VARIABILI GLOBALI */
+:root {
+    --toolbar-height: 70px;
+}
+
 /* --- COLORI --- */
 
 .primary-color {
@@ -174,6 +179,10 @@ body {
     align-content: center;
 }
 
+.align-items-center {
+    align-items: center;
+}
+
 .alignCenter {
     align-self: center;
 }
@@ -220,13 +229,24 @@ body {
 /* Snackbar */
 
 .snackbar {
-    width: auto;
-    height: 40px;
+    margin-top: calc(var(--toolbar-height) + 10px) !important;
+    margin-right: 100px !important;
+    max-width: 200px;
+    width: 100%;
+    height: auto;
 }
 
 .white-snackbar {
-    background: #fffeef;
-    color: black;
+    --mdc-snackbar-container-color: #fffeef;
+    --mat-snack-bar-button-color:#black;
+    --mdc-snackbar-supporting-text-color: #black;
+}
+
+.red-snackbar {
+    --mdc-snackbar-container-color: #f44336;
+    --mat-snack-bar-button-color:#fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    opacity: 0.8 !important;
 }
 
 /* STYLE GENERALI */
