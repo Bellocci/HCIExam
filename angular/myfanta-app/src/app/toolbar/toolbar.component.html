@@ -76,7 +76,16 @@
         (window:resize)="onResize($event)"
         (sidenav_emit)="openSidenav()">
       </app-toolbar-mobile>
-      <router-outlet></router-outlet>
+
+      <!-- Spinner visualizzato in attesa che i dati della pagina siano caricati -->
+      <mat-progress-spinner class="spinner" 
+        *ngIf="loading()" 
+        mode="indeterminate"
+        diameter="150">
+      </mat-progress-spinner>
+      <div [ngClass]="{'opacity-page' : loading()}">
+        <router-outlet></router-outlet>
+      </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
   

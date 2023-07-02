@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger, group } from '@angular/animations';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, AfterViewInit} from '@angular/core';
 import { FilterDataService } from '../service/filter-data.service';
 import { InternalDataService } from '../service/internal-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
@@ -38,13 +38,17 @@ import { RouterService } from '../service/router.service';
     ])
   ]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private routerService:RouterService,
     private filterDataService:FilterDataService,
     private internalDataService:InternalDataService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { 
+    this.internalDataService.setLoadingData(false);
+  }
+
+  ngAfterViewInit(): void { }
 
   ngOnDestroy(): void {}
 
@@ -71,8 +75,9 @@ export class HomeComponent implements OnInit {
   /* LISTENER */
 
   selectedLeagueListener(league:League) : void {
+    this.internalDataService.setLoadingData(true);
     this.setLeagueSelected(league);
-    this.routerService.goToCreateTeamPage();
+    this.routerService.goToMyTeamPage();
   }
 
   

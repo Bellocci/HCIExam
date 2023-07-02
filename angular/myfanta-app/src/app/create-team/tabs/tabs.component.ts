@@ -40,8 +40,6 @@ export class TabsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.setBtnRows();
     
-    this._team_data.showTeam();
-    this.subscribePlayerSelected();
     this.subscribeDisableClearTeamBtn();
     this.subscribeSaveBtnEnabled();
     this.subscribeClearBlacklistBtnDisabled();
@@ -52,12 +50,6 @@ export class TabsComponent implements OnInit, AfterViewInit {
   }
 
   /* PRIVATE METHODS */
-
-  private subscribePlayerSelected() : void {
-    this._team_data.getPlayerSelected().subscribe((player:any) => {
-      this._player_selected = player;
-    });
-  }
 
   private subscribeDisableClearTeamBtn() : void {
     this._internal_data.isDisabledClearTeamBtn().subscribe((is_disable:boolean) => {
@@ -114,10 +106,6 @@ export class TabsComponent implements OnInit, AfterViewInit {
 
   /* SETTER METHOD */
 
-  setPlayerSelected() : void {
-    this._team_data.setPlayerSelected(null);
-  }
-
   setBtnRows() : void {
     this._rows_btns = this.getInnerWidth() >= 1000 ? 5 : 4;
   }
@@ -133,8 +121,7 @@ export class TabsComponent implements OnInit, AfterViewInit {
   }
 
   clearAll() : void {
-    if(!this.isDisableClearTeamBtn())
-      this._team_data.clearTeam();
+    
   }
 
   isPlayerSelected() : boolean {
@@ -143,20 +130,20 @@ export class TabsComponent implements OnInit, AfterViewInit {
   
   removePlayer() : void {
     if(this._player_selected != null) {
-      this._team_data.removePlayerFromTeam(this._player_selected);
+      
       this._player_selected = null;
     }
   }
 
   moveToBlacklist() : void {
     if(this._player_selected != null) {
-      this._team_data.addPlayerIntoBlacklist(this._player_selected)
+      
       this._player_selected = null;
     }
   }
 
   resetOptions() : void {
-    this._shared.resetOptions();
+    
   }
 
   isClearBlacklistBtnDisabled() : boolean {
@@ -176,9 +163,6 @@ export class TabsComponent implements OnInit, AfterViewInit {
   }
 
   setPlayersToView(tab_name:string) : void {
-    if (tab_name == 'Team')
-      this._team_data.showTeam();
-    else if(tab_name == 'Blacklist')
-      this._team_data.showBlacklist();
+
   }
 }

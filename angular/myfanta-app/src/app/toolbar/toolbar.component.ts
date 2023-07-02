@@ -8,6 +8,7 @@ import { SportEnum } from 'src/enum/SportEnum.model';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { RouterService } from '../service/router.service';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
@@ -19,7 +20,10 @@ export class ToolbarComponent implements OnInit {
   constructor(private filterDataService:FilterDataService, 
     private internal_data:InternalDataService, 
     private team_data:TeamDataService,
-    public routerService:RouterService) { }
+    public routerService:RouterService,
+    public router:Router) { 
+
+  }
 
   @ViewChild(MatSidenav) sidenav!:MatSidenav;
   
@@ -34,7 +38,10 @@ export class ToolbarComponent implements OnInit {
   leagueList!:League[];
   championshipsList!:string[];
 
+  isLoadingData:boolean = false;
+
   ngOnInit(): void {
+    this.subscribeLoadingData();
     this.subscribeLeagueSelected();
     this.subscribeActiveLink();
 
@@ -51,6 +58,12 @@ export class ToolbarComponent implements OnInit {
     this.internal_data.getActiveLink().subscribe(link => {
       this.activeLink = link;
     });
+  }
+
+  private subscribeLoadingData() {
+    this.internal_data.isLoadingData().subscribe(isLoading => {
+      this.isLoadingData = isLoading;
+    })
   }
 
   /* GETTER */
@@ -75,10 +88,6 @@ export class ToolbarComponent implements OnInit {
 
   protected setLeagueSelected(league:League | null) {
     this.internal_data.setLeagueSelected(league);
-  }
-
-  private setActiveLink(link_name:string) {
-    this.internal_data.setActiveLink(link_name);
   }
 
   /* Metodi sidenav */
@@ -111,7 +120,6 @@ export class ToolbarComponent implements OnInit {
   }
 
   isActiveLink(link_name:string) : boolean {
-    console.log(this.activeLink + " " + link_name)
     return this.activeLink === link_name;
   }
 
@@ -119,13 +127,17 @@ export class ToolbarComponent implements OnInit {
     return this.is_mobile;
   }
 
+  loading() : boolean {
+    return this.isLoadingData;
+  }
+
   /* Metodi di funzionalità */
 
-  selectedLeagueListener(league: League) {
+  selectedLeagueListener(league: League) {    
     this.clearData();
     this.setLeagueSelected(league);
     this.closeSidenav();
-    this.routerService.goToCreateTeamPage();
+    this.routerService.goToMyTeamPage();
   }
 
   onResize(event:any) {
@@ -134,6 +146,6 @@ export class ToolbarComponent implements OnInit {
 
   private clearData() : void {
     this.internal_data.clearData();
-    this.team_data.clearAllPlayers();
+    this.team_data.clearAllList();
   }
 }

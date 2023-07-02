@@ -4,6 +4,7 @@ import { InternalDataService } from 'src/app/service/internal-data.service';
 import { TeamDataService } from 'src/app/service/team-data.service';
 import { ToolbarComponent } from '../toolbar.component';
 import { RouterService } from 'src/app/service/router.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar-mobile',
@@ -17,8 +18,9 @@ export class ToolbarMobileComponent extends ToolbarComponent implements OnInit {
   constructor(private filterService:FilterDataService, 
     private data_service: InternalDataService, 
     private team_service:TeamDataService,
-    override routerService:RouterService) {
-    super(filterService, data_service, team_service, routerService);
+    override routerService:RouterService,
+    override router:Router) {
+    super(filterService, data_service, team_service, routerService, router);
   }
 
   openSidenavFromChild() {

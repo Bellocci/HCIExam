@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { UserService } from '../service/user.service';
 import { User } from 'src/decorator/user.model';
 import { UserTeam } from 'src/decorator/userTeam.model';
@@ -26,12 +26,11 @@ interface UserTeamCouple {
   templateUrl: './user-page.component.html',
   styleUrls: ['./user-page.component.css'],
 })
-export class UserPageComponent implements OnInit {
+export class UserPageComponent implements OnInit, AfterViewInit {
 
   private dialogHelper!:DialogHelper;
 
-  private user!:User;
-  private myTeams!:UserTeam[];
+  private myTeams:UserTeam[] = [];
   private removedTeams:UserTeam[] = [];
 
   private sportTeamMap:Map<SportEnum, UserTeamCouple> = new Map<SportEnum, UserTeamCouple>();
@@ -43,20 +42,17 @@ export class UserPageComponent implements OnInit {
     private dialogService:DialogService) { }
 
   ngOnInit(): void {
-    this.subscribeUser();    
     this.dialogHelper = this.dialogService.getDialogHelper();
     this.myTeams = this.userService.loadTeams();
     this.buildSportTeamMap();
+    this.internalDataService.setLoadingData(false);
   }
 
-  subscribeUser() : void {
-    this.userService.getUser().subscribe(user => {
-      this.user = user;
-    });
+  ngAfterViewInit(): void {    
   }
 
   buildSportTeamMap() : void {
-    for(let team of this.myTeams) {
+    for(let team of Object.values(this.myTeams)) {
       const sport:SportEnum = team.getLeague().getSport();
       if(!this.sportTeamMap.has(sport)) {
         this.sportTeamMap.set(sport, {
@@ -73,7 +69,7 @@ export class UserPageComponent implements OnInit {
   // Getter
 
   getUser() : User {
-    return this.user;
+    return this.userService.getUser();
   }
 
   /**
@@ -181,8 +177,9 @@ export class UserPageComponent implements OnInit {
   }
 
   loadTeam(team:UserTeam) : void {
+    this.userService.setSelectedTeam(team);
     this.teamDataService.loadTeam(team);
-    this.routerService.goToCreateTeamPage();
+    this.routerService.goToMyTeamPage();
     this.internalDataService.setLeagueSelected(team.getLeague());
   }
 

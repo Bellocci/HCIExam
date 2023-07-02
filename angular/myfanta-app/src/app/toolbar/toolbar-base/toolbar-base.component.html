@@ -10,11 +10,21 @@
     <!-- Link alla pagina Create team -->
     <button mat-flat-button
     class="color btn-flat ml-10px mr-10px"
-    [ngClass]="isActiveLink(linkEnum.CREATE_TEAM.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
+    [ngClass]="isActiveLink(linkEnum.MYTEAM.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
     (click)="goToCreateTeam()">
       <span class="text"
-      [ngClass]="isActiveLink(linkEnum.CREATE_TEAM.label) == true ? 'bold' : ''">
-        {{ linkEnum.CREATE_TEAM.description }}
+      [ngClass]="isActiveLink(linkEnum.MYTEAM.label) == true ? 'bold' : ''">
+        {{ linkEnum.MYTEAM.description }}
+      </span>
+    </button>
+    <!-- Link alla pagina Options -->
+    <button mat-flat-button
+    class="color btn-flat ml-10px mr-10px"
+    [ngClass]="isActiveLink(linkEnum.OPTIONS.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
+    (click)="goToOptionsPage()">
+      <span class="text"
+      [ngClass]="isActiveLink(linkEnum.OPTIONS.label) == true ? 'bold' : ''">
+        {{ linkEnum.OPTIONS.description }}
       </span>
     </button>
     <!-- link alla pagina Player list-->

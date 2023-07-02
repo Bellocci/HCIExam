@@ -87,7 +87,7 @@ export class CreateNewTeamDialogComponent implements OnInit {
   }
 
   addNewTeam() : void {
-    const newTeam:UserTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUserValue(), 
+    const newTeam:UserTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUser(), 
       this.teamNameFormControl.value, this.selectedLeague!);
     this.userService.addNewTeam(newTeam);
     this.closeDialog(newTeam);

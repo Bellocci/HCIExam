@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Observer } from 'rxjs';
 import { User } from 'src/decorator/user.model';
 import { UserTeam } from 'src/decorator/userTeam.model';
 import { USER_DATA, UserEntity } from 'src/model/userEntity.model';
-import { CUSTOMS_TEAM_DATA } from 'src/model/userTeamEntity.model';
+import { CUSTOMS_TEAM_DATA, UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { SessionStorageService } from './session-storage.service';
 import { ColorEnum } from 'src/enum/ColorEnum.model';
+import { UserTeamDecoratorFactoryService } from 'src/decorator-factory/user-team-decorator-factory.service';
+import { ObserverHelper } from 'src/utility/observer-helper';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 
 @Injectable({
   providedIn: 'root'
@@ -14,31 +17,42 @@ export class UserService {
 
   static readonly KEY_SESSION:string = "user";
   
-  private user:BehaviorSubject<User> = new BehaviorSubject(new User());
-  private currentUser:Observable<User> = this.user.asObservable();
+  private user:ObserverHelper<User> = new ObserverHelper<User>(new User());
+  private userValue:User = new User();
 
-  constructor(private _session_storage:SessionStorageService<UserEntity>) {;
+  private myTeams:UserTeam[] | undefined = undefined;
+  private selectedTeam:ObserverHelper<UserTeam | undefined> = new ObserverHelper<UserTeam | undefined>(undefined);
+
+  constructor(private _session_storage:SessionStorageService<UserEntity>,
+    private userTeamDecoratorFactory:UserTeamDecoratorFactoryService) {;
+
+    // Registriamo l'observer sul valore dell'utente
+    this.subscribeUser();
+
     const entity = this._session_storage.getData(UserService.KEY_SESSION);
     if(!new User().equals(entity) && entity != null) {
-      this.user.next(new User(entity));
+      this.user.setValue(new User(entity));
     }
+
   }
 
-  /**
-   * Metodo che restituisce l'observer sul valore corrente dell'utente
-   * 
-   * @returns Observable<User>
-   */
-  getUser() : Observable<User> {
-    return this.currentUser;
+  private subscribeUser() : void {
+    this.user.addObserver(new ObserverStepBuilder<User>()
+      .next(user => this.userValue = user)
+      .build()
+    );
   }
 
-  getUserValue(): User {
-    return this.user.getValue();
+  addObserverForUser(observer:Observer<User>) : void {
+    this.user.addObserver(observer);
+  } 
+
+  getUser(): User {
+    return this.userValue;
   }
 
   private setUser(user:User) {
-    this.user.next(user);
+    this.user.setValue(user);
   }
 
   // LOGIN
@@ -56,7 +70,6 @@ export class UserService {
     if(result != undefined) {
       this._session_storage.saveData(UserService.KEY_SESSION, result);
       const value:User = new User(this._session_storage.getData(UserService.KEY_SESSION) as UserEntity);
-      console.log(value.toString());
       this.setUser(new User(result));
     } else {
       this.setUser(new User())
@@ -129,13 +142,24 @@ export class UserService {
    * @returns UserTeam[]
    */
   loadTeams() : UserTeam[] {    
-    let resultList:UserTeam[] = [];
-    CUSTOMS_TEAM_DATA.filter(team => team.user.equals(this.user.getValue())).forEach(team => resultList.push(new UserTeam(team)));
-    return resultList;
+    if(this.myTeams == undefined) {
+      // Caricamento da db
+      let resultList:UserTeamEntity[] = CUSTOMS_TEAM_DATA.filter(team => team.user.equals(this.userValue));
+      this.myTeams = this.userTeamDecoratorFactory.decorateList(resultList);    
+    }
+    return {... this.myTeams};
   } 
 
   addNewTeam(userTeam:UserTeam) : void {
     // Query su db
     CUSTOMS_TEAM_DATA.push(userTeam.getEntity());
   } 
+
+  setSelectedTeam(userTeam : UserTeam | undefined) {
+    this.selectedTeam.setValue(userTeam);
+  }
+
+  addSelectedTeamObserver(observer:Observer<UserTeam | undefined>) : void {
+    this.selectedTeam.addObserver(observer);
+  }
 }

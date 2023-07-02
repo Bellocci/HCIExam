@@ -1,14 +1,23 @@
 import { UserTeamEntity } from "src/model/userTeamEntity.model"
 import { User } from "./user.model";
 import { League } from "./League.model";
-import { Player } from "src/model/player.model";
+import { PlayerDecoratorFactoryService } from "src/decorator-factory/player-decorator-factory.service";
+import { Player } from "./player.model";
+import { Option } from "./option/option.model";
 
 export class UserTeam {
 
     private entity!: UserTeamEntity;
+    private myTeam:Player[];
+    private favoritList:Player[];
+    private blackList:Player[];
 
-    constructor(entity:UserTeamEntity) {
-        this.entity = entity;
+    constructor(private userTeamEntity:UserTeamEntity,
+        private playerDecoratorFactory:PlayerDecoratorFactoryService) {
+        this.entity = userTeamEntity;
+        this.myTeam = playerDecoratorFactory.decorateList(userTeamEntity.team);
+        this.favoritList = playerDecoratorFactory.decorateList(userTeamEntity.favoriteList);
+        this.blackList = playerDecoratorFactory.decorateList(userTeamEntity.blacklist);
     }
 
     getEntity() : UserTeamEntity {
@@ -33,15 +42,15 @@ export class UserTeam {
 
     // L'operatore spread [...nomeArray] crea una shallow copy di un array
     getTeam() : Player[] {
-        return [...this.entity.team];
+        return [...this.myTeam];
     }
 
     getFavoritList() : Player[] {
-        return [...this.entity.favoriteList];
+        return [...this.favoritList];
     }
 
     getBlackList() : Player[] {
-        return [...this.entity.blacklist];
+        return [...this.blackList];
     }
 
     setActive(active:boolean) : void {
@@ -50,6 +59,14 @@ export class UserTeam {
 
     isActive() : boolean {
         return this.entity.active;
+    }
+
+    getOption() : Option {
+        return this.entity.option;
+    }
+
+    setOption(option:Option) : void {
+        this.entity.option = option;
     }
 
     toString() : string {

@@ -11,6 +11,8 @@ import { League } from 'src/decorator/League.model';
 import { RouterService } from 'src/app/service/router.service';
 import { DialogService } from 'src/app/service/dialog.service';
 import { LoginDialogComponent } from 'src/app/Dialog/login-dialog/login-dialog.component';
+import { Router } from '@angular/router';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 
 @Component({
   selector: 'app-toolbar-base',
@@ -30,12 +32,13 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
     private filterService:FilterDataService,
     private internalDataService:InternalDataService,
     private teamDataService:TeamDataService,
+    override router:Router,
     private userService:UserService,
     private snackbarService:SnackBarService,
     override routerService:RouterService,
     private dialogService:DialogService) 
   { 
-    super(filterService, internalDataService, teamDataService, routerService);
+    super(filterService, internalDataService, teamDataService, routerService, router);
   }
 
   override ngOnInit(): void {
@@ -47,15 +50,19 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
   /* INIZIALIZZAZIONE OBSERVER */
 
   private subscribeUser() {
-    this.userService.getUser().subscribe(user => {
-      if(user.isUserDefined()) {
-        this.userLogged = true;
-        this.user = user;
-      } else {
-        this.userLogged = false;
-        this.user = undefined;
-      }
-    });
+
+    this.userService.addObserverForUser(new ObserverStepBuilder<User>()
+      .next(user => {
+        if(user.isUserDefined()) {
+          this.userLogged = true;
+          this.user = user;
+        } else {
+          this.userLogged = false;
+          this.user = undefined;
+        }
+      })
+      .build()
+    );
   }
 
   private subscribeLeague() : void {
@@ -97,14 +104,14 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
   }
 
   isBtnHomeRendered() : boolean {
-    return this.isLeagueSelected() || this.routerService.currentPageisMyProfile();
+    return this.isLeagueSelected() || this.routerService.currentPageIsMyProfile();
   }
 
   /* Metodi funzionalità */
 
   logout() : void {    
     this.userService.logout();
-    if(this.routerService.currentPageisMyProfile()) {
+    if(this.routerService.currentPageIsMyProfile()) {
       this.routerService.goToHomePage();
     }
     this.snackbarService.openInfoSnackBar("Ti sei scollegato dal tuo account");    
@@ -118,7 +125,7 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
   }
 
   goToCreateTeam() : void {
-    this.routerService.goToCreateTeamPage();
+    this.routerService.goToMyTeamPage();
   }
 
   goToPlayerList() : void {
@@ -135,6 +142,10 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 
   goToMyProfile() : void {
     this.routerService.goToMyProfilePage();
+  }
+
+  goToOptionsPage() : void {
+    this.routerService.goToOptionsPage();
   }
 
   override isActiveLink(link_name:string) : boolean {
