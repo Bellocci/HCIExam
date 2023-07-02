@@ -32,11 +32,6 @@ export class PlayerListComponent implements OnInit {
   constructor(private _team_data_service: TeamDataService, private _internal_data_service:InternalDataService) { }
 
   ngOnInit(): void {
-    this._team_data_service.getTeamName().subscribe((teams) => {
-      for(let team of teams) {
-        this._teams.push({name : team.name, short_name : team.short_name, selected : false});
-      }
-    });
 
     this._internal_data_service.getActiveLink().subscribe((link) => {
       if(link != undefined) {
