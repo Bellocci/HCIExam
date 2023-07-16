@@ -52,14 +52,15 @@
                   <mat-expansion-panel-header>
                     <mat-panel-title>{{ sport.description }}</mat-panel-title>
                   </mat-expansion-panel-header>
-                  
-                  <div class="flex-container cards-container ml-30px mr-30px">     
-                    <ng-container *ngIf="hasTeam(sport)">
-                      <ng-container *ngFor="let team of getTeams(sport)">
 
-                        <!-- Visualizzazione singola card -->
-                        <mat-card class="card">
-                          <mat-card-header>
+                  <!-- Lazy rendering -->
+                  <ng-template matExpansionPanelContent>
+                    <div class="flex-container cards-container ml-30px mr-30px">
+                      <ng-container *ngIf="hasTeam(sport)">
+                        <ng-container *ngFor="let team of getTeams(sport)">    
+                          <!-- Visualizzazione singola card -->
+                          <mat-card class="card">
+                            <mat-card-header>
                               <mat-card-title >{{ team.getNameTeam() }}</mat-card-title>
                             </mat-card-header>
                             <mat-card-content class="mt-30px">
@@ -70,23 +71,24 @@
                             </mat-card-content>
                             <mat-card-actions align="end">
                               <button mat-flat-button class="secondary-color secondary-color-light mr-10px"
-                              (click)="removeTeam(sport, team)">
-                                <mat-icon>delete_outline</mat-icon>
-                                Rimuovi
+                                (click)="loadTeam(team)">
+                                <mat-icon>rotate_left</mat-icon>
+                                  Carica
                               </button>
                               <button mat-flat-button class="secondary-color secondary-color-light"
-                              (click)="loadTeam(team)">
-                                <mat-icon>rotate_left</mat-icon>
-                                Carica
-                              </button>
+                                (click)="removeTeam(team)">
+                                <mat-icon>delete_outline</mat-icon>
+                                  Rimuovi
+                              </button>                              
                             </mat-card-actions>
-                        </mat-card>
+                          </mat-card>
+                        </ng-container>
                       </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="!hasTeam(sport)">
-                      <p class="text">Nessun team presente per questo sport</p>
-                    </ng-container>
-                  </div>
+                      <ng-container *ngIf="!hasTeam(sport)">
+                        <p class="text">Nessun team presente per questo sport</p>
+                      </ng-container>
+                    </div>
+                  </ng-template>
                 </mat-expansion-panel>
               </mat-accordion>
             
