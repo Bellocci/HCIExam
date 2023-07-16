@@ -30,16 +30,16 @@ export class PlayerValidatorService {
       footballSoccer() : Map<string,number> {
         let result:Map<string,number> = new Map();
         // Portieri
-        result.set(OptionFootballSoccerEnum.MAX_GOALKEEPER_PLAYERS.abbreviation!, 
+        result.set(OptionFootballSoccerEnum.MAX_GOALKEEPER_PLAYERS.shortName!, 
           OptionFootballSoccerEnum.MAX_GOALKEEPER_PLAYERS.value as number);
         // Difensori
-        result.set(OptionFootballSoccerEnum.MAX_DEFENDER_PLAYERS.abbreviation!, 
+        result.set(OptionFootballSoccerEnum.MAX_DEFENDER_PLAYERS.shortName!, 
           OptionFootballSoccerEnum.MAX_DEFENDER_PLAYERS.value as number);
         // Centrocampisti
-        result.set(OptionFootballSoccerEnum.MAX_MIDFIELDER_PLAYERS.abbreviation!, 
+        result.set(OptionFootballSoccerEnum.MAX_MIDFIELDER_PLAYERS.shortName!, 
           OptionFootballSoccerEnum.MAX_MIDFIELDER_PLAYERS.value as number);
         // Attaccanti
-        result.set(OptionFootballSoccerEnum.MAX_STRAIKERS_PLAYERS.abbreviation!, 
+        result.set(OptionFootballSoccerEnum.MAX_STRAIKERS_PLAYERS.shortName!, 
           OptionFootballSoccerEnum.MAX_STRAIKERS_PLAYERS.value as number);
 
         return result;
