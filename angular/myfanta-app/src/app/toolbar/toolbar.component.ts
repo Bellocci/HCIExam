@@ -8,7 +8,8 @@ import { SportEnum } from 'src/enum/SportEnum.model';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { RouterService } from '../service/router.service';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
-import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -18,18 +19,16 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 export class ToolbarComponent implements OnInit {
 
   constructor(private filterDataService:FilterDataService, 
-    private internal_data:InternalDataService, 
-    private team_data:TeamDataService,
+    private internalDataService:InternalDataService, 
+    private teamDataService:TeamDataService,
     public routerService:RouterService,
-    public router:Router) { 
+    private userService:UserService) { 
 
   }
 
   @ViewChild(MatSidenav) sidenav!:MatSidenav;
   
-  linkEnum : typeof LinkEnum = LinkEnum;
-
-  activeLink:string = '';
+  linkEnum : typeof LinkEnum = LinkEnum;  
   is_mobile:boolean = false;
 
   leagueSelected!:League | null;
@@ -41,29 +40,23 @@ export class ToolbarComponent implements OnInit {
   isLoadingData:boolean = false;
 
   ngOnInit(): void {
-    this.subscribeLoadingData();
+    this.observerLoadingData();
     this.subscribeLeagueSelected();
-    this.subscribeActiveLink();
 
     this.is_mobile = window.innerWidth < 801;
   }
 
   private subscribeLeagueSelected() {
-    this.internal_data.getLeagueSelected().subscribe(league => {
+    this.internalDataService.getLeagueSelected().subscribe(league => {
       this.leagueSelected = league;
     })
   }
 
-  private subscribeActiveLink() {
-    this.internal_data.getActiveLink().subscribe(link => {
-      this.activeLink = link;
-    });
-  }
-
-  private subscribeLoadingData() {
-    this.internal_data.isLoadingData().subscribe(isLoading => {
-      this.isLoadingData = isLoading;
-    })
+  private observerLoadingData() {
+    this.internalDataService.addObserverToLoadingData(new ObserverStepBuilder<boolean>()
+        .next(isLoading => this.isLoadingData = isLoading)
+        .build()    
+    );
   }
 
   /* GETTER */
@@ -80,14 +73,10 @@ export class ToolbarComponent implements OnInit {
     return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
   }
 
-  getActiveLink() : string {
-    return this.activeLink.toUpperCase();
-  }
-
   /* SETTER */
 
   protected setLeagueSelected(league:League | null) {
-    this.internal_data.setLeagueSelected(league);
+    this.internalDataService.setLeagueSelected(league);
   }
 
   /* Metodi sidenav */
@@ -119,10 +108,6 @@ export class ToolbarComponent implements OnInit {
     return this.sportSelected == index;
   }
 
-  isActiveLink(link_name:string) : boolean {
-    return this.activeLink === link_name;
-  }
-
   isMobileLayout() : boolean {
     return this.is_mobile;
   }
@@ -145,7 +130,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   private clearData() : void {
-    this.internal_data.clearData();
-    this.team_data.clearAllList();
+    this.userService.setSelectedTeam(undefined);
+    this.teamDataService.clearAllList();
   }
 }

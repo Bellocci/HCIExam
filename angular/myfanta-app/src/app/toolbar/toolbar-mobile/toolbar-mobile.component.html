@@ -18,22 +18,18 @@
     <mat-toolbar-row class="toolbar-row-link"
     *ngIf="!!getLeagueSelected()">
         <a class="link text" 
-        [ngClass]="isActiveLink('Create team') == true ? 'link-toolbar-color' : ''"
         routerLink="createTeam">
             Create team
         </a>
         <a class="link text" 
-        [ngClass]="isActiveLink('Player list') == true ? 'link-toolbar-color' : ''"
         routerLink="playerList">
             Player list
         </a>
         <a class="link text" 
-        [ngClass]="isActiveLink('Favorit list') == true ? 'link-toolbar-color' : ''"
         routerLink="favoritList">
             Favorit list
         </a>
         <a class="link text" 
-        [ngClass]="isActiveLink('Blacklist') == true ? 'link-toolbar-color' : ''"
         routerLink="blackList">
             Blacklist
         </a>
