@@ -7,13 +7,19 @@ import { MatSort } from '@angular/material/sort';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { InternalDataService } from '../service/internal-data.service';
 import { Player } from 'src/decorator/player.model';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TableHelper } from './table-helper';
 import { RouterService } from '../service/router.service';
 import { LoadDataService } from '../service/load-data.service';
 import { UserService } from '../service/user.service';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { UserTeam } from 'src/decorator/userTeam.model';
+import { DialogHelper } from '../Dialog/dialogHelper.interface';
+import { CreateNewTeamDialogComponent } from '../Dialog/create-new-team-dialog/create-new-team-dialog.component';
+import { DialogService } from '../service/dialog.service';
+import { CreateNewTeamDataStructure } from '../Dialog/create-new-team-dialog/create-new-team-data-structure.interface';
+import { League } from 'src/decorator/League.model';
+import { User } from 'src/decorator/user.model';
 
 @Component({
   selector: 'app-table',
@@ -32,6 +38,10 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   private tableHelper:TableHelper;
   private userTeamSelected:boolean = false;
+  private dialogHelper:DialogHelper;
+  private leagueSelected:League | null = null;
+  private userLogged : boolean = false;
+  private isTableEmpty : boolean = true;
 
   private _playerSelected : any;
   expanded_player : any | null;
@@ -46,24 +56,50 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   constructor(private teamDataService: TeamDataService,
     private internalDataService:InternalDataService,
-    private routerService:RouterService,
+    public routerService:RouterService,
     private loadDataService:LoadDataService,
-    private userService:UserService) { 
+    private userService:UserService,
+    private dialogService:DialogService) { 
 
       this.tableHelper = new TableHelper(teamDataService, routerService, loadDataService);
       this.subscribeSelectedUserTeam();
+      this.dialogHelper = dialogService.getDialogHelper();
+      this.addObserverToLeagueSelected();
+      this.addObserverToUser();
+      this.subscribeTableSize();
   }
 
-  private subscribeSelectedUserTeam() {
+  /* METODI PRIVATI */
+
+  private subscribeSelectedUserTeam() : void {
     this.userService.addSelectedTeamObserver(new ObserverStepBuilder<UserTeam | undefined>()
       .next(team => this.userTeamSelected = team != undefined)
       .build()  
     );
   }
 
+  private addObserverToLeagueSelected() : void {
+    this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<League | null>()
+      .next(league => this.leagueSelected = league)
+      .build())
+  }
+
+  private addObserverToUser() : void {
+    this.userService.addObserverForUser(new ObserverStepBuilder<User>()
+      .next(user => this.userLogged = user.isUserDefined())
+      .build()  
+    );
+  }
+
+  private subscribeTableSize() : void {
+    this.tableHelper.getPlayerList().subscribe(list => this.isTableEmpty = list.length == 0);
+  }
+
+  /* FINE METODI PRIVATI */
+
   ngOnInit(): void {
     this.setColumns();
-    this.dataSource = new MatTableDataSource<Player>();
+    this.dataSource = new MatTableDataSource<Player>();    
   }
 
   ngAfterViewInit() {
@@ -110,7 +146,19 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   isSaveBtnRendered() : boolean {
+    return !this.routerService.currentPageIsPlayerList() && this.userLogged && this.userTeamSelected;
+  }
+
+  isCreateNewTeamRendered() : boolean {
+    return this.userLogged && !this.routerService.currentPageIsPlayerList();
+  }
+
+  isClearTableRendered() : boolean {
     return !this.routerService.currentPageIsPlayerList();
+  }
+
+  isClearTableDisabled() : boolean {
+    return this.isTableEmpty;
   }
 
   /* LISTENER */
@@ -129,7 +177,21 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   savePlayerList() : void {
+    
+  }
 
+  createNewTeam() : void {
+    if(this.leagueSelected != null) {
+      let dataStructure:CreateNewTeamDataStructure = {
+        sport : this.leagueSelected.getSport(),
+        championship : this.leagueSelected.getChampionship(),
+        league : this.leagueSelected,
+        teamName : '',
+        importPlayer : true
+      }
+      this.dialogHelper.setData(dataStructure);
+      this.dialogHelper.openDialog(CreateNewTeamDialogComponent);
+    }
   }
 
   /*

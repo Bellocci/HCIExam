@@ -2,26 +2,45 @@
 <div class="table-player-container">
 
   <!-- Sezione pulsanti -->
-  <div class="flex-container">
+  <mat-grid-list cols="3" rowHeight="50px">
+    <!-- Pulsante salvataggio : disponibile solo quando l'utente è loggato -->
+    <mat-grid-tile colspan="1">
+      <div class="full-flex-start-main-axis ml-5px">
+        <button mat-raised-button              
+          matTooltip="Salva i giocatori nella lista delle tue squadre"
+          *ngIf="isSaveBtnRendered()"
+          (click)="savePlayerList()">
+          <mat-icon>save</mat-icon>
+          Salva lista giocatori
+        </button>
+      </div>
+    </mat-grid-tile>
 
     <!-- Pulsante salvataggio : disponibile solo quando l'utente è loggato -->
-    <button mat-raised-button      
-      class="mb-10px secondary-color"
-      matTooltip="Salva i giocatori nella lista delle tue squadre"
-      *ngIf="isSaveBtnRendered()"
-      (click)="savePlayerList()">
-      Salva lista giocatori
-    </button>
-
-    <span class="flex-item-1-1-auto"></span>
+    <mat-grid-tile colspan="1">          
+      <button mat-raised-button
+        matTooltip="Crea un nuovo team dove salvare i giocatori"
+        *ngIf="isCreateNewTeamRendered()"
+        (click)="createNewTeam()">
+        <mat-icon>add_circle</mat-icon>
+        Crea nuovo team
+      </button>
+    </mat-grid-tile>
 
     <!-- Pulsante pulizia tabella -->
-    <button mat-raised-button 
-      class="mb-10px"
-      (click)="clearTable()">
-      Pulisci tabella
-    </button>
-  </div>
+    <mat-grid-tile colspan="1">
+      <div class="full-flex-end-main-axis mr-5px">
+        <button mat-raised-button
+          *ngIf="isClearTableRendered()"
+          [disabled]="isClearTableDisabled()"
+          matTooltip="Rimuovi i giocatori dalla tabella"
+          (click)="clearTable()">
+          <mat-icon>delete_forever</mat-icon>
+          Pulisci tabella
+        </button>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
 
   <table mat-table [dataSource]="getPlayers()" class="mat-elevation-z3">
 
@@ -35,7 +54,11 @@
     <!-- Nome giocatore -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Nome </th>
-      <td mat-cell *matCellDef="let player"> <span class="label"> {{player.getName()}} </span> </td>
+      <td mat-cell *matCellDef="let player"> 
+        <a class="label txt-link" (click)="routerService.goToPlayerPage(player)">
+          {{ player.getName() }}
+        </a>
+      </td>
     </ng-container>
 
     <!-- Squadra -->
