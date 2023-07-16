@@ -304,6 +304,17 @@ body {
     text-underline-offset: 2px;
 }
 
+.black-link:hover {
+    cursor: pointer !important;
+    font-weight: 500;
+}
+
+.black-link {
+    color: black;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
 /* TEXT */
 
 .title-txt {
