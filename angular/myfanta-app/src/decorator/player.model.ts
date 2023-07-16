@@ -9,6 +9,10 @@ export class Player {
         this.playerEntity = playerEntity;
     }
 
+    getEntity() : PlayerEntity {
+        return this.playerEntity;
+    }
+
     getId() : number {
         return this.playerEntity.playerId;
     }

@@ -13,9 +13,9 @@ export class UserTeamEntity {
     user!:User;
     nameTeam!:string;
     league!:League;
-    team!:PlayerEntity[];
-    favoriteList!:PlayerEntity[];
-    blacklist!:PlayerEntity[];
+    team:PlayerEntity[] = [];
+    favoriteList:PlayerEntity[] = [];
+    blacklist:PlayerEntity[] = [];
     active!:boolean;
     option!:Option;
 }
