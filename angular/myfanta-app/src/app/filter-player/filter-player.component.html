@@ -1,9 +1,0 @@
-<mat-form-field class="text filter-field" appearance="outline">
-    <mat-label>Find player</mat-label>
-    <input matInput 
-    type="text" 
-    [(ngModel)]="input_txt"
-    (keypress)="filterText($event)"
-    (input)="searchPlayer(input_txt)"
-    placeholder="Ex. ium">
-</mat-form-field>

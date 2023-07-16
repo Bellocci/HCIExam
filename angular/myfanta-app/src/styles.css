@@ -7,7 +7,12 @@ body {
 
 }
 
-/* Colors */
+/* VARIABILI GLOBALI */
+:root {
+    --toolbar-height: 70px;
+}
+
+/* --- COLORI --- */
 
 .primary-color {
     background-color: #82B1FF;
@@ -49,6 +54,14 @@ body {
     background-color: #E0E0E0 !important;
 }
 
+.no-color-light {
+    background-color: #F9F9F9;
+}
+
+.no-color-light:hover {
+    background-color: #f6f6f6 !important;
+}
+
 .error-color {
     color: #f44336 !important;
 }
@@ -58,15 +71,17 @@ body {
 .material-icons.color_green { color: #248232; }
 .material-icons.color_red { color: #f44336; }
 
-/* FINE COLORE */
+/* --- FINE COLORE --- */
 
-/* DIMENSIONE ICONE */
+/* --- ICONE --- */
 
 .icon-size {
     transform: scale(1.5);
 }
 
-/* TESTO */
+/* --- FINE SEZIONE ICONE ---  */
+
+/* --- TESTO --- */
 
 .bold {
     font-weight: bold;
@@ -76,9 +91,31 @@ body {
     text-align: center;
 }
 
-/* FINE TESTO */
+/* --- FINE SEZIONE TESTO --- */
 
-/* MARGINI DA UTILIZZARE NEI CASI STANDARD */
+/* --- MARGINI STANDARD --- */
+
+/* 5px */
+
+.m-5px {
+    margin: 5px !important;
+}
+
+.mt-5px {
+    margin-top: 5px !important;
+}
+
+.mb-5px {
+    margin-bottom: 5px !important;
+}
+
+.ml-5px {
+    margin-left: 5px !important;
+}
+
+.mr-5px {
+    margin-right: 5px !important;
+}
 
 /* 10px */
 
@@ -124,7 +161,16 @@ body {
     margin-right: 30px;
 }
 
-/* Container and item */
+/* Margine standard da applicare in un div prima e dopo il contenuto della pagina */
+.margin-page-container {
+    width:10%;
+    height: 100vh;
+    flex-grow: 1;
+}
+
+/* --- FINE SEZIONE MARGINI --- */
+
+/* --- CONTAINER E ITEM STANDARD --- */
 
 .flex-container {
     display: flex !important;
@@ -147,19 +193,41 @@ body {
     justify-content: flex-start;
 }
 
+.full-flex-start-main-axis {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.full-flex-end-main-axis {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
 .align-content-center {
     align-content: center;
+}
+
+.align-items-center {
+    align-items: center;
 }
 
 .alignCenter {
     align-self: center;
 }
 
-.txt-center {
-    text-align: center;
+.space-between {
+    justify-content: space-between;
 }
 
-/* Tooltip */
+/* --- FINE SEZIONE CONTAINER E ITEM */
+
+/* SEZIONE TOOLTIP IMMAGINI */
 
 .tooltip {
     position: relative;
@@ -190,16 +258,29 @@ body {
     font-size: 14px;
 }
 
+/* --- FINE SEZIONE TOOLTIP IMMAGINI --- */
+
 /* Snackbar */
 
 .snackbar {
-    width: auto;
-    height: 40px;
+    margin-top: calc(var(--toolbar-height) + 10px) !important;
+    margin-right: 100px !important;
+    max-width: 200px;
+    width: 100%;
+    height: auto;
 }
 
 .white-snackbar {
-    background: #fffeef;
-    color: black;
+    --mdc-snackbar-container-color: #fffeef;
+    --mat-snack-bar-button-color:#black;
+    --mdc-snackbar-supporting-text-color: #black;
+}
+
+.red-snackbar {
+    --mdc-snackbar-container-color: #f44336;
+    --mat-snack-bar-button-color:#fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    opacity: 0.8 !important;
 }
 
 /* STYLE GENERALI */
@@ -213,13 +294,25 @@ body {
 }
 
 .link:hover {
-    cursor: pointer;
+    cursor: pointer !important;
+    font-weight: 500;
 }
 
 .link {
-    text-align: center;
+    color: #0000EE !important;
     text-decoration: underline;
-    color: #000000;
+    text-underline-offset: 2px;
+}
+
+.black-link:hover {
+    cursor: pointer !important;
+    font-weight: 500;
+}
+
+.black-link {
+    color: black;
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
 /* TEXT */

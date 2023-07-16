@@ -1,11 +1,10 @@
-/* CONTAINER */
 
-.container {
+.search-add-container {
     max-width: 500px;
     width: 100%;
+    height: max-content;
+    align-items: center;
 }
-
-/* FORM FIELD*/
 
 .form-field {
     max-width: 350px;
@@ -13,120 +12,16 @@
     max-height: 80px;
 }
 
-@media screen and (800px >= width >= 501px) {
-    
-    .form-field {
-        width: 70%;
-    }
+.flex-container > .align-button-with-input {
+    padding-bottom: 1.34375em;
 }
 
-@media screen and (500px >= width >= 320px) {
-    
-    .form-field {
-        max-width: 60%;
-    }
+.align-button-with-input > .mat-mdc-button-base {
+    height: max(36px, 100%);
 }
-
-/* INPUT */
-
-.form-field input {
-    width: 80%;
-}
-
-/* ADD BUTTON */
 
 .add-btn {
-    vertical-align: top;
     max-width: 120px;
     min-width: 80px;
-    height: 50px;
     width: 100%;
-}
-
-@media screen and (800px >= width >= 501px) {
-    
-    .add-btn {
-        max-width: 100px;
-    }
-}
-
-@media screen and (500px >= width >= 320px) {
-    
-    .add-btn {
-        max-width: 100px;
-        min-width: 40px;
-    }
-}
-
-/* ERROR CONTAINER */
-
-.error-container {
-    display: flex;
-    margin-bottom: 20px;
-    border-width: 0.5px;
-    border-radius: 7px;
-    border-style: solid;
-    background-color: #ffcdd2;
-    width: 100%;
-    color: #b71c1c;
-}
-
-.error-txt {
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-bottom: 10px;
-    max-width: 85%;
-    word-wrap: break-word;
-}
-
-.error-container button {
-    margin-right: 0;
-    margin-left: auto;
-}
-
-/* COLOR */
-
-.secondary-color:hover {
-    background-color: #ffffb3;
-}
-
-.secondary-color:disabled:hover {
-    background-color: rgba(0,0,0,.12) !important;
-}
-
-/* TEXT */
-
-.txt-input:disabled:hover {
-    font-weight: 400;
-}
-
-.txt-input:hover {
-    font-weight: bold;
-}
-
-.txt-input {
-    font-weight: 400;
-    font-size: 16px;
-    white-space: inherit;
-    line-height: normal;
-}
-
-@media screen and (800px >= width >= 501px) {
-    
-    .txt-input {
-        font-size: 16px;
-    }
-}
-
-@media screen and (500px >= width >= 320px) {
-    
-    .txt-input {
-        font-size: 14px;
-    }
-}
-
-/* PADDING */
-
-.pr-3 {
-    padding-right: 3%;
 }

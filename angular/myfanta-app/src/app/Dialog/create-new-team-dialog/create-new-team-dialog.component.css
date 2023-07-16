@@ -10,3 +10,8 @@
 .create-btn:disabled {
     pointer-events: auto;
 }
+
+input:disabled {
+    opacity: 0.7;
+    color: black;
+}

@@ -1,16 +1,11 @@
 
-/* variabili personalizzate */
-:host {
-    --toolbar-height: 70px;
-}
-
 /* Toolbar style */
 
 .toolbar {
     position: sticky;
     top: 0;
     z-index: 100;
-    height: var(--toolbar-height);
+    height: var(--toolbar-height); /* E' una variabile globale, definita in style.css */
 }
 
 .toolbar.mat-toolbar-single-row {

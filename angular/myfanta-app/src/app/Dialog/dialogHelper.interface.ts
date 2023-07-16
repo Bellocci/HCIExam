@@ -21,6 +21,13 @@ export interface DialogHelper {
     getDialogConfig<T>() : MatDialogConfig<T>;
 
     /**
+     * Setta i dati da passare alla dialog
+     * 
+     * @param data 
+     */
+    setData(data:any) : void;
+
+    /**
      * Restituisce un observable che è notificato quando la dialog viene chiusa, oppure
      * undefined se la dialog non è istanziata
      */

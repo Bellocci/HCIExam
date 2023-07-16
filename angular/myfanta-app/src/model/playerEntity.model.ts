@@ -1,9 +1,10 @@
-import { Observable, of } from "rxjs";
+import { Team } from "src/decorator/team.model";
+import { TEAM_DATA, TeamEntity } from "./teamEntity.model";
 
-export interface Player {
+export interface PlayerEntity {
     playerId:number;
     playerName:string;
-    team:number;
+    team:Team;
     cost:number;
     role:string;
     age:number;
@@ -11,11 +12,11 @@ export interface Player {
     active:boolean;
 }
 
-export const PLAYER_DATA_SERIE_A:Player[] = [
+export const PLAYER_DATA_SERIE_A:PlayerEntity[] = [
     {
         playerId : 1,
         playerName : 'Musso',
-        team : 1,
+        team : new Team(TEAM_DATA[0]),
         cost : 12,
         role : 'P',
         age : 27,
@@ -25,7 +26,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 2,
         playerName : 'Toloi',
-        team : 1,
+        team : new Team(TEAM_DATA[0]),
         cost : 8,
         role : 'D',
         age : 31,
@@ -35,7 +36,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 3,
         playerName : 'Malinovskyi',
-        team : 1,
+        team : new Team(TEAM_DATA[0]),
         cost : 22,
         role : 'C',
         age : 28,
@@ -45,7 +46,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 4,
         playerName : 'Pasalic',
-        team : 1,
+        team : new Team(TEAM_DATA[0]),
         cost : 28,
         role : 'C',
         age : 27,
@@ -55,7 +56,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 5,
         playerName : 'Arnautovic',
-        team : 2,
+        team : new Team(TEAM_DATA[1]),
         cost : 24,
         role : 'A',
         age : 32,
@@ -65,7 +66,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 6,
         playerName : 'De Silvestri',
-        team : 2,
+        team : new Team(TEAM_DATA[1]),
         cost : 14,
         role : 'D',
         age : 33,
@@ -75,7 +76,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 7,
         playerName : 'Soriano',
-        team : 2,
+        team : new Team(TEAM_DATA[1]),
         cost : 10,
         role : 'C',
         age : 31,
@@ -85,7 +86,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 8,
         playerName : 'Skorupski',
-        team : 2,
+        team : new Team(TEAM_DATA[1]),
         cost : 10,
         role : 'P',
         age : 30,
@@ -95,7 +96,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 9,
         playerName : 'Theate',
-        team : 2,
+        team : new Team(TEAM_DATA[1]),
         cost : 12,
         role : 'D',
         age : 21,
@@ -105,7 +106,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 10,
         playerName : 'Orsolini',
-        team : 2,
+        team : new Team(TEAM_DATA[1]),
         cost : 18,
         role : 'C',
         age : 25,
@@ -115,7 +116,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 11,
         playerName : 'Muriel',
-        team : 1,
+        team : new Team(TEAM_DATA[0]),
         cost : 23,
         role : 'A',
         age : 30,
@@ -125,7 +126,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 12,
         playerName : 'Zapata',
-        team : 1,
+        team : new Team(TEAM_DATA[0]),
         cost : 34,
         role : 'A',
         age : 30,
@@ -135,7 +136,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 13,
         playerName : 'Zappacosta',
-        team : 1,
+        team : new Team(TEAM_DATA[0]),
         cost : 13,
         role : 'D',
         age : 29,
@@ -145,7 +146,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 14,
         playerName : 'De Roon',
-        team : 1,
+        team : new Team(TEAM_DATA[0]),
         cost : 8,
         role : 'C',
         age : 30,
@@ -155,7 +156,7 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     {
         playerId : 15,
         playerName : 'Boga',
-        team : 1,
+        team : new Team(TEAM_DATA[0]),
         cost : 8,
         role : 'A',
         age : 25,
@@ -164,12 +165,12 @@ export const PLAYER_DATA_SERIE_A:Player[] = [
     }
 ]
 
-export const PLAYER_DATA_PREMIER_LEAGUE:Player[] = [
+export const PLAYER_DATA_PREMIER_LEAGUE:PlayerEntity[] = [
 
     {
         playerId : 16,
         playerName : 'Ramsdale',
-        team : 3,
+        team : new Team(TEAM_DATA[2]),
         cost : 17,
         role : 'P',
         age : 24,
@@ -179,7 +180,7 @@ export const PLAYER_DATA_PREMIER_LEAGUE:Player[] = [
     {
         playerId : 17,
         playerName : 'Gabriel',
-        team : 3,
+        team : new Team(TEAM_DATA[2]),
         cost : 14,
         role : 'D',
         age : 25,
@@ -189,7 +190,7 @@ export const PLAYER_DATA_PREMIER_LEAGUE:Player[] = [
     {
         playerId : 18,
         playerName : 'Thomas',
-        team : 3,
+        team : new Team(TEAM_DATA[2]),
         cost : 14,
         role : 'C',
         age : 29,
@@ -199,7 +200,7 @@ export const PLAYER_DATA_PREMIER_LEAGUE:Player[] = [
     {
         playerId : 19,
         playerName : 'Watkins',
-        team : 4,
+        team : new Team(TEAM_DATA[3]),
         cost : 15,
         role : 'A',
         age : 27,
@@ -209,7 +210,7 @@ export const PLAYER_DATA_PREMIER_LEAGUE:Player[] = [
     {
         playerId : 20,
         playerName : 'Traorè ',
-        team : 4,
+        team : new Team(TEAM_DATA[3]),
         cost : 3,
         role : 'A',
         age : 27,
@@ -218,11 +219,11 @@ export const PLAYER_DATA_PREMIER_LEAGUE:Player[] = [
     }
 ]
 
-export const PLAYER_DATA_SERIE_A_FEMALE:Player[] = [
+export const PLAYER_DATA_SERIE_A_FEMALE:PlayerEntity[] = [
     {
         playerId : 21,
         playerName : 'Lippmann ',
-        team : 5,
+        team : new Team(TEAM_DATA[4]),
         cost : 12,
         role : 'O',
         age : 28,
@@ -232,7 +233,7 @@ export const PLAYER_DATA_SERIE_A_FEMALE:Player[] = [
     {
         playerId : 22,
         playerName : 'Merlo ',
-        team : 5,
+        team : new Team(TEAM_DATA[4]),
         cost : 12,
         role : 'L',
         age : 28,
@@ -242,7 +243,7 @@ export const PLAYER_DATA_SERIE_A_FEMALE:Player[] = [
     {
         playerId : 23,
         playerName : 'Angeloni ',
-        team : 5,
+        team : new Team(TEAM_DATA[4]),
         cost : 14,
         role : 'S',
         age : 32,
@@ -252,7 +253,7 @@ export const PLAYER_DATA_SERIE_A_FEMALE:Player[] = [
     {
         playerId : 24,
         playerName : 'Alberti',
-        team : 5,
+        team : new Team(TEAM_DATA[4]),
         cost : 15,
         role : 'C',
         age : 29,
@@ -262,7 +263,7 @@ export const PLAYER_DATA_SERIE_A_FEMALE:Player[] = [
     {
         playerId : 25,
         playerName : 'Malinov',
-        team : 5,
+        team : new Team(TEAM_DATA[4]),
         cost : 14,
         role : 'P',
         age : 26,
@@ -272,11 +273,11 @@ export const PLAYER_DATA_SERIE_A_FEMALE:Player[] = [
 
 ]
 
-export const PLAYER_DATA_NBA:Player[] = [
+export const PLAYER_DATA_NBA:PlayerEntity[] = [
     {
         playerId : 26,
         playerName : 'Lebron',
-        team : 6,
+        team : new Team(TEAM_DATA[5]),
         cost : 15,
         role : 'C',
         age : 29,
@@ -286,7 +287,7 @@ export const PLAYER_DATA_NBA:Player[] = [
     {
         playerId : 27,
         playerName : 'Russell',
-        team : 6,
+        team : new Team(TEAM_DATA[5]),
         cost : 19.5,
         role : 'G',
         age : 32,
@@ -296,7 +297,7 @@ export const PLAYER_DATA_NBA:Player[] = [
     {
         playerId : 28,
         playerName : 'Talen',
-        team : 6,
+        team : new Team(TEAM_DATA[5]),
         cost : 8.5,
         role : 'G',
         age : 22,
@@ -306,7 +307,7 @@ export const PLAYER_DATA_NBA:Player[] = [
     {
         playerId : 29,
         playerName : 'Carmelo',
-        team : 6,
+        team : new Team(TEAM_DATA[5]),
         cost : 8.0,
         role : 'F',
         age : 38,

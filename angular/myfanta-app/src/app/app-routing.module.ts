@@ -4,20 +4,60 @@ import { CreateTeamComponent } from './create-team/create-team.component';
 import { HomeComponent } from './home/home.component';
 import { PlayerListComponent } from './player-list/player-list.component';
 import { UserPageComponent } from './user-page/user-page.component';
+import { OptionsComponent } from './options/options.component';
+import { PlayerPageComponent } from './player-page/player-page.component';
 
 const routes: Routes = [
-  {path: "", redirectTo: '/home', pathMatch: "full"},
-  {path: 'home', component: HomeComponent},
-  {path: "home/createTeam", redirectTo: '/createTeam', pathMatch: "full"},
-  {path: 'createTeam', component: CreateTeamComponent},
-  {path: "home/playerList", redirectTo: '/playerList', pathMatch: 'full'},
-  {path: "playerList", component: PlayerListComponent},
-  {path: "home/favoritList", redirectTo: '/favoritList', pathMatch: 'full'},
-  {path: "favoritList", component: PlayerListComponent},
-  {path: "home/blackList", redirectTo: '/blackList', pathMatch: 'full'},
-  {path: "blackList", component: PlayerListComponent},
-  {path: "myProfile", component: UserPageComponent},
-  {path: "home/myProfile", redirectTo: "/myProfile", pathMatch: 'full'}
+  // Serve per reindirizzare la pagina alla HomePage
+  {path: "", redirectTo: 'fantasyteam/home', pathMatch: "full"},
+
+  // HomePage
+  {
+    path: "fantasyteam",
+    children : [{ path : "home", component : HomeComponent}]
+  },
+
+  // MyTeam
+  {
+    path: "fantasyteam",
+    children : [{ path : "myTeam", component : CreateTeamComponent}]
+  },
+
+  // PlayerList
+  {
+    path: "fantasyteam",
+    children : [{ path : "playerList", component : PlayerListComponent}]
+  },
+
+  // FavoriteList
+  {
+    path: "fantasyteam",
+    children : [{ path : "favoriteList", component : PlayerListComponent}]
+  },
+
+  // Blacklist
+  {
+    path: "fantasyteam",
+    children : [{ path : "blacklist", component : PlayerListComponent}]
+  },
+
+  // MyProfile
+  {
+    path: "fantasyteam",
+    children : [{ path : "myProfile", component : UserPageComponent}]
+  },
+
+  // Options
+  {
+    path: "fantasyteam",
+    children : [{ path : "options", component : OptionsComponent}]
+  },
+
+  // PlayerPage
+  {
+    path: "fantasyteam", 
+    children : [{ path: ":league/:team/:player/:id", component: PlayerPageComponent }]
+  }
 ];
 
 @NgModule({

@@ -30,7 +30,7 @@ export class DialogHelperImpl implements DialogHelper {
         this.dialogConfig.height = "auto";
         this.dialogConfig.enterAnimationDuration = DialogHelperImpl.STANDARD_ENTER_ANIMATION;
         this.dialogConfig.exitAnimationDuration = DialogHelperImpl.STANDARD_EXIT_ANIMATION;
-    }
+    }    
 
     /**
      * Listener per l'apertura della dialog
@@ -62,6 +62,10 @@ export class DialogHelperImpl implements DialogHelper {
      */
     getDialogConfig<T>(): MatDialogConfig<T> {
         return {... this.dialogConfig};
+    }
+
+    setData(data: any): void {
+        this.dialogConfig.data = data;
     }
 
     /**

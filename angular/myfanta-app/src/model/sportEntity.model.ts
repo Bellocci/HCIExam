@@ -1,4 +1,3 @@
-import { Observable, of } from "rxjs";
 
 export class SportEntity {
     sportId!:number;

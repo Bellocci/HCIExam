@@ -4,6 +4,8 @@ import { UserService } from 'src/app/service/user.service';
 import { DialogService } from 'src/app/service/dialog.service';
 import { RegistrationDialogComponent } from '../registration-dialog/registration-dialog.component';
 import { RecoveryPasswordDialogComponent } from '../recovery-password-dialog/recovery-password-dialog.component';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { User } from 'src/decorator/user.model';
 
 @Component({
   selector: 'app-login-dialog',
@@ -30,23 +32,32 @@ export class LoginDialogComponent implements OnInit {
   private showPassword:boolean = false;
   private firstLogin:boolean = true;
 
-  constructor(private _userService:UserService,
+  constructor(private userService:UserService,
     private dialogService:DialogService) {}
   
   ngOnInit(): void {
-    this._userService.getUser().subscribe(user => {
-      if(user.isUserDefined()) {
-        this.setLoginErrorMessageVisibility(false)
-      } else if(!this.firstLogin) {
-        this.setLoginErrorMessageVisibility(true);
-      }
-    });
+    this.subscribeUser();
+    this.firstLogin = true;
+  }
+
+  private subscribeUser() : void {
+    this.userService.addObserverForUser(new ObserverStepBuilder<User>()
+      .next(user => {
+        if(user.isUserDefined()) {
+          this.setLoginErrorMessageVisibility(false)
+          this.dialogService.getDialogHelper().closeDialog();
+        } else {
+          this.setLoginErrorMessageVisibility(true)
+        }
+      })
+      .build()
+    );
   }
 
   /* Metodi di visibilità */
 
   isLoginErrorMessageVisible() : boolean {
-    return this.showLoginErrorMessage;
+    return this.showLoginErrorMessage && !this.firstLogin;
   }
 
   hasInputUsernameErrors() : boolean {
@@ -97,8 +108,7 @@ export class LoginDialogComponent implements OnInit {
     if(this.firstLogin) {
       this.firstLogin = false;
     }
-    this._userService.login(this.usernameControl.value as string, this.passwordControl.value as string);
-    this.dialogService.getDialogHelper().closeDialog();
+    this.userService.login(this.usernameControl.value as string, this.passwordControl.value as string);    
    }
 
    /* Apertura dialog */

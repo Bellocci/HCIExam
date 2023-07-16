@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { TeamDataService } from 'src/app/service/team-data.service';
 import { TableComponent } from '../table.component';
+import { InternalDataService } from 'src/app/service/internal-data.service';
+import { RouterService } from 'src/app/service/router.service';
 
 @Component({
   selector: 'app-short-table',
@@ -10,19 +12,19 @@ import { TableComponent } from '../table.component';
     '../table.component.css'
   ]
 })
-export class ShortTableComponent extends TableComponent {
+export class ShortTableComponent {
 
   private _columns_name = ['Name', 'Team', 'Role', 'Cost', 'Favorit'];
 
-  constructor(private _team_data:TeamDataService){ 
-    super(_team_data);
+  constructor(private _team_data:TeamDataService, private internal:InternalDataService, private routerService:RouterService){ 
+
   }
 
-  override getColumns(): string[] {
+  getColumns(): string[] {
     return this._columns_name;
   }
 
-  override getPageSize(): number {
-    return this.getInnerWidth() <= 500 ? 5 : 10;
+  getPageSize(): number {
+    return 10;
   }
 }

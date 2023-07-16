@@ -1,87 +1,59 @@
-import { Component, OnInit } from '@angular/core';
-import { InternalDataService } from '../service/internal-data.service';
-import { SnackBarService } from '../service/snack-bar.service';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { SimpleOption } from 'src/decorator/option/simple-option.interfaces';
+import { ExternalService } from '../service/external.service';
 import { TeamDataService } from '../service/team-data.service';
+import { Option } from 'src/decorator/option/option.model';
+import { InternalDataService } from '../service/internal-data.service';
+import { League } from 'src/decorator/League.model';
+import { SnackBarService } from '../service/snack-bar.service';
 
 @Component({
   selector: 'app-create-team',
   templateUrl: './create-team.component.html',
   styleUrls: ['./create-team.component.css']
 })
-export class CreateTeamComponent implements OnInit {
+export class CreateTeamComponent implements OnInit, AfterViewInit { 
 
-  private _error_message:string = 'My error message. Cannot add into team. Team is already full';
+  private simpleOption!:SimpleOption;
+  private currentLeague:League | null = null;
+  private option:Option | null = null;
 
-  private _breakpoint:number = 0;
-  private _rows:number = 0;
-  private _cols_tabs:number = 0;
-  private _cols_buttons:number = 0;
+  constructor(private externalService:ExternalService,
+    private teamDataService:TeamDataService,
+    private internalDataService:InternalDataService,
+    private snackBarService:SnackBarService) {
 
-  constructor(
-    private _snackBar:SnackBarService,
-    private _team_data:TeamDataService,
-    private _internal_data:InternalDataService
-  ) { }
-
-  ngOnInit(): void {
-    this._rows = 6;
-    this._breakpoint = 5;
-    this._cols_tabs = 3;
-    this._cols_buttons = 2;
-    this.subscribeErrorMessage();
+    this.subscribeOption();
+    this.subscribeLeague();
   }
 
-  private subscribeErrorMessage() {
-    this._internal_data.getErrorMessage().subscribe((msg) => {
-      this._error_message = msg;
-    })
+  private subscribeOption() : void {
+    this.teamDataService.getOption().subscribe(o => this.option = o)
   }
 
-  /* GETTER METHODS */
-
-  getInnerWidth(): number {
-    return window.innerWidth;
+  private subscribeLeague() : void {
+    this.internalDataService.getLeagueSelected().subscribe(league => this.currentLeague = league);
   }
 
-  getBreakpoint() : number {
-    return this._breakpoint;
+  ngOnInit(): void { 
+    this.internalDataService.setLoadingData(false);
   }
 
-  getRows() : number {
-    return this._rows;
+  ngAfterViewInit(): void { }
+
+  /* METODI LISTENER */
+
+  changeOption(option:SimpleOption) : void {
+    this.simpleOption = option;
   }
 
-  getColsTabs() : number {
-    return this._cols_tabs;
-  }
-
-  getColsButtons() : number {
-    return this._cols_buttons;
-  }
-
-  getErrorMessage() : string {
-    return this._error_message;
-  }
-
-  /* EVENT METHODS */
-
-  openSnackBar(textMessage:string) : void {
-    this._snackBar.openInfoSnackBar(textMessage);
-  }
-
-  generateTeam() {
-    this._team_data.generateTeam();
-  }
-
-  generateTeamWithFavoritList() {
-    this._team_data.generateTeamWithFavoritList();
-  }
-
-  clearErrorMessage() {
-    this._internal_data.setErrorMessage('');
-  }
-
-  isLayoutMobile() : boolean {
-    return this.getInnerWidth() < 801 ? true : false;
+  createTeam() : void {
+    if(!this.simpleOption.includeAdvancedFilter) {
+      this.externalService.createTeamWithSimpleOption(this.simpleOption);
+    } else if(this.option != null && this.currentLeague != null) {
+      this.externalService.createTeamWithAdvancedOption(this.option, this.currentLeague.getSport());
+    }
+    // FIXME: Una volta terminato la creazione del team si visualizza un messaggio
+    this.snackBarService.openInfoSnackBar("Generazione del team terminata!");
   }
 }

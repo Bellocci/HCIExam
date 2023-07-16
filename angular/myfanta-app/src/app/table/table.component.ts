@@ -1,10 +1,25 @@
 import { OnInit, Component, ViewChild, AfterViewInit } from '@angular/core';
 
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { TeamDataService } from '../service/team-data.service';
 import { MatSort } from '@angular/material/sort';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { InternalDataService } from '../service/internal-data.service';
+import { Player } from 'src/decorator/player.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { TableHelper } from './table-helper';
+import { RouterService } from '../service/router.service';
+import { LoadDataService } from '../service/load-data.service';
+import { UserService } from '../service/user.service';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { UserTeam } from 'src/decorator/userTeam.model';
+import { DialogHelper } from '../Dialog/dialogHelper.interface';
+import { CreateNewTeamDialogComponent } from '../Dialog/create-new-team-dialog/create-new-team-dialog.component';
+import { DialogService } from '../service/dialog.service';
+import { CreateNewTeamDataStructure } from '../Dialog/create-new-team-dialog/create-new-team-data-structure.interface';
+import { League } from 'src/decorator/League.model';
+import { User } from 'src/decorator/user.model';
 
 @Component({
   selector: 'app-table',
@@ -21,43 +36,168 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class TableComponent implements OnInit, AfterViewInit {
 
+  private tableHelper:TableHelper;
+  private userTeamSelected:boolean = false;
+  private dialogHelper:DialogHelper;
+  private leagueSelected:League | null = null;
+  private userLogged : boolean = false;
+  private isTableEmpty : boolean = true;
+
   private _playerSelected : any;
   expanded_player : any | null;
 
-  private _dataSource!:MatTableDataSource<any>;
-  @ViewChild(MatPaginator) private _paginator!: MatPaginator;
-  @ViewChild(MatSort) private _sort!: MatSort;
-  private _pageIndex:number = 0;
-  private _pageSize:number = 10;
-  private _pageSizeOptions:number[] = [5, 10, 20]
+  private dataSource!:MatTableDataSource<Player>;
+  @ViewChild(MatPaginator) private paginator!: MatPaginator;
+  @ViewChild(MatSort) private sort!: MatSort;
+  @ViewChild(MatTable) table!: MatTable<Player>;
+  private pageIndex:number = 0;
+  private pageSize:number = 10;
+  private pageSizeOptions:number[] = [5, 10, 20]
 
-  private _columns:string[] = ['Name', 'Team', 'Role', 'Cost', 'Favorit', 'Blacklist'];
+  constructor(private teamDataService: TeamDataService,
+    private internalDataService:InternalDataService,
+    public routerService:RouterService,
+    private loadDataService:LoadDataService,
+    private userService:UserService,
+    private dialogService:DialogService) { 
 
-  constructor(private _team_data_service: TeamDataService) { }
+      this.tableHelper = new TableHelper(teamDataService, routerService, loadDataService);
+      this.subscribeSelectedUserTeam();
+      this.dialogHelper = dialogService.getDialogHelper();
+      this.addObserverToLeagueSelected();
+      this.addObserverToUser();
+      this.subscribeTableSize();
+  }
+
+  /* METODI PRIVATI */
+
+  private subscribeSelectedUserTeam() : void {
+    this.userService.addSelectedTeamObserver(new ObserverStepBuilder<UserTeam | undefined>()
+      .next(team => this.userTeamSelected = team != undefined)
+      .build()  
+    );
+  }
+
+  private addObserverToLeagueSelected() : void {
+    this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<League | null>()
+      .next(league => this.leagueSelected = league)
+      .build())
+  }
+
+  private addObserverToUser() : void {
+    this.userService.addObserverForUser(new ObserverStepBuilder<User>()
+      .next(user => this.userLogged = user.isUserDefined())
+      .build()  
+    );
+  }
+
+  private subscribeTableSize() : void {
+    this.tableHelper.getPlayerList().subscribe(list => this.isTableEmpty = list.length == 0);
+  }
+
+  /* FINE METODI PRIVATI */
 
   ngOnInit(): void {
     this.setColumns();
-    this._dataSource = new MatTableDataSource<any>();
-    this.subscribePlayerList();
-    this.subscribePlayerSelected();
+    this.dataSource = new MatTableDataSource<Player>();    
   }
 
   ngAfterViewInit() {
-    this._dataSource.paginator = this._paginator;
-    this._dataSource.sort = this._sort;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
-  private subscribePlayerList() : void {
-    this._team_data_service.getPlayerList().subscribe((list) => {
-      this._dataSource.data = list;
-    });
+  /* GETTER */
+
+  getPlayers() : Observable<Player[]> | Player[] {
+    return this.tableHelper.getPlayerList();
   }
 
-  private subscribePlayerSelected() : void {
-    this._team_data_service.getPlayerSelected().subscribe((player) => {
-      this._playerSelected = player;
-    });
+  getColumns() : string[] {
+    return this.tableHelper.getDisplayedColumns();
   }
+
+  getPageIndex() : number {
+    return this.pageIndex;
+  }
+
+  getPageSize() : number {
+    return this.pageSize;
+  }
+
+  getPageSizeOptions() : number[] {
+    return this.pageSizeOptions;
+  }
+
+  /* VISIBILITA' */
+
+  isFavoriteColumnRendered() : boolean {
+    if(this.routerService.currentPageIsFavoritList() || this.routerService.currentPageIsPlayerList()) {
+        return true;
+    }
+    return false;
+  }
+
+  isBlacklistColumnRendered() : boolean {
+    if(this.routerService.currentPageIsBlacklist() || this.routerService.currentPageIsPlayerList()) {
+      return true;
+    }
+    return false;
+  }
+
+  isSaveBtnRendered() : boolean {
+    return !this.routerService.currentPageIsPlayerList() && this.userLogged && this.userTeamSelected;
+  }
+
+  isCreateNewTeamRendered() : boolean {
+    return this.userLogged && !this.routerService.currentPageIsPlayerList();
+  }
+
+  isClearTableRendered() : boolean {
+    return !this.routerService.currentPageIsPlayerList();
+  }
+
+  isClearTableDisabled() : boolean {
+    return this.isTableEmpty;
+  }
+
+  /* LISTENER */
+
+  handlePageEvent(event: PageEvent) : void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+  }
+
+  clearTable() : void {
+    this.tableHelper.clearList();
+  }
+
+  removePlayer(player:Player) : void {
+    this.tableHelper.removePlayer(player);
+  }
+
+  savePlayerList() : void {
+    
+  }
+
+  createNewTeam() : void {
+    if(this.leagueSelected != null) {
+      let dataStructure:CreateNewTeamDataStructure = {
+        sport : this.leagueSelected.getSport(),
+        championship : this.leagueSelected.getChampionship(),
+        league : this.leagueSelected,
+        teamName : '',
+        importPlayer : true
+      }
+      this.dialogHelper.setData(dataStructure);
+      this.dialogHelper.openDialog(CreateNewTeamDialogComponent);
+    }
+  }
+
+  /*
+  VECCHI METODI (DA RIVEDERE)
+  */
+
 
   /* GETTER */
 
@@ -65,46 +205,26 @@ export class TableComponent implements OnInit, AfterViewInit {
     return window.innerWidth;
   }
 
-  getColumns() : string[] {
-    return this._columns;
-  }
-
-  getDataSource() : MatTableDataSource<any> {
-    return this._dataSource;
-  }
-
-  getPageIndex() : number {
-    return this._pageIndex;
-  }
-
-  getPageSize() : number {
-    return this._pageSize;
-  }
-
-  getPageSizeOptions() : number[] {
-    return this._pageSizeOptions;
-  }
-
   /* SETTER */
 
   setColumns() : void {
+    /*
     if(!this.isLayoutMobile()) {
-      if(this._columns.length != 6) {
-        this._columns.pop();
-        this._columns.push('Favorit');
-        this._columns.push('Blacklist');
-        this._team_data_service.setPlayerSelected(null);
+      if(this.columns.length != 6) {
+        this.columns.pop();
+        this.columns.push('Favorit');
+        this.columns.push('Blacklist');
         this.expanded_player = null;
       }
     }
     else {
-      if(this._columns.length != 5) {
-        this._columns.pop();
-        this._columns.pop();
-        this._columns.push('Expand')
-        this._team_data_service.setPlayerSelected(null);
+      if(this.columns.length != 5) {
+        this.columns.pop();
+        this.columns.pop();
+        this.columns.push('Expand')
       }
     }
+    */
   }
 
   /* METHODS */
@@ -114,10 +234,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   setPlayerSelected(player:any) {
-    if(this._playerSelected != player)
-      this._team_data_service.setPlayerSelected(player);
-    else
-      this._team_data_service.setPlayerSelected(null);
+    
   }
 
   expandedPlayer(player:any) : void {
@@ -129,33 +246,27 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   isFavoritePlayer(player:any) : boolean {
-    return this._team_data_service.isPlayerIntoFavoriteList(player);
+    return false
   }
 
   setPlayerAsFavorite(player:any) : void {
-    this._team_data_service.addPlayerIntoFavoriteList(player);
+
   }
 
   removePlayerAsFavorite(player:any) : void {
-    this._team_data_service.removePlayerFromFavoriteList(player);
+    
   }
 
   isPlayerIntoBlacklist(player:any) : boolean {
-    return this._team_data_service.isPlayerIntoBlacklist(player);
+    return false
   }
 
   addPlayerIntoBlacklist(player:any) : void {
-    this._team_data_service.removePlayerFromFavoriteList(player);
-    this._team_data_service.addPlayerIntoBlacklist(player);
+    
   }
 
   removePlayerFromBlacklist(player:any) : void {
-    this._team_data_service.removePlayerFromBlacklist(player);
-  }
-
-  handlePageEvent(event: PageEvent) : void {
-    this._pageIndex = event.pageIndex;
-    this._pageSize = event.pageSize;
+    
   }
 
   isPlayerSelected(player:any) : boolean {

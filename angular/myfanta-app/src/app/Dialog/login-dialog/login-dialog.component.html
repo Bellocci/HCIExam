@@ -51,18 +51,10 @@
             <mat-icon>{{ isPasswordVisible() ? 'visibility' : 'visibility_off' }}</mat-icon>
           </button>
         </mat-form-field>
-      </div>
-    
-      <!-- Invalid username/password message -->
-      <div class="txt-center mt-10px">
-        <span class="validation-error-label error-color"
-        *ngIf="isLoginErrorMessageVisible()">
-          Username e/o password sbagliati!
-        </span>
-      </div>    
+      </div> 
     
       <!-- Pulsante di Login -->
-      <div class="flex-container mt-30px mb-10px">
+      <div class="flex-container mt-10px mb-10px">
         <span class="flex-item-1-1-auto"></span>
         <button mat-raised-button class="text secondary-color login-btn"
           [disabled]="isLoginBtnDisabled()" 
@@ -71,6 +63,14 @@
         </button>
         <span class="flex-item-1-1-auto"></span>
       </div>
+
+      <!-- Invalid username/password message -->
+      <div class="txt-center mt-30px">
+        <span class="validation-error-label error-color"
+        *ngIf="isLoginErrorMessageVisible()">
+          Username e/o password sbagliati!
+        </span>
+      </div>   
   
     </form>
   </div>

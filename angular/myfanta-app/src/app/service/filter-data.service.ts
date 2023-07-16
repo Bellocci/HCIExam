@@ -3,6 +3,10 @@ import { League } from 'src/decorator/League.model';
 import { LoadDataService } from './load-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
+import { InternalDataService } from './internal-data.service';
+import { Player } from 'src/decorator/player.model';
+import { Observable, of } from 'rxjs';
+import { Team } from 'src/decorator/team.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +15,8 @@ export class FilterDataService {
 
   private championshipMap:Map<SportEnum,Set<ChampionshipEnum>> = new Map<SportEnum,Set<ChampionshipEnum>>();
 
-  constructor(private loadDataService:LoadDataService) { }
+  constructor(private loadDataService:LoadDataService,
+    private internalDataService:InternalDataService) { }
 
   /*
   Metodo che filtra fra tutte le leghe, i campionati esistenti per ogni sport
@@ -37,6 +42,26 @@ export class FilterDataService {
     return this.loadDataService.getLeaguesList()
         .filter(league => league.getChampionship() == championship && 
           league.getSport() == sport);
+  }
+
+  filterTeamsByLeague(league:League):Team[] {
+    return this.loadDataService.getAllTeams(league);
+  }
+
+  searchPlayerToAddList(playerName:string, league:League | null) : Observable<Player[]> {    
+    let result:Player[] = [];
+    if(league != null && !this.isEmptyString(playerName)) {
+      for(let player of this.loadDataService.getAllPlayers(league)) {
+        if(player.getName().toLowerCase().includes(playerName.toLowerCase())) {
+          result.push(player);
+        }
+  
+        if(result.length == 3) {
+          return of(result);
+        }
+      }
+    }
+    return of(result);
   }
 
   isEmptyString(text:string) : boolean {

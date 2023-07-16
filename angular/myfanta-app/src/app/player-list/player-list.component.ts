@@ -14,8 +14,6 @@ export class PlayerListComponent implements OnInit {
   panelRoleOpenState : boolean = false;
   panelTeamOpenState : boolean = false;
 
-  private _active_link : string = '';
-
   input_txt:string = '';
   private _search_players = new Subject<string>();
 
@@ -32,19 +30,6 @@ export class PlayerListComponent implements OnInit {
   constructor(private _team_data_service: TeamDataService, private _internal_data_service:InternalDataService) { }
 
   ngOnInit(): void {
-    this._team_data_service.getTeamName().subscribe((teams) => {
-      for(let team of teams) {
-        this._teams.push({name : team.name, short_name : team.short_name, selected : false});
-      }
-    });
-
-    this._internal_data_service.getActiveLink().subscribe((link) => {
-      if(link != undefined) {
-        this._active_link = link;
-      } else {
-        this._active_link = "";
-      }
-    })
 
     this._search_players.pipe(
       // wait 300ms after each keystroke before considering the term
@@ -70,10 +55,6 @@ export class PlayerListComponent implements OnInit {
 
   getTeam() : {name : string, short_name : string, selected : boolean}[] {
     return this._teams;
-  }
-
-  getActiveLink() : string {
-    return this._active_link;
   }
 
   // METHODS

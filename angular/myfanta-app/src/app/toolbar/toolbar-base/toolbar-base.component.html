@@ -10,40 +10,50 @@
     <!-- Link alla pagina Create team -->
     <button mat-flat-button
     class="color btn-flat ml-10px mr-10px"
-    [ngClass]="isActiveLink(linkEnum.CREATE_TEAM.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
-    (click)="goToCreateTeam()">
+    [ngClass]="routerService.currentPageIsMyTeam() ? 'link-toolbar-border' : 'primary-color-dark'"
+    (click)="routerService.goToMyTeamPage()">
       <span class="text"
-      [ngClass]="isActiveLink(linkEnum.CREATE_TEAM.label) == true ? 'bold' : ''">
-        {{ linkEnum.CREATE_TEAM.description }}
+      [ngClass]="routerService.currentPageIsMyTeam() ? 'bold' : ''">
+        {{ linkEnum.MYTEAM.description }}
+      </span>
+    </button>
+    <!-- Link alla pagina Options -->
+    <button mat-flat-button
+    class="color btn-flat ml-10px mr-10px"
+    [ngClass]="routerService.currentPageIsOptions() ? 'link-toolbar-border' : 'primary-color-dark'"
+    (click)="routerService.goToOptionsPage()">
+      <span class="text"
+      [ngClass]="routerService.currentPageIsOptions() ? 'bold' : ''">
+        {{ linkEnum.OPTIONS.description }}
       </span>
     </button>
     <!-- link alla pagina Player list-->
     <button mat-flat-button
     class="color btn-flat mr-10px"
-    [ngClass]="isActiveLink(linkEnum.PLAYER_LIST.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
-    (click)="goToPlayerList()">
+    [ngClass]="routerService.currentPageIsPlayerList() ? 'link-toolbar-border' : 'primary-color-dark'"
+    (click)="routerService.goToPlayerListPage()">
       <span class="text"
-      [ngClass]="isActiveLink(linkEnum.PLAYER_LIST.label) == true ? 'bold' : ''">
+      [ngClass]="routerService.currentPageIsPlayerList() ? 'bold' : ''">
         {{ linkEnum.PLAYER_LIST.description }}
       </span>
     </button>
     <!-- Link alla pagina Favorit list -->
     <button mat-flat-button
     class="color btn-flat mr-10px"
-    [ngClass]="isActiveLink(linkEnum.FAVORIT_LIST.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
-    (click)="goToFavoritList()">
+    [ngClass]="routerService.currentPageIsFavoritList() ? 'link-toolbar-border' : 'primary-color-dark'"
+    (click)="routerService.goToFavoritListPage()">
       <span class="text"
-      [ngClass]="isActiveLink(linkEnum.FAVORIT_LIST.label) == true ? 'bold' : ''">
+      [ngClass]="routerService.currentPageIsFavoritList() ? 'bold' : ''">
         {{ linkEnum.FAVORIT_LIST.description }}
       </span>
     </button>
     <!-- Link alla pagina Blacklist -->
     <button mat-flat-button
     class="color btn-flat mr-10px"
-    [ngClass]="isActiveLink(linkEnum.BLACKLIST.label) == true ? 'link-toolbar-border' : 'primary-color-dark'"
-    (click)="goToBlacklist()">
+    [ngClass]="routerService.currentPageIsBlacklist() ? 'link-toolbar-border' : 'primary-color-dark'"
+    (click)="routerService.goToBlacklistPage()">
       <span class="text"
-      [ngClass]="isActiveLink(linkEnum.BLACKLIST.label) == true ? 'bold' : ''">
+      [ngClass]="routerService.currentPageIsBlacklist() ? 'bold' : ''">
         {{ linkEnum.BLACKLIST.description }}
       </span>
     </button>
@@ -70,7 +80,7 @@
         <span mat-menu-item (click) = "$event.stopPropagation()" disableRipple="true" class="label username-menu-panel">
           {{ getUser()!.getUsername() }}
         </span>
-        <button mat-menu-item (click)="goToMyProfile();">
+        <button mat-menu-item (click)="routerService.goToMyProfilePage();">
           Lista team
         </button>
         <mat-divider></mat-divider>
@@ -81,7 +91,7 @@
   <!-- Link alla pagina di Home -->
   <button mat-flat-button 
   *ngIf="isBtnHomeRendered()"
-  (click)="goToHome()"
+  (click)="routerService.goToHomePage()"
   class="toolbar-el-height btn-flat color">
     <mat-icon class="icon-size">home</mat-icon>
     <span class="text">{{ linkEnum.HOME.description }}</span>

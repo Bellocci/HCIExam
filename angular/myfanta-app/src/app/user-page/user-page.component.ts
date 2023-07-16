@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { UserService } from '../service/user.service';
 import { User } from 'src/decorator/user.model';
 import { UserTeam } from 'src/decorator/userTeam.model';
@@ -11,30 +11,17 @@ import { CreateNewTeamDialogComponent } from '../Dialog/create-new-team-dialog/c
 import { DialogService } from '../service/dialog.service';
 import { DialogHelper } from '../Dialog/dialogHelper.interface';
 
-/**
- * Interfaccia utilizzata insieme alla mappa per definire una coppia
- * di valori, una contenente la lista dei team attivi, l'altra la lista
- * dei team non attivi.
- */
-interface UserTeamCouple {
-  activeList: UserTeam[];
-  deactiveList: UserTeam[];
-}
-
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
   styleUrls: ['./user-page.component.css'],
 })
-export class UserPageComponent implements OnInit {
+export class UserPageComponent implements OnInit, AfterViewInit {
 
   private dialogHelper!:DialogHelper;
 
-  private user!:User;
-  private myTeams!:UserTeam[];
+  private myTeams:UserTeam[] = [];
   private removedTeams:UserTeam[] = [];
-
-  private sportTeamMap:Map<SportEnum, UserTeamCouple> = new Map<SportEnum, UserTeamCouple>();
 
   constructor(private userService:UserService,
     private teamDataService:TeamDataService, 
@@ -43,37 +30,17 @@ export class UserPageComponent implements OnInit {
     private dialogService:DialogService) { }
 
   ngOnInit(): void {
-    this.subscribeUser();    
     this.dialogHelper = this.dialogService.getDialogHelper();
-    this.myTeams = this.userService.loadTeams();
-    this.buildSportTeamMap();
+    this.internalDataService.setLoadingData(false);
   }
 
-  subscribeUser() : void {
-    this.userService.getUser().subscribe(user => {
-      this.user = user;
-    });
-  }
-
-  buildSportTeamMap() : void {
-    for(let team of this.myTeams) {
-      const sport:SportEnum = team.getLeague().getSport();
-      if(!this.sportTeamMap.has(sport)) {
-        this.sportTeamMap.set(sport, {
-          activeList : [],
-          deactiveList : []
-        });
-      }
-
-      team.isActive() ? this.sportTeamMap.get(sport)!.activeList.push(team) : 
-        this.sportTeamMap.get(sport)!.deactiveList.push(team);
-    }
+  ngAfterViewInit(): void {    
   }
 
   // Getter
 
   getUser() : User {
-    return this.user;
+    return this.userService.getUser();
   }
 
   /**
@@ -83,7 +50,7 @@ export class UserPageComponent implements OnInit {
    * @returns UserTeam[]
    */
   getTeams(sport:SportEnum) : UserTeam[] {
-    return this.sportTeamMap.get(sport) != undefined ? this.sportTeamMap.get(sport)!.activeList : [];
+    return this.userService.loadTeams(sport);
   }
 
   getSports() : SportEnum[] {
@@ -135,12 +102,7 @@ export class UserPageComponent implements OnInit {
    * @returns true se presenti team attivi per lo sport, false altrimenti
    */
   hasTeam(sport:SportEnum) : boolean {
-    if(!this.sportTeamMap.has(sport)) {
-      return false;
-    }
-
-    // E' sicuramente presente per il controllo precedente
-    return this.sportTeamMap.get(sport)!.activeList.length > 0;
+    return this.userService.hasActiveTeam(sport);
   }
 
   /* Funzionalità */
@@ -168,21 +130,14 @@ export class UserPageComponent implements OnInit {
    * @param sport 
    * @param team 
    */
-  removeTeam(sport:SportEnum, team:UserTeam) : void {
-    const index:number | undefined = this.sportTeamMap.get(sport)?.activeList.findIndex(t => t.equals(team));
-    if(index != undefined && index != -1) {
-      // Rimuovo un elemento a partire dall'indice precedente all'elemento
-      // Siamo sicuri che esiste l'elemento nella mappa dal controllo precedente
-      this.sportTeamMap.get(sport)!.activeList.splice(index, 1);
-      team.setActive(false);
-      this.removedTeams.push(team);
-      this.sportTeamMap.get(sport)!.deactiveList.push(team);
-    }
+  removeTeam(team:UserTeam) : void {
+    this.userService.removeTeam(team);
   }
 
   loadTeam(team:UserTeam) : void {
+    this.userService.setSelectedTeam(team);
     this.teamDataService.loadTeam(team);
-    this.routerService.goToCreateTeamPage();
+    this.routerService.goToMyTeamPage();
     this.internalDataService.setLeagueSelected(team.getLeague());
   }
 
@@ -190,10 +145,11 @@ export class UserPageComponent implements OnInit {
    * Listener per l'apertura della dialog CreateNewTeamDialog
    */
   openCreateNewTeamDialog() {
+    this.dialogHelper.setData(null);
     this.dialogHelper.openDialog(CreateNewTeamDialogComponent);
     this.dialogHelper.afterClosed()?.subscribe(result => {
       if(result instanceof UserTeam) {
-        this.sportTeamMap.get(result.getLeague().getSport())!.activeList.push(result);
+        this.userService.addNewTeam(result);
       }
     });
   }
