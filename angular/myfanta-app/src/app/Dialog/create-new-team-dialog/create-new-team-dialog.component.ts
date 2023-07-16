@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject } from 'rxjs';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogService } from 'src/app/service/dialog.service';
 import { FilterDataService } from 'src/app/service/filter-data.service';
 import { UserService } from 'src/app/service/user.service';
@@ -10,6 +9,9 @@ import { League } from 'src/decorator/League.model';
 import { UserTeam } from 'src/decorator/userTeam.model';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 import { SportEnum } from 'src/enum/SportEnum.model';
+import { CreateNewTeamDataStructure } from './create-new-team-data-structure.interface';
+import { TeamDataService } from 'src/app/service/team-data.service';
+import { SnackBarService } from 'src/app/service/snack-bar.service';
 
 @Component({
   selector: 'app-create-new-team-dialog',
@@ -18,20 +20,37 @@ import { SportEnum } from 'src/enum/SportEnum.model';
 })
 export class CreateNewTeamDialogComponent implements OnInit {
 
+  private showSelected:boolean = true;
+
   constructor(private dialogService:DialogService,
     private filterDataService:FilterDataService,
     private userService:UserService,
-    private userTeamDecoratorFactory:UserTeamDecoratorFactoryService) { }
+    private userTeamDecoratorFactory:UserTeamDecoratorFactoryService,
+    @Inject(MAT_DIALOG_DATA) private data: CreateNewTeamDataStructure,
+    private teamDataService:TeamDataService,
+    private snackBarService:SnackBarService) { }
   
   teamNameFormControl:FormControl = new FormControl('My team', { validators : [ Validators.required] });
-  selectedSport:SportEnum | string = "";
-  selectedChampionship:ChampionshipEnum | string = "";
-  selectedLeague:League | null = null;
+  private selectedSport:SportEnum | string = "";
+  private selectedChampionship:ChampionshipEnum | string = "";
+  private selectedLeague:League | null = null;
+  private importPlayer:boolean = false;
 
   private championshipsList:ChampionshipEnum[] = [];
   private leaguesList:League[] = [];
 
   ngOnInit(): void {
+    if(this.data != undefined && this.data.sport != undefined && this.data.championship != undefined && 
+        this.data.league != undefined && this.data.importPlayer != undefined) {        
+      this.showSelected = false;
+      this.selectedSport = this.data.sport;
+      this.selectedChampionship = this.data.championship;
+      this.selectedLeague = this.data.league;
+      if(this.data.teamName.length > 0) {
+        this.teamNameFormControl.setValue(this.data.teamName);
+      }
+      this.importPlayer = this.data.importPlayer;
+    }
   }
 
   /* GETTER */
@@ -48,6 +67,18 @@ export class CreateNewTeamDialogComponent implements OnInit {
     return this.leaguesList;
   }
 
+  getSportSelected() : string {
+    return this.selectedSport instanceof SportEnum ? this.selectedSport.description : this.selectedSport;
+  }
+
+  getChampionshipSelected() : string {
+    return this.selectedChampionship instanceof ChampionshipEnum ? this.selectedChampionship.description : this.selectedChampionship;
+  }
+
+  getLeagueSelected() : string {
+    return this.selectedLeague != null ? this.selectedLeague.getName() : '';
+  }
+
   getAddTooltipMessage() : string {
     if(!this.isTeamNameDefined()) {
       return "Nome del team mancante";
@@ -59,7 +90,7 @@ export class CreateNewTeamDialogComponent implements OnInit {
       return "Nessuna lega selezionata";
     }
 
-    return "Aggiungi la nuova squadra";
+    return "Crea nuova squadra";
   }
 
   /* METODI LISTENER */
@@ -87,9 +118,17 @@ export class CreateNewTeamDialogComponent implements OnInit {
   }
 
   addNewTeam() : void {
-    const newTeam:UserTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUser(), 
-      this.teamNameFormControl.value, this.selectedLeague!);
+    let newTeam:UserTeam;
+    if(this.importPlayer) {
+      newTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUser(), 
+        this.teamNameFormControl.value, this.selectedLeague!, this.teamDataService.getUserTeamList(), 
+        this.teamDataService.getFavoritePlayersList(), this.teamDataService.getBlacklistPlayers());
+    } else {
+      newTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUser(), 
+        this.teamNameFormControl.value, this.selectedLeague!);
+    }
     this.userService.addNewTeam(newTeam);
+    this.snackBarService.openInfoSnackBar("Nuova squadra creata con successo");
     this.closeDialog(newTeam);
   }
 
@@ -122,5 +161,9 @@ export class CreateNewTeamDialogComponent implements OnInit {
   isCreateBtnEnabled() : boolean {
     return this.isTeamNameDefined() && this.isSportSelected() && 
       this.isChampionshipSelected() && this.isLeagueSelected();
+  }
+
+  areSelectedRendered() : boolean {
+    return this.showSelected;
   }
 }
