@@ -6,6 +6,8 @@ import { SportEnum } from 'src/enum/SportEnum.model';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 import { League } from 'src/decorator/League.model';
 import { RouterService } from '../service/router.service';
+import { UserService } from '../service/user.service';
+import { TeamDataService } from '../service/team-data.service';
 
 
 @Component({
@@ -42,7 +44,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private routerService:RouterService,
     private filterDataService:FilterDataService,
-    private internalDataService:InternalDataService) { }
+    private internalDataService:InternalDataService,
+    private userService:UserService,
+    private teamDataService:TeamDataService) { }
 
   ngOnInit(): void { 
     this.internalDataService.setLoadingData(false);
@@ -75,10 +79,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
   /* LISTENER */
 
   selectedLeagueListener(league:League) : void {
+    this.clearData();
     this.internalDataService.setLoadingData(true);
     this.setLeagueSelected(league);
     this.routerService.goToMyTeamPage();
   }
 
-  
+  private clearData() : void {
+    this.userService.setSelectedTeam(undefined);
+    this.teamDataService.clearAllList();
+  }
 }
