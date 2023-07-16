@@ -52,7 +52,7 @@ export class FilterDataService {
     let result:Player[] = [];
     if(league != null && !this.isEmptyString(playerName)) {
       for(let player of this.loadDataService.getAllPlayers(league)) {
-        if(player.getName().includes(playerName)) {
+        if(player.getName().toLowerCase().includes(playerName.toLowerCase())) {
           result.push(player);
         }
   

@@ -82,7 +82,6 @@ export class SearchAddPlayerComponent implements OnInit {
 
   addPlayer(playerName:string) : void {
     let playerSelected:Player | undefined = this.players.find(player => player.getName().toLowerCase() === playerName.toLocaleLowerCase());
-    console.log(playerSelected);
     if(playerSelected == undefined && this.leagueSelected != null) {
       playerSelected = this.loadDataService.searchPlayer(playerName, this.leagueSelected);
     }
