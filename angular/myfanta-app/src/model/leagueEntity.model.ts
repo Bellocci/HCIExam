@@ -26,21 +26,14 @@ export const LEAGUE_DATA:LeagueEntity[] = [
     },
     {
         leagueId : 3,
-        name : 'Serie A1 Femminile',
-        sport : SportEnum.VOLLEYBALL,
-        championship : ChampionshipEnum.ITA_CHAMP,
-        active: true
-    },
-    {
-        leagueId : 4,
         name : 'NBA',
         sport : SportEnum.BASKETBALL,
         championship : ChampionshipEnum.USA_CHAMP,
         active: true
     },
     {
-        leagueId : 5,
-        name : 'Serie A1 Maschile',
+        leagueId : 4,
+        name : 'Serie A1',
         sport : SportEnum.VOLLEYBALL,
         championship : ChampionshipEnum.ITA_CHAMP,
         active: true

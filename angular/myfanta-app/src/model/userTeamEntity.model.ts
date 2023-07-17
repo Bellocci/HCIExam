@@ -2,7 +2,7 @@ import { User } from "src/decorator/user.model";
 import { League } from "src/decorator/League.model";
 import { USER_DATA } from "./userEntity.model";
 import { LEAGUE_DATA } from "./leagueEntity.model";
-import { PLAYER_DATA_NBA, PLAYER_DATA_PREMIER_LEAGUE, PLAYER_DATA_SERIE_A, PLAYER_DATA_SERIE_A_FEMALE } from "./playerEntity.model";
+import { PLAYER_DATA_NBA, PLAYER_DATA_PREMIER_LEAGUE, PLAYER_DATA_SERIE_A } from "./playerEntity.model";
 import { PlayerEntity } from "./playerEntity.model";
 import { Option } from "src/decorator/option/option.model";
 import { OptionEntity } from "./optionEntity.model";
@@ -28,17 +28,6 @@ export const CUSTOMS_TEAM_DATA:UserTeamEntity[] = [
         league : new League(LEAGUE_DATA[0]),
         team : PLAYER_DATA_SERIE_A,
         favoriteList : [],
-        blacklist : [],
-        active: true,
-        option: new OptionFootballSoccer(new OptionEntity())
-    },
-    {
-        id : 2,
-        user : new User(USER_DATA[0]),
-        nameTeam : "Volley Femminile",
-        league : new League(LEAGUE_DATA[2]),
-        team : [],
-        favoriteList : PLAYER_DATA_SERIE_A_FEMALE,
         blacklist : [],
         active: true,
         option: new OptionFootballSoccer(new OptionEntity())

@@ -1,5 +1,6 @@
 import { PlayerEntity } from "src/model/playerEntity.model";
 import { Team } from "./team.model";
+import { RolePlayer } from "./role-player.model";
 
 export class Player {
 
@@ -29,7 +30,7 @@ export class Player {
         return this.playerEntity.cost;
     }
 
-    getRole() : string {
+    getRole() : RolePlayer {
         return this.playerEntity.role;
     }
 
@@ -43,6 +44,10 @@ export class Player {
 
     isActive() : boolean {
         return this.playerEntity.active;
+    }
+
+    getDescription() : string {
+        return this.playerEntity.description;
     }
 
     equals(other:any) {
