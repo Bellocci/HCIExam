@@ -1,19 +1,35 @@
 
 /* Toolbar style */
 
+/* Toolbar */
+
 .toolbar {
     position: sticky;
     top: 0;
     z-index: 100;
-    height: var(--toolbar-height); /* E' una variabile globale, definita in style.css */
+    min-height: var(--toolbar-height);
 }
 
-.toolbar.mat-toolbar-single-row {
+/* Toolbar row */
+
+.toolbar .toolbar-row {    
+    height: var(--toolbar-height);
+}
+
+.toolbar .no-padding {
     padding: 0;
 }
 
-.toolbar-el-height {
+.toolbar .toolbar-el-height {
     height: calc(var(--toolbar-height) * 0.6);
+}
+
+mat-toolbar-row .divider {
+    height: calc(var(--toolbar-height) * 0.8);
+    border-color: white;
+    border-width: 2px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 /* Buttons */
@@ -26,6 +42,10 @@
     background-color: inherit;
 }
 
+.btn-flat:hover {
+    background-color: #82B1FF !important;
+}
+
 /* COLOR  */
 
 .link-toolbar-border {
@@ -34,10 +54,6 @@
     border-width: 2px;
     border-color: white;
     border-radius: 10px;
-}
-
-.color:hover{
-    background-color: #82B1FF;
 }
 
 /* Text */

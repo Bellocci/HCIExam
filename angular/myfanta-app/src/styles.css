@@ -9,21 +9,21 @@ body {
 
 /* VARIABILI GLOBALI */
 :root {
-    --toolbar-height: 70px;
+    --toolbar-height: 60px;
 }
 
 /* --- COLORI --- */
 
 .primary-color {
-    background-color: #82B1FF;
+    background-color: #82B1FF !important;
 }
 
 .primary-color-light {
-    background-color: #b6e3ff;
+    background-color: #b6e3ff !important;
 }
 
 .primary-color-dark {
-    background-color: #4d82cb;
+    background-color: #4d82cb !important;
 }
 
 .secondary-color {

@@ -5,11 +5,14 @@ import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { Player } from 'src/decorator/player.model';
 import { Team } from 'src/decorator/team.model';
 import { League } from 'src/decorator/League.model';
+import { SessionStorageService } from './session-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RouterService {
+
+  private static readonly KEY_SESSION_LAST_PAGE:string = "lastPage";
 
   private readonly PARENT_PATH:string = "/fantasyteam/";
 
@@ -21,18 +24,27 @@ export class RouterService {
   private readonly MYPROFILE_PAGE_PATH:string = "myProfile";
   private readonly OPTIONS_PAGE_PATH:string = "options";
 
-  constructor(private router: Router, private internalDataService:InternalDataService) { }
+  private lastPage:string = "";
+
+  constructor(private router: Router, 
+    private internalDataService:InternalDataService,
+    private sessionStorageLastPage:SessionStorageService<string>) { 
+
+      this.lastPage = this.sessionStorageLastPage.getData(RouterService.KEY_SESSION_LAST_PAGE) != null ? 
+        this.sessionStorageLastPage.getData(RouterService.KEY_SESSION_LAST_PAGE)! :
+        "";
+  }
 
   private linkEnum: typeof LinkEnum = LinkEnum;
 
   // Metodo che renderizza alla pagina di Home
   goToHomePage() : void {
-    this.internalDataService.setLoadingData(true);
-    this.currentPageIsHome() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, this.PARENT_PATH + this.HOME_PAGE_PATH);
+    this.internalDataService.setLoadingData(true);    
+    this.currentPageIsHome() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, "");
   }
 
   // Verifica se la pagina currente è 'home'
-  currentPageIsHome() : boolean {    
+  currentPageIsHome() : boolean {
     return this.router.url == this.PARENT_PATH + this.HOME_PAGE_PATH;
   }
 
@@ -87,6 +99,7 @@ export class RouterService {
 
   // Verifica se la pagina corrente è myProfile
   currentPageIsMyProfile() : boolean {
+    console.log(this.PARENT_PATH + this.MYPROFILE_PAGE_PATH);
     return this.router.url == this.PARENT_PATH + this.MYPROFILE_PAGE_PATH;
   }
 
@@ -103,17 +116,25 @@ export class RouterService {
 
   goToPlayerPage(player:Player) : void {
     this.internalDataService.setLoadingData(true);
-    const team:Team = player.getTeam();
-    const league:League = team.getLeague();
+    const team:string = player.getTeam().getName().replace(/[^a-zA-Z]/g, "-");
+    const league:string = player.getTeam().getLeague().getName().replace(/[^a-zA-Z]/g, "-");
+    const playerName:string = player.getName().replace(/[^a-zA-Z]/g, "-");
     this.currentPageIsPlayerProfile(player) ? this.reloadOrNavigate(true) : 
-      this.reloadOrNavigate(false, this.PARENT_PATH + league.getName().replace(/[^a-zA-Z0-9]/g, "") + "/" + team.getName() 
-      + "/" + player.getName() + "/" + player.getId());
+      this.reloadOrNavigate(false, this.PARENT_PATH + league + "/" + team + "/" + playerName + "/" + player.getId());
   }
 
   currentPageIsPlayerProfile(player:Player) : boolean {
-    const team:Team = player.getTeam();
-    const league:League = team.getLeague();
-    return this.router.url == this.PARENT_PATH + league.getName() + "/" + team.getName() + "/" + player.getName() + "/" + player.getId();
+    const team:string = player.getTeam().getName().replace(/[^a-zA-Z]/g, "-");
+    const league:string = player.getTeam().getLeague().getName().replace(/[^a-zA-Z]/g, "-");
+    const playerName:string = player.getName().replace(/[^a-zA-Z]/g, "-");
+    return this.router.url == this.PARENT_PATH + league + "/" + team + "/" + playerName + "/" + player.getId();
+  }
+
+  /**
+   * Riporta alla pagina visitata precedentemente
+   */
+  goPreviousPage() : void {
+    this.reloadOrNavigate(false, this.lastPage);
   }
   
   /**
@@ -124,7 +145,14 @@ export class RouterService {
    */
   private reloadOrNavigate(self:boolean,urlToNavigateTo ?:string){
     //skipLocationChange:true means dont update the url to / when navigating
-    const url=self ? this.router.url :urlToNavigateTo;
+    let url:string = "";
+    if(self) {
+      url = this.router.url;
+    } else {
+      this.lastPage = this.router.url;
+      this.sessionStorageLastPage.saveData(RouterService.KEY_SESSION_LAST_PAGE, this.lastPage);
+      url = urlToNavigateTo!;
+    }
     this.router.navigateByUrl('/',{skipLocationChange:true}).then(() => this.router.navigate([`/${url}`]) );
   }
 }
