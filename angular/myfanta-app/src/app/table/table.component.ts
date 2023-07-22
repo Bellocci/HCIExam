@@ -98,7 +98,6 @@ export class TableComponent implements OnInit, AfterViewInit {
   /* FINE METODI PRIVATI */
 
   ngOnInit(): void {
-    this.setColumns();
     this.dataSource = new MatTableDataSource<Player>();    
   }
 
@@ -161,6 +160,14 @@ export class TableComponent implements OnInit, AfterViewInit {
     return this.isTableEmpty;
   }
 
+  isFavoritePlayer(player:any) : boolean {
+    return false
+  }
+
+  isPlayerIntoBlacklist(player:any) : boolean {
+    return false
+  }
+
   /* LISTENER */
 
   handlePageEvent(event: PageEvent) : void {
@@ -194,59 +201,9 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /*
-  VECCHI METODI (DA RIVEDERE)
-  */
-
-
-  /* GETTER */
-
-  getInnerWidth() : number {
-    return window.innerWidth;
-  }
-
-  /* SETTER */
-
-  setColumns() : void {
-    /*
-    if(!this.isLayoutMobile()) {
-      if(this.columns.length != 6) {
-        this.columns.pop();
-        this.columns.push('Favorit');
-        this.columns.push('Blacklist');
-        this.expanded_player = null;
-      }
-    }
-    else {
-      if(this.columns.length != 5) {
-        this.columns.pop();
-        this.columns.pop();
-        this.columns.push('Expand')
-      }
-    }
-    */
-  }
-
-  /* METHODS */
-
-  isLayoutMobile() : boolean {
-    return this.getInnerWidth() <= 400 ? true : false;
-  }
-
-  setPlayerSelected(player:any) {
-    
-  }
-
-  expandedPlayer(player:any) : void {
-    this.expanded_player = this.expanded_player === player ? null : player
-  }
-
-  isPlayerExpanded(player:any) : boolean {
-    return this.expanded_player === player ? true : false;
-  }
-
-  isFavoritePlayer(player:any) : boolean {
-    return false
+  goToPlayerPage(player:Player) : void {
+    this.internalDataService.setPlayerSelected(player);
+    this.routerService.goToPlayerPage(player);
   }
 
   setPlayerAsFavorite(player:any) : void {
@@ -257,10 +214,6 @@ export class TableComponent implements OnInit, AfterViewInit {
     
   }
 
-  isPlayerIntoBlacklist(player:any) : boolean {
-    return false
-  }
-
   addPlayerIntoBlacklist(player:any) : void {
     
   }
@@ -269,7 +222,4 @@ export class TableComponent implements OnInit, AfterViewInit {
     
   }
 
-  isPlayerSelected(player:any) : boolean {
-    return player == this._playerSelected
-  }
 }

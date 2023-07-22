@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LeagueEntity, LEAGUE_DATA } from 'src/model/leagueEntity.model';
 import { League } from 'src/decorator/League.model';
-import { PLAYER_DATA_NBA, PLAYER_DATA_PREMIER_LEAGUE, PLAYER_DATA_SERIE_A, PLAYER_DATA_SERIE_A_FEMALE, PlayerEntity } from 'src/model/playerEntity.model';
+import { PLAYER_DATA_NBA, PLAYER_DATA_PREMIER_LEAGUE, PLAYER_DATA_SERIE_A, PlayerEntity } from 'src/model/playerEntity.model';
 import { PlayerDecoratorFactoryService } from 'src/decorator-factory/player-decorator-factory.service';
 import { Player } from 'src/decorator/player.model';
 import { LeagueDecoratorFactoryService } from 'src/decorator-factory/league-decorator-factory.service';
@@ -65,7 +65,6 @@ export class LoadDataService {
     // FIXME: Interazione con il db
     league.getLeagueId() == 1 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_SERIE_A) :
       league.getLeagueId() == 2 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_PREMIER_LEAGUE) :
-      league.getLeagueId() == 3 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_SERIE_A_FEMALE) :
       league.getLeagueId() == 4 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_NBA) :
       league.getLeagueId() == 5 ? list = [] : 
       list = [];
@@ -89,4 +88,24 @@ export class LoadDataService {
     }
     return undefined;
   }
+
+  loadPlayerBydId(playerId:number) : Player | null {
+    // FIXME: Interazione con il db
+    let result:PlayerEntity[] = PLAYER_DATA_SERIE_A.filter(player => player.playerId == playerId);
+    if(result.length != 0) {
+      return new Player(result[0]);
+    }    
+
+    result = PLAYER_DATA_PREMIER_LEAGUE.filter(player => player.playerId == playerId);
+    if(result.length != 0) {
+      return new Player(result[0]);
+    }
+
+    result = PLAYER_DATA_NBA.filter(player => player.playerId == playerId);
+    if(result.length != 0) {
+      return new Player(result[0]);
+    }
+
+    return null;
+  } 
 }

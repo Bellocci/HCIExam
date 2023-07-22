@@ -12,6 +12,7 @@ import { RouterService } from 'src/app/service/router.service';
 import { DialogService } from 'src/app/service/dialog.service';
 import { LoginDialogComponent } from 'src/app/Dialog/login-dialog/login-dialog.component';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { Player } from 'src/decorator/player.model';
 
 @Component({
   selector: 'app-toolbar-base',
@@ -25,6 +26,7 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
   private userLogged:boolean = false;
   private user:User | undefined;
   private league!:League | null;  
+  private playerSelected : Player | null = null;
 
   constructor(
     private filterService:FilterDataService,
@@ -36,16 +38,17 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
     private dialogService:DialogService) 
   { 
     super(filterService, _internalDataService, _teamDataService, routerService, _userService);
+
+    this.observeUserLogged();
+    this.observeLeagueSelected();
+    this.observePlayerSelected();
   }
 
-  override ngOnInit(): void {
-    this.subscribeUser();
-    this.subscribeLeague();
-  }
+  override ngOnInit(): void { }
 
   /* INIZIALIZZAZIONE OBSERVER */
 
-  private subscribeUser() {
+  private observeUserLogged() {
 
     this._userService.addObserverForUser(new ObserverStepBuilder<User>()
       .next(user => {
@@ -61,11 +64,17 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
     );
   }
 
-  private subscribeLeague() : void {
+  private observeLeagueSelected() : void {
     this._internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<League | null>()
         .next(league => this.league = league)
         .build()
     );
+  }
+
+  private observePlayerSelected() : void {
+    this._internalDataService.addObserverToPlayerSelected(new ObserverStepBuilder<Player | null>()
+      .next(player => this.playerSelected = player)
+      .build());
   }
 
   /* FINE OBSERVER */
@@ -87,7 +96,22 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
   }
 
   isBtnHomeRendered() : boolean {
-    return this.isLeagueSelected() || this.routerService.currentPageIsMyProfile();
+    return !this.routerService.currentPageIsHome() && (this.isLeagueSelected() || this.routerService.currentPageIsMyProfile());
+  }
+
+  isSecondToolbarRowRendered() : boolean {
+    return (this.userLogged && !this.routerService.currentPageIsHome() && !this.routerService.currentPageIsMyProfile()) || 
+      (!this.userLogged && 
+        (this.routerService.currentPageIsMyTeam() || this.routerService.currentPageIsFavoritList() || this.routerService.currentPageIsBlacklist())) ||
+      this.isBackBtnRendered();
+  }
+
+  isCreateTeamLinkSelected() : boolean {
+    return this.routerService.currentPageIsMyTeam() || this.routerService.currentPageIsFavoritList() || this.routerService.currentPageIsBlacklist();
+  }
+
+  isBackBtnRendered() : boolean {
+    return this.playerSelected != null ? this.routerService.currentPageIsPlayerProfile(this.playerSelected) : false;
   }
 
   /* Metodi funzionalità */

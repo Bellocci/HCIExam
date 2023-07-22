@@ -99,14 +99,12 @@
 </mat-expansion-panel>
 
 <!-- Opzioni di ricerca avanzate -->
-<div class="flex-container option-advanced-filter-container mt-10px">            
-    <mat-checkbox color="primary" 
-    labelPosition="before" [(ngModel)]="option.includeAdvancedFilter"
+<div class="flex-container option-advanced-filter-container mt-10px">    
+    <mat-slide-toggle [(ngModel)]="option.includeAdvancedFilter"
+    labelPosition="before"
+    color="primary" 
+    matTooltip="Applica i filtri definiti nella pagina 'Opzioni di ricerca'"
     (change)="checkAdvancedFilterAreIncluded($event.checked)">
-        <label class="text">Applica opzioni avanzate</label>
-        <mat-icon class="ml-10px icon-size"
-        matTooltip="Applica i filtri definiti nella pagina 'Opzioni di ricerca'">
-            info
-        </mat-icon>
-    </mat-checkbox>
+        <label class="label">Opzioni di ricerca</label>
+    </mat-slide-toggle>        
 </div>
