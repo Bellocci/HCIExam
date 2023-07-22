@@ -1,8 +1,8 @@
 import { Player } from "src/decorator/player.model";
-import { TeamDataService } from "../service/team-data.service";
+import { TeamDataService } from "../../service/team-data.service";
 import { BehaviorSubject, Observable } from "rxjs";
-import { RouterService } from "../service/router.service";
-import { LoadDataService } from "../service/load-data.service";
+import { RouterService } from "../../service/router.service";
+import { LoadDataService } from "../../service/load-data.service";
 import { League } from "src/decorator/League.model";
 
 export class TableHelper {

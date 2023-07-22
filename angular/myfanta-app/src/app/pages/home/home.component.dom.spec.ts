@@ -5,7 +5,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { By } from "@angular/platform-browser";
 
-import { MaterialModule } from "../material-module";
+import { MaterialModule } from "../../material-module";
 
 import { HomeComponent } from "./home.component";
 

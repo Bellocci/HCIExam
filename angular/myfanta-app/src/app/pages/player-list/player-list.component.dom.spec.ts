@@ -13,7 +13,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
-import { MaterialModule } from "../material-module";
+import { MaterialModule } from "../../material-module";
 import { PlayerListComponent } from "./player-list.component";
 
 describe('PlayerListComponent DOM', () => {

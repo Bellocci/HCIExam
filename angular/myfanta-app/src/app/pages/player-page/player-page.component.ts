@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InternalDataService } from '../service/internal-data.service';
+import { InternalDataService } from '../../service/internal-data.service';
 import { Player } from 'src/decorator/player.model';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { SportEnum } from 'src/enum/SportEnum.model';

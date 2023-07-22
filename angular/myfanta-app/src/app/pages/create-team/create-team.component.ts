@@ -1,11 +1,11 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { SimpleOption } from 'src/decorator/option/simple-option.interfaces';
-import { ExternalService } from '../service/external.service';
-import { TeamDataService } from '../service/team-data.service';
+import { ExternalService } from '../../service/external.service';
+import { TeamDataService } from '../../service/team-data.service';
 import { Option } from 'src/decorator/option/option.model';
-import { InternalDataService } from '../service/internal-data.service';
+import { InternalDataService } from '../../service/internal-data.service';
 import { League } from 'src/decorator/League.model';
-import { SnackBarService } from '../service/snack-bar.service';
+import { SnackBarService } from '../../service/snack-bar.service';
 
 @Component({
   selector: 'app-create-team',

@@ -1,13 +1,13 @@
 import { animate, state, style, transition, trigger, group } from '@angular/animations';
 import { Component, OnInit, AfterViewInit} from '@angular/core';
-import { FilterDataService } from '../service/filter-data.service';
-import { InternalDataService } from '../service/internal-data.service';
+import { FilterDataService } from '../../service/filter-data.service';
+import { InternalDataService } from '../../service/internal-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 import { League } from 'src/decorator/League.model';
-import { RouterService } from '../service/router.service';
-import { UserService } from '../service/user.service';
-import { TeamDataService } from '../service/team-data.service';
+import { RouterService } from '../../service/router.service';
+import { UserService } from '../../service/user.service';
+import { TeamDataService } from '../../service/team-data.service';
 
 
 @Component({

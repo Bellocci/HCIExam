@@ -10,7 +10,7 @@ import { MatSortHarness } from '@angular/material/sort/testing';
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { By } from "@angular/platform-browser";
 
-import { MaterialModule } from "../material-module";
+import { MaterialModule } from "../../material-module";
 import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
 import { FormsModule } from "@angular/forms";
 import {MatSortModule} from '@angular/material/sort';

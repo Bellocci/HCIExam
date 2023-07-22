@@ -1,15 +1,15 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { UserService } from '../service/user.service';
+import { UserService } from '../../service/user.service';
 import { User } from 'src/decorator/user.model';
 import { UserTeam } from 'src/decorator/userTeam.model';
 import { ColorEnum } from 'src/enum/ColorEnum.model';
-import { TeamDataService } from '../service/team-data.service';
-import { RouterService } from '../service/router.service';
-import { InternalDataService } from '../service/internal-data.service';
+import { TeamDataService } from '../../service/team-data.service';
+import { RouterService } from '../../service/router.service';
+import { InternalDataService } from '../../service/internal-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
-import { CreateNewTeamDialogComponent } from '../Dialog/create-new-team-dialog/create-new-team-dialog.component';
-import { DialogService } from '../service/dialog.service';
-import { DialogHelper } from '../Dialog/dialogHelper.interface';
+import { CreateNewTeamDialogComponent } from '../../Dialog/create-new-team-dialog/create-new-team-dialog.component';
+import { DialogService } from '../../service/dialog.service';
+import { DialogHelper } from '../../Dialog/dialogHelper.interface';
 
 @Component({
   selector: 'app-user-page',

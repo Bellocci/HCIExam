@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 
 import { HomeComponent} from './home.component';
 import { SharedService } from '../service/shared.service';
-import { InternalDataService } from '../service/internal-data.service';
+import { InternalDataService } from '../../service/internal-data.service';
 
 const SPORT_DATA = [
   {

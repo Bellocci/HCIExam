@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { InternalDataService } from '../service/internal-data.service';
+import { InternalDataService } from '../../service/internal-data.service';
 import { Team } from 'src/decorator/team.model';
-import { FilterDataService } from '../service/filter-data.service';
+import { FilterDataService } from '../../service/filter-data.service';
 import { SimpleOption } from 'src/decorator/option/simple-option.interfaces';
 
 @Component({

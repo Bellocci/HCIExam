@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { InternalDataService } from '../service/internal-data.service';
-import { TeamDataService } from '../service/team-data.service';
+import { InternalDataService } from '../../service/internal-data.service';
+import { TeamDataService } from '../../service/team-data.service';
 
 @Component({
   selector: 'app-player-list',

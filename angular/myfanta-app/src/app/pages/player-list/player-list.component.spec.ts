@@ -7,8 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MaterialModule } from "../material-module";
-import { TeamDataService } from '../service/team-data.service';
+import { MaterialModule } from "../../material-module";
+import { TeamDataService } from '../../service/team-data.service';
 import { PlayerListComponent } from './player-list.component';
 
 describe('PlayerListComponent', () => {

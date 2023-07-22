@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { InternalDataService } from '../service/internal-data.service';
+import { InternalDataService } from '../../service/internal-data.service';
 
 interface RangeOption {
   'value_min' : number,

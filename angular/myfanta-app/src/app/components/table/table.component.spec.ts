@@ -3,7 +3,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 
-import { TeamDataService } from '../service/team-data.service';
+import { TeamDataService } from '../../service/team-data.service';
 import { TableComponent } from './table.component';
 
 describe('TableComponent', () => {

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateTeamComponent } from './create-team/create-team.component';
-import { HomeComponent } from './home/home.component';
-import { PlayerListComponent } from './player-list/player-list.component';
-import { UserPageComponent } from './user-page/user-page.component';
-import { OptionsComponent } from './options/options.component';
-import { PlayerPageComponent } from './player-page/player-page.component';
+import { CreateTeamComponent } from './pages/create-team/create-team.component';
+import { HomeComponent } from './pages/home/home.component';
+import { PlayerListComponent } from './pages/player-list/player-list.component';
+import { UserPageComponent } from './pages/user-page/user-page.component';
+import { OptionsComponent } from './pages/options/options.component';
+import { PlayerPageComponent } from './pages/player-page/player-page.component';
 
 const routes: Routes = [
   // Serve per reindirizzare la pagina alla HomePage

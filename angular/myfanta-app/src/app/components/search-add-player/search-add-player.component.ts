@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject, switchMap} from 'rxjs';
-import { InternalDataService } from '../service/internal-data.service';
-import { TeamDataService } from '../service/team-data.service';
-import { RouterService } from '../service/router.service';
+import { InternalDataService } from '../../service/internal-data.service';
+import { TeamDataService } from '../../service/team-data.service';
+import { RouterService } from '../../service/router.service';
 import { Player } from 'src/decorator/player.model';
-import { FilterDataService } from '../service/filter-data.service';
+import { FilterDataService } from '../../service/filter-data.service';
 import { League } from 'src/decorator/League.model';
-import { LoadDataService } from '../service/load-data.service';
-import { SnackBarService } from '../service/snack-bar.service';
+import { LoadDataService } from '../../service/load-data.service';
+import { SnackBarService } from '../../service/snack-bar.service';
 import { TeamValidatorService } from 'src/validator/team-validator.service';
 
 @Component({

@@ -8,9 +8,9 @@ import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/
 import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
 
 import { CreateTeamComponent } from './create-team.component';
-import { SnackBarService } from '../service/snack-bar.service';
-import { TeamDataService } from '../service/team-data.service';
-import { InternalDataService } from '../service/internal-data.service';
+import { SnackBarService } from '../../service/snack-bar.service';
+import { TeamDataService } from '../../service/team-data.service';
+import { InternalDataService } from '../../service/internal-data.service';
 import { of } from 'rxjs';
 
 describe('CreateTeamComponent', () => {

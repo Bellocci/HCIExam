@@ -9,25 +9,23 @@ import { MaterialModule } from './material-module';
 import { AppInitService } from './service/app-init.service';
 
 import { HttpClientModule } from '@angular/common/http';
-import { HomeComponent } from './home/home.component';
-import { CreateTeamComponent } from './create-team/create-team.component';
-import { TableComponent } from './table/table.component';
-import { OptionsComponent } from './options/options.component';
+import { HomeComponent } from './pages/home/home.component';
+import { CreateTeamComponent } from './pages/create-team/create-team.component';
+import { TableComponent } from './components/table/table.component';
+import { OptionsComponent } from './pages/options/options.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ToolbarBaseComponent } from './toolbar/toolbar-base/toolbar-base.component';
 import { ToolbarMobileComponent } from './toolbar/toolbar-mobile/toolbar-mobile.component';
-import { SearchAddPlayerComponent } from './search-add-player/search-add-player.component';
-import { PlayerListComponent } from './player-list/player-list.component';
-import { ShortTableComponent } from './table/short-table/short-table.component';
-import { TableFavBlackPlayerComponent } from './table/table-fav-black-player/table-fav-black-player.component';
+import { SearchAddPlayerComponent } from './components/search-add-player/search-add-player.component';
+import { PlayerListComponent } from './pages/player-list/player-list.component';
 import { LoginDialogComponent } from './Dialog/login-dialog/login-dialog.component';
 import { RegistrationDialogComponent } from './Dialog/registration-dialog/registration-dialog.component';
 import { RecoveryPasswordDialogComponent } from './Dialog/recovery-password-dialog/recovery-password-dialog.component';
-import { UserPageComponent } from './user-page/user-page.component';
+import { UserPageComponent } from './pages/user-page/user-page.component';
 import { CreateNewTeamDialogComponent } from './Dialog/create-new-team-dialog/create-new-team-dialog.component';
-import { OptionFilterComponent } from './option-filter/option-filter.component';
-import { PlayerPageComponent } from './player-page/player-page.component';
+import { OptionFilterComponent } from './components/option-filter/option-filter.component';
+import { PlayerPageComponent } from './pages/player-page/player-page.component';
 
 export function initializeApp(appInitService: AppInitService) {
   return (): Promise<any> => { 
@@ -47,8 +45,6 @@ export function initializeApp(appInitService: AppInitService) {
     ToolbarMobileComponent,
     SearchAddPlayerComponent,
     PlayerListComponent,
-    ShortTableComponent,
-    TableFavBlackPlayerComponent,
     LoginDialogComponent,
     RegistrationDialogComponent,
     RecoveryPasswordDialogComponent,
