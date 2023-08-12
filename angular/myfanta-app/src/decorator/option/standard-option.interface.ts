@@ -1,7 +1,6 @@
 import { Team } from "../team.model";
 
-export interface SimpleOption {
-
+export interface StandardOption {
     budget:number,
     minAge:number,
     maxAge:number,
