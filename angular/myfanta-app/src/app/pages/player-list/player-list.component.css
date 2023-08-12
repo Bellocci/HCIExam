@@ -1,0 +1,51 @@
+
+.link-list-container {
+    position: sticky;
+    top: 0;
+    width:10%;
+    flex-grow: 1;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: rgba(0, 0, 0, 0.12);
+}
+
+.player-list-container {
+    width: 100%;
+    max-width: 1000px;
+    padding: 30px;
+}
+
+.player-list-container .filter-container {
+    padding: 24px;
+}
+
+.player-list-container .grid-container {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.player-list-container .btn {
+    border-style: solid;
+    border-width: 1px;
+}
+
+.player-list-container .btn-selected {
+    border-style: solid;
+    border-width: 2px;
+}
+
+.player-list-container .btn:hover {
+    background-color: #b6e3ff;
+}
+
+.icon-size {
+    font-size: 12px;
+    height: 14px;
+    width: 14px;
+}
+
+.player-list-container .table-container {
+    width: 100%;
+    margin-top: 80px;    
+}

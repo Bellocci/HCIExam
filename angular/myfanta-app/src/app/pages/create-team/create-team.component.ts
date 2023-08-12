@@ -1,11 +1,12 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { SimpleOption } from 'src/decorator/option/simple-option.interfaces';
+import { StandardOption } from 'src/decorator/option/standard-option.interface';
 import { ExternalService } from '../../service/external.service';
 import { TeamDataService } from '../../service/team-data.service';
 import { Option } from 'src/decorator/option/option.model';
 import { InternalDataService } from '../../service/internal-data.service';
 import { League } from 'src/decorator/League.model';
 import { SnackBarService } from '../../service/snack-bar.service';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 
 @Component({
   selector: 'app-create-team',
@@ -14,7 +15,7 @@ import { SnackBarService } from '../../service/snack-bar.service';
 })
 export class CreateTeamComponent implements OnInit, AfterViewInit { 
 
-  private simpleOption!:SimpleOption;
+  private simpleOption!:StandardOption;
   private currentLeague:League | null = null;
   private option:Option | null = null;
 
@@ -23,12 +24,13 @@ export class CreateTeamComponent implements OnInit, AfterViewInit {
     private internalDataService:InternalDataService,
     private snackBarService:SnackBarService) {
 
-    this.subscribeOption();
+    this.observeOptionTeam();
     this.subscribeLeague();
   }
 
-  private subscribeOption() : void {
-    this.teamDataService.getOption().subscribe(o => this.option = o)
+  private observeOptionTeam() : void {
+    this.teamDataService.addObserverToOption(
+      new ObserverStepBuilder<Option | null>().next(o => this.option = o).build());
   }
 
   private subscribeLeague() : void {
@@ -43,7 +45,7 @@ export class CreateTeamComponent implements OnInit, AfterViewInit {
 
   /* METODI LISTENER */
 
-  changeOption(option:SimpleOption) : void {
+  changeOption(option:StandardOption) : void {
     this.simpleOption = option;
   }
 

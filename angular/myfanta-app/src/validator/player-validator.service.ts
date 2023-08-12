@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import { InternalDataService } from 'src/app/service/internal-data.service';
 import { TeamDataService } from 'src/app/service/team-data.service';
-import { OptionFootballSoccer } from 'src/decorator/option/optionFootballSoccer.model';
 import { Player } from 'src/decorator/player.model';
 import { Result } from 'src/decorator/result/result.interface';
 import { ResultImpl } from 'src/decorator/result/resultImpl';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { OptionFootballSoccerEnum } from 'src/enum/optionEnum/OptionFootballSoccerEnum.model';
-import { SportEnumVisitorAbstract } from 'src/visitor/sport-enum/SportEnumVisitorAbstract';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +17,7 @@ export class PlayerValidatorService {
     let errorMessage:string[] = [];
     const roleMap:Map<string,number> = this.getMaxPlayerForRole(sport);
     let numOfPlayer:number = this.teamDataService.getUserTeamList().filter(p => p.getRole() == player.getRole()).length;
-    return numOfPlayer < roleMap.get(player.getRole())! ? new ResultImpl(true, []) :
+    return numOfPlayer < roleMap.get(player.getRole().getShortDescription())! ? new ResultImpl(true, []) :
         new ResultImpl(false, ["Raggiunto il numero massimo di giocatori per il ruolo " + player.getRole()]);
   }  
 

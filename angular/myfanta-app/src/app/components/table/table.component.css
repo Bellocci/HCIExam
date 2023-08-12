@@ -4,22 +4,15 @@
   width: 100%;
 }
 
+.table-player-container .mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
 /* COLUMN TABLE */
 
 .empty-row {
   height: 60px;
-}
-
-.mat-column-name {
-  max-width: 30%;
-}
-
-.mat-column-team {
-  max-width: 15%;
-}
-
-.mat-column-role {
-  text-align: center;
 }
 
 .mat-column-cost {

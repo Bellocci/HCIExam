@@ -49,8 +49,8 @@ export const CUSTOMS_TEAM_DATA:UserTeamEntity[] = [
         nameTeam : "Serie A - squadra 2",
         league : new League(LEAGUE_DATA[0]),
         team : PLAYER_DATA_SERIE_A,
-        favoriteList : [],
-        blacklist : [PLAYER_DATA_SERIE_A[0], PLAYER_DATA_SERIE_A[1], PLAYER_DATA_SERIE_A[2]],
+        favoriteList : [PLAYER_DATA_SERIE_A[0], PLAYER_DATA_SERIE_A[1], PLAYER_DATA_SERIE_A[2]],
+        blacklist : [],
         active: true,
         option: new OptionFootballSoccer(new OptionEntity())
     },
@@ -64,5 +64,16 @@ export const CUSTOMS_TEAM_DATA:UserTeamEntity[] = [
         blacklist : [],
         active: true,
         option: new OptionFootballSoccer(new OptionEntity())
-    }
+    },
+    {
+        id : 6,
+        user : new User(USER_DATA[0]),
+        nameTeam : "SerieA - 2",
+        league : new League(LEAGUE_DATA[0]),
+        team : [],
+        favoriteList : PLAYER_DATA_SERIE_A,
+        blacklist : [],
+        active: true,
+        option: new OptionFootballSoccer(new OptionEntity())
+    },
 ]

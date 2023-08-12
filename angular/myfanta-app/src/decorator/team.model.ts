@@ -26,6 +26,14 @@ export class Team {
         return this.teamEntity.league;
     }
 
+    isActive() : boolean {
+        return this.teamEntity.active;
+    }
+
+    setActive(active:boolean) : void {
+        this.teamEntity.active = active;
+    }
+
     toString() : string {
         return "Id:" + this.teamEntity.teamId + " name:" + this.teamEntity.teamName +
             " abbreviation:" + this.teamEntity.teamAbbreviation + 
@@ -43,5 +51,19 @@ export class Team {
 
         return this.teamEntity.teamId == other.getId() && this.teamEntity.teamAbbreviation == other.getAbbreviation() &&
             this.teamEntity.teamName === other.getName() && this.teamEntity.league.equals(other.getLeague());
+    }
+
+    toJSON() : any {
+        return {
+            id : this.teamEntity.teamId,
+            name : this.teamEntity.teamName,
+            abbreviation : this.teamEntity.teamAbbreviation,
+            league : this.teamEntity.league.toJSON(),
+            active : this.teamEntity.active
+        }
+    }
+
+    static fromJSON(json:any) : Team {
+        return new Team(new TeamEntity(json.id, json.name, json.abbreviation, League.fromJSON(json.league), json.active));
     }
 }

@@ -1,35 +1,16 @@
 
 <div class="table-player-container">
 
-  <!-- Sezione pulsanti -->
-  <mat-grid-list cols="3" rowHeight="50px">
-    <!-- Pulsante salvataggio : disponibile solo quando l'utente è loggato -->
-    <mat-grid-tile colspan="1">
-      <div class="full-flex-start-main-axis ml-5px">
-        <button mat-raised-button              
-          matTooltip="Salva i giocatori nella lista delle tue squadre"
-          *ngIf="isSaveBtnRendered()"
-          (click)="savePlayerList()">
-          <mat-icon>save</mat-icon>
-          Salva lista giocatori
-        </button>
-      </div>
-    </mat-grid-tile>
+    <div class="flex-container">
 
-    <!-- Pulsante salvataggio : disponibile solo quando l'utente è loggato -->
-    <mat-grid-tile colspan="1">          
-      <button mat-raised-button
-        matTooltip="Crea un nuovo team dove salvare i giocatori"
-        *ngIf="isCreateNewTeamRendered()"
-        (click)="createNewTeam()">
-        <mat-icon>add_circle</mat-icon>
-        Crea nuovo team
-      </button>
-    </mat-grid-tile>
+      <!-- Filtro ricerca -->
+      <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+      </mat-form-field>
 
-    <!-- Pulsante pulizia tabella -->
-    <mat-grid-tile colspan="1">
-      <div class="full-flex-end-main-axis mr-5px">
+      <!-- Pulsante pulizia tabella -->
+      <div class="full-flex-end-main-axis flex-and-align-items-center">
         <button mat-raised-button
           *ngIf="isClearTableRendered()"
           [disabled]="isClearTableDisabled()"
@@ -39,10 +20,10 @@
           Pulisci tabella
         </button>
       </div>
-    </mat-grid-tile>
-  </mat-grid-list>
+    </div>
 
-  <table mat-table [dataSource]="getPlayers()" class="mat-elevation-z3">
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z3">
 
     <!-- No elements -->
     <tr class="empty-row" *matNoDataRow>
@@ -53,7 +34,7 @@
 
     <!-- Nome giocatore -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Nome </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
       <td mat-cell *matCellDef="let player"> 
         <a class="label black-link" (click)="goToPlayerPage(player)">
           {{ player.getName() }}
@@ -63,13 +44,13 @@
 
     <!-- Squadra -->
     <ng-container matColumnDef="team">
-      <th mat-header-cell *matHeaderCellDef> Squadra </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Squadra </th>
       <td mat-cell *matCellDef="let player"> <span class="label"> {{player.getTeam().getName()}} </span> </td>
     </ng-container>
 
     <!-- Ruolo -->
     <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef> Ruolo </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Ruolo </th>
       <td mat-cell *matCellDef="let player"> <span class="label"> {{player.getRole().getShortDescription()}} </span> </td>
     </ng-container>
 

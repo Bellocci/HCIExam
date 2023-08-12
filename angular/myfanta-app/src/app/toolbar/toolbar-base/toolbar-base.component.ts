@@ -13,6 +13,8 @@ import { DialogService } from 'src/app/service/dialog.service';
 import { LoginDialogComponent } from 'src/app/Dialog/login-dialog/login-dialog.component';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { Player } from 'src/decorator/player.model';
+import { CreateNewTeamDataStructure } from 'src/app/Dialog/create-new-team-dialog/create-new-team-data-structure.interface';
+import { CreateNewTeamDialogComponent } from 'src/app/Dialog/create-new-team-dialog/create-new-team-dialog.component';
 
 @Component({
   selector: 'app-toolbar-base',
@@ -130,5 +132,19 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
       this.routerService.goToHomePage();
     }
     this.snackbarService.openInfoSnackBar("Ti sei scollegato dal tuo account");    
+  }
+
+  openCreateNewTeamDialog() : void {
+    if(this.league != null) {
+      let dataStructure:CreateNewTeamDataStructure = {
+        sport : this.league.getSport(),
+        championship : this.league.getChampionship(),
+        league : this.league,
+        teamName : '',
+        importPlayer : true
+      }
+      this.dialogService.getDialogHelper().setData(dataStructure);
+      this.dialogService.getDialogHelper().openDialog(CreateNewTeamDialogComponent);
+    }
   }
 }

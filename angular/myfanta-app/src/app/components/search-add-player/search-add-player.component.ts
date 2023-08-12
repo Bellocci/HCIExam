@@ -8,7 +8,8 @@ import { FilterDataService } from '../../service/filter-data.service';
 import { League } from 'src/decorator/League.model';
 import { LoadDataService } from '../../service/load-data.service';
 import { SnackBarService } from '../../service/snack-bar.service';
-import { TeamValidatorService } from 'src/validator/team-validator.service';
+import { SearchAddPlayerValidatorService } from './search-add-player-validator.service';
+import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 
 @Component({
   selector: 'app-search-add-player',
@@ -29,7 +30,7 @@ export class SearchAddPlayerComponent implements OnInit {
     private teamDataService:TeamDataService,
     private loadDataService:LoadDataService,
     private snackBarService:SnackBarService,
-    private teamValidator:TeamValidatorService) { }
+    private searchAddPlayerValidator:SearchAddPlayerValidatorService) { }
 
   ngOnInit(): void {
 
@@ -80,17 +81,24 @@ export class SearchAddPlayerComponent implements OnInit {
     return event.key.match(/[^a-zA-Z ,]/g) === null;
   }
 
-  addPlayer(playerName:string) : void {
+  addPlayer(playerName:string) : void { 
+    let player:Player | undefined = this.loadPlayer(playerName);
+    if(player == undefined) {
+      this.snackBarService.openErrorSnackBar("Errore! Nessun giocatore trovato con nome " + playerName);    
+    } else {
+      let validationProblem:ValidationProblem | null = this.searchAddPlayerValidator.validateAddPlayerToListOperation(player);
+      validationProblem != null ? 
+          this.snackBarService.openSnackBar(validationProblem) :
+          this.teamDataService.addPlayerToList(player);
+    }
+  }
+
+  private loadPlayer(playerName:string) : Player | undefined {
     let playerSelected:Player | undefined = this.players.find(player => player.getName().toLowerCase() === playerName.toLocaleLowerCase());
     if(playerSelected == undefined && this.leagueSelected != null) {
       playerSelected = this.loadDataService.searchPlayer(playerName, this.leagueSelected);
     }
 
-    if(this.teamValidator.canAddPlayerToList(playerSelected)) {
-      this.teamDataService.addPlayerToList(playerSelected!);
-      this.snackBarService.openInfoWithCustomDurationSnackBar("Aggiunto giocatore!", 3000);
-    } else {
-      this.snackBarService.openErrorSnackBar("Errore! Nessun giocatore trovato con nome " + playerName);
-    }
+    return playerSelected;
   }
 }

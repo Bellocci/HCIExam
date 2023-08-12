@@ -1,215 +1,111 @@
-<div class="player-list-container mt-40px">
-    <ng-container *ngIf="!isLayoutMobile()">
-        <form class="container-filter-options">
-            <div class="flex option-filter mb-10px">
-                <input type="text" placeholder="Cerca" class="border-option text">
-                <i class="fa fa-search flex border-option icon"></i>
-            </div>
-            
-            <mat-card class="b-r-15px mb-10px p-r-0">
-                <div class="flex container-filter-match-role mb-10px">
 
-                    <div class="filter-match-role mr-5">
-                        <span class="txt-subtitle">Filtro presenze</span>
-                        <div></div>
-                        <ng-container *ngFor="let match of match_filter">
-                            <button
-                            class="flat-btn border-option b-r-10px txt-btn"
-                            [ngClass]="isMatchFilterSelected(match) ? 'flat-btn-selected' : ''"
-                            (click)="setMatchSelected(match);">
-                                {{ match }}
-                            </button>
-                        </ng-container>
-                    </div>
+<div class="flex-container">
+
+    <!-- Margine sinistro -->
+    <div class="ml-10px mr-10px mt-10px link-list-container">
+       <app-link-list [linkList]="getLinksList()"></app-link-list>
+    </div>
+
+    <!-- Contenuto della pagina -->
+    <div class="player-list-container">
+        
+        <!-- Filtri di ricerca dei giocatori nella tabella -->
+        <div class="mb-30px">
+            <mat-expansion-panel expanded="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Filtri ricerca dei giocatori</mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <!-- Sezione filtri di ricerca -->
+                <div class="filter-container">
                     
-                    <div class="filter-match-role ml-0">
-                        <span class="txt-subtitle">Visualizza ruoli</span>
-                        <div></div>
-                        <ng-container *ngFor="let view of roles_view">
-                            <button
-                            class="flat-btn border-option b-r-10px txt-btn"
-                            [ngClass]="isRoleViewSelected(view) ? 'flat-btn-selected' : ''"
-                            (click)="setRoleView(view)">
-                                {{ view }}
-                            </button>
-                        </ng-container>
-                    </div> 
-                </div>
-            </mat-card>
-            <div class="flex mb-10px">
-                <div class="container-select mr-5">
-                    <select class=" text b-r-15px option-filter option-select">
-                        <option value="Tutte">Tutte</option>
-                        <ng-container *ngFor="let team of getTeam()">
-                            <option value="team.name">{{ team.name }}</option>
-                        </ng-container>                        
-                    </select>
-                </div>
-                <div class="container-select mlr-0-auto">
-                    <select class=" text b-r-15px option-filter option-select">
-                        <option value="Tutti">Tutti</option>
-                        <ng-container *ngFor="let role of getRoles()">
-                            <option value="role.name">{{ role.name }}</option>
-                        </ng-container>                        
-                    </select>
-                </div>
-            </div>
-        </form>
-    </ng-container>
-    <div class="filter-container mt-40px">   
-        <div class="filter">
-            <mat-form-field class="text filter-field" appearance="outline">
-                <mat-label>Cerca giocatore</mat-label>
-                <input matInput 
-                type="text" 
-                [(ngModel)]="input_txt"
-                (keypress)="filterText($event)"
-                (input)="searchPlayer(input_txt)">
-            </mat-form-field>            
-        </div>
-    </div>
-    <div class="mat-elevation-z0 container-table mb-40px">
+                    <!-- Prima riga -->
+                    <mat-grid-list cols="2" rowHeight="100px">
+                        <!-- Ruolo -->
+                        <mat-grid-tile colspan="1" rowspan="1">
+                            <div class="flex-direction-column grid-container">
+                                <label class="bold mb-10px">Ruolo</label>
+                                <div class="flex-container">
+                                    <ng-container *ngFor="let role of getPlayerRoles()">
+                                        <button mat-flat-button class="ml-5px mr-5px btn mat-elevation-z3" 
+                                        *ngIf="!isRoleSelected(role)"
+                                        (click)="updateRolesSelectedList(role)">
+                                            {{ role.getShortDescription() }}
+                                        </button>
 
-    </div>
-</div>
+                                        <button mat-flat-button class="ml-5px mr-5px btn-selected primary-color"
+                                        *ngIf="isRoleSelected(role)"
+                                        (click)="updateRolesSelectedList(role)">
+                                            {{ role.getShortDescription() }}
+                                        </button>
+                                    </ng-container>
 
-
-<!--
-<div class="player-list-container">
-    <div class="mt-40px">
-        <ng-container [ngSwitch]="isLayoutMobile()">
-            <ng-container *ngSwitchCase="false">
-                <span class="txt-bold txt-panel-title">Ruoli</span>
-                <button mat-raised-button
-                class="btn btn-role txt-role-team mt-10px"
-                [ngClass]="isAllRolesDisabled() ? 'btn-selected mat-elevation-z1' : 'btn-not-selected mat-elevation-z4'"
-                (click)="disableAllRoles()">
-                    TUTTI
-                </button>
-                <div class="block"></div>
-                <div class="flex mb-40px mt-10px">
-                    <ng-container *ngFor="let role of getRoles()">
-                        <button mat-raised-button
-                        class="btn btn-role txt-role-team" 
-                        [ngClass]="isRoleSelected(role.name) ? 'btn-selected mat-elevation-z1' : 'btn-not-selected mat-elevation-z4'"
-                        (click)="selectedRole(role.name)">
-                            {{ role.name }}
-                        </button>
-                    </ng-container>
-                </div>
-                <span class="txt-bold txt-panel-title">Squadre</span>
-                <button mat-raised-button
-                class="btn btn-role txt-role-team mt-10px"
-                [ngClass]="isAllTeamsDisabled() ? 'btn-selected mat-elevation-z1' : 'btn-not-selected mat-elevation-z4'"
-                (click)="disableAllTeams()">
-                    TUTTE
-                </button>
-                <div class="block"></div>
-                <div class="team-container">                    
-                    <mat-chip-list>
-                        <ng-container *ngFor="let team of getTeam()">
-                            <mat-chip
-                            class="mat-elevation-z1 txt-role-team chip"
-                            [ngClass]="isTeamSelected(team.name) ? 'btn-selected mat-elevation-z1' : 'btn-not-selected mat-elevation-z4'"
-                            (focus) = "false"
-                            (click)="selectedTeam(team.name)">
-                                {{ team.name }}
-                            </mat-chip>
-                        </ng-container>
-                    </mat-chip-list>
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="true">
-                <mat-accordion multi>
-                    <mat-expansion-panel class="mat-elevation-z1"
-                    (opened)="panelRoleOpenState = true" (closed)="panelRoleOpenState = false">
-                        <mat-expansion-panel-header 
-                        class="color-panel"
-                        [ngClass]="panelRoleOpenState ? '' : isAllRolesDisabled() ? '' : 'secondary-color'">
-                            <mat-panel-title class="txt-bold txt-panel-title">
-                                Ruoli
-                            </mat-panel-title>
-                            <mat-panel-description class="txt-panel">
-                                Filtro ricerca giocatori per ruolo
-                            </mat-panel-description>
-                        </mat-expansion-panel-header>
-                        <div class="mt-10px">
-                            <button mat-flat-button
-                            class="btn btn-role txt-role-team mt-10px"
-                            [ngClass]="isAllRolesDisabled() ? 'btn-selected' : 'btn-not-selected'"
-                            (click)="disableAllRoles()">
-                                TUTTI
-                            </button>
-                            <div class="block"></div>
-                            <ng-container *ngFor="let role of getRoles()">
-                                <div class="inline-flex mt-10px">
-                                    <button mat-flat-button
-                                    class="btn btn-role txt-role-team" 
-                                    [ngClass]="isRoleSelected(role.name) ? 'btn-selected mat-elevation-z0' : 'btn-not-selected'"
-                                    (click)="selectedRole(role.name)">
-                                        {{ role.name }}
-                                    </button>
                                 </div>
-                            </ng-container>
-                        </div>    
-                    </mat-expansion-panel>
-                    <mat-expansion-panel class="mat-elevation-z1"
-                    (opened)="panelTeamOpenState = true" (closed)="panelTeamOpenState = false">
-                        <mat-expansion-panel-header
-                        class="color-panel"
-                        [ngClass]="panelTeamOpenState ? '' : isAllTeamsDisabled() ? '' : 'secondary-color'">
-                            <mat-panel-title class="txt-bold txt-panel-title">
-                                Squadre
-                            </mat-panel-title>
-                            <mat-panel-description class="txt-panel">
-                                Filtro ricerca giocatori per squadra
-                            </mat-panel-description>
-                        </mat-expansion-panel-header>
-                        <div class="mt-10px">
-                            <button mat-flat-button
-                            class="btn btn-role txt-role-team mt-10px"
-                            [ngClass]="isAllTeamsDisabled() ? 'btn-selected' : 'btn-not-selected'"
-                            (click)="disableAllTeams()">
-                                TUTTE
-                            </button>
-                            <div class="block"></div>
-                            <ng-container *ngFor="let team of getTeam(); let i = index">
-                                <div *ngIf="i%7 == 0"></div>
-                                <div class="inline-flex mt-10px">
-                                    <button mat-flat-button
-                                    class="btn txt-role-team" 
-                                    [ngClass]="isTeamSelected(team.name) ? 'btn-selected' : 'btn-not-selected'"
-                                    (click)="selectedTeam(team.name)">
-                                        {{ team.short_name }}
-                                    </button>
+                            </div>
+                        </mat-grid-tile>
+
+                        <!-- Filtro presenze -->
+                        <mat-grid-tile colspan="1" rowspan="1">
+                            <div class="flex-direction-column grid-container">
+                                <label class="bold mb-10px">Presenze</label>
+                                <div class="flex-container">
+                                    <ng-container *ngFor="let filter of getMatchFilters()">
+                                        <button mat-flat-button class="ml-5px mr-5px btn mat-elevation-z3" 
+                                        *ngIf="!isMatchFilterSelected(filter)"
+                                        (click)="updateMatchFilterSelected(filter)">
+                                            {{ filter.label }}
+                                        </button>
+
+                                        <button mat-flat-button class="ml-5px mr-5px btn-selected primary-color"
+                                        *ngIf="isMatchFilterSelected(filter)"
+                                        (click)="updateMatchFilterSelected(filter)">
+                                        {{ filter.label }}
+                                        </button>
+                                    </ng-container>
+                                </div>                           
+                            </div>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+
+                    <!-- Seconda riga -->
+                    <mat-grid-list cols="1" rowHeight="100px">
+                        <!-- Filtro squadra -->
+                        <mat-grid-list cols="1" rowHeight="80px">
+                            <div class="mt-30px flex-direction-column">
+                                <div class="mb-10px">
+                                    <label class="label mb-10px">Squadre</label>        
+                                    <mat-icon class="ml-10px icon-size"
+                                        matTooltip="Se nessuna squadra è selezionata la ricerca verrà effettuata su tutte le squadre">
+                                        info
+                                    </mat-icon>
                                 </div>
-                            </ng-container>
-                        </div>
-                    </mat-expansion-panel>
-                </mat-accordion>
-            </ng-container>
-        </ng-container>
-    </div>
-    <div class="filter-container mt-40px">
-        <ng-container *ngIf="getActiveLink() == 'Blacklist' || getActiveLink() == 'Favorit list'">
-            <div class="container-search-add-player">
-                <app-search-add-player></app-search-add-player>                
-            </div>
-        </ng-container>        
-        <div class="filter">
-            <mat-form-field class="text filter-field" appearance="standard">
-                <mat-label>Cerca giocatore</mat-label>
-                <input matInput 
-                type="text" 
-                [(ngModel)]="input_txt"
-                (keypress)="filterText($event)"
-                (input)="searchPlayer(input_txt)">
-            </mat-form-field>            
+                                <mat-chip-listbox #chipsTeamList multiple="true">
+                                    <ng-container *ngFor="let team of getTeams()">
+                                        <mat-chip-option 
+                                        [matTooltip]="team.getName()"
+                                        (selectionChange)="changeSelectedTeamsList(team)">
+                                            {{ team.getAbbreviation() }}
+                                        </mat-chip-option>
+                                    </ng-container>
+                                </mat-chip-listbox>
+                            </div>
+                        </mat-grid-list>
+                    </mat-grid-list>
+                </div>
+
+            </mat-expansion-panel>
         </div>
+
+        <!-- Aggiunta giocatori -->
+        <app-search-add-player></app-search-add-player>
+
+        <!-- Tabella giocatori -->
+        <div class="table-container">
+            <app-table></app-table>
+        </div>
+
     </div>
-    <div class="mat-elevation-z0 container-table mb-40px">
-        <app-table *ngIf="getActiveLink() == 'Player list'"></app-table>
-        <app-table-fav-black-player *ngIf="getActiveLink() == 'Favorit list' || getActiveLink() == 'Blacklist'"></app-table-fav-black-player>
-    </div>
+
+    <!-- Margine destro -->
+    <div class="margin-page-container primary-color-light"></div>
 </div>
--->

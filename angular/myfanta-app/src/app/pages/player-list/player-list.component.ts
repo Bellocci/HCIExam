@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { InternalDataService } from '../../service/internal-data.service';
 import { TeamDataService } from '../../service/team-data.service';
+import { RolePlayer } from 'src/decorator/role-player.model';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { FilterDataService } from 'src/app/service/filter-data.service';
+import { League } from 'src/decorator/League.model';
+import { Team } from 'src/decorator/team.model';
+import { LinkEnum } from 'src/enum/LinkEnum.model';
+
+interface ValueLabel {
+  label:string,
+  value:number | string
+}
 
 @Component({
   selector: 'app-player-list',
@@ -11,170 +20,109 @@ import { TeamDataService } from '../../service/team-data.service';
 })
 export class PlayerListComponent implements OnInit {
 
-  panelRoleOpenState : boolean = false;
-  panelTeamOpenState : boolean = false;
+  private linksList:LinkEnum[] = [LinkEnum.MYTEAM, LinkEnum.FAVORIT_LIST, LinkEnum.BLACKLIST];
 
-  input_txt:string = '';
-  private _search_players = new Subject<string>();
+  private roles:RolePlayer[] = [];
+  private rolesSelectedMap:Map<number, RolePlayer> = new Map();  
 
-  private _teams : {name : string, short_name : string, selected : boolean}[] = [];
-  private _roles : {name : string, selected : boolean}[] = [
-    {name : 'P', selected : false},
-    {name : 'D', selected : false},
-    {name : 'C', selected : false},
-    {name : 'A', selected : false},
-  ];
+  private static readonly ALL_PLAYERS:ValueLabel = {
+    label: "Tutti",
+    value: 0
+  };
+  private static readonly FIRST_THRESHOLD:ValueLabel = {
+    label: ">75%",
+    value: 75
+  };
+  private static readonly SECOND_THRESHOLD:ValueLabel = {
+    label: ">50%",
+    value: 50
+  };
+  private static readonly THIRD_THRESHOLD:ValueLabel = {
+    label: ">25%",
+    value: 25
+  };
 
-  team_form = new UntypedFormControl('');
+  private filterMatchValues:Map<ValueLabel, boolean> = new Map([
+    [PlayerListComponent.ALL_PLAYERS , true], [PlayerListComponent.FIRST_THRESHOLD , false], 
+    [PlayerListComponent.SECOND_THRESHOLD , false], [PlayerListComponent.THIRD_THRESHOLD , false]
+  ]);
+  private selectedMatchFilter:ValueLabel = PlayerListComponent.ALL_PLAYERS;
 
-  constructor(private _team_data_service: TeamDataService, private _internal_data_service:InternalDataService) { }
+  private teams:Team[] = [];
+  private selectedTeams:Set<Team> = new Set();
+
+  constructor(private internalDataService:InternalDataService,
+    private filterDataService:FilterDataService,
+    private teamDataService:TeamDataService) {
+    this.addObserverToLeague();
+  }
 
   ngOnInit(): void {
-
-    this._search_players.pipe(
-      // wait 300ms after each keystroke before considering the term
-      debounceTime(300),
-
-      // ignore new term if same as previous term
-      distinctUntilChanged(),
-
-    ).subscribe((player_name:string) => {
-      // this._team_data_service.filterPlayersByName(player_name);
-    });
+    this.internalDataService.setLoadingData(false);
   }
 
-  // GETTER
+  /* OBSERVER */
 
-  getWindowWidth() : number {
-    return window.innerWidth;
-  }
-
-  getRoles() : {name : string, selected : boolean}[] {
-    return this._roles;
-  }
-
-  getTeam() : {name : string, short_name : string, selected : boolean}[] {
-    return this._teams;
-  }
-
-  // METHODS
-
-  isLayoutMobile() : boolean {
-    return this.getWindowWidth() <= 800 ? true : false;
-  }
-
-  selectedRole(role : string) : void {
-    let found : any = null;
-    for(let r of this._roles.values()) {
-      if(r.name == role) {
-        r.selected = !r.selected;
-        found = r.name;
-        break;
-      }
-    }
-    if(found != null)
-      this.filterPlayerByRole(found);
-  }
-
-  isRoleSelected(role : string) : boolean {
-    let found = null;
-    found = this._roles.find((r) => r.name == role);
-    if(found != null)
-      return found.selected;
-    return false;
-  }
-
-  isAllRolesDisabled() : boolean {
-    for(let btn of this._roles) {
-      if(btn.selected)
-        return false;
-    }
-    return true;
+  addObserverToLeague() : void {
+    this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<League | null>()
+        .next(league => {
+          if(league != null) {
+            this.roles = this.filterDataService.filterRolesBySport(league.getSport());
+            this.teams = this.filterDataService.filterTeamsByLeague(league);
+          } else {
+            this.roles = [];
+            this.teams = [];
+          }          
+        })
+        .build()
+    )
   }
   
-  disableAllRoles() : void {
-    for(let btn of this._roles)
-      btn.selected = false;
+  /* GETTER */
+
+  getPlayerRoles() : RolePlayer[] {
+    return this.roles;
   }
 
-  selectedTeam(team : string) : void {
-    let found : any = null;
-    for(let t of this._teams.values()) {
-      if(t.name == team) {
-        t.selected = !t.selected;
-        found = t;
-        break;
-      }
-    }
-    if(found != null)
-      this.filterPlayerByTeam(found);
+  getMatchFilters() : ValueLabel[] {
+    return [... this.filterMatchValues.keys()];
   }
 
-  isTeamSelected(team : string) : boolean {
-    let found = null;
-    found = this._teams.find((t) => t.name == team);
-    if(found != null)
-      return found.selected
-    return false;
+  getTeams() : Team[] {
+    return this.teams;
   }
 
-  isAllTeamsDisabled() : boolean {
-    for(let team of this._teams) {
-      if(team.selected)
-        return false;
-    }
-    return true;
+  getLinksList() : LinkEnum[] {
+    return this.linksList;
   }
 
-  disableAllTeams() : void {
-    for(let team of this._teams)
-      team.selected = false;
+  /* VISIBLITA' */
+
+  isRoleSelected(role:RolePlayer) : boolean {
+    return this.rolesSelectedMap.has(role.getId());
   }
 
-  isShortSelectedTeam() : boolean {
-    return this.getWindowWidth() <= 600 ? true : false;
+  isMatchFilterSelected(filter:ValueLabel) : boolean {
+    return this.selectedMatchFilter == filter;
   }
 
-  filterPlayerByRole(role : {name : string, selected : boolean}) : void {
+  /* LISTENER */
+
+  updateRolesSelectedList(role:RolePlayer) : void {
+    this.rolesSelectedMap.has(role.getId()) ? 
+        this.rolesSelectedMap.delete(role.getId()) : 
+        this.rolesSelectedMap.set(role.getId(), role);
     
+    this.teamDataService.filterPlayersByRole(role);
   }
 
-  filterPlayerByTeam(team : {name : string, selected : boolean}) : void {
-    
+  updateMatchFilterSelected(filter:ValueLabel) : void {
+    this.selectedMatchFilter = this.selectedMatchFilter == filter ? PlayerListComponent.ALL_PLAYERS : filter;
+    this.teamDataService.filterPlayersByMatchPlayedPerc(filter.value as number);
   }
 
-  filterText(event: KeyboardEvent) : boolean {
-    return event.key.match(/[^a-zA-Z ,]/g) === null;
-  }
-
-  searchPlayer(player_name:string) {
-    this._search_players.next(player_name);
-  }
-
-
-
-
-  /* NEW  */
-
-  match_filter : string[] = ['Tutte', '>75%', '>50%', '>25%'];
-  match_filter_selected : string = 'Tutte';
-  
-  roles_view : string[] = ['Classic', 'Mantra'];
-  role_view_selected : string = 'Classic';
-
-  isRoleViewSelected(role_view:string) : boolean {
-    return this.role_view_selected == role_view ? true : false;
-  }
-
-  setRoleView(role_view:string) : void {
-    this.role_view_selected = role_view;
-  }
-
-  isMatchFilterSelected(match:string) : boolean {
-    return this.match_filter_selected == match ? true : false;
-  }
-
-  setMatchSelected(match:string) : void {
-    this.match_filter_selected = match;
+  changeSelectedTeamsList(team:Team) : void {
+    this.selectedTeams.has(team) ? this.selectedTeams.delete(team) : this.selectedTeams.add(team);
+    this.teamDataService.filterPlayersByTeams(team);
   }
 }

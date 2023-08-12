@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { InternalDataService } from '../../service/internal-data.service';
 import { Team } from 'src/decorator/team.model';
 import { FilterDataService } from '../../service/filter-data.service';
-import { SimpleOption } from 'src/decorator/option/simple-option.interfaces';
+import { StandardOption } from 'src/decorator/option/standard-option.interface';
 
 @Component({
   selector: 'app-option-filter',
@@ -13,9 +13,9 @@ export class OptionFilterComponent implements OnInit {
     
   private teamsList:Team[] = [];
 
-  option:SimpleOption;
+  option:StandardOption;
 
-  @Output() private optionToSend:EventEmitter<SimpleOption> = new EventEmitter<SimpleOption>();
+  @Output() private optionToSend:EventEmitter<StandardOption> = new EventEmitter<StandardOption>();
 
   constructor(private internalDataService:InternalDataService,
     private filterDataService:FilterDataService) {

@@ -1,26 +1,41 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Observer, of } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { Option } from 'src/decorator/option/option.model';
 import { Player } from 'src/decorator/player.model';
+import { RolePlayer } from 'src/decorator/role-player.model';
+import { Team } from 'src/decorator/team.model';
 import { UserTeam } from 'src/decorator/userTeam.model';
 import { MapHelper } from 'src/utility/map-helper';
+import { ObserverHelper } from 'src/utility/observer-helper';
+import { TableFilterOption } from '../components/table/table-filter';
+import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
+import { RouterService } from './router.service';
+import { ValidationProblemBuilder } from 'src/utility/validation/ValidationProblemBuilder';
+import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamDataService {
 
+ /*
+  * Mappe per la gestione della Squadra, Giocatori Preferiti e Giocatori da escludere
+  */
   private teamMap:MapHelper<number, Player> = new MapHelper<number, Player>(new Map());
   private favoriteListMap:MapHelper<number, Player> = new MapHelper<number, Player>(new Map());
   private blacklistMap:MapHelper<number, Player> = new MapHelper<number, Player>(new Map());  
 
-  private option:BehaviorSubject<Option | null> = new BehaviorSubject<Option | null>(null);
-  private currentOption:Observable<Option | null> = this.option.asObservable();
+  /*
+   * Opzioni di ricerca per la creazione della squadra 
+   */
+  private option:ObserverHelper<Option | null> = new ObserverHelper<Option | null>(null);
 
-  private _player_selected = new BehaviorSubject(null);
-  private _current_player_selected = this._player_selected.asObservable();
+  /*
+   * Filtro dei giocatori presenti nella tabella 
+   */
+  private tableFilterOption:ObserverHelper<TableFilterOption> = new ObserverHelper(new TableFilterOption());
 
-  constructor() { }
+  constructor(private routerService:RouterService) { }
 
   /* METODI GENERICI */
 
@@ -43,7 +58,7 @@ export class TeamDataService {
     team.getBlackList().forEach(player => this.blacklistMap.addElementToMap(player.getId(), player));
 
     // Carico le opzioni
-    this.option.next(team.getOption());
+    this.option.setValue(team.getOption());
   }
 
   /**
@@ -60,6 +75,22 @@ export class TeamDataService {
     this.blacklistMap.clearMap();
   }
 
+  addPlayerToList(player:Player) : ValidationProblem[] {
+    if(this.routerService.currentPageIsMyTeam()) {
+      return this.addPlayerToMyTeam(player);
+    } else if(this.routerService.currentPageIsFavoritList()) {
+      return this.addPlayerToFavoriteList(player);
+    } else if(this.routerService.currentPageIsBlacklist()) {
+      return this.addPlayerToBlacklist(player);
+    } else {
+      return [new ValidationProblemBuilder()
+        .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
+        .withMessage("Errore durante l'inserimento del giocatore nella lista")
+        .build()
+      ]
+    }
+  }
+
   /* METODI SQUADRA UTENTE */
 
   getUserTeamList() : Player[] {
@@ -74,8 +105,14 @@ export class TeamDataService {
     return this.teamMap.getObservable();
   }
 
-  addPlayerToList(player:Player) : boolean {
-    return this.teamMap.addElementToMap(player.getId(), player);
+  private addPlayerToMyTeam(player:Player) : ValidationProblem[] {
+    let validationProblemList:ValidationProblem[] = [];
+    const added:boolean = this.teamMap.addElementToMap(player.getId(), player);      
+    !added ? validationProblemList.push(new ValidationProblemBuilder()
+        .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE).withMessage("Errore durante l'inserimento del giocatore").build()) : 
+        null;
+
+    return validationProblemList;
   }
 
   userTeamHasPlayer(player:Player) : boolean {
@@ -104,8 +141,13 @@ export class TeamDataService {
     return this.favoriteListMap.getObservable();
   }
 
-  addPlayerToFavoriteList(player:Player) : boolean {
-    return this.favoriteListMap.addElementToMap(player.getId(), player);
+  private addPlayerToFavoriteList(player:Player) : ValidationProblem[] {
+    let validationProblemList:ValidationProblem[] = [];
+    const added:boolean = this.favoriteListMap.addElementToMap(player.getId(), player);
+    !added ? validationProblemList.push(new ValidationProblemBuilder()
+        .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE).withMessage("Errore durante l'inserimento del giocatore").build()) : 
+        null;
+    return validationProblemList;
   }
 
   favoriteListHasPlayer(player:Player) {
@@ -134,8 +176,13 @@ export class TeamDataService {
     return this.blacklistMap.getObservable();
   }
 
-  addPlayerToBlacklist(player:Player) : boolean {
-    return this.blacklistMap.addElementToMap(player.getId(), player);
+  private addPlayerToBlacklist(player:Player) : ValidationProblem[] {
+    let validationProblemList:ValidationProblem[] = [];
+    const added:boolean = this.blacklistMap.addElementToMap(player.getId(), player);
+    !added ? validationProblemList.push(new ValidationProblemBuilder()
+        .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE).withMessage("Errore durante l'inserimento del giocatore").build()) : 
+        null;
+    return validationProblemList;
   }
 
   blacklistHasPlayer(player:Player) {
@@ -152,11 +199,49 @@ export class TeamDataService {
 
   /* METODI OPZIONI DI RICERCA */
 
-  getOption() : Observable<Option | null> {
-    return this.currentOption;
+  addObserverToOption(observer:Observer<Option | null>) : void {
+    this.option.addObserver(observer);
   }
 
   setOption(option:Option | null) : void {
-    this.option.next(option);
+    this.option.setValue(option);
+  }
+
+  /*
+   * METODI FILTRAGGIO GIOCATORI NELLA TABELLA 
+   */  
+
+  addObserverToTableFilterOption(observer:Observer<TableFilterOption>) : void {
+    this.tableFilterOption.addObserver(observer);
+  }
+
+  filterPlayersByRole(role:RolePlayer) : void {
+    let tableFilter:TableFilterOption = this.tableFilterOption.getValue();
+    tableFilter.updateRoles(role);
+    this.tableFilterOption.setValue(tableFilter);
+  }
+
+  filterPlayersByMatchPlayedPerc(matchPlayedPerc:number) : void {
+    let tableFilter:TableFilterOption = this.tableFilterOption.getValue();
+    tableFilter.setMatchPlayedPerc(matchPlayedPerc);
+    this.tableFilterOption.setValue(tableFilter);
+  }
+
+  filterPlayersByTeams(team:Team) : void {
+    let tableFilter:TableFilterOption = this.tableFilterOption.getValue();
+    tableFilter.updateTeams(team);
+    this.tableFilterOption.setValue(tableFilter);
+  }
+
+  filterPlayersByName(playerName:string) : void {
+    let tableFilter:TableFilterOption = this.tableFilterOption.getValue();
+    tableFilter.setPlayerName(playerName);
+    this.tableFilterOption.setValue(tableFilter);
+  }
+
+  clearTableFilterOption() : void {
+    let tableFilter:TableFilterOption = this.tableFilterOption.getValue();
+    tableFilter.clear();
+    this.tableFilterOption.setValue(tableFilter);
   }
 }

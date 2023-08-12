@@ -14,6 +14,10 @@ export class ObserverHelper<T> {
         this.subject.next(value);
     }
 
+    getValue() : T {
+        return this.subject.getValue();
+    }
+
     addObserver(observer:Observer<T>) : void {
         this.observable.subscribe(observer);
     }

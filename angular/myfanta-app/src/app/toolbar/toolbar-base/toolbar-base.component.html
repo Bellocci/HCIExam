@@ -87,7 +87,7 @@
   </mat-toolbar-row>
 
   <!-- Seconda riga -->
-  <mat-toolbar-row class="toolbar.row mat-elevation-z2" *ngIf="isSecondToolbarRowRendered()">
+  <mat-toolbar-row class="toolbar-row mat-elevation-z3 z" *ngIf="isSecondToolbarRowRendered()">
 
     <!-- Pulsante back -->
     <button mat-raised-button *ngIf="isBackBtnRendered()"
@@ -136,11 +136,23 @@
     <span class="flex-item-1-1-auto"></span>
 
     <!-- Pulsante save -->
-    <button mat-raised-button class="mr-10px secondary-color"
-      *ngIf="isUserLogged()">
+    <button mat-raised-button [matMenuTriggerFor]="saveMenu"
+    class="mr-10px secondary-color" *ngIf="isUserLogged()">
       <mat-icon>save</mat-icon>
       <span>Salva</span>
     </button>
+    <mat-menu #saveMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>save</mat-icon>
+        Salva
+      </button>
+      <button mat-menu-item (click)="openCreateNewTeamDialog()">
+        <mat-icon>save</mat-icon>
+        Salva in una nuova squadra
+      </button>
+    </mat-menu>
+    <!-- Menu salvataggio -->
+
 
   </mat-toolbar-row>
 </mat-toolbar>

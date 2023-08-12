@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { InternalDataService } from './internal-data.service';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { Player } from 'src/decorator/player.model';
-import { Team } from 'src/decorator/team.model';
-import { League } from 'src/decorator/League.model';
 import { SessionStorageService } from './session-storage.service';
+import { LinkEnumNavigateToPageVisitor } from 'src/visitor/link-enum/LinkEnumNavigateToPageVisitor';
+import { LinkEnumIsCurrentPageVisitorWithReturn } from 'src/visitor/link-enum/LinkEnumIsCurrentPageVisitorWithReturn';
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +34,6 @@ export class RouterService {
         this.sessionStorageLastPage.getData(RouterService.KEY_SESSION_LAST_PAGE)! :
         "";
   }
-
-  private linkEnum: typeof LinkEnum = LinkEnum;
 
   // Metodo che renderizza alla pagina di Home
   goToHomePage() : void {
@@ -99,7 +97,6 @@ export class RouterService {
 
   // Verifica se la pagina corrente è myProfile
   currentPageIsMyProfile() : boolean {
-    console.log(this.PARENT_PATH + this.MYPROFILE_PAGE_PATH);
     return this.router.url == this.PARENT_PATH + this.MYPROFILE_PAGE_PATH;
   }
 
@@ -135,6 +132,16 @@ export class RouterService {
    */
   goPreviousPage() : void {
     this.reloadOrNavigate(false, this.lastPage);
+  }
+
+  goToLink(linkEnum:LinkEnum) : void {
+    const visitor = new LinkEnumNavigateToPageVisitor(this);
+    LinkEnum.visit(linkEnum, visitor);
+  }
+
+  isLinkActivated(linkEnum:LinkEnum) : boolean {
+    const visitor = new LinkEnumIsCurrentPageVisitorWithReturn(this);
+    return LinkEnum.visitAndReturn(linkEnum, visitor);
   }
   
   /**
