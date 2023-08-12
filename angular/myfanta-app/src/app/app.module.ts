@@ -26,6 +26,8 @@ import { UserPageComponent } from './pages/user-page/user-page.component';
 import { CreateNewTeamDialogComponent } from './Dialog/create-new-team-dialog/create-new-team-dialog.component';
 import { OptionFilterComponent } from './components/option-filter/option-filter.component';
 import { PlayerPageComponent } from './pages/player-page/player-page.component';
+import { CustomSnackbarComponent } from './components/custom-snackbar/custom-snackbar.component';
+import { LinkListComponent } from './components/link-list/link-list.component';
 
 export function initializeApp(appInitService: AppInitService) {
   return (): Promise<any> => { 
@@ -52,6 +54,8 @@ export function initializeApp(appInitService: AppInitService) {
     CreateNewTeamDialogComponent,
     OptionFilterComponent,
     PlayerPageComponent,
+    CustomSnackbarComponent,
+    LinkListComponent
   ],
   imports: [
     AppRoutingModule,
