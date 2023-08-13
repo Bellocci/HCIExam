@@ -47,4 +47,16 @@ export class SportEnum {
             throw new Error("Unknow sport " + sport);
         }
     }
+
+    toJSON() : any {
+        return {
+            code : this.code,
+            label : this.label,
+            description : this.description,
+        }
+    }
+
+    static fromJSON(json : any) : SportEnum {
+        return new SportEnum(json.code, json.label, json.description);
+    }
 }

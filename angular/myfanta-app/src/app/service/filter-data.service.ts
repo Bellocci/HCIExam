@@ -7,6 +7,8 @@ import { InternalDataService } from './internal-data.service';
 import { Player } from 'src/decorator/player.model';
 import { Observable, of } from 'rxjs';
 import { Team } from 'src/decorator/team.model';
+import { RolePlayer } from 'src/decorator/role-player.model';
+import { ROLE_PLAYER_DATA } from 'src/model/rolePlayerEntity.model';
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +68,13 @@ export class FilterDataService {
 
   isEmptyString(text:string) : boolean {
     return text.trim().length == 0;
+  }
+
+  filterRolesBySport(sport:SportEnum) : RolePlayer[] {
+    const filteredList:RolePlayer[] = [];
+    ROLE_PLAYER_DATA.filter(role => role.sport == sport)
+        .forEach(role => filteredList.push(new RolePlayer(role)));
+
+    return filteredList;
   }
 }

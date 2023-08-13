@@ -26,6 +26,14 @@ export class League {
         return this.leagueEntity.championship;
     }
 
+    isActive() : boolean {
+        return this.leagueEntity.active;
+    }
+
+    setActive(active:boolean) : void {
+        this.leagueEntity.active = active;
+    }
+
     toString() : string {
         return "Id:" + this.leagueEntity.leagueId + ", Nome: " + this.leagueEntity.name +  
             ", Campionato: " + this.leagueEntity.championship +
@@ -44,4 +52,20 @@ export class League {
         return this.leagueEntity.leagueId == other.leagueEntity.leagueId && this.leagueEntity.name == other.leagueEntity.name &&
             this.leagueEntity.sport == other.leagueEntity.sport && this.leagueEntity.championship == other.leagueEntity.championship;
     }
+
+    toJSON() : any {
+        return {
+            id : this.leagueEntity.leagueId,
+            sport : this.leagueEntity.sport.toJSON(),
+            name : this.leagueEntity.name,
+            championship : this.leagueEntity.championship.toJSON(),
+            active : this.leagueEntity.active
+        }
+    }
+
+    static fromJSON(json:any) : League {
+        return new League(
+            new LeagueEntity(json.id, json.name, SportEnum.fromJSON(json.sport), 
+                ChampionshipEnum.fromJSON(json.championship), json.active));
+    } 
 }

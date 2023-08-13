@@ -11,6 +11,7 @@ export class OptionFootballSoccerEnum {
     public static readonly MAX_DEFENDER_PLAYERS = new OptionFootballSoccerEnum("Difensori", 8, "D");
     public static readonly MAX_MIDFIELDER_PLAYERS = new OptionFootballSoccerEnum("Centrocampisti", 8, "C");
     public static readonly MAX_STRAIKERS_PLAYERS = new OptionFootballSoccerEnum("Attaccanti", 6, "A");
+    public static readonly TOTAL_MATCH = new OptionFootballSoccerEnum("Partite di campionato", 38);
 
     private constructor(public readonly label:string, 
         public readonly value: string | number, 

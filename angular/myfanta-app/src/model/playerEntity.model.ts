@@ -25,7 +25,7 @@ export const PLAYER_DATA_SERIE_A:PlayerEntity[] = [
         cost : 12,
         role : new RolePlayer(ROLE_PLAYER_DATA[0]),
         age : 27,
-        matchPlayed : 24,
+        matchPlayed : 34,
         active: true,
         description: description
     },

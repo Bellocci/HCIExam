@@ -122,7 +122,7 @@ export class ToolbarComponent implements OnInit {
     this.clearData();
     this.setLeagueSelected(league);
     this.closeSidenav();
-    this.routerService.goToMyTeamPage();
+    this.routerService.goToMyTeamPage(LinkEnum.MYTEAM);
   }
 
   onResize(event:any) {

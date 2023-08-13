@@ -7,6 +7,14 @@ export class TeamEntity {
     teamAbbreviation!:string;
     league!:League;
     active!:boolean;
+
+    constructor(teamId:number, teamName:string, teamAbbreviation:string, league:League, active:boolean) {
+        this.teamId = teamId;
+        this.teamName = teamName;
+        this.teamAbbreviation = teamAbbreviation;
+        this.league = league;
+        this.active = active;
+    }
 }
 
 export const TEAM_DATA:TeamEntity[] = [

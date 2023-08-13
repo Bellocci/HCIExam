@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Option } from 'src/decorator/option/option.model';
-import { SimpleOption } from 'src/decorator/option/simple-option.interfaces';
+import { StandardOption } from 'src/decorator/option/standard-option.interface';
 import { SportEnum } from 'src/enum/SportEnum.model';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class ExternalService {
 
   constructor(private http:HttpClient) { }
 
-  createTeamWithSimpleOption(option:SimpleOption) : void {
+  createTeamWithSimpleOption(option:StandardOption) : void {
     //FIXME: Chiamata al backend per la generazione della squadra
   }
 

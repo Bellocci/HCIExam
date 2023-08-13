@@ -1,0 +1,35 @@
+
+.filter-container {
+    padding: 24px;
+}
+
+.filter-container .grid-container {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.input-container {
+    height: 30px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.input-container:disabled {
+    opacity: 0.5;
+}
+
+.small-input {
+    width: 100%;
+    max-width: 80px;
+}
+
+.icon-size {
+    font-size: 12px;
+    height: 14px;
+    width: 14px;
+}
+

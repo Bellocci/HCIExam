@@ -13,6 +13,9 @@ import { DialogService } from 'src/app/service/dialog.service';
 import { LoginDialogComponent } from 'src/app/Dialog/login-dialog/login-dialog.component';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { Player } from 'src/decorator/player.model';
+import { CreateNewTeamDataStructure } from 'src/app/Dialog/create-new-team-dialog/create-new-team-data-structure.interface';
+import { CreateNewTeamDialogComponent } from 'src/app/Dialog/create-new-team-dialog/create-new-team-dialog.component';
+import { LinkEnum } from 'src/enum/LinkEnum.model';
 
 @Component({
   selector: 'app-toolbar-base',
@@ -96,18 +99,19 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
   }
 
   isBtnHomeRendered() : boolean {
-    return !this.routerService.currentPageIsHome() && (this.isLeagueSelected() || this.routerService.currentPageIsMyProfile());
+    return !this.routerService.currentPageIsHome(LinkEnum.HOME) && 
+      (this.isLeagueSelected() || this.routerService.currentPageIsMyProfile(LinkEnum.USER_PROFILE));
   }
 
   isSecondToolbarRowRendered() : boolean {
-    return (this.userLogged && !this.routerService.currentPageIsHome() && !this.routerService.currentPageIsMyProfile()) || 
+    return (this.userLogged && !this.routerService.currentPageIsHome(LinkEnum.HOME) && !this.routerService.currentPageIsMyProfile(LinkEnum.USER_PROFILE)) || 
       (!this.userLogged && 
-        (this.routerService.currentPageIsMyTeam() || this.routerService.currentPageIsFavoritList() || this.routerService.currentPageIsBlacklist())) ||
+        (this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) || this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) || this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST))) ||
       this.isBackBtnRendered();
   }
 
   isCreateTeamLinkSelected() : boolean {
-    return this.routerService.currentPageIsMyTeam() || this.routerService.currentPageIsFavoritList() || this.routerService.currentPageIsBlacklist();
+    return this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) || this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) || this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST);
   }
 
   isBackBtnRendered() : boolean {
@@ -126,9 +130,17 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 
   logout() : void {    
     this._userService.logout();
-    if(this.routerService.currentPageIsMyProfile()) {
-      this.routerService.goToHomePage();
+    if(this.routerService.currentPageIsMyProfile(LinkEnum.USER_PROFILE)) {
+      this.routerService.goToHomePage(LinkEnum.HOME);
     }
     this.snackbarService.openInfoSnackBar("Ti sei scollegato dal tuo account");    
+  }  
+
+  goToPage(link:LinkEnum) : void {
+    this.routerService.goToLink(link);
+  }
+
+  isPageSelected(link:LinkEnum) : boolean {
+    return this.routerService.isLinkActivated(link);
   }
 }

@@ -1,0 +1,28 @@
+/* TABLE */
+
+.table-player-container {
+  width: 100%;
+}
+
+.table-player-container .mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+/* COLUMN TABLE */
+
+.empty-row {
+  height: 60px;
+}
+
+.mat-column-cost {
+  text-align: center;
+}
+
+.mat-column-favorite {
+  text-align: center;
+}
+
+.mat-column-blacklist {
+  text-align: center;
+}

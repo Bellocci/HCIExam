@@ -7,6 +7,14 @@ export class LeagueEntity {
     sport!:SportEnum;
     championship!:ChampionshipEnum;
     active!:boolean;
+
+    constructor(leagueId:number, name:string, sport:SportEnum, championship:ChampionshipEnum, active:boolean) {
+        this.leagueId = leagueId;
+        this.name = name;
+        this.sport = sport;
+        this.championship = championship;
+        this.active = active;
+    }
 }
 
 export const LEAGUE_DATA:LeagueEntity[] = [

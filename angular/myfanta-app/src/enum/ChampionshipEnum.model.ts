@@ -23,4 +23,16 @@ export class ChampionshipEnum {
         return [...ChampionshipEnum.championshipList];
     }
 
+    toJSON() : any {
+        return {
+            code : this.code,
+            shortDescription : this.shortDescription,
+            description : this.description
+        }
+    }
+
+    static fromJSON(json:any) : ChampionshipEnum {
+        return new ChampionshipEnum(json.code, json.shortDescription, json.description);
+    }
+
 }

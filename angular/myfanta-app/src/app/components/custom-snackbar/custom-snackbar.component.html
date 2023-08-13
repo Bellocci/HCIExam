@@ -1,0 +1,21 @@
+<!-- Componente per la visualizzazione di notifiche Snackbar -->
+<div class="flex-and-align-items-center notify-message-container">
+    <!-- Icona del messaggio -->
+    <div class="notify-message-icon">
+        <mat-icon>{{ getIcon() }}</mat-icon>
+    </div>
+
+    <!-- Contenuto del messaggio -->
+    <div class="ml-10px mr-10px notify-message">
+        {{ getMessage() }}
+    </div>
+
+    <!-- Icona chiusura messaggio -->
+    <div>
+        <span matSnackBarActions>
+            <button mat-button matSnackBarAction (click)="snackBarRef.dismissWithAction()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </span>
+    </div>
+</div>
