@@ -14,7 +14,7 @@ export class LinkEnum {
     public static readonly MYTEAM = new LinkEnum("myTeam", "Miei giocatori", this.PARENT_PATH + "myTeam");
     public static readonly PLAYER_LIST = new LinkEnum("playerList", "Lista giocatori", this.PARENT_PATH + "playerList");
     public static readonly FAVORIT_LIST = new LinkEnum("favoritList", "Giocatori preferiti", this.PARENT_PATH + "favoriteList");
-    public static readonly BLACKLIST = new LinkEnum("blacklist", "Giocatori esclusi", this.PARENT_PATH + "blackList");
+    public static readonly BLACKLIST = new LinkEnum("blacklist", "Giocatori esclusi", this.PARENT_PATH + "blacklist");
     public static readonly USER_PROFILE = new LinkEnum("profile", "Mio Profilo", this.PARENT_PATH + "myProfile");
     public static readonly OPTIONS = new LinkEnum("options", "Opzioni di ricerca", this.PARENT_PATH + "options");
     public static readonly PLAYER_PROFILE = new LinkEnum("playerProfile", "Profilo giocatore");

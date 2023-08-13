@@ -32,6 +32,7 @@ export class RouterService {
   }
 
   goToLink(linkEnum:LinkEnum) : void {
+    console.log("Navigate to:" + linkEnum.path);
     const visitor = new LinkEnumNavigateToPageVisitor(this);
     LinkEnum.visit(linkEnum, visitor);
   }
