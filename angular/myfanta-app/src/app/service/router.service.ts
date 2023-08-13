@@ -15,6 +15,9 @@ export class RouterService {
   private static readonly KEY_SESSION_LAST_PAGE:string = "lastPage";
   private lastPage:string = "";
 
+  private visitorNavigateToLink:LinkEnumNavigateToPageVisitor;
+  private visitorIsCurrentPage:LinkEnumIsCurrentPageVisitorWithReturn;
+
   constructor(private router: Router, 
     private internalDataService:InternalDataService,
     private sessionStorageLastPage:SessionStorageService<string>) { 
@@ -22,6 +25,9 @@ export class RouterService {
       this.lastPage = this.sessionStorageLastPage.getData(RouterService.KEY_SESSION_LAST_PAGE) != null ? 
         this.sessionStorageLastPage.getData(RouterService.KEY_SESSION_LAST_PAGE)! :
         "";
+
+      this.visitorNavigateToLink = new LinkEnumNavigateToPageVisitor(this);
+      this.visitorIsCurrentPage = new LinkEnumIsCurrentPageVisitorWithReturn(this);
   }
 
   /**
@@ -33,13 +39,11 @@ export class RouterService {
 
   goToLink(linkEnum:LinkEnum) : void {
     console.log("Navigate to:" + linkEnum.path);
-    const visitor = new LinkEnumNavigateToPageVisitor(this);
-    LinkEnum.visit(linkEnum, visitor);
+    LinkEnum.visit(linkEnum, this.visitorNavigateToLink);
   }
 
   isLinkActivated(linkEnum:LinkEnum) : boolean {
-    const visitor = new LinkEnumIsCurrentPageVisitorWithReturn(this);
-    return LinkEnum.visitAndReturn(linkEnum, visitor);
+    return LinkEnum.visitAndReturn(linkEnum, this.visitorIsCurrentPage);
   }
 
   // Metodo che renderizza alla pagina di Home

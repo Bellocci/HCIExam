@@ -9,6 +9,10 @@
   width: 100%;
 }
 
+.table-player-container .mat-mdc-table .mdc-data-table__header-row {
+  background-color: #b6e3ff;
+}
+
 /* COLUMN TABLE */
 
 .empty-row {

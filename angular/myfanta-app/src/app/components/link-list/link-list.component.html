@@ -3,8 +3,9 @@
     <div mat-subheader class="bold">Pagine</div>
     <mat-nav-list *ngFor="let link of getLinks()">        
         <a mat-list-item [activated]="isLinkActivated(link)"
+        [ngClass]="isLinkActivated(link) ? 'primary-color-light' : ''"
         (click)="redirectToLink(link)">
-            {{ link.description }}
+           <span class="label txt-color" [ngClass]="isLinkActivated(link) ? 'bold' : ''"> {{ link.description }} </span>
         </a>
     </mat-nav-list>
 </div>

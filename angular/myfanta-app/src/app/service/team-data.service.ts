@@ -76,22 +76,6 @@ export class TeamDataService {
     this.blacklistMap.clearMap();
   }
 
-  addPlayerToList(player:Player) : ValidationProblem[] {
-    if(this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM)) {
-      return this.addPlayerToMyTeam(player);
-    } else if(this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST)) {
-      return this.addPlayerToFavoriteList(player);
-    } else if(this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST)) {
-      return this.addPlayerToBlacklist(player);
-    } else {
-      return [new ValidationProblemBuilder()
-        .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-        .withMessage("Errore durante l'inserimento del giocatore nella lista")
-        .build()
-      ]
-    }
-  }
-
   /* METODI SQUADRA UTENTE */
 
   getUserTeamList() : Player[] {
@@ -106,14 +90,16 @@ export class TeamDataService {
     return this.teamMap.getObservable();
   }
 
-  private addPlayerToMyTeam(player:Player) : ValidationProblem[] {
-    let validationProblemList:ValidationProblem[] = [];
+  addPlayerToMyTeam(player:Player) : ValidationProblem | null {
     const added:boolean = this.teamMap.addElementToMap(player.getId(), player);      
-    !added ? validationProblemList.push(new ValidationProblemBuilder()
-        .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE).withMessage("Errore durante l'inserimento del giocatore").build()) : 
-        null;
+    if(!added) {
+      return new ValidationProblemBuilder()
+          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
+          .withMessage("Errore durante l'inserimento del giocatore " + player.getName() + " nella lista della squadra")
+          .build();
+    }
 
-    return validationProblemList;
+    return null;
   }
 
   userTeamHasPlayer(player:Player) : boolean {
@@ -124,8 +110,16 @@ export class TeamDataService {
     this.teamMap.clearMap();
   }
 
-  removePlayerFromUserTeam(player:Player) : boolean {
-    return this.teamMap.removeElement(player.getId());
+  removePlayerFromUserTeam(player:Player) : ValidationProblem | null {
+    const removed:boolean = this.teamMap.removeElement(player.getId());
+    if(!removed) {
+      return new ValidationProblemBuilder()
+          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
+          .withMessage("Errore durante la rimozione del giocatore " + player.getName() + " dalla lista della squadra")
+          .build()
+    }    
+    
+    return null;
   }
 
   /* METODI LISTA GIOCATORI PREFERITI */
@@ -142,13 +136,16 @@ export class TeamDataService {
     return this.favoriteListMap.getObservable();
   }
 
-  private addPlayerToFavoriteList(player:Player) : ValidationProblem[] {
-    let validationProblemList:ValidationProblem[] = [];
+  addPlayerToFavoriteList(player:Player) : ValidationProblem | null {
     const added:boolean = this.favoriteListMap.addElementToMap(player.getId(), player);
-    !added ? validationProblemList.push(new ValidationProblemBuilder()
-        .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE).withMessage("Errore durante l'inserimento del giocatore").build()) : 
-        null;
-    return validationProblemList;
+    if(!added) {
+      return new ValidationProblemBuilder()
+          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
+          .withMessage("Errore durante l'inserimento del giocatore " + player.getName() + " nella lista dei preferiti")
+          .build();
+    } 
+    
+    return null;
   }
 
   favoriteListHasPlayer(player:Player) {
@@ -159,8 +156,16 @@ export class TeamDataService {
     this.favoriteListMap.clearMap();
   }
 
-  removePlayerFromFavoriteList(player:Player) : boolean {
-    return this.favoriteListMap.removeElement(player.getId());
+  removePlayerFromFavoriteList(player:Player) : ValidationProblem | null {
+    const removed:boolean = this.favoriteListMap.removeElement(player.getId());
+    if(!removed) {
+      return new ValidationProblemBuilder()
+          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
+          .withMessage("Errore durante la rimozione del giocatore " + player.getName() + " dalla lista dei preferiti")
+          .build();
+    }
+
+    return null;
   }
 
   /* METODI LISTA GIOCATORI ESCLUSI */
@@ -177,13 +182,16 @@ export class TeamDataService {
     return this.blacklistMap.getObservable();
   }
 
-  private addPlayerToBlacklist(player:Player) : ValidationProblem[] {
-    let validationProblemList:ValidationProblem[] = [];
+  addPlayerToBlacklist(player:Player) : ValidationProblem | null {
     const added:boolean = this.blacklistMap.addElementToMap(player.getId(), player);
-    !added ? validationProblemList.push(new ValidationProblemBuilder()
-        .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE).withMessage("Errore durante l'inserimento del giocatore").build()) : 
-        null;
-    return validationProblemList;
+    if(!added) {
+      return new ValidationProblemBuilder()
+          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
+          .withMessage("Errore durante l'inserimento del giocatore " + player.getName() + " nella lista dei giocatori da escludere")
+          .build();
+    }
+
+    return null;
   }
 
   blacklistHasPlayer(player:Player) {
@@ -194,8 +202,17 @@ export class TeamDataService {
     this.blacklistMap.clearMap();
   }
 
-  removePlayerFromBlacklist(player:Player) : boolean {
-    return this.blacklistMap.removeElement(player.getId());
+  removePlayerFromBlacklist(player:Player) : ValidationProblem | null {
+    let validationProblemList:ValidationProblem[] = [];
+    const removed:boolean = this.blacklistMap.removeElement(player.getId());
+    if(!removed) {
+      return new ValidationProblemBuilder()
+          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
+          .withMessage("Errore durante la rimozione del giocatore " + player.getName() + " dalla lista dei giocatori da escludere")
+          .build();
+    }
+
+    return null;
   }
 
   /* METODI OPZIONI DI RICERCA */
