@@ -11,6 +11,8 @@ import { SnackBarService } from '../../service/snack-bar.service';
 import { SearchAddPlayerValidatorService } from './search-add-player-validator.service';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
+import { ValidationProblemBuilder } from 'src/utility/validation/ValidationProblemBuilder';
+import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
 
 @Component({
   selector: 'app-search-add-player',
@@ -91,8 +93,11 @@ export class SearchAddPlayerComponent implements OnInit {
       if(validationProblem != null) {
         this.snackBarService.openSnackBar(validationProblem)
       } else {
-        this.teamDataService.addPlayerToList(player);
+        validationProblem = this.addPlayerToList(player);
         this.inputPlayerName = "";
+        if(validationProblem != null) {
+          this.snackBarService.openSnackBar(validationProblem);
+        }
       }          
     }
   }
@@ -104,5 +109,20 @@ export class SearchAddPlayerComponent implements OnInit {
     }
 
     return playerSelected;
+  }
+
+  private addPlayerToList(player:Player) : ValidationProblem | null {
+    if(this.routerService.isLinkActivated(LinkEnum.MYTEAM)) {
+      return this.teamDataService.addPlayerToMyTeam(player);
+    } else if(this.routerService.isLinkActivated(LinkEnum.FAVORIT_LIST)) {
+      return this.teamDataService.addPlayerToFavoriteList(player);
+    } else if(this.routerService.isLinkActivated(LinkEnum.BLACKLIST)) {
+      return this.teamDataService.addPlayerToBlacklist(player);
+    } else {
+      return new ValidationProblemBuilder()
+          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
+          .withMessage("Impossibile aggiungere il giocatore alla lista")
+          .build();
+    }
   }
 }
