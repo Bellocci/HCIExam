@@ -157,6 +157,10 @@ export class PlayerListComponent implements OnInit {
         this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST);
   }
 
+  isCurrentPageCreateTeam() : boolean {
+    return this.routerService.isLinkActivated(LinkEnum.CREATE_TEAM);
+  }
+
   isCurrentPageMyTeam() : boolean {
     return this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM);
   }

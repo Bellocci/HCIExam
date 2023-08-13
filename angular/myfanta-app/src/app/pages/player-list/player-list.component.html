@@ -127,7 +127,7 @@
         <!-- Aggiunta giocatori -->
         <div class="flex-container mt-30px">
             <!-- Ricerca aggiunta giocatore -->
-            <div class="flex-item-1-1-auto">
+            <div class="flex-item-1-1-auto" *ngIf="isCurrentPageCreateTeam()">
                 <app-search-add-player></app-search-add-player>
             </div>
 
