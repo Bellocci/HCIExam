@@ -2,3 +2,7 @@
 .link-list-container {
     overflow: auto;
 }
+
+.link-list-container .txt-color {
+    color: black !important;
+}
