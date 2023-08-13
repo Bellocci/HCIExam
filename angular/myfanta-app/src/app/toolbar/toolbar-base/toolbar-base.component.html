@@ -14,9 +14,9 @@
       <button mat-flat-button
       class="btn-flat ml-5px mr-5px"
       [ngClass]="isCreateTeamLinkSelected() ? 'link-toolbar-border' : 'primary-color-dark'"
-      (click)="routerService.goToMyTeamPage()">
+      (click)="goToPage(linkEnum.CREATE_TEAM)">
         <span class="label"
-        [ngClass]="isCreateTeamLinkSelected() ? 'bold' : ''">
+        [ngClass]="isPageSelected(linkEnum.CREATE_TEAM) ? 'bold' : ''">
           {{ linkEnum.CREATE_TEAM.description }}
         </span>
       </button>
@@ -24,10 +24,10 @@
       <!-- Link alla pagina Options -->
       <button mat-flat-button
       class="btn-flat ml-5px mr-5px"
-      [ngClass]="routerService.currentPageIsOptions() ? 'link-toolbar-border' : 'primary-color-dark'"
-      (click)="routerService.goToOptionsPage()">
+      [ngClass]="isPageSelected(linkEnum.OPTIONS) ? 'link-toolbar-border' : 'primary-color-dark'"
+      (click)="goToPage(linkEnum.OPTIONS)">
         <span class="label"
-        [ngClass]="routerService.currentPageIsOptions() ? 'bold' : ''">
+        [ngClass]="isPageSelected(linkEnum.OPTIONS) ? 'bold' : ''">
           {{ linkEnum.OPTIONS.description }}
         </span>
       </button>
@@ -35,10 +35,10 @@
       <!-- link alla pagina Player list-->
       <button mat-flat-button
       class="btn-flat ml-5px mr-5px"
-      [ngClass]="routerService.currentPageIsPlayerList() ? 'link-toolbar-border' : 'primary-color-dark'"
-      (click)="routerService.goToPlayerListPage()">
+      [ngClass]="isPageSelected(linkEnum.PLAYER_LIST) ? 'link-toolbar-border' : 'primary-color-dark'"
+      (click)="goToPage(linkEnum.PLAYER_LIST)">
         <span class="label"
-        [ngClass]="routerService.currentPageIsPlayerList() ? 'bold' : ''">
+        [ngClass]="isPageSelected(linkEnum.PLAYER_LIST) ? 'bold' : ''">
           {{ linkEnum.PLAYER_LIST.description }}
         </span>
       </button>
@@ -67,7 +67,7 @@
           <span mat-menu-item (click) = "$event.stopPropagation()" disableRipple="true" class="label username-menu-panel">
             {{ getUser()!.getUsername() }}
           </span>
-          <button mat-menu-item (click)="routerService.goToMyProfilePage();">
+          <button mat-menu-item (click)="goToPage(linkEnum.USER_PROFILE)">
             Lista team
           </button>
           <mat-divider></mat-divider>
@@ -79,80 +79,10 @@
     <!-- Link alla pagina di Home -->
     <button mat-flat-button 
     *ngIf="isBtnHomeRendered()"
-    (click)="routerService.goToHomePage()"
+    (click)="goToPage(linkEnum.HOME)"
     class="toolbar-el-height btn-flat mr-10px">
       <mat-icon class="icon-size">home</mat-icon>
       <span class="label">{{ linkEnum.HOME.description }}</span>
     </button>
-  </mat-toolbar-row>
-
-  <!-- Seconda riga -->
-  <mat-toolbar-row class="toolbar-row mat-elevation-z3 z" *ngIf="isSecondToolbarRowRendered()">
-
-    <!-- Pulsante back -->
-    <button mat-raised-button *ngIf="isBackBtnRendered()"
-      (click)="this.routerService.goPreviousPage()">
-      <mat-icon>arrow_back</mat-icon>
-      <span>Indietro</span>
-    </button>
-
-    <!-- Link relativi alla creazione della squadra -->
-    <ng-container *ngIf="isCreateTeamLinkSelected()">
-      
-      <!-- Link alla pagina Create team -->
-      <button mat-flat-button
-      class="btn-flat ml-5px mr-5px"
-      [ngClass]="routerService.currentPageIsMyTeam() ? 'link-toolbar-border' : 'primary-color-dark'"
-      (click)="routerService.goToMyTeamPage()">
-        <span class="label"
-        [ngClass]="routerService.currentPageIsMyTeam() ? 'bold' : ''">
-          {{ linkEnum.MYTEAM.description }}
-        </span>
-      </button>
-  
-      <!-- Link alla pagina Favorit list -->
-      <button mat-flat-button
-      class="btn-flat ml-5px mr-5px"
-      [ngClass]="routerService.currentPageIsFavoritList() ? 'link-toolbar-border' : 'primary-color-dark'"
-      (click)="routerService.goToFavoritListPage()">
-        <span class="label"
-        [ngClass]="routerService.currentPageIsFavoritList() ? 'bold' : ''">
-          {{ linkEnum.FAVORIT_LIST.description }}
-        </span>
-      </button>
-      
-      <!-- Link alla pagina Blacklist -->
-      <button mat-flat-button
-      class="btn-flat ml-5px mr-5px"
-      [ngClass]="routerService.currentPageIsBlacklist() ? 'link-toolbar-border' : 'primary-color-dark'"
-      (click)="routerService.goToBlacklistPage()">
-        <span class="label"
-        [ngClass]="routerService.currentPageIsBlacklist() ? 'bold' : ''">
-          {{ linkEnum.BLACKLIST.description }}
-        </span>
-      </button>
-    </ng-container>
-
-    <span class="flex-item-1-1-auto"></span>
-
-    <!-- Pulsante save -->
-    <button mat-raised-button [matMenuTriggerFor]="saveMenu"
-    class="mr-10px secondary-color" *ngIf="isUserLogged()">
-      <mat-icon>save</mat-icon>
-      <span>Salva</span>
-    </button>
-    <mat-menu #saveMenu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>save</mat-icon>
-        Salva
-      </button>
-      <button mat-menu-item (click)="openCreateNewTeamDialog()">
-        <mat-icon>save</mat-icon>
-        Salva in una nuova squadra
-      </button>
-    </mat-menu>
-    <!-- Menu salvataggio -->
-
-
   </mat-toolbar-row>
 </mat-toolbar>

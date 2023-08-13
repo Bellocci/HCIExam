@@ -14,6 +14,7 @@ import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { League } from 'src/decorator/League.model';
 import { TableFilterOption } from './table-filter';
 import { ObserverHelper } from 'src/utility/observer-helper';
+import { LinkEnum } from 'src/enum/LinkEnum.model';
 
 @Component({
   selector: 'app-table',
@@ -197,21 +198,21 @@ export class TableComponent implements OnInit, AfterViewInit {
   /* VISIBILITA' */
 
   isFavoriteColumnRendered() : boolean {
-    if(this.routerService.currentPageIsFavoritList() || this.routerService.currentPageIsPlayerList()) {
+    if(this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) || this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST)) {
         return true;
     }
     return false;
   }
 
   isBlacklistColumnRendered() : boolean {
-    if(this.routerService.currentPageIsBlacklist() || this.routerService.currentPageIsPlayerList()) {
+    if(this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) || this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST)) {
       return true;
     }
     return false;
   }
 
   isClearTableRendered() : boolean {
-    return !this.routerService.currentPageIsPlayerList();
+    return !this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST);
   }
 
   isClearTableDisabled() : boolean {

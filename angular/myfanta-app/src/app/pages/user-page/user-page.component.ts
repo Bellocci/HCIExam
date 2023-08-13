@@ -10,6 +10,7 @@ import { SportEnum } from 'src/enum/SportEnum.model';
 import { CreateNewTeamDialogComponent } from '../../Dialog/create-new-team-dialog/create-new-team-dialog.component';
 import { DialogService } from '../../service/dialog.service';
 import { DialogHelper } from '../../Dialog/dialogHelper.interface';
+import { LinkEnum } from 'src/enum/LinkEnum.model';
 
 @Component({
   selector: 'app-user-page',
@@ -137,7 +138,7 @@ export class UserPageComponent implements OnInit, AfterViewInit {
   loadTeam(team:UserTeam) : void {
     this.userService.setSelectedTeam(team);
     this.teamDataService.loadTeam(team);
-    this.routerService.goToMyTeamPage();
+    this.routerService.goToMyTeamPage(LinkEnum.MYTEAM);
     this.internalDataService.setLeagueSelected(team.getLeague());
   }
 

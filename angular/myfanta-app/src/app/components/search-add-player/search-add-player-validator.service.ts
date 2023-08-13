@@ -3,6 +3,7 @@ import { LoadDataService } from 'src/app/service/load-data.service';
 import { RouterService } from 'src/app/service/router.service';
 import { TeamDataService } from 'src/app/service/team-data.service';
 import { Player } from 'src/decorator/player.model';
+import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { ValidationProblemBuilder } from 'src/utility/validation/ValidationProblemBuilder';
@@ -21,11 +22,11 @@ export class SearchAddPlayerValidatorService {
     private static readonly FAVORITE_LIST_HAS_PLAYER_MESSAGE = "Operazione non riuscita. Il giocatore è presente nella lista dei giocatori preferiti";      
   
     validateAddPlayerToListOperation(player:Player) : ValidationProblem | null {
-      if(this.routerService.currentPageIsMyTeam()) {
+      if(this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM)) {
         return this.addPlayerToMyListValidation(player);
-      } else if(this.routerService.currentPageIsFavoritList()) {
+      } else if(this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST)) {
         return this.addPlayerToFavoriteListValidation(player);
-      } else if(this.routerService.currentPageIsBlacklist()) {
+      } else if(this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST)) {
         return this.addPlayerToBlacklistValidation(player);
       } else {
         // Operazione non ancora supportata

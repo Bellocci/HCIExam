@@ -8,6 +8,7 @@ import { League } from 'src/decorator/League.model';
 import { RouterService } from '../../service/router.service';
 import { UserService } from '../../service/user.service';
 import { TeamDataService } from '../../service/team-data.service';
+import { LinkEnum } from 'src/enum/LinkEnum.model';
 
 
 @Component({
@@ -82,7 +83,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.clearData();
     this.internalDataService.setLoadingData(true);
     this.setLeagueSelected(league);
-    this.routerService.goToMyTeamPage();
+    this.routerService.goToMyTeamPage(LinkEnum.MYTEAM);
   }
 
   private clearData() : void {

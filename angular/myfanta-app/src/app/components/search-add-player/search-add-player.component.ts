@@ -10,6 +10,7 @@ import { LoadDataService } from '../../service/load-data.service';
 import { SnackBarService } from '../../service/snack-bar.service';
 import { SearchAddPlayerValidatorService } from './search-add-player-validator.service';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
+import { LinkEnum } from 'src/enum/LinkEnum.model';
 
 @Component({
   selector: 'app-search-add-player',
@@ -60,9 +61,9 @@ export class SearchAddPlayerComponent implements OnInit {
   /* GETTER */
 
   getAddBtnDescription() : string {
-    const value = this.routerService.currentPageIsMyTeam() ? 'Aggiungi giocatore al Team' :
-      this.routerService.currentPageIsFavoritList() ? 'Aggiungi giocatore ai preferiti' :
-      this.routerService.currentPageIsBlacklist() ? 'Aggiungi giocatore a quelli esclusi' :
+    const value = this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) ? 'Aggiungi giocatore al Team' :
+      this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) ? 'Aggiungi giocatore ai preferiti' :
+      this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) ? 'Aggiungi giocatore da escludere' :
       'Aggiungi giocatore';
     return value;
   }
@@ -87,9 +88,12 @@ export class SearchAddPlayerComponent implements OnInit {
       this.snackBarService.openErrorSnackBar("Errore! Nessun giocatore trovato con nome " + playerName);    
     } else {
       let validationProblem:ValidationProblem | null = this.searchAddPlayerValidator.validateAddPlayerToListOperation(player);
-      validationProblem != null ? 
-          this.snackBarService.openSnackBar(validationProblem) :
-          this.teamDataService.addPlayerToList(player);
+      if(validationProblem != null) {
+        this.snackBarService.openSnackBar(validationProblem)
+      } else {
+        this.teamDataService.addPlayerToList(player);
+        this.inputPlayerName = "";
+      }          
     }
   }
 

@@ -12,9 +12,10 @@
 
         <!-- Prima riga -->
         <mat-grid-list cols="6" rowHeight="80px">
+
             <!-- Budget -->
-            <mat-grid-tile colspan="1" rowspan="1">                
-                <div class="flex-container flex-direction-column option-budget-container">
+            <mat-grid-tile colspan="2" rowspan="1">                
+                <div class="flex-direction-column grid-container">
                     <label class="label mb-10px">Budget</label>
                     <input matInput type="number"                
                         class="label input-container"
@@ -24,9 +25,10 @@
                         [(ngModel)]="option.budget">
                 </div>
             </mat-grid-tile>
+
             <!-- Età -->
             <mat-grid-tile colspan="2" rowspan="1">
-                <div class="flex-container flex-direction-column age-container">
+                <div class="flex-direction-column grid-container">
                     <label class="label mb-10px">Età</label>
                     <div class="flex-container align-items-center">
                         <label class="label">Da</label>
@@ -49,7 +51,7 @@
 
             <!-- Scelta lista giocatori -->
             <mat-grid-tile colspan="2" rowspan="1">
-                <div class="flex-container flex-direction-column">
+                <div class="flex-direction-column grid-container">
                     <label class="label mb-10px">Giocatori</label>
                     <div class="flex-container">
                         <mat-checkbox class="mr-10px" color="primary" 
@@ -67,11 +69,12 @@
                     </div>
                 </div>
             </mat-grid-tile>
+
         </mat-grid-list>       
 
         <!-- Seconda Riga -->
-        <mat-grid-list cols="6" rowHeight="80px">
-            <mat-grid-tile colspan="6" rowspan="2">
+        <mat-grid-list cols="1" rowHeight="80px">
+            <mat-grid-tile colspan="1" rowspan="2">
                 <!-- Scelta team -->
                 <div class="flex-container flex-direction-column">
                     <div class="mb-10px">
@@ -94,17 +97,24 @@
                 </div>
             </mat-grid-tile>
         </mat-grid-list>
+
+        <!-- Terza riga -->
+        <mat-grid-list cols="1" rowHeight="80px">
+
+            <!-- Opzioni di ricerca avanzate -->
+            <mat-grid-tile colspan="1" rowspan="1">
+                <div class="flex-container mt-10px grid-container">    
+                    <mat-slide-toggle [(ngModel)]="option.includeAdvancedFilter"
+                    labelPosition="before"
+                    color="primary" 
+                    matTooltip="Applica i filtri definiti nella pagina 'Opzioni di ricerca'"
+                    (change)="checkAdvancedFilterAreIncluded($event.checked)">
+                        <label class="label">Filtri di ricerca avanzata</label>
+                    </mat-slide-toggle>        
+                </div>
+            </mat-grid-tile>         
+
+        </mat-grid-list>
     </div>
 
 </mat-expansion-panel>
-
-<!-- Opzioni di ricerca avanzate -->
-<div class="flex-container option-advanced-filter-container mt-10px">    
-    <mat-slide-toggle [(ngModel)]="option.includeAdvancedFilter"
-    labelPosition="before"
-    color="primary" 
-    matTooltip="Applica i filtri definiti nella pagina 'Opzioni di ricerca'"
-    (change)="checkAdvancedFilterAreIncluded($event.checked)">
-        <label class="label">Opzioni di ricerca</label>
-    </mat-slide-toggle>        
-</div>

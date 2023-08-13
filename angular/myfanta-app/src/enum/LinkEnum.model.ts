@@ -7,7 +7,7 @@ import { LinkEnumVisitorWithReturnInterface } from "src/visitor/link-enum/LinkEn
 
 export class LinkEnum {
 
-    private static PARENT_PATH:string = "/fantasyteam/";
+    public static readonly PARENT_PATH:string = "/fantasyteam/";
 
     public static readonly HOME = new LinkEnum("home", "Home", this.PARENT_PATH + "home");
     public static readonly CREATE_TEAM = new LinkEnum("myTeam", "Crea squadra", this.PARENT_PATH + "myTeam");

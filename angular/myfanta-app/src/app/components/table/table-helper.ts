@@ -7,6 +7,7 @@ import { League } from "src/decorator/League.model";
 import { SportEnum } from "src/enum/SportEnum.model";
 import { SportEnumVisitorWithReturnAbstract } from "src/visitor/sport-enum/SportEnumVisitorWithReturnAbstract";
 import { OptionFootballSoccerEnum } from "src/enum/optionEnum/OptionFootballSoccerEnum.model";
+import { LinkEnum } from "src/enum/LinkEnum.model";
 
 export class TableHelper {
 
@@ -22,32 +23,32 @@ export class TableHelper {
 
 
     getDisplayedColumns() : string[] {
-        return this.routerService.currentPageIsMyTeam() ? TableHelper.MY_TEAM_TABLE_COLUMNS :
-            this.routerService.currentPageIsFavoritList() ? TableHelper.FAVORITE_LIST_TABLE_COLUMNS :
-            this.routerService.currentPageIsBlacklist() ? TableHelper.BLACKLIST_TABLE_COLUMNS :
-            this.routerService.currentPageIsPlayerList() ? TableHelper.PLAYER_LIST_TABLE_COLUMNS :
+        return this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) ? TableHelper.MY_TEAM_TABLE_COLUMNS :
+            this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) ? TableHelper.FAVORITE_LIST_TABLE_COLUMNS :
+            this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) ? TableHelper.BLACKLIST_TABLE_COLUMNS :
+            this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST) ? TableHelper.PLAYER_LIST_TABLE_COLUMNS :
             TableHelper.ALL_TABLE_COLUMNS;
     }
 
     getPlayerList(league?:League | null) : Observable<Player[]> {
-        return this.routerService.currentPageIsMyTeam() ? this.teamDataService.getObservableOfUserTeam() :
-            this.routerService.currentPageIsFavoritList() ? this.teamDataService.getObservableOfFavoriteList() :
-            this.routerService.currentPageIsBlacklist() ? this.teamDataService.getObservableOfBlacklist() :
-            this.routerService.currentPageIsPlayerList() && league != null ? new BehaviorSubject(this.loadDataService.getAllPlayers(league)).asObservable() :
+        return this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) ? this.teamDataService.getObservableOfUserTeam() :
+            this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) ? this.teamDataService.getObservableOfFavoriteList() :
+            this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) ? this.teamDataService.getObservableOfBlacklist() :
+            this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST) && league != null ? new BehaviorSubject(this.loadDataService.getAllPlayers(league)).asObservable() :
             new BehaviorSubject([]).asObservable();
     }
 
     clearList() : void {
-        this.routerService.currentPageIsMyTeam() ? this.teamDataService.clearUserTeam() :
-            this.routerService.currentPageIsFavoritList() ? this.teamDataService.clearFavoritList() :
-            this.routerService.currentPageIsBlacklist() ? this.teamDataService.clearBlacklist() :
+        this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) ? this.teamDataService.clearUserTeam() :
+            this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) ? this.teamDataService.clearFavoritList() :
+            this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) ? this.teamDataService.clearBlacklist() :
             null;
     }
 
     removePlayer(player:Player) : boolean {
-        return this.routerService.currentPageIsMyTeam() ? this.teamDataService.removePlayerFromUserTeam(player) :
-            this.routerService.currentPageIsFavoritList() ? this.teamDataService.removePlayerFromFavoriteList(player) :
-            this.routerService.currentPageIsBlacklist() ? this.teamDataService.removePlayerFromBlacklist(player) : false;
+        return this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) ? this.teamDataService.removePlayerFromUserTeam(player) :
+            this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) ? this.teamDataService.removePlayerFromFavoriteList(player) :
+            this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) ? this.teamDataService.removePlayerFromBlacklist(player) : false;
     }
 
 

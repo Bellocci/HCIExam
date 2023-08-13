@@ -1,6 +1,7 @@
 
 <div class="link-list-container">
-    <mat-nav-list *ngFor="let link of getLinks()">
+    <div mat-subheader class="bold">Pagine</div>
+    <mat-nav-list *ngFor="let link of getLinks()">        
         <a mat-list-item [activated]="isLinkActivated(link)"
         (click)="redirectToLink(link)">
             {{ link.description }}

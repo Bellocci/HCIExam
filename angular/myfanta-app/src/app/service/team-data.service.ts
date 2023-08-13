@@ -12,6 +12,7 @@ import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { RouterService } from './router.service';
 import { ValidationProblemBuilder } from 'src/utility/validation/ValidationProblemBuilder';
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
+import { LinkEnum } from 'src/enum/LinkEnum.model';
 
 @Injectable({
   providedIn: 'root'
@@ -76,11 +77,11 @@ export class TeamDataService {
   }
 
   addPlayerToList(player:Player) : ValidationProblem[] {
-    if(this.routerService.currentPageIsMyTeam()) {
+    if(this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM)) {
       return this.addPlayerToMyTeam(player);
-    } else if(this.routerService.currentPageIsFavoritList()) {
+    } else if(this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST)) {
       return this.addPlayerToFavoriteList(player);
-    } else if(this.routerService.currentPageIsBlacklist()) {
+    } else if(this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST)) {
       return this.addPlayerToBlacklist(player);
     } else {
       return [new ValidationProblemBuilder()
