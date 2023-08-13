@@ -32,7 +32,7 @@ interface ValueLabel {
 })
 export class PlayerListComponent implements OnInit {
 
-  private linksList:LinkEnum[] = [LinkEnum.MYTEAM, LinkEnum.FAVORIT_LIST, LinkEnum.BLACKLIST];
+  private linksList:LinkEnum[] = [LinkEnum.MYTEAM, LinkEnum.FAVORIT_LIST, LinkEnum.BLACKLIST, LinkEnum.PLAYER_LIST];
   private simpleOption!:StandardOption;
   private option:Option | null = null;
 
@@ -152,7 +152,9 @@ export class PlayerListComponent implements OnInit {
   }
 
   isFilterTableRendered() : boolean {
-    return this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) || this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST);
+    return this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) || 
+        this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) ||
+        this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST);
   }
 
   isCurrentPageMyTeam() : boolean {

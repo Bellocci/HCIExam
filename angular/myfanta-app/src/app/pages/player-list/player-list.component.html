@@ -3,9 +3,14 @@
 
     <!-- Sidemenu sinistro -->
     <div class="ml-10px mr-10px mt-10px link-list-container">
-       <app-link-list [linkList]="getLinksList()"></app-link-list>
-       <mat-divider></mat-divider>
-       <div class="link-list-container mt-10px" *ngIf="isActionListRendered()">
+
+        <ng-container>
+            <app-link-list [linkList]="getLinksList()"></app-link-list>
+        </ng-container>
+
+        <mat-divider></mat-divider>
+
+        <div class="link-list-container mt-10px" *ngIf="isActionListRendered()">
             <div mat-subheader class="bold">Azioni</div>
             <mat-nav-list>        
                 <!-- Salvataggio -->
