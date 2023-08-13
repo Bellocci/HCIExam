@@ -15,6 +15,8 @@ import { League } from 'src/decorator/League.model';
 import { TableFilterOption } from './table-filter';
 import { ObserverHelper } from 'src/utility/observer-helper';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
+import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
+import { SnackBarService } from 'src/app/service/snack-bar.service';
 
 @Component({
   selector: 'app-table',
@@ -50,7 +52,8 @@ export class TableComponent implements OnInit, AfterViewInit {
   constructor(private teamDataService: TeamDataService,
     private internalDataService:InternalDataService,
     public routerService:RouterService,
-    private loadDataService:LoadDataService) { 
+    private loadDataService:LoadDataService,
+    private snackbarService:SnackBarService) { 
 
       this.tableHelper = new TableHelper(teamDataService, routerService, loadDataService);
       this.subscribeTableSize();            
@@ -195,6 +198,26 @@ export class TableComponent implements OnInit, AfterViewInit {
     return this.pageSizeOptions;
   }
 
+  getFavoriteMessageTooltip(player:Player) : string {
+    if(this.isFavoriteBtnDisabled(player)) {
+      return "Giocatore già presente nella lista dei giocatori da escludere";
+    } else if(!this.isFavoritePlayer(player)) {
+      return "Aggiungi alla lista dei preferiti";
+    } else {
+      return "Rimuovi dalla lista dei preferiti";
+    }
+  }
+
+  getBlacklistMessageTooltip(player:Player) : string {
+    if(this.isBlacklistBtnDisabled(player)) {
+      return "Giocatore già presente nella lista dei preferiti";
+    } else if(!this.isPlayerIntoBlacklist(player)) {
+      return "Aggiungi alla lista dei giocatori da escludere";
+    } else {
+      return "Rimuovi dalla lista dei giocatori da escludere";
+    }
+  }
+
   /* VISIBILITA' */
 
   isFavoriteColumnRendered() : boolean {
@@ -219,12 +242,20 @@ export class TableComponent implements OnInit, AfterViewInit {
     return this.isTableEmpty;
   }
 
-  isFavoritePlayer(player:any) : boolean {
-    return false
+  isFavoritePlayer(player:Player) : boolean {
+    return this.teamDataService.favoriteListHasPlayer(player);
   }
 
-  isPlayerIntoBlacklist(player:any) : boolean {
-    return false
+  isPlayerIntoBlacklist(player:Player) : boolean {
+    return this.teamDataService.blacklistHasPlayer(player);
+  }
+
+  isFavoriteBtnDisabled(player:Player) : boolean {
+    return this.teamDataService.blacklistHasPlayer(player);
+  }
+
+  isBlacklistBtnDisabled(player:Player) : boolean {
+    return this.teamDataService.favoriteListHasPlayer(player);
   }
 
   /* LISTENER */
@@ -239,7 +270,10 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   removePlayer(player:Player) : void {
-    this.tableHelper.removePlayer(player);
+    const validationProblem:ValidationProblem | null = this.tableHelper.removePlayer(player);
+    if(validationProblem != null) {
+      this.snackbarService.openSnackBar(validationProblem);
+    }
   }
 
   goToPlayerPage(player:Player) : void {
@@ -250,23 +284,32 @@ export class TableComponent implements OnInit, AfterViewInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.teamDataService.filterPlayersByName(filterValue.trim().toLowerCase());
-    //this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  setPlayerAsFavorite(player:any) : void {
+  updateFavoriteList(player:Player) : void {
+    let validationProblem:ValidationProblem | null = null;
+    if(!this.isFavoritePlayer(player)) {
+      validationProblem = this.teamDataService.addPlayerToFavoriteList(player);
+    } else {
+      validationProblem = this.teamDataService.removePlayerFromFavoriteList(player);
+    }
 
+    if(validationProblem != null) {
+      this.snackbarService.openSnackBar(validationProblem);
+    }
   }
 
-  removePlayerAsFavorite(player:any) : void {
-    
-  }
+  updateBlacklist(player:Player) : void {
+    let validationProblem:ValidationProblem | null = null;
+    if(!this.isPlayerIntoBlacklist(player)) {
+      validationProblem = this.teamDataService.addPlayerToBlacklist(player);
+    } else {
+      validationProblem = this.teamDataService.removePlayerFromBlacklist(player);
+    }
 
-  addPlayerIntoBlacklist(player:any) : void {
-    
-  }
-
-  removePlayerFromBlacklist(player:any) : void {
-    
+    if(validationProblem != null) {
+      this.snackbarService.openSnackBar(validationProblem);
+    }
   }
 
 }

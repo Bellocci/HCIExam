@@ -8,6 +8,9 @@ import { SportEnum } from "src/enum/SportEnum.model";
 import { SportEnumVisitorWithReturnAbstract } from "src/visitor/sport-enum/SportEnumVisitorWithReturnAbstract";
 import { OptionFootballSoccerEnum } from "src/enum/optionEnum/OptionFootballSoccerEnum.model";
 import { LinkEnum } from "src/enum/LinkEnum.model";
+import { ValidationProblem } from "src/utility/validation/ValidationProblem";
+import { ValidationProblemBuilder } from "src/utility/validation/ValidationProblemBuilder";
+import { SnackBarDataTypeEnum } from "src/enum/SnackBarDataTypeEnum.model";
 
 export class TableHelper {
 
@@ -45,10 +48,14 @@ export class TableHelper {
             null;
     }
 
-    removePlayer(player:Player) : boolean {
+    removePlayer(player:Player) : ValidationProblem | null {
         return this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) ? this.teamDataService.removePlayerFromUserTeam(player) :
             this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) ? this.teamDataService.removePlayerFromFavoriteList(player) :
-            this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) ? this.teamDataService.removePlayerFromBlacklist(player) : false;
+            this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) ? this.teamDataService.removePlayerFromBlacklist(player) : 
+            new ValidationProblemBuilder()
+                .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
+                .withMessage("Impossibile rimuovere il giocatore " + player.getName() + " dalla lista")
+                .build();
     }
 
 
