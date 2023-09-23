@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InternalDataService } from '../../service/internal-data.service';
-import { Player } from 'src/decorator/player.model';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
-import { SportEnum } from 'src/enum/SportEnum.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
 
 @Component({
   selector: 'app-player-page',
@@ -11,7 +10,7 @@ import { SportEnum } from 'src/enum/SportEnum.model';
 })
 export class PlayerPageComponent implements OnInit {
 
-  private playerSelected:Player | null = null;
+  private _playerSelected: PlayerEntity | null = null;    
 
   constructor(private internalDataService:InternalDataService) {}
 
@@ -21,30 +20,18 @@ export class PlayerPageComponent implements OnInit {
   }
 
   private addObserverToPlayer() : void {
-    this.internalDataService.addObserverToPlayerSelected(new ObserverStepBuilder<Player | null>()
+    this.internalDataService.addObserverToPlayerSelected(new ObserverStepBuilder<PlayerEntity | null>()
       .next(player => this.playerSelected = player)
       .build());
   }
 
   /* Getter */
 
-  getName() : string | undefined {
-    return this.playerSelected?.getName();
+  public get playerSelected(): PlayerEntity | null {
+    return this._playerSelected;
   }
 
-  getRole() : string | undefined {
-    return this.playerSelected?.getRole().getDescription();
-  }
- 
-  getAge() : number | undefined {
-    return this.playerSelected?.getAge();
-  }
-
-  getTeam() : string | undefined {
-    return this.playerSelected?.getTeam().getName();
-  }
-
-  getDescription() : string | undefined {
-    return this.playerSelected?.getDescription();
+  private set playerSelected(value: PlayerEntity | null) {
+    this._playerSelected = value;
   }
 }

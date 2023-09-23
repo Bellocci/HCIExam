@@ -3,8 +3,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormControl, UntypedFormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { DialogService } from 'src/app/service/dialog.service';
 import { UserService } from 'src/app/service/user.service';
-import { User } from 'src/decorator/user.model';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
+import { UserEntity } from 'src/model/userEntity.model';
 
 @Component({
   selector: 'app-registration-dialog',
@@ -228,7 +228,7 @@ export class RegistrationDialogComponent implements OnInit {
   }
 
     registration() : void {
-    let user:User | undefined = undefined;    
+    let user:UserEntity | undefined = undefined;    
     if(this.canCompleteRegistration()) {
       // Siamo sicuri che contengono valori dal controllo precedente
       user = this._userService.createNewUser(

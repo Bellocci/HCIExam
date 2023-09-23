@@ -1,7 +1,7 @@
 import { RouterService } from "src/app/service/router.service";
 import { LinkEnumVisitorInterface } from "./LinkEnumVisitorInterface";
-import { Player } from "src/decorator/player.model";
 import { LinkEnum } from "src/enum/LinkEnum.model";
+import { PlayerEntity } from "src/model/playerEntity.model";
 
 
 export class LinkEnumNavigateToPageVisitor implements LinkEnumVisitorInterface {
@@ -40,7 +40,7 @@ export class LinkEnumNavigateToPageVisitor implements LinkEnumVisitorInterface {
         this.routerService.goToOptionsPage(LinkEnum.OPTIONS);
     }
 
-    playerProfile(player: Player): void {
+    playerProfile(player: PlayerEntity): void {
         this.routerService.goToPlayerPage(player);
     }
 }

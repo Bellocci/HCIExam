@@ -30,28 +30,28 @@
                 <!-- Nome -->
                 <div class="ml-30px">
                     <label class="text">
-                        <span class="bold">Nome</span> : {{ getName() }}
+                        <span class="bold">Nome</span> : {{ playerSelected?.playerName }}
                     </label> 
                 </div>
                 
                 <!-- Squadra -->
                 <div class="ml-30px mt-30px">
                     <label class="text">
-                        <span class="bold">Squadra</span> : {{ getTeam() }}
+                        <span class="bold">Squadra</span> : {{ playerSelected?.team?.teamName }}
                     </label> 
                 </div>
 
                 <!-- Ruolo -->
                 <div class="ml-30px mt-30px">
                     <label class="text">
-                        <span class="bold">Ruolo</span> : {{ getRole() }}
+                        <span class="bold">Ruolo</span> : {{ playerSelected?.role?.description}}
                     </label> 
                 </div>
 
                 <!-- Eta -->
                 <div class="ml-30px mt-30px">
                     <label class="text">
-                        <span class="bold">Età</span> : {{ getAge() }}
+                        <span class="bold">Età</span> : {{ playerSelected?.age}}
                     </label> 
                 </div>
             </div>
@@ -62,7 +62,7 @@
             <h1>Descrizione</h1>
 
             <div class="mt-30px">
-                <span class="text"> {{ getDescription() }} </span>
+                <span class="text"> {{ playerSelected?.description}} </span>
             </div>
         </div>
     </div>

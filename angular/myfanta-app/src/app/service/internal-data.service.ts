@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Observer, of } from 'rxjs';
-import { League } from 'src/decorator/League.model';
+import { Observable, Observer, of } from 'rxjs';
 import { SessionStorageService } from './session-storage.service';
 import { LoadDataService } from './load-data.service';
 import { ObserverHelper } from 'src/utility/observer-helper';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
-import { Player } from 'src/decorator/player.model';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +15,9 @@ export class InternalDataService {
   static readonly KEY_SESSION_LEAGUE_ID:string = "leagueId";
   static readonly KEY_SESSION_PLAYER_ID:string = "playerId";
 
-  private leagueSelected:ObserverHelper<League | null> = new ObserverHelper<League | null>(null);
+  private leagueSelected:ObserverHelper<LeagueEntity | null> = new ObserverHelper<LeagueEntity | null>(null);
   private loadingData:ObserverHelper<boolean> = new ObserverHelper<boolean>(false);
-  private playerSelected:ObserverHelper<Player | null> = new ObserverHelper<Player | null>(null);
+  private playerSelected:ObserverHelper<PlayerEntity | null> = new ObserverHelper<PlayerEntity | null>(null);
 
   constructor(private sessionStorageLeague:SessionStorageService<number>,
     private sessionStoragePlayer:SessionStorageService<number>,
@@ -33,9 +33,9 @@ export class InternalDataService {
   }  
 
   private updateSessionStorageLeague() : void {
-    this.leagueSelected.addObserver(new ObserverStepBuilder<League | null>()
+    this.leagueSelected.addObserver(new ObserverStepBuilder<LeagueEntity | null>()
       .next(league => {
-        league instanceof League ? this.sessionStorageLeague.saveData(InternalDataService.KEY_SESSION_LEAGUE_ID, league.getLeagueId()) :
+        league instanceof LeagueEntity ? this.sessionStorageLeague.saveData(InternalDataService.KEY_SESSION_LEAGUE_ID, league.leagueId) :
           this.sessionStorageLeague.saveData(InternalDataService.KEY_SESSION_LEAGUE_ID, null);
       })
       .build()
@@ -43,24 +43,24 @@ export class InternalDataService {
   }
 
   private updateSessionStoragePlayer() : void {
-    this.playerSelected.addObserver(new ObserverStepBuilder<Player | null>()
+    this.playerSelected.addObserver(new ObserverStepBuilder<PlayerEntity | null>()
       .next(player => {
-        player instanceof Player ? this.sessionStoragePlayer.saveData(InternalDataService.KEY_SESSION_PLAYER_ID, player.getId()) :
+        player instanceof PlayerEntity ? this.sessionStoragePlayer.saveData(InternalDataService.KEY_SESSION_PLAYER_ID, player?.playerId) :
           this.sessionStoragePlayer.saveData(InternalDataService.KEY_SESSION_PLAYER_ID, null);
       })
       .build()
     );
   }
 
-  setLeagueSelected(league: League | null): void {
+  setLeagueSelected(league: LeagueEntity | null): void {
     this.leagueSelected.setValue(league);
   }  
 
-  addObserverToLeagueSelected(observer:Observer<League | null>) : void {
+  addObserverToLeagueSelected(observer:Observer<LeagueEntity | null>) : void {
     this.leagueSelected.addObserver(observer);
   }
 
-  getLeagueSelected() : Observable<League | null> {
+  getLeagueSelected() : Observable<LeagueEntity | null> {
     return this.leagueSelected.getObservable();
   }
 
@@ -72,11 +72,11 @@ export class InternalDataService {
     this.loadingData.setValue(isLoading);
   }
 
-  addObserverToPlayerSelected(observer:Observer<Player | null>) : void {
+  addObserverToPlayerSelected(observer:Observer<PlayerEntity | null>) : void {
     this.playerSelected.addObserver(observer);
   }
 
-  setPlayerSelected(player:Player | null) : void {
+  setPlayerSelected(player:PlayerEntity | null) : void {
     this.playerSelected.setValue(player);
   }
 

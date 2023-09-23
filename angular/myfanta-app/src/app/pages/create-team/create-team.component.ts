@@ -1,12 +1,12 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { StandardOption } from 'src/decorator/option/standard-option.interface';
+import { StandardOption } from 'src/decorator/option/standard-option.model';
 import { ExternalService } from '../../service/external.service';
 import { TeamDataService } from '../../service/team-data.service';
-import { Option } from 'src/decorator/option/option.model';
 import { InternalDataService } from '../../service/internal-data.service';
-import { League } from 'src/decorator/League.model';
 import { SnackBarService } from '../../service/snack-bar.service';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { OptionEntity } from 'src/model/options/optionEntity.model';
 
 @Component({
   selector: 'app-create-team',
@@ -16,8 +16,8 @@ import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 export class CreateTeamComponent implements OnInit, AfterViewInit { 
 
   private simpleOption!:StandardOption;
-  private currentLeague:League | null = null;
-  private option:Option | null = null;
+  private currentLeague:LeagueEntity | null = null;
+  private option:OptionEntity | null = null;
 
   constructor(private externalService:ExternalService,
     private teamDataService:TeamDataService,
@@ -30,7 +30,7 @@ export class CreateTeamComponent implements OnInit, AfterViewInit {
 
   private observeOptionTeam() : void {
     this.teamDataService.addObserverToOption(
-      new ObserverStepBuilder<Option | null>().next(o => this.option = o).build());
+      new ObserverStepBuilder<OptionEntity | null>().next(o => this.option = o).build());
   }
 
   private subscribeLeague() : void {
@@ -53,7 +53,7 @@ export class CreateTeamComponent implements OnInit, AfterViewInit {
     if(!this.simpleOption.includeAdvancedFilter) {
       this.externalService.createTeamWithSimpleOption(this.simpleOption);
     } else if(this.option != null && this.currentLeague != null) {
-      this.externalService.createTeamWithAdvancedOption(this.option, this.currentLeague.getSport());
+      this.externalService.createTeamWithAdvancedOption(this.option, this.currentLeague.sport);
     }
     // FIXME: Una volta terminato la creazione del team si visualizza un messaggio
     this.snackBarService.openInfoSnackBar("Generazione del team terminata!");

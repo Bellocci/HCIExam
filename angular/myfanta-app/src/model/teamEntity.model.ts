@@ -1,189 +1,117 @@
-import { League } from "src/decorator/League.model";
 import { LEAGUE_DATA, LeagueEntity } from "./leagueEntity.model";
 
 export class TeamEntity {
-    teamId!:number;
-    teamName!:string;
-    teamAbbreviation!:string;
-    league!:League;
-    active!:boolean;
+    private _teamId: number;
+    private _teamName: string;
+    private _teamAbbreviation: string;
+    private _league: LeagueEntity;
+    private _active: boolean;
 
-    constructor(teamId:number, teamName:string, teamAbbreviation:string, league:League, active:boolean) {
-        this.teamId = teamId;
-        this.teamName = teamName;
-        this.teamAbbreviation = teamAbbreviation;
-        this.league = league;
-        this.active = active;
+    constructor(teamId: number, teamName: string, teamAbbreviation: string, league: LeagueEntity, active: boolean) {
+        this._teamId = teamId;
+        this._teamName = teamName;
+        this._teamAbbreviation = teamAbbreviation;
+        this._league = league;
+        this._active = active;
+    }
+
+    public get teamId(): number {
+        return this._teamId;
+    }
+
+    private set teamId(value: number) {
+        this._teamId = value;
+    }
+
+    public get teamName(): string {
+        return this._teamName;
+    }
+
+    private set teamName(value: string) {
+        this._teamName = value;
+    }
+
+    public get teamAbbreviation(): string {
+        return this._teamAbbreviation;
+    }
+
+    private set teamAbbreviation(value: string) {
+        this._teamAbbreviation = value;
+    }
+
+    public get league(): LeagueEntity {
+        return this._league;
+    }
+
+    private set league(value: LeagueEntity) {
+        this._league = value;
+    }
+
+    public get active(): boolean {
+        return this._active;
+    }
+
+    private set active(value: boolean) {
+        this._active = value;
+    }
+
+    toString(): string {
+        return "Id:" + this.teamId + " name:" + this.teamName +
+            " abbreviation:" + this.teamAbbreviation +
+            " league: " + this.league.name;
+    }
+
+    equals(other: any): boolean {
+        if (other == null) {
+            return false;
+        }
+
+        if (!(other instanceof TeamEntity)) {
+            return false;
+        }
+
+        return this.teamId == other.teamId && this.teamAbbreviation == other.teamAbbreviation &&
+            this.teamName === other.teamName && this.league.equals(other.league);
+    }
+
+    toJSON(): any {
+        return {
+            teamId: this.teamId,
+            name: this.teamName,
+            abbreviation: this.teamAbbreviation,
+            league: this.league.toJSON(),
+            active: this.active
+        }
+    }
+
+    static fromJSON(json: any): TeamEntity {
+        return new TeamEntity(json.teamId, json.name, json.abbreviation, LeagueEntity.fromJSON(json.league), json.active);
     }
 }
 
-export const TEAM_DATA:TeamEntity[] = [
-    {
-        teamId :  1,
-        teamName : 'Atalanta',
-        teamAbbreviation : 'ATA',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 2,
-        teamName : 'Bologna',
-        teamAbbreviation : 'BOL',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 3,
-        teamName : 'Cagliari',
-        teamAbbreviation : 'CAG',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 4,
-        teamName : 'Empoli',
-        teamAbbreviation : 'EMP',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 5,
-        teamName : 'Fiorentina',
-        teamAbbreviation : 'FIO',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 6,
-        teamName : 'Frosinone',
-        teamAbbreviation : 'FRO',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 7,
-        teamName : 'Genoa',
-        teamAbbreviation : 'GEN',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 8,
-        teamName : 'Inter',
-        teamAbbreviation : 'INT',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 9,
-        teamName : 'Juventus',
-        teamAbbreviation : 'JUV',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 10,
-        teamName : 'Lazio',
-        teamAbbreviation : 'LAZ',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 11,
-        teamName : 'Lecce',
-        teamAbbreviation : 'LEC',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 12,
-        teamName : 'Milan',
-        teamAbbreviation : 'MIL',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 13,
-        teamName : 'Monza',
-        teamAbbreviation : 'MON',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 14,
-        teamName : 'Napoli',
-        teamAbbreviation : 'NAP',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 15,
-        teamName : 'Roma',
-        teamAbbreviation : 'ROM',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 16,
-        teamName : 'Salernitana',
-        teamAbbreviation : 'SAL',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 17,
-        teamName : 'Sassuolo',
-        teamAbbreviation : 'SAS',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 18,
-        teamName : 'Torino',
-        teamAbbreviation : 'TOR',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 19,
-        teamName : 'Udinese',
-        teamAbbreviation : 'UDI',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 20,
-        teamName : 'Verona',
-        teamAbbreviation : 'VER',
-        league : new League(LEAGUE_DATA[0]),
-        active: true,
-    },
-    {
-        teamId : 21,
-        teamName : 'Arsenal',
-        teamAbbreviation : 'ARS',
-        league : new League(LEAGUE_DATA[1]),
-        active: true,
-    },
-    {
-        teamId : 22,
-        teamName : 'Aston Villa',
-        teamAbbreviation : 'ASV',
-        league : new League(LEAGUE_DATA[1]),
-        active: true,
-    },
-    {
-        teamId : 23,
-        teamName : 'Savino Del Bene',
-        teamAbbreviation : 'SAV',
-        league : new League(LEAGUE_DATA[2]),
-        active: true,
-    },
-    {
-        teamId : 24,
-        teamName : 'Los Angeles Lakers',
-        teamAbbreviation : 'LAL',
-        league : new League(LEAGUE_DATA[3]),
-        active: true,
-    },
+export const TEAM_DATA: TeamEntity[] = [
+    new TeamEntity(1, 'Atalanta', 'ATA', LEAGUE_DATA[0], true),
+    new TeamEntity(2, 'Bologna', 'BOL', LEAGUE_DATA[0], true),
+    new TeamEntity(3, 'Cagliari', 'CAG', LEAGUE_DATA[0], true),
+    new TeamEntity(4, 'Empoli', 'EMP', LEAGUE_DATA[0], true),
+    new TeamEntity(5, 'Fiorentina', 'FIO', LEAGUE_DATA[0], true),
+    new TeamEntity(6, 'Frosinone', 'FRO', LEAGUE_DATA[0], true),
+    new TeamEntity(7, 'Genoa', 'GEN', LEAGUE_DATA[0], true),
+    new TeamEntity(8, 'Inter', 'INT', LEAGUE_DATA[0], true),
+    new TeamEntity(9, 'Juventus', 'JUV', LEAGUE_DATA[0], true),
+    new TeamEntity(10, 'Lazio', 'LAZ', LEAGUE_DATA[0], true),
+    new TeamEntity(11, 'Lecce', 'LEC', LEAGUE_DATA[0], true),
+    new TeamEntity(12, 'Milan', 'MIL', LEAGUE_DATA[0], true),
+    new TeamEntity(13, 'Monza', 'MON', LEAGUE_DATA[0], true),
+    new TeamEntity(14, 'Napoli', 'NAP', LEAGUE_DATA[0], true),
+    new TeamEntity(15, 'Roma', 'ROM', LEAGUE_DATA[0], true),
+    new TeamEntity(16, 'Salernitana', 'SAL', LEAGUE_DATA[0], true),
+    new TeamEntity(17, 'Sassuolo', 'SAS', LEAGUE_DATA[0], true),
+    new TeamEntity(18, 'Torino', 'TOR', LEAGUE_DATA[0], true),
+    new TeamEntity(19, 'Udinese', 'UDI', LEAGUE_DATA[0], true),
+    new TeamEntity(20, 'Verona', 'VER', LEAGUE_DATA[0], true),
+    new TeamEntity(21, 'Arsenal', 'ARS', LEAGUE_DATA[1], true),
+    new TeamEntity(22, 'Aston Villa', 'ASV', LEAGUE_DATA[1], true),
+    new TeamEntity(23, 'Savino Del Bene', 'SAV', LEAGUE_DATA[2], true),
+    new TeamEntity(24, 'Losa Angeles Lakers', 'LAL', LEAGUE_DATA[3], true),
 ]

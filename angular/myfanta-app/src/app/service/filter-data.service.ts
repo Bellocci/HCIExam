@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { League } from 'src/decorator/League.model';
 import { LoadDataService } from './load-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 import { InternalDataService } from './internal-data.service';
-import { Player } from 'src/decorator/player.model';
 import { Observable, of } from 'rxjs';
-import { Team } from 'src/decorator/team.model';
-import { RolePlayer } from 'src/decorator/role-player.model';
-import { ROLE_PLAYER_DATA } from 'src/model/rolePlayerEntity.model';
+import { ROLE_PLAYER_DATA, RolePlayerEntity } from 'src/model/rolePlayerEntity.model';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
+import { TeamEntity } from 'src/model/teamEntity.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +27,9 @@ export class FilterDataService {
       this.championshipMap.set(sport, new Set<ChampionshipEnum>());
       this.loadDataService
         .getLeaguesList()
-        .filter(league => league.getSport() == sport)
+        .filter(league => league.sport == sport)
         .forEach(league => {
-          this.championshipMap.get(sport)?.add(league.getChampionship());
+          this.championshipMap.get(sport)?.add(league.championship);
         });
     }   
 
@@ -40,21 +39,21 @@ export class FilterDataService {
   /*
   Metodo che filtra tutte le leghe per campionato e sport
   */
-  filterLeaguesByChampionshipAndSport(sport:SportEnum, championship:ChampionshipEnum) : League[] {
+  filterLeaguesByChampionshipAndSport(sport:SportEnum, championship:ChampionshipEnum) : LeagueEntity[] {
     return this.loadDataService.getLeaguesList()
-        .filter(league => league.getChampionship() == championship && 
-          league.getSport() == sport);
+        .filter(league => league.championship == championship && 
+          league.sport == sport);
   }
 
-  filterTeamsByLeague(league:League):Team[] {
+  filterTeamsByLeague(league:LeagueEntity):TeamEntity[] {
     return this.loadDataService.getAllTeams(league);
   }
 
-  searchPlayerToAddList(playerName:string, league:League | null) : Observable<Player[]> {    
-    let result:Player[] = [];
+  searchPlayerToAddList(playerName:string, league:LeagueEntity | null) : Observable<PlayerEntity[]> {    
+    let result:PlayerEntity[] = [];
     if(league != null && !this.isEmptyString(playerName)) {
       for(let player of this.loadDataService.getAllPlayers(league)) {
-        if(player.getName().toLowerCase().includes(playerName.toLowerCase())) {
+        if(player.playerName.toLowerCase().includes(playerName.toLowerCase())) {
           result.push(player);
         }
   
@@ -70,10 +69,10 @@ export class FilterDataService {
     return text.trim().length == 0;
   }
 
-  filterRolesBySport(sport:SportEnum) : RolePlayer[] {
-    const filteredList:RolePlayer[] = [];
+  filterRolesBySport(sport:SportEnum) : RolePlayerEntity[] {
+    const filteredList:RolePlayerEntity[] = [];
     ROLE_PLAYER_DATA.filter(role => role.sport == sport)
-        .forEach(role => filteredList.push(new RolePlayer(role)));
+        .forEach(role => filteredList.push(role));
 
     return filteredList;
   }

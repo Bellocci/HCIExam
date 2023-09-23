@@ -15,8 +15,8 @@
         </button>
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <ng-container *ngFor="let player of players">
-                <mat-option [value]="player.getName()">
-                    {{player.getName()}}
+                <mat-option [value]="player.playerName">
+                    {{player.playerName}}
                 </mat-option>
             </ng-container>
         </mat-autocomplete>

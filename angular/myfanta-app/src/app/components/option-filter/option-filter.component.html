@@ -88,9 +88,9 @@
                         <ng-container *ngFor="let team of getTeams()">
                             <mat-chip-option 
                             [disabled]="option.includeAdvancedFilter"
-                            [matTooltip]="team.getName()"
+                            [matTooltip]="team.teamName"
                             (selectionChange)="changeSelectedList(team)">
-                                {{ team.getAbbreviation() }}
+                                {{ team.teamAbbreviation }}
                             </mat-chip-option>
                         </ng-container>
                     </mat-chip-listbox>

@@ -28,6 +28,13 @@ import { OptionFilterComponent } from './components/option-filter/option-filter.
 import { PlayerPageComponent } from './pages/player-page/player-page.component';
 import { CustomSnackbarComponent } from './components/custom-snackbar/custom-snackbar.component';
 import { LinkListComponent } from './components/link-list/link-list.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { OptionsFootballComponent } from './pages/options/options-football/options-football.component';
+import { OptionsStandardComponent } from './pages/options/options-standard/options-standard.component';
 
 export function initializeApp(appInitService: AppInitService) {
   return (): Promise<any> => { 
@@ -55,7 +62,9 @@ export function initializeApp(appInitService: AppInitService) {
     OptionFilterComponent,
     PlayerPageComponent,
     CustomSnackbarComponent,
-    LinkListComponent
+    LinkListComponent,
+    OptionsFootballComponent,
+    OptionsStandardComponent
   ],
   imports: [
     AppRoutingModule,
@@ -65,6 +74,11 @@ export function initializeApp(appInitService: AppInitService) {
     HttpClientModule,
     MaterialModule,
     ReactiveFormsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
   ],
   providers: [
     AppInitService,

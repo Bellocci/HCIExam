@@ -5,13 +5,13 @@ import { DialogService } from 'src/app/service/dialog.service';
 import { FilterDataService } from 'src/app/service/filter-data.service';
 import { UserService } from 'src/app/service/user.service';
 import { UserTeamDecoratorFactoryService } from 'src/decorator-factory/user-team-decorator-factory.service';
-import { League } from 'src/decorator/League.model';
-import { UserTeam } from 'src/decorator/userTeam.model';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { CreateNewTeamDataStructure } from './create-new-team-data-structure.interface';
 import { TeamDataService } from 'src/app/service/team-data.service';
 import { SnackBarService } from 'src/app/service/snack-bar.service';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { UserTeamEntity } from 'src/model/userTeamEntity.model';
 
 @Component({
   selector: 'app-create-new-team-dialog',
@@ -33,11 +33,11 @@ export class CreateNewTeamDialogComponent implements OnInit {
   teamNameFormControl:FormControl = new FormControl('My team', { validators : [ Validators.required] });
   private selectedSport:SportEnum | string = "";
   private selectedChampionship:ChampionshipEnum | string = "";
-  private selectedLeague:League | null = null;
+  private selectedLeague:LeagueEntity | null = null;
   private importPlayer:boolean = false;
 
   private championshipsList:ChampionshipEnum[] = [];
-  private leaguesList:League[] = [];
+  private leaguesList:LeagueEntity[] = [];
 
   ngOnInit(): void {
     if(this.data != undefined && this.data.sport != undefined && this.data.championship != undefined && 
@@ -63,7 +63,7 @@ export class CreateNewTeamDialogComponent implements OnInit {
     return this.championshipsList;
   }
 
-  getLeagues() : League[] {
+  getLeagues() : LeagueEntity[] {
     return this.leaguesList;
   }
 
@@ -76,7 +76,7 @@ export class CreateNewTeamDialogComponent implements OnInit {
   }
 
   getLeagueSelected() : string {
-    return this.selectedLeague != null ? this.selectedLeague.getName() : '';
+    return this.selectedLeague != null ? this.selectedLeague.name : '';
   }
 
   getAddTooltipMessage() : string {
@@ -113,12 +113,12 @@ export class CreateNewTeamDialogComponent implements OnInit {
       this.leaguesList = [];
   }
 
-  updateSelectedLeague(league:League | null) {
+  updateSelectedLeague(league:LeagueEntity | null) {
     this.selectedLeague = league;
   }
 
   addNewTeam() : void {
-    let newTeam:UserTeam;
+    let newTeam:UserTeamEntity;
     if(this.importPlayer) {
       newTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUser(), 
         this.teamNameFormControl.value, this.selectedLeague!, this.teamDataService.getUserTeamList(), 

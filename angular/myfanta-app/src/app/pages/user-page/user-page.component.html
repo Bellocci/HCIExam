@@ -13,7 +13,7 @@
 
         <!-- Info utente -->
         <div class="alignCenter">
-            <label class="text bold">{{ getUser()!.getUsername() }}</label>
+            <label class="text bold">{{ getUser()!.username }}</label>
         </div>
         
         <!-- Sezione modifica colore -->
@@ -61,11 +61,11 @@
                           <!-- Visualizzazione singola card -->
                           <mat-card class="card">
                             <mat-card-header>
-                              <mat-card-title >{{ team.getNameTeam() }}</mat-card-title>
+                              <mat-card-title >{{ team.nameTeam }}</mat-card-title>
                             </mat-card-header>
                             <mat-card-content class="mt-30px">
-                              <p class="label">{{ team.getLeague().getChampionship().description }}</p>
-                              <p class="label">{{ team.getLeague().getName() }}</p>
+                              <p class="label">{{ team.league.championship.description }}</p>
+                              <p class="label">{{ team.league.name }}</p>
                               <p class="label">{{ getNumberOfPlayerIntoFavoritList(team) }} giocatori preferiti</p>
                               <p class="label">{{ getNumberOfPlayerIntoBlacklist(team) }} giocatori esclusi</p>
                             </mat-card-content>

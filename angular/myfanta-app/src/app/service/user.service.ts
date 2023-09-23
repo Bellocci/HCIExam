@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Observer } from 'rxjs';
-import { User } from 'src/decorator/user.model';
-import { UserTeam } from 'src/decorator/userTeam.model';
+import { Observer } from 'rxjs';
 import { USER_DATA, UserEntity } from 'src/model/userEntity.model';
 import { CUSTOMS_TEAM_DATA, UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { SessionStorageService } from './session-storage.service';
@@ -17,8 +15,8 @@ import { SportEnum } from 'src/enum/SportEnum.model';
  * dei team non attivi.
  */
 interface UserTeamCouple {
-  activeList: UserTeam[];
-  deactiveList: UserTeam[];
+  activeList: UserTeamEntity[];
+  deactiveList: UserTeamEntity[];
 }
 
 @Injectable({
@@ -28,11 +26,11 @@ export class UserService {
 
   static readonly KEY_SESSION:string = "user";
   
-  private user:ObserverHelper<User> = new ObserverHelper<User>(new User());
-  private userValue:User = new User();
+  private user:ObserverHelper<UserEntity> = new ObserverHelper<UserEntity>(new UserEntity());
+  private userValue:UserEntity = new UserEntity();
 
   private sportTeamMap:Map<SportEnum, UserTeamCouple> | undefined = undefined;
-  private selectedTeam:ObserverHelper<UserTeam | undefined> = new ObserverHelper<UserTeam | undefined>(undefined);
+  private selectedTeam:ObserverHelper<UserTeamEntity | undefined> = new ObserverHelper<UserTeamEntity | undefined>(undefined);
 
   constructor(private _session_storage:SessionStorageService<UserEntity>,
     private userTeamDecoratorFactory:UserTeamDecoratorFactoryService) {;
@@ -41,28 +39,27 @@ export class UserService {
     this.subscribeUser();
 
     const entity = this._session_storage.getData(UserService.KEY_SESSION);
-    if(!new User().equals(entity) && entity != null) {
-      this.user.setValue(new User(entity));
+    if(entity != null && entity.isUserDefined()) {
+      this.user.setValue(entity);
     }
-
   }
 
   private subscribeUser() : void {
-    this.user.addObserver(new ObserverStepBuilder<User>()
+    this.user.addObserver(new ObserverStepBuilder<UserEntity>()
       .next(user => this.userValue = user)
       .build()
     );
   }
 
-  addObserverForUser(observer:Observer<User>) : void {
+  addObserverForUser(observer:Observer<UserEntity>) : void {
     this.user.addObserver(observer);
   } 
 
-  getUser(): User {
+  getUser(): UserEntity {
     return this.userValue;
   }
 
-  private setUser(user:User) {
+  private setUser(user:UserEntity) {
     this.user.setValue(user);
   }
 
@@ -80,10 +77,10 @@ export class UserService {
     let result:UserEntity | undefined = USER_DATA.find(user => user.username == username && user.password == password);
     if(result != undefined) {
       this._session_storage.saveData(UserService.KEY_SESSION, result);
-      const value:User = new User(this._session_storage.getData(UserService.KEY_SESSION) as UserEntity);
-      this.setUser(new User(result));
+      const value:UserEntity = this._session_storage.getData(UserService.KEY_SESSION) as UserEntity;
+      this.setUser(result);
     } else {
-      this.setUser(new User())
+      this.setUser(new UserEntity());
     }
   }
 
@@ -92,8 +89,8 @@ export class UserService {
    * come valore corrente uno User vuoto.
    */
   logout() : void {    
-    this._session_storage.saveData(UserService.KEY_SESSION, new User().getEntity());
-    this.setUser(new User());
+    this._session_storage.saveData(UserService.KEY_SESSION, new UserEntity());
+    this.setUser(new UserEntity());
   }
 
   // REGISTRAZIONE
@@ -108,22 +105,17 @@ export class UserService {
    * @param password 
    * @returns lo User creato, undefined se esiste già un utente con lo stesso username
    */
-  createNewUser(name:string, surname:string, username:string, password:string) : User | undefined {
-    // Chiamata al db
+  createNewUser(name:string, surname:string, username:string, password:string) : UserEntity | undefined {
+    // TODO: Chiamata al db
     const result:UserEntity[] = USER_DATA.filter(user => user.username == username);
     if(result.length == 0) {
-      const entity:UserEntity = {
-        userId : USER_DATA.length,
-        name : name,
-        surname : surname,
-        username : username,
-        password : password,
-        color : ColorEnum.WHITE,
-        active: true
-      };
+      // TODO: Salvataggio su db
+
+      // TODO: Chiamata al db per caricare il nuovo utente
+      let entity:UserEntity = new UserEntity(USER_DATA.length, name, surname, username, password, ColorEnum.WHITE, true);
       // Salvataggio su db
       USER_DATA.push(entity)
-      return new User(entity);
+      return entity;
     }
     return undefined;
   }
@@ -152,51 +144,50 @@ export class UserService {
    * 
    * @returns UserTeam[]
    */
-  loadTeams(sport:SportEnum) : UserTeam[] {
+  loadTeams(sport:SportEnum) : UserTeamEntity[] {
     if(this.sportTeamMap == undefined) {
       this.sportTeamMap = new Map<SportEnum, UserTeamCouple>();
     }
 
     if(!this.sportTeamMap.has(sport)) {
       // Caricamento da db
-      let resultList:UserTeamEntity[] = CUSTOMS_TEAM_DATA.filter(team => team.user.equals(this.userValue) && 
-          team.league.getSport().code == sport.code);
-      let myTeams:UserTeam[] = this.userTeamDecoratorFactory.decorateList(resultList);    
+      let myTeams:UserTeamEntity[] = CUSTOMS_TEAM_DATA.filter(team => team.user.equals(this.userValue) && 
+          team.league.sport.code == sport.code);   
       this.buildSportTeamMap(myTeams, sport);
     }
     return this.sportTeamMap.get(sport)?.activeList!;
   } 
 
-  private buildSportTeamMap(myTeams:UserTeam[], sport:SportEnum) : void {
+  private buildSportTeamMap(myTeams:UserTeamEntity[], sport:SportEnum) : void {
     if(this.sportTeamMap != undefined) {
       this.sportTeamMap.set(sport, { activeList : [], deactiveList : [] });
       myTeams.forEach(t => {
-        t.isActive() ? this.sportTeamMap!.get(sport)!.activeList.push(t) : 
+        t.active ? this.sportTeamMap!.get(sport)!.activeList.push(t) : 
           this.sportTeamMap!.get(sport)!.deactiveList.push(t);
       })
     }
   }
 
-  addNewTeam(userTeam:UserTeam) : boolean {
-    let sport:SportEnum = userTeam.getLeague().getSport();
+  addNewTeam(userTeam:UserTeamEntity) : boolean {
+    let sport:SportEnum = userTeam.league.sport;
     this.loadTeams(sport);
     if(this.sportTeamMap != undefined && this.sportTeamMap.has(sport) && 
-        this.sportTeamMap.get(sport)!.activeList.filter(t => t.getNameTeam() == userTeam.getNameTeam()).length == 0) {
+        this.sportTeamMap.get(sport)!.activeList.filter(t => t.nameTeam == userTeam.nameTeam).length == 0) {
         // Chiamata al backend
-        CUSTOMS_TEAM_DATA.push(userTeam.getEntity());      
+        CUSTOMS_TEAM_DATA.push(userTeam);      
         this.sportTeamMap.get(sport)?.activeList.push(userTeam);
         return true;
     }
     return false;
   } 
 
-  removeTeam(userTeam:UserTeam) : boolean {
-    const sport:SportEnum = userTeam.getLeague().getSport();
+  removeTeam(userTeam:UserTeamEntity) : boolean {
+    const sport:SportEnum = userTeam.league.sport;
     if(this.sportTeamMap != undefined && this.sportTeamMap.has(sport)) {
       const index:number = this.sportTeamMap.get(sport)!.activeList.findIndex(t => t.equals(userTeam));
       if(index != -1) {
         // Contiene esattamente un valore
-        const team:UserTeam[] = this.sportTeamMap.get(sport)!.activeList.splice(index, 1);        
+        const team:UserTeamEntity[] = this.sportTeamMap.get(sport)!.activeList.splice(index, 1);        
         this.sportTeamMap.get(sport)!.deactiveList.push(team[0]);
         return true;
       }
@@ -213,11 +204,11 @@ export class UserService {
     return this.sportTeamMap!.get(sport)!.activeList.length > 0;
   }
 
-  setSelectedTeam(userTeam : UserTeam | undefined) {
+  setSelectedTeam(userTeam : UserTeamEntity | undefined) {
     this.selectedTeam.setValue(userTeam);
   }
 
-  addSelectedTeamObserver(observer:Observer<UserTeam | undefined>) : void {
+  addSelectedTeamObserver(observer:Observer<UserTeamEntity | undefined>) : void {
     this.selectedTeam.addObserver(observer);
   }
 }

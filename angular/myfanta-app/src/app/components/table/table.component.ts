@@ -6,17 +6,17 @@ import { TeamDataService } from '../../service/team-data.service';
 import { MatSort } from '@angular/material/sort';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { InternalDataService } from '../../service/internal-data.service';
-import { Player } from 'src/decorator/player.model';
 import { TableHelper } from './table-helper';
 import { RouterService } from '../../service/router.service';
 import { LoadDataService } from '../../service/load-data.service';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
-import { League } from 'src/decorator/League.model';
 import { TableFilterOption } from './table-filter';
 import { ObserverHelper } from 'src/utility/observer-helper';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { SnackBarService } from 'src/app/service/snack-bar.service';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
 
 @Component({
   selector: 'app-table',
@@ -35,13 +35,13 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   private tableHelper:TableHelper;
   private isTableEmpty : boolean = true;
-  private leagueSelected : League | null = null;
+  private leagueSelected : LeagueEntity | null = null;
 
-  dataSource!:MatTableDataSource<Player>;
+  dataSource!:MatTableDataSource<PlayerEntity>;
   @ViewChild(MatPaginator) private paginator!: MatPaginator;
   @ViewChild(MatSort) private sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<Player>;
-  private pageIndex:number = 0;
+  @ViewChild(MatTable) table!: MatTable<PlayerEntity>;
+  private _pageIndex:number = 0;
   private pageSize:number = 10;
   private pageSizeOptions:number[] = [5, 10, 20]
 
@@ -59,7 +59,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       this.subscribeTableSize();            
       this.observeLeagueSelected();
       this.observeTableFilterOption();
-      this.dataSource = new MatTableDataSource<Player>();
+      this.dataSource = new MatTableDataSource<PlayerEntity>();
       
       this.tableHelper.getPlayerList(this.leagueSelected).subscribe(list => {        
         this.dataSource.data = list;
@@ -71,7 +71,7 @@ export class TableComponent implements OnInit, AfterViewInit {
    */
 
   private observeLeagueSelected() : void {
-    this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<League | null>()
+    this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<LeagueEntity | null>()
         .next(league => this.leagueSelected = league)
         .build());
   }
@@ -100,25 +100,25 @@ export class TableComponent implements OnInit, AfterViewInit {
    * @returns (player:Player, filter:string) => boolean
    */
   filterPlayers() {
-    let filterPredicate = function (player:Player, filter:string) : boolean {
+    let filterPredicate = function (player:PlayerEntity, filter:string) : boolean {
       const tableFilters:TableFilterOption = TableFilterOption.fromJSON(JSON.parse(filter));
 
       // Filtro nome
-      if(player.getName().trim().toLowerCase().includes(tableFilters.getPlayerName().trim().toLowerCase())) {
+      if(player.playerName.trim().toLowerCase().includes(tableFilters.getPlayerName().trim().toLowerCase())) {
 
         // Filtro partite giocate
-        if(player.getMatchPlayed() >= tableFilters.calculateMatchPlayedFilter(player.getTeam().getLeague().getSport())) {
+        if(player.matchPlayed >= tableFilters.calculateMatchPlayedFilter(player.team.league.sport)) {
 
           // Filtro ruoli
           if(tableFilters.getRoles().length > 0) {
-            if(tableFilters.getRoles().filter(role => player.getRole().getId() == role.getId()).length == 0) {
+            if(tableFilters.getRoles().filter(role => player.role.roleId == role.roleId).length == 0) {
               return false;
             }
           }
 
           // Filtro team
           if(tableFilters.getTeams().length > 0) {
-            if(tableFilters.getTeams().filter(team => player.getTeam().getId() == team.getId()).length == 0) {
+            if(tableFilters.getTeams().filter(team => player.team.teamId == team.teamId).length == 0) {
               return false;
             }
           }
@@ -139,25 +139,25 @@ export class TableComponent implements OnInit, AfterViewInit {
    * @returns function
    */
   sortData() {
-    let sorting = function(playerList:Player[], sort:MatSort) : Player[] {
+    let sorting = function(playerList:PlayerEntity[], sort:MatSort) : PlayerEntity[] {
       if (!sort.active || sort.direction === '') {
         return playerList;
       }
 
-      return playerList.sort((playerA:Player, playerB:Player) => {
+      return playerList.sort((playerA:PlayerEntity, playerB:PlayerEntity) => {
         let comparatorResult = 0;
         switch (sort.active) {
           case 'name':
-            comparatorResult = playerA.getName().localeCompare(playerB.getName());
+            comparatorResult = playerA.playerName.localeCompare(playerB.playerName);
             break;
           case 'team':
-            comparatorResult = playerA.getTeam().getName().localeCompare(playerB.getTeam().getName());
+            comparatorResult = playerA.team.teamName.localeCompare(playerB.team.teamName);
             break;
           case 'role':
-            comparatorResult = playerA.getRole().getShortDescription().localeCompare(playerB.getRole().getShortDescription());
+            comparatorResult = playerA.role.shortDescription.localeCompare(playerB.role.shortDescription);
             break;
           default:
-            comparatorResult = playerA.getName().localeCompare(playerB.getName());
+            comparatorResult = playerA.playerName.localeCompare(playerB.playerName);
             break;
         } 
 
@@ -186,8 +186,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     return this.tableHelper.getDisplayedColumns();
   }
 
-  getPageIndex() : number {
-    return this.pageIndex;
+  public get pageIndex() : number {
+    return this._pageIndex;
   }
 
   getPageSize() : number {
@@ -198,7 +198,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     return this.pageSizeOptions;
   }
 
-  getFavoriteMessageTooltip(player:Player) : string {
+  getFavoriteMessageTooltip(player:PlayerEntity) : string {
     if(this.isFavoriteBtnDisabled(player)) {
       return "Giocatore già presente nella lista dei giocatori da escludere";
     } else if(!this.isFavoritePlayer(player)) {
@@ -208,7 +208,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getBlacklistMessageTooltip(player:Player) : string {
+  getBlacklistMessageTooltip(player:PlayerEntity) : string {
     if(this.isBlacklistBtnDisabled(player)) {
       return "Giocatore già presente nella lista dei preferiti";
     } else if(!this.isPlayerIntoBlacklist(player)) {
@@ -242,26 +242,26 @@ export class TableComponent implements OnInit, AfterViewInit {
     return this.isTableEmpty;
   }
 
-  isFavoritePlayer(player:Player) : boolean {
+  isFavoritePlayer(player:PlayerEntity) : boolean {
     return this.teamDataService.favoriteListHasPlayer(player);
   }
 
-  isPlayerIntoBlacklist(player:Player) : boolean {
+  isPlayerIntoBlacklist(player:PlayerEntity) : boolean {
     return this.teamDataService.blacklistHasPlayer(player);
   }
 
-  isFavoriteBtnDisabled(player:Player) : boolean {
+  isFavoriteBtnDisabled(player:PlayerEntity) : boolean {
     return this.teamDataService.blacklistHasPlayer(player);
   }
 
-  isBlacklistBtnDisabled(player:Player) : boolean {
+  isBlacklistBtnDisabled(player:PlayerEntity) : boolean {
     return this.teamDataService.favoriteListHasPlayer(player);
   }
 
   /* LISTENER */
 
   handlePageEvent(event: PageEvent) : void {
-    this.pageIndex = event.pageIndex;
+    this._pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
   }
 
@@ -269,14 +269,14 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.tableHelper.clearList();
   }
 
-  removePlayer(player:Player) : void {
+  removePlayer(player:PlayerEntity) : void {
     const validationProblem:ValidationProblem | null = this.tableHelper.removePlayer(player);
     if(validationProblem != null) {
       this.snackbarService.openSnackBar(validationProblem);
     }
   }
 
-  goToPlayerPage(player:Player) : void {
+  goToPlayerPage(player:PlayerEntity) : void {
     this.internalDataService.setPlayerSelected(player);
     this.routerService.goToPlayerPage(player);
   }
@@ -286,7 +286,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.teamDataService.filterPlayersByName(filterValue.trim().toLowerCase());
   }
 
-  updateFavoriteList(player:Player) : void {
+  updateFavoriteList(player:PlayerEntity) : void {
     let validationProblem:ValidationProblem | null = null;
     if(!this.isFavoritePlayer(player)) {
       validationProblem = this.teamDataService.addPlayerToFavoriteList(player);
@@ -299,7 +299,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  updateBlacklist(player:Player) : void {
+  updateBlacklist(player:PlayerEntity) : void {
     let validationProblem:ValidationProblem | null = null;
     if(!this.isPlayerIntoBlacklist(player)) {
       validationProblem = this.teamDataService.addPlayerToBlacklist(player);

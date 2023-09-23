@@ -1,7 +1,7 @@
 import { RouterService } from "src/app/service/router.service";
 import { LinkEnumVisitorWithReturnInterface } from "./LinkEnumVisitorWithReturnInterface";
-import { Player } from "src/decorator/player.model";
 import { LinkEnum } from "src/enum/LinkEnum.model";
+import { PlayerEntity } from "src/model/playerEntity.model";
 
 
 export class LinkEnumIsCurrentPageVisitorWithReturn implements LinkEnumVisitorWithReturnInterface<boolean>  {
@@ -42,7 +42,7 @@ export class LinkEnumIsCurrentPageVisitorWithReturn implements LinkEnumVisitorWi
         return this.routerService.currentPageIsOptions(LinkEnum.OPTIONS);
     }
     
-    playerProfile(player: Player): boolean {
+    playerProfile(player: PlayerEntity): boolean {
         return this.routerService.currentPageIsPlayerProfile(player);
     }
 }

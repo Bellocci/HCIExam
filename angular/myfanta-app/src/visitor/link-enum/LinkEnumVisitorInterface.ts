@@ -1,4 +1,4 @@
-import { Player } from "src/decorator/player.model";
+import { PlayerEntity } from "src/model/playerEntity.model";
 
 export interface LinkEnumVisitorInterface {
 
@@ -18,5 +18,5 @@ export interface LinkEnumVisitorInterface {
 
     options() : void;
 
-    playerProfile(player:Player) : void;
+    playerProfile(player:PlayerEntity) : void;
 }

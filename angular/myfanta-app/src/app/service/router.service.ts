@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { InternalDataService } from './internal-data.service';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
-import { Player } from 'src/decorator/player.model';
 import { SessionStorageService } from './session-storage.service';
 import { LinkEnumNavigateToPageVisitor } from 'src/visitor/link-enum/LinkEnumNavigateToPageVisitor';
 import { LinkEnumIsCurrentPageVisitorWithReturn } from 'src/visitor/link-enum/LinkEnumIsCurrentPageVisitorWithReturn';
+import { PlayerEntity } from 'src/model/playerEntity.model';
 
 @Injectable({
   providedIn: 'root'
@@ -122,13 +122,13 @@ export class RouterService {
     return this.router.url == link.path;
   }
 
-  goToPlayerPage(player:Player) : void {
+  goToPlayerPage(player:PlayerEntity) : void {
     this.internalDataService.setLoadingData(true);
     const playerProfilePath:string = this.buildPlayerProfilePath(player);
     this.reloadOrNavigate(false, playerProfilePath);
   }
 
-  currentPageIsPlayerProfile(player:Player) : boolean {
+  currentPageIsPlayerProfile(player:PlayerEntity) : boolean {
     const playerProfilePath:string = this.buildPlayerProfilePath(player);
     return this.router.url == playerProfilePath;
   }  
@@ -152,10 +152,10 @@ export class RouterService {
     this.router.navigateByUrl('/',{skipLocationChange:true}).then(() => this.router.navigate([`/${url}`]) );
   }
 
-  private buildPlayerProfilePath(player:Player) : string {
-    const team:string = player.getTeam().getName().replace(/[^a-zA-Z]/g, "-");
-    const league:string = player.getTeam().getLeague().getName().replace(/[^a-zA-Z]/g, "-");
-    const playerName:string = player.getName().replace(/[^a-zA-Z]/g, "-");
-    return LinkEnum.PARENT_PATH + league + "/" + team + "/" + playerName + "/" + player.getId();
+  private buildPlayerProfilePath(player:PlayerEntity) : string {
+    const team:string = player.team.teamName.replace(/[^a-zA-Z]/g, "-");
+    const league:string = player.team.league.name.replace(/[^a-zA-Z]/g, "-");
+    const playerName:string = player.playerName.replace(/[^a-zA-Z]/g, "-");
+    return LinkEnum.PARENT_PATH + league + "/" + team + "/" + playerName + "/" + player.playerId;
   }
 }

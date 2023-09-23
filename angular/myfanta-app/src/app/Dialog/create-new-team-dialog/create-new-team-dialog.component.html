@@ -76,7 +76,7 @@
                     <mat-option *ngFor="let league of getLeagues()" 
                     [value]="league"
                     (click)="updateSelectedLeague(league)">
-                        {{ league.getName() }}
+                        {{ league.name }}
                     </mat-option>
                 </mat-select>
 

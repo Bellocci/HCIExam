@@ -5,17 +5,15 @@ import { TeamDataService } from 'src/app/service/team-data.service';
 import { ToolbarComponent } from '../toolbar.component';
 
 import { UserService } from 'src/app/service/user.service';
-import { User } from 'src/decorator/user.model';
 import { SnackBarService } from 'src/app/service/snack-bar.service';
-import { League } from 'src/decorator/League.model';
 import { RouterService } from 'src/app/service/router.service';
 import { DialogService } from 'src/app/service/dialog.service';
 import { LoginDialogComponent } from 'src/app/Dialog/login-dialog/login-dialog.component';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
-import { Player } from 'src/decorator/player.model';
-import { CreateNewTeamDataStructure } from 'src/app/Dialog/create-new-team-dialog/create-new-team-data-structure.interface';
-import { CreateNewTeamDialogComponent } from 'src/app/Dialog/create-new-team-dialog/create-new-team-dialog.component';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
+import { UserEntity } from 'src/model/userEntity.model';
 
 @Component({
   selector: 'app-toolbar-base',
@@ -27,9 +25,9 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
   @Output() sidenav_emit = new EventEmitter();
 
   private userLogged:boolean = false;
-  private user:User | undefined;
-  private league!:League | null;  
-  private playerSelected : Player | null = null;
+  private user:UserEntity | undefined;
+  private league!:LeagueEntity | null;  
+  private playerSelected : PlayerEntity | null = null;
 
   constructor(
     private filterService:FilterDataService,
@@ -53,7 +51,7 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 
   private observeUserLogged() {
 
-    this._userService.addObserverForUser(new ObserverStepBuilder<User>()
+    this._userService.addObserverForUser(new ObserverStepBuilder<UserEntity>()
       .next(user => {
         if(user.isUserDefined()) {
           this.userLogged = true;
@@ -68,14 +66,14 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
   }
 
   private observeLeagueSelected() : void {
-    this._internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<League | null>()
+    this._internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<LeagueEntity | null>()
         .next(league => this.league = league)
         .build()
     );
   }
 
   private observePlayerSelected() : void {
-    this._internalDataService.addObserverToPlayerSelected(new ObserverStepBuilder<Player | null>()
+    this._internalDataService.addObserverToPlayerSelected(new ObserverStepBuilder<PlayerEntity | null>()
       .next(player => this.playerSelected = player)
       .build());
   }
@@ -84,7 +82,7 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 
   /* Getter */
 
-  getUser() : User | undefined {
+  getUser() : UserEntity | undefined {
     return this.user;
   }
 

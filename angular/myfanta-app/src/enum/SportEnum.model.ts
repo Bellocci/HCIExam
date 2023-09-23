@@ -24,6 +24,11 @@ export class SportEnum {
         return [...SportEnum.sportList]
     }
 
+    static equals(sport1:SportEnum, sport2:SportEnum) : boolean {
+        return sport1.code == sport2.code && sport1.description == sport2.description &&
+            sport1.label == sport2.label;
+    }
+
     static visit(sport:SportEnum, visitor:SportEnumVisitor) : void {
         if(sport.description == SportEnum.FOOTBALL_SOCCER.description) {
             visitor.footballSoccer();

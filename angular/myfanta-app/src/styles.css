@@ -43,7 +43,7 @@ body {
 }
 
 .secondary-color-light {
-    background-color: #ffffb3;
+    background-color: #ffffb3 !important;
 }
 
 .no-color {
@@ -172,6 +172,10 @@ body {
 
 /* --- CONTAINER E ITEM STANDARD --- */
 
+.full-width {
+    width: 100%;
+}
+
 .flex-container {
     display: flex !important;
 }
@@ -191,7 +195,13 @@ body {
 }
 
 .flex-start-content {
+    display: flex;
     justify-content: flex-start;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
 }
 
 .full-flex-start-main-axis {
@@ -331,6 +341,13 @@ body {
 
 .bold {
     font-weight: 600;
+}
+
+/* PULSANTI */
+
+.btn {
+    width: 120px !important;
+    height: 40px !important;
 }
 
 @media 

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { LoadDataService } from 'src/app/service/load-data.service';
 import { RouterService } from 'src/app/service/router.service';
 import { TeamDataService } from 'src/app/service/team-data.service';
-import { Player } from 'src/decorator/player.model';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { ValidationProblemBuilder } from 'src/utility/validation/ValidationProblemBuilder';
 
@@ -21,7 +21,7 @@ export class SearchAddPlayerValidatorService {
     private static readonly BLACKLIST_HAS_PLAYER_MESSAGE = "Operazione non riuscita. Il giocatore è presente nella lista dei giocatori da escludere";
     private static readonly FAVORITE_LIST_HAS_PLAYER_MESSAGE = "Operazione non riuscita. Il giocatore è presente nella lista dei giocatori preferiti";      
   
-    validateAddPlayerToListOperation(player:Player) : ValidationProblem | null {
+    validateAddPlayerToListOperation(player:PlayerEntity) : ValidationProblem | null {
       if(this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM)) {
         return this.addPlayerToMyListValidation(player);
       } else if(this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST)) {
@@ -37,10 +37,11 @@ export class SearchAddPlayerValidatorService {
       }
     }
 
-    private addPlayerToMyListValidation(player:Player) : ValidationProblem | null {
+    private addPlayerToMyListValidation(player:PlayerEntity) : ValidationProblem | null {
   
       // Validazione comuni
-      const searchIntoListFunction:(player:Player) => boolean = (player:Player) => {return this.teamDataService.userTeamHasPlayer(player)};
+      const searchIntoListFunction:(player:PlayerEntity) => boolean = 
+          (player:PlayerEntity) => {return this.teamDataService.userTeamHasPlayer(player)};
       let resultCommonValidation:ValidationProblem | null = this.commonValidation(player, searchIntoListFunction);
       if(resultCommonValidation != null) {
         return resultCommonValidation;
@@ -57,10 +58,11 @@ export class SearchAddPlayerValidatorService {
       return null;
     }
   
-    private addPlayerToFavoriteListValidation(player:Player) : ValidationProblem | null {
+    private addPlayerToFavoriteListValidation(player:PlayerEntity) : ValidationProblem | null {
   
       // Validazioni a comune
-      const searchIntoListFunction:(player:Player) => boolean = (player:Player) => {return this.teamDataService.favoriteListHasPlayer(player)};
+      const searchIntoListFunction:(player:PlayerEntity) => boolean = 
+          (player:PlayerEntity) => {return this.teamDataService.favoriteListHasPlayer(player)};
       let resultCommonValidation:ValidationProblem | null = this.commonValidation(player, searchIntoListFunction);
       if(resultCommonValidation != null) {
         return resultCommonValidation;
@@ -79,10 +81,11 @@ export class SearchAddPlayerValidatorService {
       return null;
     }
   
-    private addPlayerToBlacklistValidation(player:Player) : ValidationProblem | null {
+    private addPlayerToBlacklistValidation(player:PlayerEntity) : ValidationProblem | null {
   
       // Validazione comuni
-      const searchIntoListFunction:(player:Player) => boolean = (player:Player) => {return this.teamDataService.blacklistHasPlayer(player)};
+      const searchIntoListFunction:(player:PlayerEntity) => boolean = 
+          (player:PlayerEntity) => {return this.teamDataService.blacklistHasPlayer(player)};
       let resultCommonValidation:ValidationProblem | null = this.commonValidation(player, searchIntoListFunction);
       if(resultCommonValidation != null) {
         return resultCommonValidation;
@@ -106,13 +109,13 @@ export class SearchAddPlayerValidatorService {
      * @param checkListfunction funzione di ricerca del giocatore nella lista in cui deve essere aggiunto
      * @returns ValidationProblem[]
      */
-    private commonValidation(player:Player, checkListfunction:(player:Player) => boolean) : ValidationProblem | null {  
+    private commonValidation(player:PlayerEntity, checkListfunction:(player:PlayerEntity) => boolean) : ValidationProblem | null {  
       // Verifico l'esistenza del giocatore
-      let result:Player | null = this.loadDataService.loadPlayerBydId(player.getId());
+      let result:PlayerEntity | null = this.loadDataService.loadPlayerBydId(player.playerId);
       if(result == null) {
         return new ValidationProblemBuilder()
             .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-            .withMessage("Nessun giocatore trovato con il nome: " + player.getName())
+            .withMessage("Nessun giocatore trovato con il nome: " + player.playerName)
             .build();
       }
   

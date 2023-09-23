@@ -1,6 +1,5 @@
 import { Component, ViewChild, OnInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { League } from 'src/decorator/League.model';
 import { InternalDataService } from '../service/internal-data.service';
 import { TeamDataService } from '../service/team-data.service';
 import { FilterDataService } from '../service/filter-data.service';
@@ -10,6 +9,7 @@ import { RouterService } from '../service/router.service';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { UserService } from '../service/user.service';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
 
 @Component({
   selector: 'app-toolbar',
@@ -31,10 +31,10 @@ export class ToolbarComponent implements OnInit {
   linkEnum : typeof LinkEnum = LinkEnum;  
   is_mobile:boolean = false;
 
-  leagueSelected!:League | null;
+  leagueSelected!:LeagueEntity | null;
   sportSelected:number = -1;
 
-  leagueList!:League[];
+  leagueList!:LeagueEntity[];
   championshipsList!:string[];
 
   isLoadingData:boolean = false;
@@ -69,13 +69,13 @@ export class ToolbarComponent implements OnInit {
     return this.filterDataService.filterChampionshipsBySport(sport);
   }
 
-  getLeagues(sport:SportEnum, championship:ChampionshipEnum) : League[] {
+  getLeagues(sport:SportEnum, championship:ChampionshipEnum) : LeagueEntity[] {
     return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
   }
 
   /* SETTER */
 
-  protected setLeagueSelected(league:League | null) {
+  protected setLeagueSelected(league:LeagueEntity | null) {
     this.internalDataService.setLeagueSelected(league);
   }
 
@@ -118,7 +118,7 @@ export class ToolbarComponent implements OnInit {
 
   /* Metodi di funzionalità */
 
-  selectedLeagueListener(league: League) {    
+  selectedLeagueListener(league: LeagueEntity) {    
     this.clearData();
     this.setLeagueSelected(league);
     this.closeSidenav();

@@ -3,9 +3,7 @@ import { debounceTime, distinctUntilChanged, Subject, switchMap} from 'rxjs';
 import { InternalDataService } from '../../service/internal-data.service';
 import { TeamDataService } from '../../service/team-data.service';
 import { RouterService } from '../../service/router.service';
-import { Player } from 'src/decorator/player.model';
 import { FilterDataService } from '../../service/filter-data.service';
-import { League } from 'src/decorator/League.model';
 import { LoadDataService } from '../../service/load-data.service';
 import { SnackBarService } from '../../service/snack-bar.service';
 import { SearchAddPlayerValidatorService } from './search-add-player-validator.service';
@@ -13,6 +11,8 @@ import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { ValidationProblemBuilder } from 'src/utility/validation/ValidationProblemBuilder';
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
 
 @Component({
   selector: 'app-search-add-player',
@@ -22,9 +22,9 @@ import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
 export class SearchAddPlayerComponent implements OnInit {
 
   inputPlayerName:string = '';
-  players: Player[] = []; // Lista dei giocatori restituiti dall'autocomplete
+  players: PlayerEntity[] = []; // Lista dei giocatori restituiti dall'autocomplete
   private playerResultList:Subject<string> = new Subject<string>();
-  private leagueSelected:League | null = null;
+  private leagueSelected:LeagueEntity | null = null;
 
   constructor(
     private internalDataService:InternalDataService,
@@ -85,7 +85,7 @@ export class SearchAddPlayerComponent implements OnInit {
   }
 
   addPlayer(playerName:string) : void { 
-    let player:Player | undefined = this.loadPlayer(playerName);
+    let player:PlayerEntity | undefined = this.loadPlayer(playerName);
     if(player == undefined) {
       this.snackBarService.openErrorSnackBar("Errore! Nessun giocatore trovato con nome " + playerName);    
     } else {
@@ -102,8 +102,8 @@ export class SearchAddPlayerComponent implements OnInit {
     }
   }
 
-  private loadPlayer(playerName:string) : Player | undefined {
-    let playerSelected:Player | undefined = this.players.find(player => player.getName().toLowerCase() === playerName.toLocaleLowerCase());
+  private loadPlayer(playerName:string) : PlayerEntity | undefined {
+    let playerSelected:PlayerEntity | undefined = this.players.find(player => player.playerName.toLowerCase() === playerName.toLocaleLowerCase());
     if(playerSelected == undefined && this.leagueSelected != null) {
       playerSelected = this.loadDataService.searchPlayer(playerName, this.leagueSelected);
     }
@@ -111,7 +111,7 @@ export class SearchAddPlayerComponent implements OnInit {
     return playerSelected;
   }
 
-  private addPlayerToList(player:Player) : ValidationProblem | null {
+  private addPlayerToList(player:PlayerEntity) : ValidationProblem | null {
     if(this.routerService.isLinkActivated(LinkEnum.MYTEAM)) {
       return this.teamDataService.addPlayerToMyTeam(player);
     } else if(this.routerService.isLinkActivated(LinkEnum.FAVORIT_LIST)) {

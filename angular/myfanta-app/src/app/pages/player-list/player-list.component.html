@@ -58,13 +58,13 @@
                                         <button mat-flat-button class="ml-5px mr-5px btn mat-elevation-z3" 
                                         *ngIf="!isRoleSelected(role)"
                                         (click)="updateRolesSelectedList(role)">
-                                            {{ role.getShortDescription() }}
+                                            {{ role.shortDescription }}
                                         </button>
 
                                         <button mat-flat-button class="ml-5px mr-5px btn-selected primary-color"
                                         *ngIf="isRoleSelected(role)"
                                         (click)="updateRolesSelectedList(role)">
-                                            {{ role.getShortDescription() }}
+                                            {{ role.shortDescription }}
                                         </button>
                                     </ng-container>
 
@@ -110,9 +110,9 @@
                                 <mat-chip-listbox #chipsTeamList multiple="true">
                                     <ng-container *ngFor="let team of getTeams()">
                                         <mat-chip-option 
-                                        [matTooltip]="team.getName()"
+                                        [matTooltip]="team.teamName"
                                         (selectionChange)="changeSelectedTeamsList(team)">
-                                            {{ team.getAbbreviation() }}
+                                            {{ team.teamAbbreviation }}
                                         </mat-chip-option>
                                     </ng-container>
                                 </mat-chip-listbox>

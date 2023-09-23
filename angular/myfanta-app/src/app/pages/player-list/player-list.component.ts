@@ -1,24 +1,23 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InternalDataService } from '../../service/internal-data.service';
 import { TeamDataService } from '../../service/team-data.service';
-import { RolePlayer } from 'src/decorator/role-player.model';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { FilterDataService } from 'src/app/service/filter-data.service';
-import { League } from 'src/decorator/League.model';
-import { Team } from 'src/decorator/team.model';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { RouterService } from 'src/app/service/router.service';
-import { StandardOption } from 'src/decorator/option/standard-option.interface';
-import { Option } from 'src/decorator/option/option.model';
+import { StandardOption } from 'src/decorator/option/standard-option.model';
 import { ExternalService } from 'src/app/service/external.service';
 import { SnackBarService } from 'src/app/service/snack-bar.service';
 import { UserService } from 'src/app/service/user.service';
-import { User } from 'src/decorator/user.model';
-import { UserTeam } from 'src/decorator/userTeam.model';
 import { CreateNewTeamDataStructure } from 'src/app/Dialog/create-new-team-dialog/create-new-team-data-structure.interface';
 import { DialogService } from 'src/app/service/dialog.service';
 import { CreateNewTeamDialogComponent } from 'src/app/Dialog/create-new-team-dialog/create-new-team-dialog.component';
-import { ViewportScroller } from '@angular/common';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { RolePlayerEntity } from 'src/model/rolePlayerEntity.model';
+import { TeamEntity } from 'src/model/teamEntity.model';
+import { UserEntity } from 'src/model/userEntity.model';
+import { UserTeamEntity } from 'src/model/userTeamEntity.model';
+import { OptionEntity } from 'src/model/options/optionEntity.model';
 
 interface ValueLabel {
   label:string,
@@ -34,12 +33,12 @@ export class PlayerListComponent implements OnInit {
 
   private linksList:LinkEnum[] = [LinkEnum.MYTEAM, LinkEnum.FAVORIT_LIST, LinkEnum.BLACKLIST, LinkEnum.PLAYER_LIST];
   private simpleOption!:StandardOption;
-  private option:Option | null = null;
+  private option:OptionEntity | null = null;
 
-  private roles:RolePlayer[] = [];
-  private rolesSelectedMap:Map<number, RolePlayer> = new Map();  
+  private roles:RolePlayerEntity[] = [];
+  private rolesSelectedMap:Map<number, RolePlayerEntity> = new Map();  
 
-  private leagueSelected:League | null = null;
+  private leagueSelected:LeagueEntity | null = null;
 
   private static readonly ALL_PLAYERS:ValueLabel = {
     label: "Tutti",
@@ -64,11 +63,11 @@ export class PlayerListComponent implements OnInit {
   ]);
   private selectedMatchFilter:ValueLabel = PlayerListComponent.ALL_PLAYERS;
 
-  private teams:Team[] = [];
-  private selectedTeams:Set<Team> = new Set();
+  private teams:TeamEntity[] = [];
+  private selectedTeams:Set<TeamEntity> = new Set();
 
-  private user!:User;
-  private userTeam:UserTeam | undefined = undefined;
+  private user!:UserEntity;
+  private userTeam:UserTeamEntity | undefined = undefined;
 
   constructor(private internalDataService:InternalDataService,
     private filterDataService:FilterDataService,
@@ -77,8 +76,7 @@ export class PlayerListComponent implements OnInit {
     private externalService:ExternalService,
     private snackbarService:SnackBarService,
     private userService:UserService,
-    private dialogService:DialogService,
-    private scroller: ViewportScroller) {
+    private dialogService:DialogService) {
 
     this.addObserverToLeague();
     this.observeOptionTeam();
@@ -93,10 +91,10 @@ export class PlayerListComponent implements OnInit {
   /* OBSERVER */
 
   addObserverToLeague() : void {
-    this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<League | null>()
+    this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<LeagueEntity | null>()
         .next(league => {
           if(league != null) {
-            this.roles = this.filterDataService.filterRolesBySport(league.getSport());
+            this.roles = this.filterDataService.filterRolesBySport(league.sport);
             this.teams = this.filterDataService.filterTeamsByLeague(league);
           } else {
             this.roles = [];
@@ -111,21 +109,21 @@ export class PlayerListComponent implements OnInit {
 
   private observeOptionTeam() : void {
     this.teamDataService.addObserverToOption(
-      new ObserverStepBuilder<Option | null>().next(o => this.option = o).build());
+      new ObserverStepBuilder<OptionEntity | null>().next(o => this.option = o).build());
   }
 
   private observeUser() : void {
-    this.userService.addObserverForUser(new ObserverStepBuilder<User>().next(user => this.user = user).build());
+    this.userService.addObserverForUser(new ObserverStepBuilder<UserEntity>().next(user => this.user = user).build());
   }
 
   private observeUserTeam() : void {
-    this.userService.addSelectedTeamObserver(new ObserverStepBuilder<UserTeam | undefined>()
+    this.userService.addSelectedTeamObserver(new ObserverStepBuilder<UserTeamEntity | undefined>()
         .next(team => this.userTeam = team).build());
   }
   
   /* GETTER */
 
-  getPlayerRoles() : RolePlayer[] {
+  getPlayerRoles() : RolePlayerEntity[] {
     return this.roles;
   }
 
@@ -133,7 +131,7 @@ export class PlayerListComponent implements OnInit {
     return [... this.filterMatchValues.keys()];
   }
 
-  getTeams() : Team[] {
+  getTeams() : TeamEntity[] {
     return this.teams;
   }
 
@@ -143,8 +141,8 @@ export class PlayerListComponent implements OnInit {
 
   /* VISIBLITA' */
 
-  isRoleSelected(role:RolePlayer) : boolean {
-    return this.rolesSelectedMap.has(role.getId());
+  isRoleSelected(role:RolePlayerEntity) : boolean {
+    return this.rolesSelectedMap.has(role.roleId);
   }
 
   isMatchFilterSelected(filter:ValueLabel) : boolean {
@@ -179,10 +177,10 @@ export class PlayerListComponent implements OnInit {
 
   /* LISTENER */
 
-  updateRolesSelectedList(role:RolePlayer) : void {
-    this.rolesSelectedMap.has(role.getId()) ? 
-        this.rolesSelectedMap.delete(role.getId()) : 
-        this.rolesSelectedMap.set(role.getId(), role);
+  updateRolesSelectedList(role:RolePlayerEntity) : void {
+    this.rolesSelectedMap.has(role.roleId) ? 
+        this.rolesSelectedMap.delete(role.roleId) : 
+        this.rolesSelectedMap.set(role.roleId, role);
     
     this.teamDataService.filterPlayersByRole(role);
   }
@@ -192,7 +190,7 @@ export class PlayerListComponent implements OnInit {
     this.teamDataService.filterPlayersByMatchPlayedPerc(filter.value as number);
   }
 
-  changeSelectedTeamsList(team:Team) : void {
+  changeSelectedTeamsList(team:TeamEntity) : void {
     this.selectedTeams.has(team) ? this.selectedTeams.delete(team) : this.selectedTeams.add(team);
     this.teamDataService.filterPlayersByTeams(team);
   }
@@ -205,7 +203,7 @@ export class PlayerListComponent implements OnInit {
     if(!this.simpleOption.includeAdvancedFilter) {
       this.externalService.createTeamWithSimpleOption(this.simpleOption);
     } else if(this.option != null && this.leagueSelected != null) {
-      this.externalService.createTeamWithAdvancedOption(this.option, this.leagueSelected.getSport());
+      this.externalService.createTeamWithAdvancedOption(this.option, this.leagueSelected.sport);
     }
     
     // Effettua lo scroll della pagina fino alla tabella dei giocatori
@@ -223,8 +221,8 @@ export class PlayerListComponent implements OnInit {
   openCreateNewTeamDialog() : void {
     if(this.leagueSelected != null) {
       let dataStructure:CreateNewTeamDataStructure = {
-        sport : this.leagueSelected.getSport(),
-        championship : this.leagueSelected.getChampionship(),
+        sport : this.leagueSelected.sport,
+        championship : this.leagueSelected.championship,
         league : this.leagueSelected,
         teamName : '',
         importPlayer : true

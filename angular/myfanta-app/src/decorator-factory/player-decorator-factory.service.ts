@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Player } from 'src/decorator/player.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
 
 @Injectable({
@@ -9,10 +8,10 @@ export class PlayerDecoratorFactoryService {
 
   constructor() { }
 
-  decorateList(playerEntityList:PlayerEntity[]) : Player[] {
-    let list:Player[] = [];
+  decorateList(playerEntityList:PlayerEntity[]) : PlayerEntity[] {
+    let list:PlayerEntity[] = [];
     for(let playerEntity of playerEntityList) {
-      list.push(new Player(playerEntity));
+      list.push(playerEntity);
     }
     return list;
   }

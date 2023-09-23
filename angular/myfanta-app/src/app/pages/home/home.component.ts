@@ -4,11 +4,11 @@ import { FilterDataService } from '../../service/filter-data.service';
 import { InternalDataService } from '../../service/internal-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
-import { League } from 'src/decorator/League.model';
 import { RouterService } from '../../service/router.service';
 import { UserService } from '../../service/user.service';
 import { TeamDataService } from '../../service/team-data.service';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
 
 
 @Component({
@@ -67,19 +67,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
     return this.filterDataService.filterChampionshipsBySport(sport);
   }
 
-  getLeagues(sport:SportEnum, championship:ChampionshipEnum) : League[] {
+  getLeagues(sport:SportEnum, championship:ChampionshipEnum) : LeagueEntity[] {
     return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
   }
 
   // SETTER
 
-  private setLeagueSelected(league:League) : void {
+  private setLeagueSelected(league:LeagueEntity) : void {
     this.internalDataService.setLeagueSelected(league);
   }
   
   /* LISTENER */
 
-  selectedLeagueListener(league:League) : void {
+  selectedLeagueListener(league:LeagueEntity) : void {
     this.clearData();
     this.internalDataService.setLoadingData(true);
     this.setLeagueSelected(league);

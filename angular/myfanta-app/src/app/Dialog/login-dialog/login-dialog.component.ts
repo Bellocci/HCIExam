@@ -5,7 +5,7 @@ import { DialogService } from 'src/app/service/dialog.service';
 import { RegistrationDialogComponent } from '../registration-dialog/registration-dialog.component';
 import { RecoveryPasswordDialogComponent } from '../recovery-password-dialog/recovery-password-dialog.component';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
-import { User } from 'src/decorator/user.model';
+import { UserEntity } from 'src/model/userEntity.model';
 
 @Component({
   selector: 'app-login-dialog',
@@ -41,7 +41,7 @@ export class LoginDialogComponent implements OnInit {
   }
 
   private subscribeUser() : void {
-    this.userService.addObserverForUser(new ObserverStepBuilder<User>()
+    this.userService.addObserverForUser(new ObserverStepBuilder<UserEntity>()
       .next(user => {
         if(user.isUserDefined()) {
           this.setLoginErrorMessageVisibility(false)

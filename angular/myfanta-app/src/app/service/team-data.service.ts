@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
-import { Option } from 'src/decorator/option/option.model';
-import { Player } from 'src/decorator/player.model';
-import { RolePlayer } from 'src/decorator/role-player.model';
-import { Team } from 'src/decorator/team.model';
-import { UserTeam } from 'src/decorator/userTeam.model';
 import { MapHelper } from 'src/utility/map-helper';
 import { ObserverHelper } from 'src/utility/observer-helper';
 import { TableFilterOption } from '../components/table/table-filter';
@@ -12,7 +7,11 @@ import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { RouterService } from './router.service';
 import { ValidationProblemBuilder } from 'src/utility/validation/ValidationProblemBuilder';
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
-import { LinkEnum } from 'src/enum/LinkEnum.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
+import { RolePlayerEntity } from 'src/model/rolePlayerEntity.model';
+import { TeamEntity } from 'src/model/teamEntity.model';
+import { UserTeamEntity } from 'src/model/userTeamEntity.model';
+import { OptionEntity } from 'src/model/options/optionEntity.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,14 +21,14 @@ export class TeamDataService {
  /*
   * Mappe per la gestione della Squadra, Giocatori Preferiti e Giocatori da escludere
   */
-  private teamMap:MapHelper<number, Player> = new MapHelper<number, Player>(new Map());
-  private favoriteListMap:MapHelper<number, Player> = new MapHelper<number, Player>(new Map());
-  private blacklistMap:MapHelper<number, Player> = new MapHelper<number, Player>(new Map());  
+  private teamMap:MapHelper<number, PlayerEntity> = new MapHelper<number, PlayerEntity>(new Map());
+  private favoriteListMap:MapHelper<number, PlayerEntity> = new MapHelper<number, PlayerEntity>(new Map());
+  private blacklistMap:MapHelper<number, PlayerEntity> = new MapHelper<number, PlayerEntity>(new Map());  
 
   /*
    * Opzioni di ricerca per la creazione della squadra 
    */
-  private option:ObserverHelper<Option | null> = new ObserverHelper<Option | null>(null);
+  private option:ObserverHelper<OptionEntity | null> = new ObserverHelper<OptionEntity | null>(null);
 
   /*
    * Filtro dei giocatori presenti nella tabella 
@@ -45,21 +44,21 @@ export class TeamDataService {
    * 
    * @param team 
    */
-  loadTeam(team:UserTeam) : void {
+  loadTeam(team:UserTeamEntity) : void {
     // Riporto alla situazione iniziale
     this.clearAllList();
     
     // Aggiungo i giocatori del team  
-    team.getTeam().forEach(player => this.teamMap.addElementToMap(player.getId(), player));
+    team.team.forEach(player => this.teamMap.addElementToMap(player.playerId, player));
 
     // Aggiungo i giocatori preferiti
-    team.getFavoritList().forEach(player => this.favoriteListMap.addElementToMap(player.getId(), player));
+    team.favoriteList.forEach(player => this.favoriteListMap.addElementToMap(player.playerId, player));
     
     // Aggiungo i giocatori da escludere
-    team.getBlackList().forEach(player => this.blacklistMap.addElementToMap(player.getId(), player));
+    team.blacklist.forEach(player => this.blacklistMap.addElementToMap(player.playerId, player));
 
     // Carico le opzioni
-    this.option.setValue(team.getOption());
+    this.option.setValue(team.option);
   }
 
   /**
@@ -78,44 +77,44 @@ export class TeamDataService {
 
   /* METODI SQUADRA UTENTE */
 
-  getUserTeamList() : Player[] {
+  getUserTeamList() : PlayerEntity[] {
     return this.teamMap.getValues();
   }
 
-  addObserverToUserTeam(observer:Observer<Player[]>) {
+  addObserverToUserTeam(observer:Observer<PlayerEntity[]>) {
     this.teamMap.addObserver(observer);
   }
 
-  getObservableOfUserTeam() : Observable<Player[]> {
+  getObservableOfUserTeam() : Observable<PlayerEntity[]> {
     return this.teamMap.getObservable();
   }
 
-  addPlayerToMyTeam(player:Player) : ValidationProblem | null {
-    const added:boolean = this.teamMap.addElementToMap(player.getId(), player);      
+  addPlayerToMyTeam(player:PlayerEntity) : ValidationProblem | null {
+    const added:boolean = this.teamMap.addElementToMap(player.playerId, player);      
     if(!added) {
       return new ValidationProblemBuilder()
           .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-          .withMessage("Errore durante l'inserimento del giocatore " + player.getName() + " nella lista della squadra")
+          .withMessage("Errore durante l'inserimento del giocatore " + player.playerName + " nella lista della squadra")
           .build();
     }
 
     return null;
   }
 
-  userTeamHasPlayer(player:Player) : boolean {
-    return this.teamMap.hasElement(player.getId());
+  userTeamHasPlayer(player:PlayerEntity) : boolean {
+    return this.teamMap.hasElement(player.playerId);
   }
 
   clearUserTeam() : void {
     this.teamMap.clearMap();
   }
 
-  removePlayerFromUserTeam(player:Player) : ValidationProblem | null {
-    const removed:boolean = this.teamMap.removeElement(player.getId());
+  removePlayerFromUserTeam(player:PlayerEntity) : ValidationProblem | null {
+    const removed:boolean = this.teamMap.removeElement(player.playerId);
     if(!removed) {
       return new ValidationProblemBuilder()
           .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-          .withMessage("Errore durante la rimozione del giocatore " + player.getName() + " dalla lista della squadra")
+          .withMessage("Errore durante la rimozione del giocatore " + player.playerName + " dalla lista della squadra")
           .build()
     }    
     
@@ -124,44 +123,44 @@ export class TeamDataService {
 
   /* METODI LISTA GIOCATORI PREFERITI */
 
-  getFavoritePlayersList() : Player[] {
+  getFavoritePlayersList() : PlayerEntity[] {
     return this.favoriteListMap.getValues();
   }
 
-  addObserverToFavoriteList(observer:Observer<Player[]>) {
+  addObserverToFavoriteList(observer:Observer<PlayerEntity[]>) {
     this.favoriteListMap.addObserver(observer);
   }
 
-  getObservableOfFavoriteList() : Observable<Player[]> {
+  getObservableOfFavoriteList() : Observable<PlayerEntity[]> {
     return this.favoriteListMap.getObservable();
   }
 
-  addPlayerToFavoriteList(player:Player) : ValidationProblem | null {
-    const added:boolean = this.favoriteListMap.addElementToMap(player.getId(), player);
+  addPlayerToFavoriteList(player:PlayerEntity) : ValidationProblem | null {
+    const added:boolean = this.favoriteListMap.addElementToMap(player.playerId, player);
     if(!added) {
       return new ValidationProblemBuilder()
           .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-          .withMessage("Errore durante l'inserimento del giocatore " + player.getName() + " nella lista dei preferiti")
+          .withMessage("Errore durante l'inserimento del giocatore " + player.playerName + " nella lista dei preferiti")
           .build();
     } 
     
     return null;
   }
 
-  favoriteListHasPlayer(player:Player) {
-    return this.favoriteListMap.hasElement(player.getId());
+  favoriteListHasPlayer(player:PlayerEntity) {
+    return this.favoriteListMap.hasElement(player.playerId);
   }
 
   clearFavoritList() : void {
     this.favoriteListMap.clearMap();
   }
 
-  removePlayerFromFavoriteList(player:Player) : ValidationProblem | null {
-    const removed:boolean = this.favoriteListMap.removeElement(player.getId());
+  removePlayerFromFavoriteList(player:PlayerEntity) : ValidationProblem | null {
+    const removed:boolean = this.favoriteListMap.removeElement(player.playerId);
     if(!removed) {
       return new ValidationProblemBuilder()
           .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-          .withMessage("Errore durante la rimozione del giocatore " + player.getName() + " dalla lista dei preferiti")
+          .withMessage("Errore durante la rimozione del giocatore " + player.playerName + " dalla lista dei preferiti")
           .build();
     }
 
@@ -170,45 +169,45 @@ export class TeamDataService {
 
   /* METODI LISTA GIOCATORI ESCLUSI */
 
-  getBlacklistPlayers() : Player[] {
+  getBlacklistPlayers() : PlayerEntity[] {
     return this.blacklistMap.getValues();
   }
 
-  addObserverToBlacklist(observer:Observer<Player[]>) {
+  addObserverToBlacklist(observer:Observer<PlayerEntity[]>) {
     this.blacklistMap.addObserver(observer);
   }
 
-  getObservableOfBlacklist() : Observable<Player[]> {
+  getObservableOfBlacklist() : Observable<PlayerEntity[]> {
     return this.blacklistMap.getObservable();
   }
 
-  addPlayerToBlacklist(player:Player) : ValidationProblem | null {
-    const added:boolean = this.blacklistMap.addElementToMap(player.getId(), player);
+  addPlayerToBlacklist(player:PlayerEntity) : ValidationProblem | null {
+    const added:boolean = this.blacklistMap.addElementToMap(player.playerId, player);
     if(!added) {
       return new ValidationProblemBuilder()
           .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-          .withMessage("Errore durante l'inserimento del giocatore " + player.getName() + " nella lista dei giocatori da escludere")
+          .withMessage("Errore durante l'inserimento del giocatore " + player.playerName + " nella lista dei giocatori da escludere")
           .build();
     }
 
     return null;
   }
 
-  blacklistHasPlayer(player:Player) {
-    return this.blacklistMap.hasElement(player.getId());
+  blacklistHasPlayer(player:PlayerEntity) {
+    return this.blacklistMap.hasElement(player.playerId);
   }
 
   clearBlacklist() : void {
     this.blacklistMap.clearMap();
   }
 
-  removePlayerFromBlacklist(player:Player) : ValidationProblem | null {
+  removePlayerFromBlacklist(player:PlayerEntity) : ValidationProblem | null {
     let validationProblemList:ValidationProblem[] = [];
-    const removed:boolean = this.blacklistMap.removeElement(player.getId());
+    const removed:boolean = this.blacklistMap.removeElement(player.playerId);
     if(!removed) {
       return new ValidationProblemBuilder()
           .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-          .withMessage("Errore durante la rimozione del giocatore " + player.getName() + " dalla lista dei giocatori da escludere")
+          .withMessage("Errore durante la rimozione del giocatore " + player.playerName + " dalla lista dei giocatori da escludere")
           .build();
     }
 
@@ -217,11 +216,11 @@ export class TeamDataService {
 
   /* METODI OPZIONI DI RICERCA */
 
-  addObserverToOption(observer:Observer<Option | null>) : void {
+  addObserverToOption(observer:Observer<OptionEntity | null>) : void {
     this.option.addObserver(observer);
   }
 
-  setOption(option:Option | null) : void {
+  setOption(option:OptionEntity | null) : void {
     this.option.setValue(option);
   }
 
@@ -233,7 +232,7 @@ export class TeamDataService {
     this.tableFilterOption.addObserver(observer);
   }
 
-  filterPlayersByRole(role:RolePlayer) : void {
+  filterPlayersByRole(role:RolePlayerEntity) : void {
     let tableFilter:TableFilterOption = this.tableFilterOption.getValue();
     tableFilter.updateRoles(role);
     this.tableFilterOption.setValue(tableFilter);
@@ -245,7 +244,7 @@ export class TeamDataService {
     this.tableFilterOption.setValue(tableFilter);
   }
 
-  filterPlayersByTeams(team:Team) : void {
+  filterPlayersByTeams(team:TeamEntity) : void {
     let tableFilter:TableFilterOption = this.tableFilterOption.getValue();
     tableFilter.updateTeams(team);
     this.tableFilterOption.setValue(tableFilter);

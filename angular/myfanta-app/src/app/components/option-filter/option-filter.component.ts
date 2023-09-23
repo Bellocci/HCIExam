@@ -1,8 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { InternalDataService } from '../../service/internal-data.service';
-import { Team } from 'src/decorator/team.model';
 import { FilterDataService } from '../../service/filter-data.service';
-import { StandardOption } from 'src/decorator/option/standard-option.interface';
+import { StandardOption } from 'src/decorator/option/standard-option.model';
+import { TeamEntity } from 'src/model/teamEntity.model';
 
 @Component({
   selector: 'app-option-filter',
@@ -11,7 +11,7 @@ import { StandardOption } from 'src/decorator/option/standard-option.interface';
 })
 export class OptionFilterComponent implements OnInit {
     
-  private teamsList:Team[] = [];
+  private teamsList:TeamEntity[] = [];
 
   option:StandardOption;
 
@@ -20,15 +20,7 @@ export class OptionFilterComponent implements OnInit {
   constructor(private internalDataService:InternalDataService,
     private filterDataService:FilterDataService) {
     this.subscribeTeams();
-    this.option = {
-      budget: 250,
-      minAge: 18,
-      maxAge: 99,
-      includeFavorite: false,
-      includeBlacklist: false,
-      includeAdvancedFilter: false,
-      selectedTeams : new Set<Team>()
-    }    
+    this.option = new StandardOption();
   }
 
   private subscribeTeams() {
@@ -47,19 +39,19 @@ export class OptionFilterComponent implements OnInit {
 
   /* GETTER */
 
-  getTeams() : Team[] {
+  getTeams() : TeamEntity[] {
     return this.teamsList;
   }
 
   /* Visibilità */
 
-  isTeamSelected(team:Team) : boolean {
+  isTeamSelected(team:TeamEntity) : boolean {
     return this.option.selectedTeams.has(team);
   }
 
   /* Funzionalità  */
 
-  changeSelectedList(team:Team) : void {    
+  changeSelectedList(team:TeamEntity) : void {    
     this.option.selectedTeams.has(team) ? this.option.selectedTeams.delete(team) : this.option.selectedTeams.add(team);
     this.optionToSend.emit(this.option);
   }

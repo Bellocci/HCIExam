@@ -1,7 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { UserService } from '../../service/user.service';
-import { User } from 'src/decorator/user.model';
-import { UserTeam } from 'src/decorator/userTeam.model';
 import { ColorEnum } from 'src/enum/ColorEnum.model';
 import { TeamDataService } from '../../service/team-data.service';
 import { RouterService } from '../../service/router.service';
@@ -11,6 +9,8 @@ import { CreateNewTeamDialogComponent } from '../../Dialog/create-new-team-dialo
 import { DialogService } from '../../service/dialog.service';
 import { DialogHelper } from '../../Dialog/dialogHelper.interface';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
+import { UserEntity } from 'src/model/userEntity.model';
+import { UserTeamEntity } from 'src/model/userTeamEntity.model';
 
 @Component({
   selector: 'app-user-page',
@@ -21,8 +21,8 @@ export class UserPageComponent implements OnInit, AfterViewInit {
 
   private dialogHelper!:DialogHelper;
 
-  private myTeams:UserTeam[] = [];
-  private removedTeams:UserTeam[] = [];
+  private myTeams:UserTeamEntity[] = [];
+  private removedTeams:UserTeamEntity[] = [];
 
   constructor(private userService:UserService,
     private teamDataService:TeamDataService, 
@@ -40,7 +40,7 @@ export class UserPageComponent implements OnInit, AfterViewInit {
 
   // Getter
 
-  getUser() : User {
+  getUser() : UserEntity {
     return this.userService.getUser();
   }
 
@@ -50,7 +50,7 @@ export class UserPageComponent implements OnInit, AfterViewInit {
    * @param sport 
    * @returns UserTeam[]
    */
-  getTeams(sport:SportEnum) : UserTeam[] {
+  getTeams(sport:SportEnum) : UserTeamEntity[] {
     return this.userService.loadTeams(sport);
   }
 
@@ -58,12 +58,12 @@ export class UserPageComponent implements OnInit, AfterViewInit {
     return SportEnum.getAllSport();
   }
 
-  getNumberOfPlayerIntoFavoritList(team:UserTeam) : number {
-    return team.getFavoritList().length;
+  getNumberOfPlayerIntoFavoritList(team:UserTeamEntity) : number {
+    return team.favoriteList.length;
   }
 
-  getNumberOfPlayerIntoBlacklist(team:UserTeam) : number {
-    return team.getBlackList().length;
+  getNumberOfPlayerIntoBlacklist(team:UserTeamEntity) : number {
+    return team.blacklist.length;
   }
 
   getColors() : string[] {
@@ -131,15 +131,15 @@ export class UserPageComponent implements OnInit, AfterViewInit {
    * @param sport 
    * @param team 
    */
-  removeTeam(team:UserTeam) : void {
+  removeTeam(team:UserTeamEntity) : void {
     this.userService.removeTeam(team);
   }
 
-  loadTeam(team:UserTeam) : void {
+  loadTeam(team:UserTeamEntity) : void {
     this.userService.setSelectedTeam(team);
     this.teamDataService.loadTeam(team);
     this.routerService.goToMyTeamPage(LinkEnum.MYTEAM);
-    this.internalDataService.setLeagueSelected(team.getLeague());
+    this.internalDataService.setLeagueSelected(team.league);
   }
 
   /**
@@ -149,7 +149,7 @@ export class UserPageComponent implements OnInit, AfterViewInit {
     this.dialogHelper.setData(null);
     this.dialogHelper.openDialog(CreateNewTeamDialogComponent);
     this.dialogHelper.afterClosed()?.subscribe(result => {
-      if(result instanceof UserTeam) {
+      if(result instanceof UserTeamEntity) {
         this.userService.addNewTeam(result);
       }
     });
