@@ -1,0 +1,24 @@
+
+<div class="full-width flex-direction-column flex-and-align-items-center">
+
+    <!-- Filtri Standard -->
+    <app-options-standard (budgetEvent)="budget"></app-options-standard>
+
+    <!-- Divisione budget per reparti -->
+    <mat-card class="card-container" id="budgetForRolesCard">
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>Budget per Ruoli</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="card-content-container">
+            <div class="flex-container mt-30px mb-10px">
+
+                <!-- Pulsante attivare / disattivare filtro di ricerca -->
+                <div class="flex-direction-column">
+                    <label class="label mb-10px">Personalizza divisione budget</label>
+                    
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

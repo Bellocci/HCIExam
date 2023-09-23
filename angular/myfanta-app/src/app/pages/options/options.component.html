@@ -1,1 +1,46 @@
-<!-- Pagina Opzioni di filtro completa -->
+<!-- Pagina Opzioni di filtro -->
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'dialog'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Menu</mat-toolbar>
+
+    <!-- Sezione Filtri -->
+    <mat-nav-list>
+      <!-- Filtri standard -->
+      <div mat-subheader class="label bold">Filtri Standard</div>
+
+      <a mat-list-item (click)="scrollToCard('budgetCard')">Budget</a>
+      <a mat-list-item (click)="scrollToCard('ageCard')">Eta</a>
+      <a mat-list-item (click)="scrollToCard('teamCard')">Squadre</a>
+    </mat-nav-list>
+
+    <mat-divider></mat-divider>
+
+    <!-- Sezione operazioni -->
+    <div class="flex-direction-column">
+      <button mat-raised-button class="secondary-color">
+        Salva
+        <mat-icon>save</mat-icon>
+      </button>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="toolbar-filter-option">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <!-- Contenuto della pagina -->
+    <div class="full-width flex-direction-column">
+
+      <!-- FILTRI CALCIO -->
+      <ng-container *ngIf="isFootballOptionsRendered()">
+        <app-options-football></app-options-football>
+      </ng-container>
+
+    </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

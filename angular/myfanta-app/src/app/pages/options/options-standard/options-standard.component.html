@@ -1,0 +1,106 @@
+<!-- Filtri Standard -->
+
+<div class="full-width flex-direction-column flex-and-align-items-center">
+    <!-- Budget -->
+    <mat-card class="card-container" id=budgetCard>
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>Budget</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="card-content-container">
+            <div class="flex-container mt-30px mb-10px">
+                <!-- Budget con valori standard -->
+                <ng-container *ngFor="let budget of getBudgets()">
+                    <!-- Caso valore NON uguale a quello di Input -->
+                    <button mat-raised-button class="btn mr-30px" *ngIf="!isBudgetSelected(budget)"
+                        (click)="changeBudget(budget)">
+                        <span class="label">{{ budget }}</span>
+                    </button>
+
+                    <!-- Caso valore Uguale a quello di Input -->
+                    <button mat-flat-button class="btn mr-30px" *ngIf="isBudgetSelected(budget)"
+                        [ngClass]="isBudgetSelected(budget) ? 'secondary-color' : ''" (click)="changeBudget(budget)">
+                        <span class="label">{{ budget }}</span>
+                    </button>
+                </ng-container>
+
+                <!-- Numero di crediti personalizzato -->
+                <input matInput type="number" class="label input-container " min="0" step="1"
+                    [(ngModel)]="standardOption.budget">
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Eta -->
+    <mat-card class="card-container" id=ageCard>
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>Eta</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="card-content-container">
+            <div class="flex-center mt-30px">
+                <!-- Eta minima -->
+                <div class="flex-direction-column">
+                    <label class="label mb-10px">Min</label>
+                    <input matInput type="number" class="label input-container mr-30px" min="0"
+                        max="{{ standardOption.maxAge }}" step="1" [(ngModel)]="standardOption.minAge">
+                </div>
+
+                <!-- Eta massima -->
+                <div class="flex-direction-column">
+                    <label class="label mb-10px">Max</label>
+                    <input matInput type="number" class="label input-container mr-30px"
+                        min="{{ standardOption.minAge }}" max="99" step="1" [(ngModel)]="standardOption.maxAge">
+                </div>
+
+            </div>
+
+            <!-- Slider visualizzazione eta -->
+            <div class="full-width mt-30px">
+                <mat-slider min="0" max="99" class="slider" showTickMarks discrete>
+                    <input [(ngModel)]="standardOption.minAge" matSliderStartThumb>
+                    <input [(ngModel)]="standardOption.maxAge" matSliderEndThumb>
+                </mat-slider>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Squadre -->
+    <mat-card class="card-container" id=teamCard>
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>Squadre</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="card-content-container">
+            <div class="flex-and-align-items-center mt-30px mb-30px">
+                <label class="label mr-30px">Includi giocatori: </label>
+                <mat-checkbox class="mr-10px" color="primary" labelPosition="before"
+                    [(ngModel)]="standardOption.includeFavorite">
+                    <label class="label">Preferiti</label>
+                </mat-checkbox>
+                <mat-checkbox class="mr-10px" color="primary" labelPosition="before"
+                    [(ngModel)]="standardOption.includeBlacklist">
+                    <label class="label">Esclusi</label>
+                </mat-checkbox>
+            </div>
+
+            <div class="flex-container flex-direction-column">
+                <div class="mb-10px">
+                    <label class="label mb-10px">Squadre</label>
+                    <mat-icon class="ml-10px icon-size"
+                        matTooltip="Se nessuna squadra è selezionata la ricerca verrà effettuata su tutte le squadre">
+                        info
+                    </mat-icon>
+                </div>
+                <mat-chip-listbox #chipsTeamList multiple="true">
+                    <ng-container *ngFor="let team of teamsList">
+                        <mat-chip-option [matTooltip]="team.teamName">
+                            {{ team.teamAbbreviation }}
+                        </mat-chip-option>
+                    </ng-container>
+                </mat-chip-listbox>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+</div>

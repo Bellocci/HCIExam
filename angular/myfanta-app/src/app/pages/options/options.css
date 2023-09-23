@@ -24,6 +24,8 @@
 .card-container {
     align-self: center;
     width: 80%;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .card-content-container {
