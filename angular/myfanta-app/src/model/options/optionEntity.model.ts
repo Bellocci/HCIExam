@@ -2,6 +2,7 @@ import { SportEnum } from "src/enum/SportEnum.model";
 import { TeamEntity } from "../teamEntity.model";
 import { PlayerEntity } from "../playerEntity.model";
 
+// TODO: Questa entity deve essere trasformata in Abstract
 export class OptionEntity {
 
     private _optionId: number;
@@ -14,7 +15,7 @@ export class OptionEntity {
     private _playersToExclude: PlayerEntity[] = [];   
     private _active: boolean;     
 
-    constructor(sport:SportEnum);
+    constructor(sport:SportEnum, id?:string, active?:boolean);
     constructor(optionId: number, sport: SportEnum, budget: number, minAge: number, maxAge: number, active:boolean);
     constructor(... params:any[]) {
         if(params.length == 1) {
@@ -23,6 +24,13 @@ export class OptionEntity {
             this._maxAge = 99;
             this._budget = 250;
             this._active = true;
+            this._sport = params[0];
+        } else if(params.length == 3) {
+            this._optionId = params[1] != undefined ? params[1] : -1;
+            this._minAge = 18;
+            this._maxAge = 99;
+            this._budget = 250;
+            this._active = params[2] != undefined ? params[2] : false;
             this._sport = params[0];
         } else if(params.length == 5) {
             this._optionId = params[0];
@@ -128,7 +136,7 @@ export class OptionEntity {
 
     toJSON() : any {
         let jsonTeamList:any[] = [];
-        this.teamsList.forEach(p => jsonTeamList.push(p.toJSON())) ;
+        this.teamsList.forEach(t => jsonTeamList.push(t.toJSON())) ;
 
         let jsonIncludePlayerList:any[] = [];
         this.playersToInclude.forEach(p => jsonIncludePlayerList.push(p.toJSON()));

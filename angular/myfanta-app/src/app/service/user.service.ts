@@ -41,6 +41,8 @@ export class UserService {
     const entity = this._session_storage.getData(UserService.KEY_SESSION);
     if(entity != null && entity.isUserDefined()) {
       this.user.setValue(entity);
+    } else {
+      
     }
   }
 

@@ -35,6 +35,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { OptionsFootballComponent } from './pages/options/options-football/options-football.component';
 import { OptionsStandardComponent } from './pages/options/options-standard/options-standard.component';
+import { OptionsVolleyballComponent } from './pages/options/options-volleyball/options-volleyball.component';
+import { OptionsBasketballComponent } from './pages/options/options-basketball/options-basketball.component';
 
 export function initializeApp(appInitService: AppInitService) {
   return (): Promise<any> => { 
@@ -64,7 +66,9 @@ export function initializeApp(appInitService: AppInitService) {
     CustomSnackbarComponent,
     LinkListComponent,
     OptionsFootballComponent,
-    OptionsStandardComponent
+    OptionsStandardComponent,
+    OptionsVolleyballComponent,
+    OptionsBasketballComponent
   ],
   imports: [
     AppRoutingModule,

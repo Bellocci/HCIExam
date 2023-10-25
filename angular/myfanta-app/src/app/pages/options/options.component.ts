@@ -3,6 +3,9 @@ import { InternalDataService } from '../../service/internal-data.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, map, shareReplay } from 'rxjs';
 import { SportEnum } from 'src/enum/SportEnum.model';
+import { OptionsFootballComponent } from './options-football/options-football.component';
+import { IdMatCard } from './IdMatCardInterface';
+import { OptionsVolleyballComponent } from './options-volleyball/options-volleyball.component';
 
 @Component({
   selector: 'app-options',
@@ -37,10 +40,30 @@ export class OptionsComponent implements OnInit, AfterViewInit {
       .subscribe(league => this._sportSelected = league != null ? league.sport : null);
   }
 
+  // GETTER
+
+  getIds() : IdMatCard[] {
+    if(this.isFootballOptionsRendered()) {
+      return OptionsFootballComponent.getIds();
+    } else if(this.isVolleyballOptionsRendered()) {
+      return OptionsVolleyballComponent.getIds();
+    } else {
+      return [];
+    }
+  }
+
   // VISIBILITA'
 
   isFootballOptionsRendered(): boolean {
-    return this._sportSelected != null && this._sportSelected.label == SportEnum.FOOTBALL_SOCCER.label;
+    return this._sportSelected != null && this._sportSelected.code == SportEnum.FOOTBALL_SOCCER.code;
+  }
+
+  isVolleyballOptionsRendered() : boolean {
+    return this._sportSelected != null && this._sportSelected.code == SportEnum.VOLLEYBALL.code;
+  }
+
+  isAdvancedFilterRendered() : boolean {
+    return this._sportSelected != null;
   }
 
   // LISTENER  

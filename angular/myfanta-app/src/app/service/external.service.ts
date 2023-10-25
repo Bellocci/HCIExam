@@ -14,10 +14,10 @@ export class ExternalService {
   constructor(private http:HttpClient) { }
 
   createTeamWithSimpleOption(option:StandardOption) : void {
-    //FIXME: Chiamata al backend per la generazione della squadra
+    //TODO: Chiamata al backend per la generazione della squadra
   }
 
   createTeamWithAdvancedOption(option:OptionEntity, sport:SportEnum) : void {
-    //FIXME: Chiamata al backend per la generazione della squadra
+    //TODO: Chiamata al backend per la generazione della squadra
   }
 }

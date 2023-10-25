@@ -55,7 +55,7 @@ export class CreateTeamComponent implements OnInit, AfterViewInit {
     } else if(this.option != null && this.currentLeague != null) {
       this.externalService.createTeamWithAdvancedOption(this.option, this.currentLeague.sport);
     }
-    // FIXME: Una volta terminato la creazione del team si visualizza un messaggio
+    // TODO: Una volta terminato la creazione del team si visualizza un messaggio
     this.snackBarService.openInfoSnackBar("Generazione del team terminata!");
   }
 }

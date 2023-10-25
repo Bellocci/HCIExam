@@ -1,0 +1,188 @@
+<div>
+    <!-- Filtri Standard -->
+    <app-options-standard [option]="option" (optionEvent)="updateOptionStandard($event)"></app-options-standard>
+
+    <div class="full-width flex-direction-column flex-and-align-items-center">
+
+        <!-- Divisione budget per Ruoli -->
+        <mat-card class="card-container mb-30px" id="budgetForVolleyballRolesCard">
+            <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+                <mat-card-title>
+                    <span>Budget per Ruoli</span>
+                    <mat-checkbox color="primary" labelPosition="before" [(ngModel)]="option.isBudgetCustomisedByRoles">
+                    </mat-checkbox>
+                </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content class="card-content-container">
+                <div class="mt-30px mb-10px full-width">
+                    <!-- Prima riga -->
+                    <mat-grid-list cols="12" rowHeight="100px">
+
+                        <!-- Budget disponibile -->
+                        <mat-grid-tile colspan="2" rowspan="1">
+                            <div class="grid-tile-container flex-direction-column">
+                                <label class="label mb-10px">Budget disponibile</label>
+                                <input matInput disabled type="number" class="label input-container"
+                                    [(ngModel)]="budgetAvailable">
+                            </div>
+                        </mat-grid-tile>
+
+                    </mat-grid-list>
+                </div>
+
+                <!-- Seconda riga -->
+                <mat-grid-list cols="12" rowHeight="100px">
+
+                    <!-- Budget schiacciatori laterale -->
+                    <mat-grid-tile colspan="2" rowspan="1">
+                        <div class="grid-tile-container flex-direction-column">
+                            <label class="label mb-10px">Banda</label>
+                            <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                class="label input-container" [(ngModel)]="option.budgetHitterSpiker" min="4"
+                                (ngModelChange)="updateBudgetAvailable()">
+                        </div>
+                    </mat-grid-tile>
+
+                    <!-- Budget schiacciatori centrali -->
+                    <mat-grid-tile colspan="2" rowspan="1">
+                        <div class="grid-tile-container flex-direction-column">
+                            <label class="label mb-10px">Centrale</label>
+                            <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                class="label input-container" [(ngModel)]="option.budgetMiddleBlocker" min="3"
+                                (ngModelChange)="updateBudgetAvailable()">
+                        </div>
+                    </mat-grid-tile>
+
+                    <!-- Budget schiacciatori opposti -->
+                    <mat-grid-tile colspan="2" rowspan="1">
+                        <div class="grid-tile-container flex-direction-column">
+                            <label class="label mb-10px">Opposto</label>
+                            <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                class="label input-container" [(ngModel)]="option.budgetOppositeSpiker" min="2"
+                                (ngModelChange)="updateBudgetAvailable()">
+                        </div>
+                    </mat-grid-tile>
+
+                    <!-- Budget alzatori -->
+                    <mat-grid-tile colspan="2" rowspan="1">
+                        <div class="grid-tile-container flex-direction-column">
+                            <label class="label mb-10px">Palleggiatore</label>
+                            <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                class="label input-container" [(ngModel)]="option.budgetSetter" min="2"
+                                (ngModelChange)="updateBudgetAvailable()">
+                        </div>
+                    </mat-grid-tile>
+
+                    <!-- Budget libero -->
+                    <mat-grid-tile colspan="2" rowspan="1">
+                        <div class="grid-tile-container flex-direction-column">
+                            <label class="label mb-10px">Libero</label>
+                            <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                class="label input-container" [(ngModel)]="option.budgetLibero" min="1"
+                                (ngModelChange)="updateBudgetAvailable()">
+                        </div>
+                    </mat-grid-tile>
+
+                </mat-grid-list>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Caratteristiche medie della squadra -->
+        <mat-card class="card-container mb-30px" id="volleyballTeamOptionCard">
+            <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+                <mat-card-title>
+                    <span>Caratteristiche della squadra (in media)</span>
+                    <mat-checkbox color="primary" labelPosition="before" [(ngModel)]="option.isVolleyballTeamOptionEnabled">
+                    </mat-checkbox>
+                </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content class="card-content-container">
+                <div class="mt-30px mb-10px full-width">
+
+                    <!-- Prima riga -->
+                    <mat-grid-list cols="12" rowHeight="100px">
+
+                        <!-- Media punti in attacco (PTATT)-->
+                        <mat-grid-tile colspan="3" rowspan="1">
+                            <div class="grid-tile-container flex-direction-column">
+                                <label class="label mb-10px">Punti in attacco</label>
+                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                    class="label input-container" [(ngModel)]="option.avgAttackPointsScored" min="0">
+                            </div>
+                        </mat-grid-tile>
+
+                        <!-- Media muri realizzti (M) -->
+                        <mat-grid-tile colspan="3" rowspan="1">
+                            <div class="grid-tile-container flex-direction-column">
+                                <label class="label mb-10px">Muri realizzati</label>
+                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                    class="label input-container" [(ngModel)]="option.avgBlockPointsScored" min="0">
+                            </div>
+                        </mat-grid-tile>
+
+                        <!-- Media ace realizzti (AE) -->
+                        <mat-grid-tile colspan="3" rowspan="1">
+                            <div class="grid-tile-container flex-direction-column">
+                                <label class="label mb-10px">Ace</label>
+                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                    class="label input-container" [(ngModel)]="option.avgAcePointsScored" min="0">
+                            </div>
+                        </mat-grid-tile>
+
+                        <!-- Media ricezioni perfette realizzte (RPERF) -->
+                        <mat-grid-tile colspan="3" rowspan="1">
+                            <div class="grid-tile-container flex-direction-column">
+                                <label class="label mb-10px">Ricezioni perfette</label>
+                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                    class="label input-container" [(ngModel)]="option.avgPerfectReceive" min="0">
+                            </div>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+
+                    <!-- Seconda riga -->
+                    <mat-grid-list cols="12" rowHeight="100px">
+                        
+                        <!-- Media errori in attacco -->
+                        <mat-grid-tile colspan="3" rowspan="1">
+                            <div class="grid-tile-container flex-direction-column">
+                                <label class="label mb-10px">Errori in attacco</label>
+                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                    class="label input-container" [(ngModel)]="option.avgAttackErrors" min="0">
+                            </div>
+                        </mat-grid-tile>
+
+                        <!-- Media muri subiti -->
+                        <mat-grid-tile colspan="3" rowspan="1">
+                            <div class="grid-tile-container flex-direction-column">
+                                <label class="label mb-10px">Muri subiti</label>
+                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                    class="label input-container" [(ngModel)]="option.avgBlock" min="0">
+                            </div>
+                        </mat-grid-tile>
+
+                        <!-- Media errori in servizio -->
+                        <mat-grid-tile colspan="3" rowspan="1">
+                            <div class="grid-tile-container flex-direction-column">
+                                <label class="label mb-10px">Errori in servizio</label>
+                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                    class="label input-container" [(ngModel)]="option.avgServiceErrors" min="0">
+                            </div>
+                        </mat-grid-tile>
+
+                        <!-- Media errori in ricezione -->
+                        <mat-grid-tile colspan="3" rowspan="1">
+                            <div class="grid-tile-container flex-direction-column">
+                                <label class="label mb-10px">Errori in ricezione</label>
+                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
+                                    class="label input-container" [(ngModel)]="option.avgReceiveErrors" min="0">
+                            </div>
+                        </mat-grid-tile>
+
+                    </mat-grid-list>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

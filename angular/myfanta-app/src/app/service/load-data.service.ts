@@ -20,7 +20,7 @@ export class LoadDataService {
 
   async loadAllLeagues() : Promise<void> {
     if(!this.leaguesList) {
-      // FIXME: Interazione con il db      
+      // TODO: Interazione con il db      
       let leagueEntities:LeagueEntity[] = LEAGUE_DATA;
       this.leaguesList = leagueEntities;
     }
@@ -33,14 +33,14 @@ export class LoadDataService {
 
   loadLeagueById(leagueId:number) : LeagueEntity | null {
     let result:LeagueEntity | undefined = undefined;
-    // FIXME: Interazione con il db
+    // TODO: Interazione con il db
     result = LEAGUE_DATA.find(entity => entity.leagueId == leagueId);
     return result != undefined ? result : null;
   }
 
   private loadAllTeams(league:LeagueEntity) : TeamEntity[] {   
     let list:TeamEntity[] = [];
-    //FIXME: interazione con il db
+    //TODO: interazione con il db
     list = this.teamDecoratorFactory.decorateList(TEAM_DATA.filter(team => team.league.equals(league)));
     this.teamsMap.set(league.leagueId, list);
     return list;
@@ -55,7 +55,7 @@ export class LoadDataService {
 
   private loadAllPlayers(league:LeagueEntity) : PlayerEntity[] {
     let list:PlayerEntity[] = [];
-    // FIXME: Interazione con il db
+    // TODO: Interazione con il db
     league.leagueId == 1 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_SERIE_A) :
       league.leagueId == 2 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_PREMIER_LEAGUE) :
       league.leagueId == 4 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_NBA) :
@@ -76,14 +76,14 @@ export class LoadDataService {
 
   searchPlayer(playerName:string, league:LeagueEntity) : PlayerEntity | undefined {
     if(this.playersMap.hasElement(league.leagueId)) {
-      //FIXME: Interazione con il db
+      //TODO: Interazione con il db
       return this.playersMap.getValue(league.leagueId)?.find(player => player.playerName === playerName);
     }
     return undefined;
   }
 
   loadPlayerBydId(playerId:number) : PlayerEntity | null {
-    // FIXME: Interazione con il db
+    // TODO: Interazione con il db
     let result:PlayerEntity[] = PLAYER_DATA_SERIE_A.filter(player => player.playerId == playerId);
     if(result.length != 0) {
       return result[0];

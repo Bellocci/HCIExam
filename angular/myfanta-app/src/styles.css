@@ -176,6 +176,10 @@ body {
     width: 100%;
 }
 
+.max-content {
+    width: max-content;
+}
+
 .flex-container {
     display: flex !important;
 }
@@ -197,6 +201,7 @@ body {
 .flex-start-content {
     display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
 .flex-center {
@@ -208,6 +213,11 @@ body {
     display: flex;
     justify-content: flex-start;
     width: 100%;
+}
+
+.flex-end {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .full-flex-end-main-axis {
@@ -233,7 +243,14 @@ body {
 }
 
 .space-between {
+    display: flex;
     justify-content: space-between;
+}
+
+/* Distribuisce lo spazio in modo equo tra gli oggetti */
+.flex-space-evenly {
+    display: flex;
+    justify-content: space-evenly;
 }
 
 /* --- FINE SEZIONE CONTAINER E ITEM */
@@ -298,6 +315,14 @@ body {
     --mdc-snackbar-container-color: #f44336;
     --mat-snack-bar-button-color:#fff;
     --mdc-snackbar-supporting-text-color: #fff;
+}
+
+/* STYLE GRIGLIA */
+
+.grid-tile-container {
+    width: 90%;
+    display: flex;
+    justify-content: flex-start;
 }
 
 /* STYLE GENERALI */

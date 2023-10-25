@@ -13,20 +13,20 @@
                 <ng-container *ngFor="let budget of getBudgets()">
                     <!-- Caso valore NON uguale a quello di Input -->
                     <button mat-raised-button class="btn mr-30px" *ngIf="!isBudgetSelected(budget)"
-                        (click)="changeBudget(budget)">
+                        (click)="selectBudgetListener(budget)">
                         <span class="label">{{ budget }}</span>
                     </button>
 
                     <!-- Caso valore Uguale a quello di Input -->
                     <button mat-flat-button class="btn mr-30px" *ngIf="isBudgetSelected(budget)"
-                        [ngClass]="isBudgetSelected(budget) ? 'secondary-color' : ''" (click)="changeBudget(budget)">
+                        [ngClass]="isBudgetSelected(budget) ? 'secondary-color' : ''" (click)="selectBudgetListener(budget)">
                         <span class="label">{{ budget }}</span>
                     </button>
                 </ng-container>
 
                 <!-- Numero di crediti personalizzato -->
-                <input matInput type="number" class="label input-container " min="0" step="1"
-                    [(ngModel)]="standardOption.budget">
+                <input matInput type="number" class="label input-container " min="0" step="1" 
+                    (blur)="notifyOptionUpdate()" [(ngModel)]="option.budget">
             </div>
         </mat-card-content>
     </mat-card>
@@ -43,14 +43,14 @@
                 <div class="flex-direction-column">
                     <label class="label mb-10px">Min</label>
                     <input matInput type="number" class="label input-container mr-30px" min="0"
-                        max="{{ standardOption.maxAge }}" step="1" [(ngModel)]="standardOption.minAge">
+                        max="{{ option.maxAge }}" step="1" [(ngModel)]="option.minAge" (blur)="notifyOptionUpdate()">
                 </div>
 
                 <!-- Eta massima -->
                 <div class="flex-direction-column">
                     <label class="label mb-10px">Max</label>
                     <input matInput type="number" class="label input-container mr-30px"
-                        min="{{ standardOption.minAge }}" max="99" step="1" [(ngModel)]="standardOption.maxAge">
+                        min="{{ option.minAge }}" max="99" step="1" [(ngModel)]="option.maxAge" (blur)="notifyOptionUpdate()">
                 </div>
 
             </div>
@@ -58,8 +58,8 @@
             <!-- Slider visualizzazione eta -->
             <div class="full-width mt-30px">
                 <mat-slider min="0" max="99" class="slider" showTickMarks discrete>
-                    <input [(ngModel)]="standardOption.minAge" matSliderStartThumb>
-                    <input [(ngModel)]="standardOption.maxAge" matSliderEndThumb>
+                    <input [(ngModel)]="option.minAge" matSliderStartThumb (blur)="notifyOptionUpdate()">
+                    <input [(ngModel)]="option.maxAge" matSliderEndThumb (blur)="notifyOptionUpdate()">
                 </mat-slider>
             </div>
         </mat-card-content>
@@ -75,11 +75,11 @@
             <div class="flex-and-align-items-center mt-30px mb-30px">
                 <label class="label mr-30px">Includi giocatori: </label>
                 <mat-checkbox class="mr-10px" color="primary" labelPosition="before"
-                    [(ngModel)]="standardOption.includeFavorite">
+                    [(ngModel)]="includePlayersFromFavoriteList" (change)="updatePlayersToInclude()">
                     <label class="label">Preferiti</label>
                 </mat-checkbox>
                 <mat-checkbox class="mr-10px" color="primary" labelPosition="before"
-                    [(ngModel)]="standardOption.includeBlacklist">
+                    [(ngModel)]="excludePlayersFromBlacklist" (change)="updatePlayersToExclude()">
                     <label class="label">Esclusi</label>
                 </mat-checkbox>
             </div>

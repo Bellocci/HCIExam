@@ -214,7 +214,7 @@ export class PlayerListComponent implements OnInit {
       inline: "nearest"
     });
 
-    // FIXME: Una volta terminato la creazione del team si visualizza un messaggio
+    // TODO: Una volta terminato la creazione del team si visualizza un messaggio
     this.snackbarService.openInfoSnackBar("Generazione del team terminata!");
   }
 

@@ -44,6 +44,17 @@ mat-card-header {
     min-width: 100px;
 }
 
+.small-input-container {
+    height: 40px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    text-align: left;
+    padding: 0 10px;
+    max-width: 100px;
+    min-width: 80px;
+}
+
 .slider {
     width: 80%;
 }

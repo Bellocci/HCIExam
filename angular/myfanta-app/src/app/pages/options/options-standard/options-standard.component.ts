@@ -1,7 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FilterDataService } from 'src/app/service/filter-data.service';
 import { InternalDataService } from 'src/app/service/internal-data.service';
+import { TeamDataService } from 'src/app/service/team-data.service';
 import { StandardOption } from 'src/decorator/option/standard-option.model';
+import { OptionEntity } from 'src/model/options/optionEntity.model';
 import { TeamEntity } from 'src/model/teamEntity.model';
 
 /*
@@ -16,15 +18,18 @@ const budgets = { TWO_HUNDRED_AND_FIFTY: 250, FIVE_HUNDRED: 500, ONE_THOUSAND: 1
 })
 export class OptionsStandardComponent implements OnInit {
 
-  private _standardOption: StandardOption = new StandardOption();
   private _teamsList: TeamEntity[] = []; 
-  @Output() budgetEvent:EventEmitter<number> = new EventEmitter<number>();
+  private _includePlayersFromFavoriteList: boolean = false;
+  private _excludePlayersFromBlacklist: boolean = false;
+  @Input() option!: OptionEntity;
+  @Output() optionEvent:EventEmitter<OptionEntity> = new EventEmitter<OptionEntity>();
 
-  constructor(private internalDataService: InternalDataService, private filterDataService: FilterDataService) { }
+  constructor(private internalDataService: InternalDataService, private filterDataService: FilterDataService,
+    private teamDataService:TeamDataService) { }
 
   ngOnInit(): void {
     this.observeLeagueSelected();
-    this.budgetEvent.emit(this._standardOption.budget);
+    this.optionEvent.emit(this.option);
   }
 
   // PRIVATE METHOD
@@ -40,18 +45,10 @@ export class OptionsStandardComponent implements OnInit {
   // VISIBILITA'
 
   isBudgetSelected(budget: number) : boolean {
-    return budget == this._standardOption.budget;
+    return budget == this.option.budget;
   }
 
   // GETTER & SETTER
-
-  public get standardOption(): StandardOption {
-    return this._standardOption;
-  }
-
-  public set standardOption(value: StandardOption) {
-    this._standardOption = value;
-  }
 
   public get teamsList(): TeamEntity[] {
     return this._teamsList;
@@ -61,14 +58,50 @@ export class OptionsStandardComponent implements OnInit {
     this._teamsList = value;
   }
 
+  public get includePlayersFromFavoriteList(): boolean {
+    return this._includePlayersFromFavoriteList;
+  }
+
+  public set includePlayersFromFavoriteList(value: boolean) {
+    this._includePlayersFromFavoriteList = value;
+  }
+
+  public get excludePlayersFromBlacklist(): boolean {
+    return this._excludePlayersFromBlacklist;
+  }
+
+  public set excludePlayersFromBlacklist(value: boolean) {
+    this._excludePlayersFromBlacklist = value;
+  }
+
   getBudgets(): number[] {
     return [...Object.values(budgets)];
   }
 
   // LISTENER
 
-  changeBudget(budget: number) {
-    this._standardOption.budget = budget;
-    this.budgetEvent.emit(budget);
+  selectBudgetListener(budget:number) : void {
+    this.option.budget = budget;
+    this.notifyOptionUpdate();
+  }
+
+  updatePlayersToInclude() : void {
+    this.option.playersToInclude = this.includePlayersFromFavoriteList ?
+      this.teamDataService.getFavoritePlayersList() :
+      [];
+
+    this.notifyOptionUpdate();
+  }
+
+  updatePlayersToExclude() : void {
+    this.option.playersToExclude = this.excludePlayersFromBlacklist ?
+      this.teamDataService.getBlacklistPlayers() :
+      [];
+
+    this.notifyOptionUpdate();
+  }
+
+  notifyOptionUpdate() {
+    this.optionEvent.emit(this.option);
   }
 }
