@@ -9,7 +9,7 @@ import { UserEntity } from 'src/model/userEntity.model';
 @Component({
   selector: 'app-registration-dialog',
   templateUrl: './registration-dialog.component.html',
-  styleUrls: ['./registration-dialog.component.css'],
+  styleUrls: ['./registration-dialog.component.scss'],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,

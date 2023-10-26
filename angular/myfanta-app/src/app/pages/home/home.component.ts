@@ -14,7 +14,7 @@ import { LeagueEntity } from 'src/model/leagueEntity.model';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.scss'],
   animations: [
     trigger('champListAnimation', [
       state('openList', style({ height: '*', opacity: 1 })),

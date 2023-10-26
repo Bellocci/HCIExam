@@ -14,12 +14,12 @@ VARIABILI GLOBALI
 ====================
 */
 
-:root {    
-    --mobile-breakpoint: 320px;
-    --tablet-breakpoint: 768px;
-    --laptop-breakpoint: 992px;
-    --large-device-breakpoint: 1200px;
+$mobile-breakpoint: 320px;
+$tablet-breakpoint: 768px;
+$laptop-breakpoint: 992px;
+$large-device-breakpoint: 1200px;
 
+:root {   
     --toolbar-height: 60px;
 }
 
@@ -31,6 +31,12 @@ TESTO
 
 .label {
     font-size: 14px;
+}
+
+.top-label {    
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: left;
 }
 
 .text {
@@ -53,10 +59,16 @@ h4 {
     font-size: 14px;
 }
 
-@media (min-width: var(--mobile-breakpoint)) {
+@media (min-width: $mobile-breakpoint) {
 
     .label {
         font-size: 14px;
+    }
+
+    .top-label {    
+        font-size: 14px;
+        margin-bottom: 10px;
+        text-align: left;
     }
     
     .text {
@@ -80,10 +92,16 @@ h4 {
     }
 }
 
-@media (min-width: var(--tablet-breakpoint)) {
+@media (min-width: $tablet-breakpoint) {
 
     .label {
         font-size: 14px;
+    }
+
+    .top-label {    
+        font-size: 14px;
+        margin-bottom: 10px;
+        text-align: left;
     }
     
     .text {
@@ -107,10 +125,16 @@ h4 {
     }
 }
 
-@media (min-width: var(--laptop-breakpoint)) {
+@media (min-width: $laptop-breakpoint) {
 
     .label {
         font-size: 16px;
+    }
+
+    .top-label {    
+        font-size: 16px;
+        margin-bottom: 10px;
+        text-align: left;
     }
     
     .text {
@@ -134,10 +158,16 @@ h4 {
     }
 }
 
-@media (min-width: var(--large-device-breakpoint)) {
+@media (min-width: $large-device-breakpoint) {
 
     .label {
         font-size: 18px;
+    }
+
+    .top-label {    
+        font-size: 18px;
+        margin-bottom: 10px;
+        text-align: left;
     }
     
     .text {

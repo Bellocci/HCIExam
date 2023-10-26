@@ -18,7 +18,7 @@ import { UserEntity } from 'src/model/userEntity.model';
 @Component({
   selector: 'app-toolbar-base',
   templateUrl: './toolbar-base.component.html',
-  styleUrls: ['./toolbar-base.component.css']
+  styleUrls: ['./toolbar-base.component.scss']
 })
 export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 

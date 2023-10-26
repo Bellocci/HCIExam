@@ -11,7 +11,7 @@ import { OptionEntity } from 'src/model/options/optionEntity.model';
 @Component({
   selector: 'app-create-team',
   templateUrl: './create-team.component.html',
-  styleUrls: ['./create-team.component.css']
+  styleUrls: ['./create-team.component.scss']
 })
 export class CreateTeamComponent implements OnInit, AfterViewInit { 
 

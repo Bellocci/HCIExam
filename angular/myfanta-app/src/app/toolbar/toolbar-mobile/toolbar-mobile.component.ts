@@ -10,7 +10,7 @@ import { UserService } from 'src/app/service/user.service';
 @Component({
   selector: 'app-toolbar-mobile',
   templateUrl: './toolbar-mobile.component.html',
-  styleUrls: ['./toolbar-mobile.component.css']
+  styleUrls: ['./toolbar-mobile.component.scss']
 })
 export class ToolbarMobileComponent extends ToolbarComponent implements OnInit {
 

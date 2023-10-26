@@ -10,7 +10,7 @@ import { UserEntity } from 'src/model/userEntity.model';
 @Component({
   selector: 'app-login-dialog',
   templateUrl: './login-dialog.component.html',
-  styleUrls: ['./login-dialog.component.css'],
+  styleUrls: ['./login-dialog.component.scss'],
   encapsulation : ViewEncapsulation.None,
 })
 export class LoginDialogComponent implements OnInit {

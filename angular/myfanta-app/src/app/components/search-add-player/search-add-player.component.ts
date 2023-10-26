@@ -17,7 +17,7 @@ import { PlayerEntity } from 'src/model/playerEntity.model';
 @Component({
   selector: 'app-search-add-player',
   templateUrl: './search-add-player.component.html',
-  styleUrls: ['./search-add-player.component.css']
+  styleUrls: ['./search-add-player.component.scss']
 })
 export class SearchAddPlayerComponent implements OnInit {
 

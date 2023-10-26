@@ -7,7 +7,7 @@ import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 @Component({
   selector: 'app-recovery-password-dialog',
   templateUrl: './recovery-password-dialog.component.html',
-  styleUrls: ['./recovery-password-dialog.component.css'],
+  styleUrls: ['./recovery-password-dialog.component.scss'],
   encapsulation : ViewEncapsulation.None
 })
 export class RecoveryPasswordDialogComponent implements OnInit {

@@ -5,7 +5,7 @@ import { LinkEnum } from 'src/enum/LinkEnum.model';
 @Component({
   selector: 'app-link-list',
   templateUrl: './link-list.component.html',
-  styleUrls: ['./link-list.component.css']
+  styleUrls: ['./link-list.component.scss']
 })
 export class LinkListComponent implements OnInit {
   

@@ -16,7 +16,7 @@ import { UserTeamEntity } from 'src/model/userTeamEntity.model';
 @Component({
   selector: 'app-create-new-team-dialog',
   templateUrl: './create-new-team-dialog.component.html',
-  styleUrls: ['./create-new-team-dialog.component.css'],
+  styleUrls: ['./create-new-team-dialog.component.scss'],
 })
 export class CreateNewTeamDialogComponent implements OnInit {
 

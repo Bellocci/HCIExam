@@ -5,7 +5,7 @@ import { SnackBarData } from 'src/app/service/snack-bar.service';
 @Component({
   selector: 'app-custom-snackbar',
   templateUrl: './custom-snackbar.component.html',
-  styleUrls: ['./custom-snackbar.component.css']
+  styleUrls: ['./custom-snackbar.component.scss']
 })
 export class CustomSnackbarComponent implements OnInit {
 
