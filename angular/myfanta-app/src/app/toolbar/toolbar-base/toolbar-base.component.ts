@@ -24,8 +24,8 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 
   @Output() sidenav_emit = new EventEmitter();
 
-  private userLogged:boolean = false;
-  private user:UserEntity | undefined;
+  private _userLogged: boolean = false;  
+  private _user!: UserEntity;  
   private league!:LeagueEntity | null;  
   private playerSelected : PlayerEntity | null = null;
 
@@ -50,16 +50,10 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
   /* INIZIALIZZAZIONE OBSERVER */
 
   private observeUserLogged() {
-
     this._userService.addObserverForUser(new ObserverStepBuilder<UserEntity>()
       .next(user => {
-        if(user.isUserDefined()) {
-          this.userLogged = true;
-          this.user = user;
-        } else {
-          this.userLogged = false;
-          this.user = undefined;
-        }
+        this._user = user;
+        this.userLogged = user.isUserDefined();
       })
       .build()
     );
@@ -80,10 +74,22 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 
   /* FINE OBSERVER */
 
-  /* Getter */
+  /* GETTER & SETTER */
 
-  getUser() : UserEntity | undefined {
-    return this.user;
+  public get userLogged(): boolean {
+    return this._userLogged;
+  }
+
+  private set userLogged(value: boolean) {
+    this._userLogged = value;
+  }
+
+  public get user(): UserEntity {
+    return this._user;
+  }
+
+  private set user(value: UserEntity) {
+    this._user = value;
   }
 
   /* Metodi visibilità */
@@ -92,20 +98,9 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
     return this.league != null;
   }
 
-  isUserLogged() : boolean {
-    return this.userLogged;
-  }
-
   isBtnHomeRendered() : boolean {
     return !this.routerService.currentPageIsHome(LinkEnum.HOME) && 
       (this.isLeagueSelected() || this.routerService.currentPageIsMyProfile(LinkEnum.USER_PROFILE));
-  }
-
-  isSecondToolbarRowRendered() : boolean {
-    return (this.userLogged && !this.routerService.currentPageIsHome(LinkEnum.HOME) && !this.routerService.currentPageIsMyProfile(LinkEnum.USER_PROFILE)) || 
-      (!this.userLogged && 
-        (this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) || this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) || this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST))) ||
-      this.isBackBtnRendered();
   }
 
   isCreateTeamLinkSelected() : boolean {

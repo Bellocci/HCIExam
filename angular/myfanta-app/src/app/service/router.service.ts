@@ -12,7 +12,7 @@ import { PlayerEntity } from 'src/model/playerEntity.model';
 })
 export class RouterService {
 
-  private static readonly KEY_SESSION_LAST_PAGE:string = "lastPage";
+  public static readonly KEY_SESSION_LAST_PAGE:string = "lastPage";
   private lastPage:string = "";
 
   private visitorNavigateToLink:LinkEnumNavigateToPageVisitor;
@@ -46,9 +46,9 @@ export class RouterService {
     return LinkEnum.visitAndReturn(linkEnum, this.visitorIsCurrentPage);
   }
 
-  // Metodo che renderizza alla pagina di Home
+  // Metodo che renderizza alla pagina di Home 
   goToHomePage(link:LinkEnum) : void {
-    this.internalDataService.setLoadingData(true);    
+    this.internalDataService.setLoadingData(true); 
     this.currentPageIsHome(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
   }
 

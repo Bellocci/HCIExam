@@ -7,9 +7,158 @@ body {
 
 }
 
-/* VARIABILI GLOBALI */
-:root {
+
+/* 
+====================
+VARIABILI GLOBALI 
+====================
+*/
+
+:root {    
+    --mobile-breakpoint: 320px;
+    --tablet-breakpoint: 768px;
+    --laptop-breakpoint: 992px;
+    --large-device-breakpoint: 1200px;
+
     --toolbar-height: 60px;
+}
+
+/*
+=======
+TESTO
+=======
+*/
+
+.label {
+    font-size: 14px;
+}
+
+.text {
+    font-size: 14px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 18px;
+}
+
+h3 {
+    font-size: 16px;
+}
+
+h4 {
+    font-size: 14px;
+}
+
+@media (min-width: var(--mobile-breakpoint)) {
+
+    .label {
+        font-size: 14px;
+    }
+    
+    .text {
+        font-size: 14px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+    
+    h3 {
+        font-size: 16px;
+    }
+    
+    h4 {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: var(--tablet-breakpoint)) {
+
+    .label {
+        font-size: 14px;
+    }
+    
+    .text {
+        font-size: 16px;
+    }
+    
+    h1 {
+        font-size: 28px;
+    }
+    
+    h2 {
+        font-size: 22px;
+    }
+    
+    h3 {
+        font-size: 18px;
+    }
+    
+    h4 {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: var(--laptop-breakpoint)) {
+
+    .label {
+        font-size: 16px;
+    }
+    
+    .text {
+        font-size: 18px;
+    }
+    
+    h1 {
+        font-size: 32px;
+    }
+    
+    h2 {
+        font-size: 26px;
+    }
+    
+    h3 {
+        font-size: 20px;
+    }
+    
+    h4 {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: var(--large-device-breakpoint)) {
+
+    .label {
+        font-size: 18px;
+    }
+    
+    .text {
+        font-size: 20px; 
+    }
+    
+    h1 {
+        font-size: 36px;
+    }
+    
+    h2 {
+        font-size: 30px;
+    }
+    
+    h3 {
+        font-size: 22px;
+    }
+    
+    h4 {
+        font-size: 20px;
+    }
 }
 
 /* --- COLORI --- */
@@ -373,57 +522,4 @@ body {
 .btn {
     width: 120px !important;
     height: 40px !important;
-}
-
-@media 
-    (min-width: 1200px) {
-
-        .text { 
-            font-size: 18px;
-            color: black;
-        }
-
-        .label {
-            font-size: 16px;
-            color: black;
-        }
-}
-
-@media 
-    (min-width: 800px)
-    and (max-width: 1200px) {
-    
-        .text { 
-            font-size: 16px;
-        }
-
-        .label {
-            font-size: 12px;
-        }
-}
-
-@media 
-    (min-width: 500px)
-    and (max-width: 800px) {
-    
-        .text { 
-            font-size: 14px;
-        }
-
-        .label {
-            font-size: 12px;
-        }
-}
-
-@media 
-    (min-width: 320px)
-    and (max-width: 500px) {
-    
-        .text { 
-            font-size: 14px;
-        }
-
-        .label {
-            font-size: 12px;
-        }
 }

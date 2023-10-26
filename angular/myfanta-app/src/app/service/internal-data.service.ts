@@ -12,8 +12,8 @@ import { PlayerEntity } from 'src/model/playerEntity.model';
 })
 export class InternalDataService {
 
-  static readonly KEY_SESSION_LEAGUE_ID:string = "leagueId";
-  static readonly KEY_SESSION_PLAYER_ID:string = "playerId";
+  public static readonly KEY_SESSION_LEAGUE_ID:string = "leagueId";
+  public static readonly KEY_SESSION_PLAYER_ID:string = "playerId";
 
   private leagueSelected:ObserverHelper<LeagueEntity | null> = new ObserverHelper<LeagueEntity | null>(null);
   private loadingData:ObserverHelper<boolean> = new ObserverHelper<boolean>(false);

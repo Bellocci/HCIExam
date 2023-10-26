@@ -95,6 +95,10 @@ export class UserEntity {
         return this.userId != -1;
     }
 
+    isFakeUser() : boolean {
+        return this.userId == -1;
+    }
+
     toString() : string {
         return "Nome: " + this.name + " Cognome: " + this.surname + 
             " Username: " + this.username + " Password: " + this.password;

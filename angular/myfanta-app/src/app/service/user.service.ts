@@ -4,10 +4,9 @@ import { USER_DATA, UserEntity } from 'src/model/userEntity.model';
 import { CUSTOMS_TEAM_DATA, UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { SessionStorageService } from './session-storage.service';
 import { ColorEnum } from 'src/enum/ColorEnum.model';
-import { UserTeamDecoratorFactoryService } from 'src/decorator-factory/user-team-decorator-factory.service';
 import { ObserverHelper } from 'src/utility/observer-helper';
-import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { SportEnum } from 'src/enum/SportEnum.model';
+import { UserDecoratorFactoryService } from 'src/decorator-factory/user-decorator-factory.service';
 
 /**
  * Interfaccia utilizzata insieme alla mappa per definire una coppia
@@ -27,30 +26,24 @@ export class UserService {
   static readonly KEY_SESSION:string = "user";
   
   private user:ObserverHelper<UserEntity> = new ObserverHelper<UserEntity>(new UserEntity());
-  private userValue:UserEntity = new UserEntity();
 
   private sportTeamMap:Map<SportEnum, UserTeamCouple> | undefined = undefined;
   private selectedTeam:ObserverHelper<UserTeamEntity | undefined> = new ObserverHelper<UserTeamEntity | undefined>(undefined);
 
   constructor(private _session_storage:SessionStorageService<UserEntity>,
-    private userTeamDecoratorFactory:UserTeamDecoratorFactoryService) {;
-
-    // Registriamo l'observer sul valore dell'utente
-    this.subscribeUser();
+    private userDecoratorFactory:UserDecoratorFactoryService) {
 
     const entity = this._session_storage.getData(UserService.KEY_SESSION);
+    console.log("Recupero utente dalla sessione: " + entity?.toString());
     if(entity != null && entity.isUserDefined()) {
+      // Si prende l'utente che era loggato nella sessione
+      console.log("Utente: " + entity.toString());
       this.user.setValue(entity);
     } else {
-      
+      // Si genera un utente "stampino" necessario solo per eseguire le operazioni
+      console.log("Generazione utente stampino");
+      this.user.setValue(userDecoratorFactory.createFakeUser());
     }
-  }
-
-  private subscribeUser() : void {
-    this.user.addObserver(new ObserverStepBuilder<UserEntity>()
-      .next(user => this.userValue = user)
-      .build()
-    );
   }
 
   addObserverForUser(observer:Observer<UserEntity>) : void {
@@ -58,7 +51,7 @@ export class UserService {
   } 
 
   getUser(): UserEntity {
-    return this.userValue;
+    return this.user.getValue();
   }
 
   private setUser(user:UserEntity) {
@@ -147,17 +140,24 @@ export class UserService {
    * @returns UserTeam[]
    */
   loadTeams(sport:SportEnum) : UserTeamEntity[] {
-    if(this.sportTeamMap == undefined) {
-      this.sportTeamMap = new Map<SportEnum, UserTeamCouple>();
+
+    // Il metodo può essere invocato solamente quando l'utente ha fatto la login
+    let myTeams:UserTeamEntity[] = [];
+    if(!this.user.getValue().isFakeUser()) {
+      if(this.sportTeamMap == undefined) {
+        this.sportTeamMap = new Map<SportEnum, UserTeamCouple>();
+      }
+  
+      if(!this.sportTeamMap.has(sport)) {
+        // Caricamento da db
+        myTeams = CUSTOMS_TEAM_DATA.filter(team => team.user.equals(this.user.getValue()) && 
+            team.league.sport.code == sport.code);   
+        this.buildSportTeamMap(myTeams, sport);
+      }
+      return this.sportTeamMap.get(sport)?.activeList!;
     }
 
-    if(!this.sportTeamMap.has(sport)) {
-      // Caricamento da db
-      let myTeams:UserTeamEntity[] = CUSTOMS_TEAM_DATA.filter(team => team.user.equals(this.userValue) && 
-          team.league.sport.code == sport.code);   
-      this.buildSportTeamMap(myTeams, sport);
-    }
-    return this.sportTeamMap.get(sport)?.activeList!;
+    return myTeams;
   } 
 
   private buildSportTeamMap(myTeams:UserTeamEntity[], sport:SportEnum) : void {
