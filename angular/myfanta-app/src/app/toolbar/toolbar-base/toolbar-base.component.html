@@ -1,81 +1,109 @@
 <mat-toolbar class="mat-elevation-z6 toolbar primary-color-dark">
 
+  <!-- TOOLBAR SINGOLA RIGA -->
   <mat-toolbar-row class="toolbar-row no-padding">
-    <!-- pulsante apertura sidenav -->
-    <button mat-flat-button class="btn-menu-sports btn-flat" (click)="openSidenavFromChild()">
-      <mat-icon class="icon-size">menu</mat-icon>
-      <span class="label">Sports</span>
-    </button>
 
-    <ng-container *ngIf="isLeagueSelected()">
+    <div class="full-width flex-container">
 
-      <!-- Link alla pagina Create team -->
-      <button mat-flat-button class="btn-flat ml-5px mr-5px"
-        [ngClass]="isCreateTeamLinkSelected() ? 'link-toolbar-border' : 'primary-color-dark'"
-        (click)="goToPage(linkEnum.CREATE_TEAM)">
-        <span class="label" [ngClass]="isPageSelected(linkEnum.CREATE_TEAM) ? 'bold' : ''">
-          {{ linkEnum.CREATE_TEAM.description }}
-        </span>
-      </button>
-
-      <!-- Link alla pagina Options -->
-      <button mat-flat-button class="btn-flat ml-5px mr-5px"
-        [ngClass]="isPageSelected(linkEnum.OPTIONS) ? 'link-toolbar-border' : 'primary-color-dark'"
-        (click)="goToPage(linkEnum.OPTIONS)">
-        <span class="label" [ngClass]="isPageSelected(linkEnum.OPTIONS) ? 'bold' : ''">
-          {{ linkEnum.OPTIONS.description }}
-        </span>
-      </button>
-
-      <!-- link alla pagina Player list-->
-      <button mat-flat-button class="btn-flat ml-5px mr-5px"
-        [ngClass]="isPageSelected(linkEnum.PLAYER_LIST) ? 'link-toolbar-border' : 'primary-color-dark'"
-        (click)="goToPage(linkEnum.PLAYER_LIST)">
-        <span class="label" [ngClass]="isPageSelected(linkEnum.PLAYER_LIST) ? 'bold' : ''">
-          {{ linkEnum.PLAYER_LIST.description }}
-        </span>
-      </button>
-    </ng-container>
-
-    <span class="flex-item-1-1-auto"></span>
-
-    <!-- Utente -->
-    <ng-container>
-      
-      <!-- Caso utente non autenticato: bottone apertura dialog -->
-      <button mat-flat-button class="toolbar-el-height btn-flat mr-10px" *ngIf="!userLogged"
-        (click)="openLoginDialog()">
-        <mat-icon class="icon-size">account_circle</mat-icon>
-        <span class="label">Login</span>
-      </button>
-
-      <!-- Caso utente autenticato: Menù utente -->
-      <ng-container *ngIf="userLogged">
-        <button mat-flat-button class="toolbar-el-height btn-flat" [matMenuTriggerFor]="menuUser">
-          <mat-icon class="icon-size">account_circle</mat-icon>
-          <span class="label">{{ user.username }}</span>
+      <!-- pulsante apertura sidenav -->
+      <div class="cell-1of12">
+        <button mat-flat-button class="btn-menu-sports btn-flat" (click)="openSidenavFromChild()">
+          <mat-icon class="icon-size">menu</mat-icon>
+          <span class="label">Sports</span>
         </button>
-        <mat-menu #menuUser="matMenu" xPosition="before">
-          <div class="user-menu">
-            <span mat-menu-item (click)="$event.stopPropagation()" disableRipple="true" class="label username-menu-panel">
-              {{ user.username }}
-            </span>
-            <button mat-menu-item (click)="goToPage(linkEnum.USER_PROFILE)">
-              Lista team
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item (click)="logout()">Logout</button>
-          </div>
-        </mat-menu>
-      </ng-container>
-    </ng-container>
-    
+      </div>
 
-    <!-- Link alla pagina di Home -->
-    <button mat-flat-button *ngIf="isBtnHomeRendered()" (click)="goToPage(linkEnum.HOME)"
-      class="toolbar-el-height btn-flat mr-10px">
-      <mat-icon class="icon-size">home</mat-icon>
-      <span class="label">{{ linkEnum.HOME.description }}</span>
-    </button>
+      <!-- Pulsanti: Creazione team - Opzioni di ricerca - Lista giocatori -->
+      <div class="flex-cell cell-4of12 flex-container">
+        <ng-container *ngIf="isLeagueSelected()">
+
+          <!-- Link alla pagina Create team -->
+          <div class="cell-4of12">
+            <button mat-flat-button class="btn-flat"
+              [ngClass]="isCreateTeamLinkSelected() ? 'link-toolbar-border' : 'primary-color-dark'"
+              (click)="goToPage(linkEnum.CREATE_TEAM)">
+              <span class="label" [ngClass]="isPageSelected(linkEnum.CREATE_TEAM) ? 'bold' : ''">
+                {{ linkEnum.CREATE_TEAM.description }}
+              </span>
+            </button>
+          </div>
+
+          <!-- Link alla pagina Options -->
+          <div class="cell-4of12">
+            <button mat-flat-button class="btn-flat"
+              [ngClass]="isPageSelected(linkEnum.OPTIONS) ? 'link-toolbar-border' : 'primary-color-dark'"
+              (click)="goToPage(linkEnum.OPTIONS)">
+              <span class="label" [ngClass]="isPageSelected(linkEnum.OPTIONS) ? 'bold' : ''">
+                {{ linkEnum.OPTIONS.description }}
+              </span>
+            </button>
+          </div>
+
+          <!-- link alla pagina Player list-->
+          <div class="cell-4of12">
+            <button mat-flat-button class="btn-flat"
+              [ngClass]="isPageSelected(linkEnum.PLAYER_LIST) ? 'link-toolbar-border' : 'primary-color-dark'"
+              (click)="goToPage(linkEnum.PLAYER_LIST)">
+              <span class="label" [ngClass]="isPageSelected(linkEnum.PLAYER_LIST) ? 'bold' : ''">
+                {{ linkEnum.PLAYER_LIST.description }}
+              </span>
+            </button>
+          </div>
+
+        </ng-container>
+      </div>
+
+      <!-- Spazio vuoto -->
+      <div class="cell-4of12"></div>
+
+      <!-- Utente -->
+      <div class="cell-2of12 flex-end">
+
+        <!-- Caso utente non autenticato: bottone apertura dialog -->
+        <button mat-flat-button class="btn-flat" *ngIf="!userLogged"
+          (click)="openLoginDialog()">
+          <mat-icon class="icon-size">account_circle</mat-icon>
+          <span class="label">Login</span>
+        </button>
+
+        <!-- Caso utente autenticato: Menù utente -->
+        <ng-container *ngIf="userLogged">
+          <button mat-flat-button class="btn-flat" [matMenuTriggerFor]="menuUser">
+            <mat-icon class="icon-size">account_circle</mat-icon>
+            <span class="label">{{ user.username }}</span>
+          </button>
+          <mat-menu #menuUser="matMenu" xPosition="before">
+            <div class="user-menu">
+              <span mat-menu-item (click)="$event.stopPropagation()" disableRipple="true"
+                class="label username-menu-panel">
+                {{ user.username }}
+              </span>
+              <button mat-menu-item (click)="goToPage(linkEnum.USER_PROFILE)">
+                Lista team
+              </button>
+              <mat-divider></mat-divider>
+              <button mat-menu-item (click)="logout()">Logout</button>
+            </div>
+          </mat-menu>
+        </ng-container>
+      </div>
+
+      <div class="cell-1of12 flex-end">
+        <!-- Link alla pagina di Home -->
+        <button mat-flat-button (click)="goToPage(linkEnum.HOME)"
+          class="btn-flat mr-10px">
+          <mat-icon class="icon-size">home</mat-icon>
+          <span class="label">{{ linkEnum.HOME.description }}</span>
+        </button>
+      </div>
+
+    </div>
   </mat-toolbar-row>
+
+  <!-- TOOLBAR DUE RIGHE -->
+  <ng-container *ngIf="!showSecondRow">
+    <mat-toolbar-row class="toolbar-row no-padding">
+
+    </mat-toolbar-row>
+  </ng-container>
 </mat-toolbar>

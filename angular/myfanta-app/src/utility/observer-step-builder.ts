@@ -1,6 +1,6 @@
 import { Observer } from "rxjs";
 
-
+// FIXME: Vedere come aggiungere pipe, map e shareReplay e correggere i vari observer
 export class ObserverStepBuilder<T> {
 
     private observer: Partial<Observer<T>> = {};

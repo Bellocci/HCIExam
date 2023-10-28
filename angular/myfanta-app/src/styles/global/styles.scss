@@ -1,26 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+
+@use "variables";
+
 html, body { height: 100%; }
 body { 
     margin: 0; 
     font-family: Roboto, sans-serif, Tahoma, Geneva, Verdana, sans-serif !important;
 
 }
-
-/* 
-====================
-VARIABILI GLOBALI 
-====================
-*/
-
-/* BREAKPOINT */
-$mobile-breakpoint: 320px;
-$tablet-breakpoint: 768px;
-$laptop-breakpoint: 992px;
-$large-device-breakpoint: 1200px;
-
-/* TOOLBAR */
-$toolbar-first-row-height: 60px;
-$toolbar-second-row-height: 50px;
 
 :root {   
     --toolbar-height: 60px;

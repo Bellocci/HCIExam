@@ -22,6 +22,7 @@
     "@angular/router": "^16.0.4",
     "@nicky-lenaers/ngx-scroll-to": "^14.0.0",
     "rxjs": "~7.5.0",
+    "sass": "^1.69.5",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
@@ -36,6 +37,7 @@
     "karma-coverage": "~2.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "sass-loader": "^13.3.2",
     "schematics-scss-migrate": "^2.3.17",
     "tslib": "^2.5.2",
     "typescript": "~5.0.4"

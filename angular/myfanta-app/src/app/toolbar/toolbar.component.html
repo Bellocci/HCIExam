@@ -1,91 +1,75 @@
 <mat-sidenav-container class="sidenav-container" (backdropClick)="closeSidenav()">
-    <mat-sidenav autoFocus="false" class="sidenav" mode="over">
+  <mat-sidenav autoFocus="false" class="sidenav" mode="over">
 
-      <!-- Pulsante chiusura sidenav -->
-      <div class="secondary-color-no-hover">
-        <mat-toolbar>
-          <button mat-flat-button class="secondary-color" (click)="closeSidenav()">
-            <mat-icon>arrow_back</mat-icon>
-            <span class="text">Chiudi</span>
-          </button>
-        </mat-toolbar>
-      </div>
+    <!-- Pulsante chiusura sidenav -->
+    <div class="secondary-color-no-hover">
+      <mat-toolbar>
+        <button mat-flat-button class="secondary-color" (click)="closeSidenav()">
+          <mat-icon>arrow_back</mat-icon>
+          <span class="text">Chiudi</span>
+        </button>
+      </mat-toolbar>
+    </div>
 
-      <mat-nav-list>
+    <mat-nav-list>
 
-        <!-- Sport expansion panel -->
-        <mat-accordion>
-          <ng-container *ngFor="let sport of getSports(); let indexSport = index;" #panels>
-            <mat-expansion-panel              
-              [expanded]="isPanelSportOpen(indexSport)" 
-              (opened)="panelSportOpened(indexSport)" (closed)="panelSportClosed();">
-              <mat-expansion-panel-header 
-              class="expansion-panel-header-sport secondary-color mat-elevation-z3">
-                <mat-panel-title>
-                  <div class="text" [ngClass]="isPanelSportOpen(indexSport) ? 'bold' : ''">
-                    {{ sport.description }}
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
+      <!-- Sport expansion panel -->
+      <mat-accordion>
+        <ng-container *ngFor="let sport of getSports(); let indexSport = index;" #panels>
+          <mat-expansion-panel [expanded]="isPanelSportOpen(indexSport)" (opened)="panelSportOpened(indexSport)"
+            (closed)="panelSportClosed();">
+            <mat-expansion-panel-header class="expansion-panel-header-sport secondary-color mat-elevation-z3">
+              <mat-panel-title>
+                <div class="text" [ngClass]="isPanelSportOpen(indexSport) ? 'bold' : ''">
+                  {{ sport.description }}
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
 
-              <!-- Lazy rendering -->
-              <ng-template matExpansionPanelContent>
-                <!-- Championship expansion panel per uno specifico sport -->
-                <ng-container *ngFor="let championship of getChampionships(sport); let indexChamp = index;">
-                  <mat-expansion-panel [expanded]="false">
-                    <mat-expansion-panel-header>
-                      <mat-panel-title class="expansion-panel-title-championship">
-                        <div class="label championship-label">
-                          {{ championship.description }}
-                        </div>
-                      </mat-panel-title>
-                    </mat-expansion-panel-header>
+            <!-- Lazy rendering -->
+            <ng-template matExpansionPanelContent>
+              <!-- Championship expansion panel per uno specifico sport -->
+              <ng-container *ngFor="let championship of getChampionships(sport); let indexChamp = index;">
+                <mat-expansion-panel [expanded]="false">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="expansion-panel-title-championship">
+                      <div class="label championship-label">
+                        {{ championship.description }}
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
 
-                    <!-- Lazy rendering -->
-                    <ng-template matExpansionPanelContent>
-                      <!-- Elenco leghe per uno specifico sport e campionato -->
-                      <ng-container *ngFor="let league of getLeagues(sport, championship)">
-                        <mat-panel-description>
-                          <ul class="list-ul">
-                            <li>
-                              <a mat-list-item
-                                (click)="selectedLeagueListener(league);">
-                                  <span class="text link"> {{ league.name }} </span>
-                              </a>
-                            </li>
-                          </ul>
-                        </mat-panel-description>
-                      </ng-container>
-                    </ng-template>
-                  </mat-expansion-panel>                                                  
-                </ng-container>
-              </ng-template>
-            </mat-expansion-panel>
-          </ng-container>
-        </mat-accordion>
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <app-toolbar-base 
-        *ngIf="!isMobileLayout()" 
-        (window:resize)="onResize($event)" 
-        (sidenav_emit)="openSidenav()">
-      </app-toolbar-base>
-      <app-toolbar-mobile 
-        *ngIf="isMobileLayout()" 
-        (window:resize)="onResize($event)"
-        (sidenav_emit)="openSidenav()">
-      </app-toolbar-mobile>
+                  <!-- Lazy rendering -->
+                  <ng-template matExpansionPanelContent>
+                    <!-- Elenco leghe per uno specifico sport e campionato -->
+                    <ng-container *ngFor="let league of getLeagues(sport, championship)">
+                      <mat-panel-description>
+                        <ul class="list-ul">
+                          <li>
+                            <a mat-list-item (click)="selectedLeagueListener(league);">
+                              <span class="text link"> {{ league.name }} </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </mat-panel-description>
+                    </ng-container>
+                  </ng-template>
+                </mat-expansion-panel>
+              </ng-container>
+            </ng-template>
+          </mat-expansion-panel>
+        </ng-container>
+      </mat-accordion>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-toolbar-base (sidenav_emit)="openSidenav()"></app-toolbar-base>
 
-      <!-- Spinner visualizzato in attesa che i dati della pagina siano caricati -->
-      <mat-progress-spinner class="spinner" 
-        *ngIf="loading()" 
-        mode="indeterminate"
-        diameter="150">
-      </mat-progress-spinner>
-      <div [ngClass]="{'opacity-page' : loading()}">
-        <router-outlet></router-outlet>
-      </div>
-    </mat-sidenav-content>
+    <!-- Spinner visualizzato in attesa che i dati della pagina siano caricati -->
+    <mat-progress-spinner class="spinner" *ngIf="loading()" mode="indeterminate" diameter="150">
+    </mat-progress-spinner>
+    <div [ngClass]="{'opacity-page' : loading()}">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>
-  

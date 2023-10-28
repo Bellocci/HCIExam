@@ -1,7 +1,7 @@
 import { SnackBarDataTypeEnum } from "src/enum/SnackBarDataTypeEnum.model";
 import { ValidationProblem } from "./ValidationProblem";
 
-
+//FIXME: spostare il metodo withMessage in un'altra classe in modo da poter costruire l'oggetto in modo obbligando entrambi i passi
 export class ValidationProblemBuilder {
 
     private messageType!:SnackBarDataTypeEnum;

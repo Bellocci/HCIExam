@@ -1,6 +1,6 @@
 <!-- Filtri Standard -->
 
-<div class="full-width flex-direction-column flex-and-align-items-center">
+<div class="full-width flex-direction-column flex-center">
     <!-- Budget -->
     <mat-card class="card-container" id=budgetCard>
         <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
@@ -72,7 +72,7 @@
         </mat-card-header>
 
         <mat-card-content class="card-content-container">
-            <div class="flex-and-align-items-center mt-30px mb-30px">
+            <div class="flex-center mt-30px mb-30px">
                 <label class="label mr-30px">Includi giocatori: </label>
                 <mat-checkbox class="mr-10px" color="primary" labelPosition="before"
                     [(ngModel)]="includePlayersFromFavoriteList" (change)="updatePlayersToInclude()">

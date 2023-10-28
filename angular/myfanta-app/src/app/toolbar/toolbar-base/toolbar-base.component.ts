@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { FilterDataService } from 'src/app/service/filter-data.service';
 import { InternalDataService } from 'src/app/service/internal-data.service';
 import { TeamDataService } from 'src/app/service/team-data.service';
@@ -14,6 +14,8 @@ import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
 import { UserEntity } from 'src/model/userEntity.model';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Observable, map, shareReplay } from 'rxjs';
 
 @Component({
   selector: 'app-toolbar-base',
@@ -24,10 +26,11 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 
   @Output() sidenav_emit = new EventEmitter();
 
+  private breakpointObserver = inject(BreakpointObserver);
   private _userLogged: boolean = false;  
   private _user!: UserEntity;  
   private league!:LeagueEntity | null;  
-  private playerSelected : PlayerEntity | null = null;
+  private playerSelected : PlayerEntity | null = null;  
 
   constructor(
     private filterService:FilterDataService,
@@ -47,7 +50,7 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
 
   override ngOnInit(): void { }
 
-  /* INIZIALIZZAZIONE OBSERVER */
+  // ===== OBSERVER ===== 
 
   private observeUserLogged() {
     this._userService.addObserverForUser(new ObserverStepBuilder<UserEntity>()
@@ -72,7 +75,19 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
       .build());
   }
 
-  /* FINE OBSERVER */
+  showSecondRow: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  /*
+  * pipe() consente di applicare una serie di trasformazioni a un Observable. Le trasformazioni possono essere utilizate
+  * per modificare o filtrare i valori emessi dall'Observable
+  */
+  .pipe(
+    // Si mappa il valore emesso dall'Observable a un valore booleano che indica se il viewport è più piccolo del #pixel del breakpoint.
+    map(result => result.matches),
+    // Consente di condividere un Observable con altri componenti, mantenendo nella cache i valori memorizzati
+    shareReplay()
+  );
+
+  // ==== FINE OBSERVER ==== 
 
   /* GETTER & SETTER */
 
