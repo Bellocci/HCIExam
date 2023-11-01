@@ -1,0 +1,91 @@
+@use "src/styles/global/styles";
+@import "src/styles/global/breakpoints";
+@import "src/styles/global/colors";
+
+/*
+===========
+VARIABILI
+===========
+*/
+
+$toolbar-height: 64px;
+$toolbar-height-mobile: 56px;
+
+/*
+==============
+TOOLBAR STYLE
+==============
+*/
+
+/* Toolbar */
+
+.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    min-height: $toolbar-height;           
+}
+
+.toolbar-row {
+    height: $toolbar-height-mobile;
+}
+
+@media (min-width: $mobile-breakpoint) {
+
+    .toolbar-row {
+        height: $toolbar-height-mobile;
+    }
+}
+
+@media (min-width: $laptop-breakpoint) {
+
+    .toolbar-row {
+        height: $toolbar-height;
+        padding-left: 0;
+    }
+}
+
+/* Buttons */
+
+.btn-menu {
+    height: calc($toolbar-height * 0.6);
+    background-color: inherit;
+    width: min-content;
+}
+
+.btn-menu:hover {
+    background-color: $primary-color !important;
+}
+
+.btn-menu-link {
+    background-color: $primary-color;
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    border-radius: 10px;
+}
+
+@media (max-width: $laptop-breakpoint) {
+    .btn-menu {
+        padding: 2px;
+    }
+}
+
+/* Text */
+
+/* Menu user panel */
+
+.user-menu {
+    width: 150px !important;
+}
+
+.username-menu-panel {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor:auto;
+}
+
+.username-menu-panel:hover {
+    background-color: inherit;
+}

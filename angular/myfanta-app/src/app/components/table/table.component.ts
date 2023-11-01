@@ -17,6 +17,7 @@ import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { SnackBarService } from 'src/app/service/snack-bar.service';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
+import { SearchPlayersService } from 'src/app/service/search-players.service';
 
 @Component({
   selector: 'app-table',
@@ -52,10 +53,10 @@ export class TableComponent implements OnInit, AfterViewInit {
   constructor(private teamDataService: TeamDataService,
     private internalDataService:InternalDataService,
     public routerService:RouterService,
-    private loadDataService:LoadDataService,
+    private searchPlayersService:SearchPlayersService,
     private snackbarService:SnackBarService) { 
 
-      this.tableHelper = new TableHelper(teamDataService, routerService, loadDataService);
+      this.tableHelper = new TableHelper(teamDataService, routerService, searchPlayersService);
       this.subscribeTableSize();            
       this.observeLeagueSelected();
       this.observeTableFilterOption();

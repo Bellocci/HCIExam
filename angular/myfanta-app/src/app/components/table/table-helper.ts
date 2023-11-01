@@ -1,7 +1,6 @@
 import { TeamDataService } from "../../service/team-data.service";
-import { BehaviorSubject, Observable, Observer } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { RouterService } from "../../service/router.service";
-import { LoadDataService } from "../../service/load-data.service";
 import { SportEnum } from "src/enum/SportEnum.model";
 import { LinkEnum } from "src/enum/LinkEnum.model";
 import { ValidationProblem } from "src/utility/validation/ValidationProblem";
@@ -9,6 +8,7 @@ import { ValidationProblemBuilder } from "src/utility/validation/ValidationProbl
 import { SnackBarDataTypeEnum } from "src/enum/SnackBarDataTypeEnum.model";
 import { LeagueEntity } from "src/model/leagueEntity.model";
 import { PlayerEntity } from "src/model/playerEntity.model";
+import { SearchPlayersService } from "src/app/service/search-players.service";
 
 export class TableHelper {
 
@@ -20,7 +20,7 @@ export class TableHelper {
 
     constructor(private teamDataService:TeamDataService,
         private routerService:RouterService,
-        private loadDataService:LoadDataService) {}
+        private searchPlayersService:SearchPlayersService) {}
 
 
     getDisplayedColumns() : string[] {
@@ -35,7 +35,7 @@ export class TableHelper {
         return this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) ? this.teamDataService.getObservableOfUserTeam() :
             this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) ? this.teamDataService.getObservableOfFavoriteList() :
             this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) ? this.teamDataService.getObservableOfBlacklist() :
-            this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST) && league != null ? new BehaviorSubject(this.loadDataService.getAllPlayers(league)).asObservable() :
+            this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST) && league != null ? new BehaviorSubject(this.searchPlayersService.getAllPlayers(league)).asObservable() :
             new BehaviorSubject([]).asObservable();
     }
 

@@ -1,16 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 
-@use "variables";
+@import "breakpoints";
+@import "colors";
+
+/*
+==========
+VARIABILI
+==========
+*/
+
+$font-family: Roboto, sans-serif, Tahoma, Geneva, Verdana, sans-serif !important;
 
 html, body { height: 100%; }
 body { 
     margin: 0; 
-    font-family: Roboto, sans-serif, Tahoma, Geneva, Verdana, sans-serif !important;
+    font-family: $font-family;
 
-}
-
-:root {   
-    --toolbar-height: 60px;
 }
 
 /*
@@ -19,8 +24,12 @@ TESTO
 =======
 */
 
+span {
+    word-break: break-all;
+}
+
 .bold {
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .txt-center {
@@ -196,61 +205,61 @@ COLORI
 */
 
 .primary-color {
-    background-color: #82B1FF !important;
+    background-color: $primary-color !important;
 }
 
 .primary-color-light {
-    background-color: #b6e3ff !important;
+    background-color: $primary-color-dark !important;
 }
 
 .primary-color-dark {
-    background-color: #4d82cb !important;
+    background-color: $primary-color-dark !important;
 }
 
 .secondary-color {
-    background-color: #FFCF82 !important;
+    background-color: $secondary-color !important;
 }
 
 .secondary-color-no-hover {
-    background-color: #FFCF82 !important;
+    background-color: $secondary-color !important;
 }
 
 .secondary-color:hover {
-    background-color: #ffffb3 !important;
+    background-color: $secondary-color-light !important;
 }
 
 .secondary-color:focus {
-    background-color: #ffffb3 !important;
+    background-color: $secondary-color-light !important;
 }
 
 .secondary-color-light {
-    background-color: #ffffb3 !important;
+    background-color: $secondary-color-light !important;
 }
 
 .no-color {
-    background-color: #F9F9F9;
+    background-color:$no-color;
 }
 
 .no-color:hover {
-    background-color: #E0E0E0 !important;
+    background-color: $no-color-dark !important;
 }
 
 .no-color-light {
-    background-color: #F9F9F9;
+    background-color: $no-color;
 }
 
 .no-color-light:hover {
-    background-color: #f6f6f6 !important;
+    background-color: $no-color-light !important;
 }
 
 .error-color {
-    color: #f44336 !important;
+    color: $info-error-color !important;
 }
 
 /* Icon colors */
 
-.material-icons.color_green { color: #248232; }
-.material-icons.color_red { color: #f44336; }
+.material-icons.color_green { color: $info-right-color; }
+.material-icons.color_red { color: $info-error-color; }
 
 /* --- ICONE --- */
 
@@ -261,17 +270,30 @@ COLORI
 /* --- FINE SEZIONE ICONE ---  */
 
 /*
-=====================
-MARGINI E DIMENSIONI
-=====================
+==========================
+DIMENSIONI STANDARD WIDTH
+==========================
 */
 
 .full-width {
     width: 100%;
 }
 
-.max-content {
-    width: max-content;
+.width-80 {
+    width: 80%;
+}
+
+
+/*
+=====================
+MARGINI E DIMENSIONI
+=====================
+*/
+
+/* Padding */
+
+.padding-0 {
+    padding: 0;
 }
 
 /* 5px */
@@ -359,10 +381,11 @@ FLEXBOX CONTAINER
     display: flex !important;
 }
 
-.flex-center {
+.flex-center-wrap {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .flex-direction-column {
@@ -541,20 +564,20 @@ FLEXBOX CONTAINER
 }
 
 .info-snackbar {
-    --mdc-snackbar-container-color: #b6e3ff;
+    --mdc-snackbar-container-color: $primary-color-light;
     --mat-snack-bar-button-color: black;
     --mdc-snackbar-supporting-text-color: black;
 }
 
 .warning-snackbar {
-    --mdc-snackbar-container-color: #ffffb3;
+    --mdc-snackbar-container-color: $secondary-color-light;
     --mat-snack-bar-button-color: black;
     --mdc-snackbar-supporting-text-color: black;
     opacity: 0.8 !important;
 }
 
 .error-snackbar {
-    --mdc-snackbar-container-color: #f44336;
+    --mdc-snackbar-container-color: $info-error-color;
     --mat-snack-bar-button-color:#fff;
     --mdc-snackbar-supporting-text-color: #fff;
 }
@@ -583,7 +606,7 @@ FLEXBOX CONTAINER
 }
 
 .link {
-    color: #0000EE !important;
+    color: $link-color !important;
     text-decoration: underline;
     text-underline-offset: 2px;
 }
@@ -599,18 +622,15 @@ FLEXBOX CONTAINER
     text-underline-offset: 2px;
 }
 
-/* TEXT */
+/*
+========== 
+PULSANTI 
+==========
+*/
 
-.title-txt {
-    font-size: 30px;
-    font-weight: 600;
+button {
+    font-family: $font-family;
 }
-
-.bold {
-    font-weight: 600;
-}
-
-/* PULSANTI */
 
 .btn {
     width: 120px !important;

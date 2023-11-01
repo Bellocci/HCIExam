@@ -34,12 +34,9 @@
 							"src/styles/global/styles.scss"
 						],
 						"scripts": [],
-						"stylePreprocessors": [
-							{
-							  "type": "sass",
-							  "includePaths": ["src/styles"]
-							}
-						  ]
+						"stylePreprocessorOptions": {
+							"includePaths": ["src/styles/*"]
+						}
 					},
 					"configurations": {
 						"production": {

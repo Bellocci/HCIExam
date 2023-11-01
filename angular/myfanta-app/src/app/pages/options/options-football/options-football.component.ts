@@ -12,7 +12,7 @@ import { OptionsAbstract } from '../OptionsAbstract';
 @Component({
   selector: 'app-options-football',
   templateUrl: './options-football.component.html',
-  styleUrls: ['../options.component.css']
+  styleUrls: ['../options.component.scss']
 })
 export class OptionsFootballComponent extends OptionsAbstract implements OnInit {
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { FilterDataService } from 'src/app/service/filter-data.service';
 import { InternalDataService } from 'src/app/service/internal-data.service';
 import { TeamDataService } from 'src/app/service/team-data.service';
@@ -14,23 +14,42 @@ import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
 import { UserEntity } from 'src/model/userEntity.model';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, map, shareReplay } from 'rxjs';
+import { Observable, Subject, Subscription} from 'rxjs';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
 
 @Component({
   selector: 'app-toolbar-base',
   templateUrl: './toolbar-base.component.html',
   styleUrls: ['./toolbar-base.component.scss']
 })
-export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
+export class ToolbarBaseComponent extends ToolbarComponent implements OnInit, OnDestroy {
 
-  @Output() sidenav_emit = new EventEmitter();
+  /*
+   * ===========
+   * VARIABILI 
+   * ===========
+   */
 
-  private breakpointObserver = inject(BreakpointObserver);
+  // Evento per gestire l'apertura e la chiusura del menu
+  @Output() sidenav_emit = new EventEmitter();  
+
+  // Observable breakpoints
+  private _isMobileOrTablet: Observable<boolean> = this.breakpointsService.mobileOrTabletObservable;
+
   private _userLogged: boolean = false;  
   private _user!: UserEntity;  
   private league!:LeagueEntity | null;  
   private playerSelected : PlayerEntity | null = null;  
+
+  private _subscriptionUserObservable : Subscription | undefined;
+  private _subscriptionLeagueSelectedObservable : Subscription | undefined;
+  private _subscriptionPlayerSelected : Subscription | undefined;
+
+  /*
+   * ==============================
+   * CONSTRUCTOR INIT & DESTROYER
+   * ==============================
+   */
 
   constructor(
     private filterService:FilterDataService,
@@ -39,21 +58,35 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
     private _userService:UserService,
     private snackbarService:SnackBarService,
     override routerService:RouterService,
-    private dialogService:DialogService) 
+    private dialogService:DialogService,
+    private breakpointsService:BreakpointsService) 
   { 
     super(filterService, _internalDataService, _teamDataService, routerService, _userService);
 
-    this.observeUserLogged();
-    this.observeLeagueSelected();
-    this.observePlayerSelected();
+    this._subscriptionUserObservable = this.observeUserLogged();
+    this._subscriptionLeagueSelectedObservable = this.observeLeagueSelected();
+    this._subscriptionPlayerSelected = this.observePlayerSelected();
+  }  
+
+  override ngOnInit(): void { 
+    console.log("Construct the Toolbar component");
   }
 
-  override ngOnInit(): void { }
+  ngOnDestroy(): void {
+    console.log("Destroy the Toolbar component");
+    this._subscriptionUserObservable != undefined ? this._subscriptionUserObservable.unsubscribe() : null;
+    this._subscriptionLeagueSelectedObservable != undefined ? this._subscriptionLeagueSelectedObservable.unsubscribe() : null;
+    this._subscriptionPlayerSelected != undefined ? this._subscriptionPlayerSelected.unsubscribe() : null;
+  }
 
-  // ===== OBSERVER ===== 
+  /*
+   * ==========
+   * OBSERVER 
+   * ==========
+   */
 
-  private observeUserLogged() {
-    this._userService.addObserverForUser(new ObserverStepBuilder<UserEntity>()
+  private observeUserLogged() : Subscription | undefined {
+    return this._userService.addObserverForUser(new ObserverStepBuilder<UserEntity>()
       .next(user => {
         this._user = user;
         this.userLogged = user.isUserDefined();
@@ -62,34 +95,24 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
     );
   }
 
-  private observeLeagueSelected() : void {
-    this._internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<LeagueEntity | null>()
+  private observeLeagueSelected() : Subscription | undefined {
+    return this._internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<LeagueEntity | null>()
         .next(league => this.league = league)
         .build()
     );
   }
 
-  private observePlayerSelected() : void {
-    this._internalDataService.addObserverToPlayerSelected(new ObserverStepBuilder<PlayerEntity | null>()
+  private observePlayerSelected() : Subscription | undefined {
+    return this._internalDataService.addObserverToPlayerSelected(new ObserverStepBuilder<PlayerEntity | null>()
       .next(player => this.playerSelected = player)
       .build());
-  }
+  }  
 
-  showSecondRow: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   /*
-  * pipe() consente di applicare una serie di trasformazioni a un Observable. Le trasformazioni possono essere utilizate
-  * per modificare o filtrare i valori emessi dall'Observable
-  */
-  .pipe(
-    // Si mappa il valore emesso dall'Observable a un valore booleano che indica se il viewport è più piccolo del #pixel del breakpoint.
-    map(result => result.matches),
-    // Consente di condividere un Observable con altri componenti, mantenendo nella cache i valori memorizzati
-    shareReplay()
-  );
-
-  // ==== FINE OBSERVER ==== 
-
-  /* GETTER & SETTER */
+   * ================
+   * GETTER & SETTER
+   * ================
+   */
 
   public get userLogged(): boolean {
     return this._userLogged;
@@ -107,7 +130,15 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
     this._user = value;
   }
 
-  /* Metodi visibilità */
+  public get isMobileOrTablet(): Observable<boolean> {
+    return this._isMobileOrTablet;
+  }
+
+  /*
+   * ===================
+   * METODI VISIBILITA'
+   * ===================
+   */
 
   isLeagueSelected() : boolean {
     return this.league != null;
@@ -126,7 +157,15 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
     return this.playerSelected != null ? this.routerService.currentPageIsPlayerProfile(this.playerSelected) : false;
   }
 
-  /* Metodi funzionalità */
+  isPageSelected(link:LinkEnum) : boolean {
+    return this.routerService.isLinkActivated(link);
+  }
+
+  /*
+   * =========
+   * LISTENER
+   * =========
+   */
 
   openSidenavFromChild(): void {
     this.sidenav_emit.emit();
@@ -144,11 +183,12 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit {
     this.snackbarService.openInfoSnackBar("Ti sei scollegato dal tuo account");    
   }  
 
+  /*
+   * ============
+   * NAVIGAZIONE
+   * ============
+   */
   goToPage(link:LinkEnum) : void {
     this.routerService.goToLink(link);
-  }
-
-  isPageSelected(link:LinkEnum) : boolean {
-    return this.routerService.isLinkActivated(link);
-  }
+  }  
 }

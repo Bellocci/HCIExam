@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { LoadDataService } from 'src/app/service/load-data.service';
 import { RouterService } from 'src/app/service/router.service';
+import { SearchPlayersService } from 'src/app/service/search-players.service';
 import { TeamDataService } from 'src/app/service/team-data.service';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
@@ -14,7 +14,7 @@ import { ValidationProblemBuilder } from 'src/utility/validation/ValidationProbl
 export class SearchAddPlayerValidatorService {
 
   constructor(private teamDataService:TeamDataService,
-    private loadDataService:LoadDataService,
+    private searchPlayersService:SearchPlayersService,
     private routerService:RouterService) { }
 
     private static readonly LIST_HAS_PLAYER_MESSAGE = "Il giocatore è già presente nella lista";
@@ -111,7 +111,7 @@ export class SearchAddPlayerValidatorService {
      */
     private commonValidation(player:PlayerEntity, checkListfunction:(player:PlayerEntity) => boolean) : ValidationProblem | null {  
       // Verifico l'esistenza del giocatore
-      let result:PlayerEntity | null = this.loadDataService.loadPlayerBydId(player.playerId);
+      let result:PlayerEntity | null = this.searchPlayersService.loadPlayerBydId(player.playerId);
       if(result == null) {
         return new ValidationProblemBuilder()
             .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)

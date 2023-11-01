@@ -1,13 +1,11 @@
-import { BehaviorSubject, Observable, Observer } from "rxjs";
+import { BehaviorSubject, Observable, Observer, Subscription } from "rxjs";
 
 export class ObserverHelper<T> {
 
     private subject:BehaviorSubject<T>;
-    private observable:Observable<T>;
 
     constructor(initialState:T) {
         this.subject = new BehaviorSubject<T>(initialState);
-        this.observable = this.subject.asObservable();
     }
 
     setValue(value:T) : void {
@@ -18,11 +16,25 @@ export class ObserverHelper<T> {
         return this.subject.getValue();
     }
 
-    addObserver(observer:Observer<T>) : void {
-        this.observable.subscribe(observer);
+    addObserver(observer:Observer<T>) : Subscription | undefined {
+        return observer != undefined ? this.subject.subscribe(observer) : undefined;
     }
 
     getObservable() : Observable<T> {
-        return this.observable;
+        return this.subject.asObservable();
+    }
+
+    /**
+     * Annulla tutte le iscrizioni e rilascia le risorse associate all'oggetto
+     */
+    destroy() : void {
+        this.subject.unsubscribe();
+    }
+
+    /**
+     * Completa il subject non emettendo più valori e annullando tutte le iscrizioni
+     */
+    complete() : void {
+        this.subject.complete();
     }
 }

@@ -3,8 +3,6 @@ import { debounceTime, distinctUntilChanged, Subject, switchMap} from 'rxjs';
 import { InternalDataService } from '../../service/internal-data.service';
 import { TeamDataService } from '../../service/team-data.service';
 import { RouterService } from '../../service/router.service';
-import { FilterDataService } from '../../service/filter-data.service';
-import { LoadDataService } from '../../service/load-data.service';
 import { SnackBarService } from '../../service/snack-bar.service';
 import { SearchAddPlayerValidatorService } from './search-add-player-validator.service';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
@@ -13,6 +11,7 @@ import { ValidationProblemBuilder } from 'src/utility/validation/ValidationProbl
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
+import { SearchPlayersService } from 'src/app/service/search-players.service';
 
 @Component({
   selector: 'app-search-add-player',
@@ -28,10 +27,9 @@ export class SearchAddPlayerComponent implements OnInit {
 
   constructor(
     private internalDataService:InternalDataService,
-    private filterDataService:FilterDataService,
     private routerService:RouterService,
     private teamDataService:TeamDataService,
-    private loadDataService:LoadDataService,
+    private searchPlayersService:SearchPlayersService,
     private snackBarService:SnackBarService,
     private searchAddPlayerValidator:SearchAddPlayerValidatorService) { }
 
@@ -46,7 +44,7 @@ export class SearchAddPlayerComponent implements OnInit {
       // ignore new term if same as previous term
       distinctUntilChanged(),
 
-      switchMap((name:string) => this.filterDataService.searchPlayerToAddList(name, this.leagueSelected)),
+      switchMap((name:string) => this.searchPlayersService.searchPlayerToAddList(name, this.leagueSelected)),
     ).subscribe(
       (players) => {
         this.players = players;
@@ -105,7 +103,7 @@ export class SearchAddPlayerComponent implements OnInit {
   private loadPlayer(playerName:string) : PlayerEntity | undefined {
     let playerSelected:PlayerEntity | undefined = this.players.find(player => player.playerName.toLowerCase() === playerName.toLocaleLowerCase());
     if(playerSelected == undefined && this.leagueSelected != null) {
-      playerSelected = this.loadDataService.searchPlayer(playerName, this.leagueSelected);
+      playerSelected = this.searchPlayersService.searchPlayer(playerName, this.leagueSelected);
     }
 
     return playerSelected;

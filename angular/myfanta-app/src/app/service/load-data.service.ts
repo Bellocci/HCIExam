@@ -51,54 +51,5 @@ export class LoadDataService {
     return this.teamsMap.has(league.leagueId) ?
       this.teamsMap.get(league.leagueId)! :
       this.loadAllTeams(league);
-  }
-
-  private loadAllPlayers(league:LeagueEntity) : PlayerEntity[] {
-    let list:PlayerEntity[] = [];
-    // TODO: Interazione con il db
-    league.leagueId == 1 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_SERIE_A) :
-      league.leagueId == 2 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_PREMIER_LEAGUE) :
-      league.leagueId == 4 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_NBA) :
-      league.leagueId == 5 ? list = [] : 
-      list = [];
-    
-    this.playersMap.addElementToMap(league.leagueId, list);
-    return list;
-  }
-
-  getAllPlayers(league:LeagueEntity): PlayerEntity[] {
-    if(this.playersMap.hasElement(league.leagueId)) {
-      return this.playersMap.getValue(league.leagueId)!;
-    } else {
-      return this.loadAllPlayers(league);
-    }
-  }
-
-  searchPlayer(playerName:string, league:LeagueEntity) : PlayerEntity | undefined {
-    if(this.playersMap.hasElement(league.leagueId)) {
-      //TODO: Interazione con il db
-      return this.playersMap.getValue(league.leagueId)?.find(player => player.playerName === playerName);
-    }
-    return undefined;
-  }
-
-  loadPlayerBydId(playerId:number) : PlayerEntity | null {
-    // TODO: Interazione con il db
-    let result:PlayerEntity[] = PLAYER_DATA_SERIE_A.filter(player => player.playerId == playerId);
-    if(result.length != 0) {
-      return result[0];
-    }    
-
-    result = PLAYER_DATA_PREMIER_LEAGUE.filter(player => player.playerId == playerId);
-    if(result.length != 0) {
-      return result[0];
-    }
-
-    result = PLAYER_DATA_NBA.filter(player => player.playerId == playerId);
-    if(result.length != 0) {
-      return result[0];
-    }
-
-    return null;
-  } 
+  }  
 }

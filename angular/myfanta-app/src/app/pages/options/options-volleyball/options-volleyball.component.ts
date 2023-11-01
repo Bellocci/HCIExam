@@ -11,7 +11,7 @@ import { IdMatCard } from '../IdMatCardInterface';
 @Component({
   selector: 'app-options-volleyball',
   templateUrl: './options-volleyball.component.html',
-  styleUrls: ['../options.component.css']
+  styleUrls: ['../options.component.scss']
 })
 export class OptionsVolleyballComponent extends OptionsAbstract implements OnInit {
 

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observer } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observer, Subscription } from 'rxjs';
 import { USER_DATA, UserEntity } from 'src/model/userEntity.model';
 import { CUSTOMS_TEAM_DATA, UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { SessionStorageService } from './session-storage.service';
@@ -21,17 +21,30 @@ interface UserTeamCouple {
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService implements OnDestroy {
 
+  /* 
+   * ===========
+   * VARIABILI
+   * ===========
+   */
   static readonly KEY_SESSION:string = "user";
-  
+
   private user:ObserverHelper<UserEntity> = new ObserverHelper<UserEntity>(new UserEntity());
 
   private sportTeamMap:Map<SportEnum, UserTeamCouple> | undefined = undefined;
   private selectedTeam:ObserverHelper<UserTeamEntity | undefined> = new ObserverHelper<UserTeamEntity | undefined>(undefined);
 
+  /*
+   * =========================
+   * CONSTRUCTOR & DESTROYER
+   * =========================
+   */
+
   constructor(private _session_storage:SessionStorageService<UserEntity>,
     private userDecoratorFactory:UserDecoratorFactoryService) {
+
+    console.log("Construct the User service");
 
     const entity = this._session_storage.getData(UserService.KEY_SESSION);
     console.log("Recupero utente dalla sessione: " + entity?.toString());
@@ -46,8 +59,20 @@ export class UserService {
     }
   }
 
-  addObserverForUser(observer:Observer<UserEntity>) : void {
-    this.user.addObserver(observer);
+  ngOnDestroy(): void {
+    console.log("Destroy the User service");
+    this.user.destroy();
+    this.selectedTeam.destroy();
+  }
+
+  /*
+   * =========
+   * OBSERVER
+   * =========
+   */
+
+  addObserverForUser(observer:Observer<UserEntity>) : Subscription | undefined {
+    return this.user.addObserver(observer);
   } 
 
   getUser(): UserEntity {
@@ -58,7 +83,19 @@ export class UserService {
     this.user.setValue(user);
   }
 
-  // LOGIN
+  setSelectedTeam(userTeam : UserTeamEntity | undefined) {
+    this.selectedTeam.setValue(userTeam);
+  }
+
+  addSelectedTeamObserver(observer:Observer<UserTeamEntity | undefined>) : Subscription | undefined {
+    return this.selectedTeam.addObserver(observer);
+  }
+
+  /*
+   * ================
+   * GESTIONE UTENTE
+   * ================
+   */
 
   /**
    * Metodo che controlla se esiste un utente con lo stesso username e password,
@@ -72,7 +109,6 @@ export class UserService {
     let result:UserEntity | undefined = USER_DATA.find(user => user.username == username && user.password == password);
     if(result != undefined) {
       this._session_storage.saveData(UserService.KEY_SESSION, result);
-      const value:UserEntity = this._session_storage.getData(UserService.KEY_SESSION) as UserEntity;
       this.setUser(result);
     } else {
       this.setUser(new UserEntity());
@@ -133,6 +169,11 @@ export class UserService {
     return result.length == 1 ? result[0].password : undefined;
   }
 
+  /*
+   * =====================
+   * GESTIONE TEAM UTENTE 
+   * =====================
+   */
 
   /**
    * Caricamento di tutti i teams realizzati dall'utente di un determinato sport
@@ -204,13 +245,5 @@ export class UserService {
 
     // E' sicuramente presente per il controllo precedente
     return this.sportTeamMap!.get(sport)!.activeList.length > 0;
-  }
-
-  setSelectedTeam(userTeam : UserTeamEntity | undefined) {
-    this.selectedTeam.setValue(userTeam);
-  }
-
-  addSelectedTeamObserver(observer:Observer<UserTeamEntity | undefined>) : void {
-    this.selectedTeam.addObserver(observer);
   }
 }

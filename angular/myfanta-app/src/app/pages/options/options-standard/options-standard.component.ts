@@ -14,7 +14,7 @@ const budgets = { TWO_HUNDRED_AND_FIFTY: 250, FIVE_HUNDRED: 500, ONE_THOUSAND: 1
 @Component({
   selector: 'app-options-standard',
   templateUrl: './options-standard.component.html',
-  styleUrls: ['../options.css']
+  styleUrls: ['../options.scss']
 })
 export class OptionsStandardComponent implements OnInit {
 
