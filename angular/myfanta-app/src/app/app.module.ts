@@ -16,7 +16,6 @@ import { OptionsComponent } from './pages/options/options.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ToolbarBaseComponent } from './toolbar/toolbar-base/toolbar-base.component';
-import { ToolbarMobileComponent } from './toolbar/toolbar-mobile/toolbar-mobile.component';
 import { SearchAddPlayerComponent } from './components/search-add-player/search-add-player.component';
 import { PlayerListComponent } from './pages/player-list/player-list.component';
 import { LoginDialogComponent } from './Dialog/login-dialog/login-dialog.component';
@@ -53,7 +52,6 @@ export function initializeApp(appInitService: AppInitService) {
     OptionsComponent,
     ToolbarComponent,
     ToolbarBaseComponent,
-    ToolbarMobileComponent,
     SearchAddPlayerComponent,
     PlayerListComponent,
     LoginDialogComponent,

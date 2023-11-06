@@ -22,7 +22,7 @@ import { BreakpointsService } from 'src/app/service/breakpoints.service';
   templateUrl: './toolbar-base.component.html',
   styleUrls: ['./toolbar-base.component.scss']
 })
-export class ToolbarBaseComponent extends ToolbarComponent implements OnInit, OnDestroy {
+export class ToolbarBaseComponent implements OnInit, OnDestroy {
 
   /*
    * ===========
@@ -45,6 +45,7 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit, On
   private _subscriptionLeagueSelectedObservable : Subscription | undefined;
   private _subscriptionPlayerSelected : Subscription | undefined;
 
+  linkEnum: typeof LinkEnum = LinkEnum;
   /*
    * ==============================
    * CONSTRUCTOR INIT & DESTROYER
@@ -57,18 +58,17 @@ export class ToolbarBaseComponent extends ToolbarComponent implements OnInit, On
     private _teamDataService:TeamDataService,
     private _userService:UserService,
     private snackbarService:SnackBarService,
-    override routerService:RouterService,
+    private routerService:RouterService,
     private dialogService:DialogService,
     private breakpointsService:BreakpointsService) 
-  { 
-    super(filterService, _internalDataService, _teamDataService, routerService, _userService);
+  {   
 
     this._subscriptionUserObservable = this.observeUserLogged();
     this._subscriptionLeagueSelectedObservable = this.observeLeagueSelected();
     this._subscriptionPlayerSelected = this.observePlayerSelected();
   }  
 
-  override ngOnInit(): void { 
+  ngOnInit(): void { 
     console.log("Construct the Toolbar component");
   }
 

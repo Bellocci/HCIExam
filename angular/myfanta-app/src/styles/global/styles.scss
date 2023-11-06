@@ -11,9 +11,13 @@ VARIABILI
 
 $font-family: Roboto, sans-serif, Tahoma, Geneva, Verdana, sans-serif !important;
 
-html, body { height: 100%; }
-body { 
-    margin: 0; 
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
     font-family: $font-family;
 
 }
@@ -23,10 +27,6 @@ body {
 TESTO
 =======
 */
-
-span {
-    word-break: break-all;
-}
 
 .bold {
     font-weight: 500;
@@ -38,32 +38,39 @@ span {
 
 .label {
     font-size: 14px;
+    word-break: break-word;
 }
 
-.top-label {    
+.top-label {
     font-size: 14px;
     margin-bottom: 10px;
     text-align: left;
+    word-break: break-word;
 }
 
 .text {
     font-size: 14px;
+    word-break: break-word;
 }
 
 h1 {
     font-size: 24px;
+    word-break: break-word;
 }
 
 h2 {
     font-size: 18px;
+    word-break: break-word;
 }
 
 h3 {
     font-size: 16px;
+    word-break: break-word;
 }
 
 h4 {
     font-size: 14px;
+    word-break: break-word;
 }
 
 @media (min-width: $mobile-breakpoint) {
@@ -72,28 +79,28 @@ h4 {
         font-size: 14px;
     }
 
-    .top-label {    
+    .top-label {
         font-size: 14px;
         margin-bottom: 10px;
         text-align: left;
     }
-    
+
     .text {
         font-size: 14px;
     }
-    
+
     h1 {
         font-size: 24px;
     }
-    
+
     h2 {
         font-size: 18px;
     }
-    
+
     h3 {
         font-size: 16px;
     }
-    
+
     h4 {
         font-size: 14px;
     }
@@ -105,28 +112,28 @@ h4 {
         font-size: 14px;
     }
 
-    .top-label {    
+    .top-label {
         font-size: 14px;
         margin-bottom: 10px;
         text-align: left;
     }
-    
+
     .text {
         font-size: 16px;
     }
-    
+
     h1 {
         font-size: 28px;
     }
-    
+
     h2 {
         font-size: 22px;
     }
-    
+
     h3 {
         font-size: 18px;
     }
-    
+
     h4 {
         font-size: 16px;
     }
@@ -138,28 +145,28 @@ h4 {
         font-size: 16px;
     }
 
-    .top-label {    
+    .top-label {
         font-size: 16px;
         margin-bottom: 10px;
         text-align: left;
     }
-    
+
     .text {
         font-size: 18px;
     }
-    
+
     h1 {
         font-size: 32px;
     }
-    
+
     h2 {
         font-size: 26px;
     }
-    
+
     h3 {
         font-size: 20px;
     }
-    
+
     h4 {
         font-size: 18px;
     }
@@ -171,28 +178,28 @@ h4 {
         font-size: 18px;
     }
 
-    .top-label {    
+    .top-label {
         font-size: 18px;
         margin-bottom: 10px;
         text-align: left;
     }
-    
+
     .text {
-        font-size: 20px; 
+        font-size: 20px;
     }
-    
+
     h1 {
         font-size: 36px;
     }
-    
+
     h2 {
         font-size: 30px;
     }
-    
+
     h3 {
         font-size: 22px;
     }
-    
+
     h4 {
         font-size: 20px;
     }
@@ -237,7 +244,7 @@ COLORI
 }
 
 .no-color {
-    background-color:$no-color;
+    background-color: $no-color;
 }
 
 .no-color:hover {
@@ -256,23 +263,35 @@ COLORI
     color: $info-error-color !important;
 }
 
-/* Icon colors */
+/*
+======
+ICONE
+======
+*/
 
-.material-icons.color_green { color: $info-right-color; }
-.material-icons.color_red { color: $info-error-color; }
+/* Material angular icon colors */
 
-/* --- ICONE --- */
-
-.icon-size {
-    transform: scale(1.5);
+.material-icons.color_green {
+    color: $info-right-color;
 }
 
-/* --- FINE SEZIONE ICONE ---  */
+.material-icons.color_red {
+    color: $info-error-color;
+}
+
+/* Dimensione */
+
+@media (min-width: $mobileXL-breakpoint) {
+
+    .icon-size {
+        transform: scale(1.5);
+    }
+}
 
 /*
-==========================
-DIMENSIONI STANDARD WIDTH
-==========================
+===================================
+DIMENSIONI STANDARD WIDTH & HEIGHT
+===================================
 */
 
 .full-width {
@@ -283,6 +302,13 @@ DIMENSIONI STANDARD WIDTH
     width: 80%;
 }
 
+.full-height {
+    height: 100%;
+}
+
+.height-80 {
+    height: 80%;
+}
 
 /*
 =====================
@@ -292,8 +318,12 @@ MARGINI E DIMENSIONI
 
 /* Padding */
 
-.padding-0 {
+.no-padding {
     padding: 0;
+}
+
+.no-margin {
+    margin: 0;
 }
 
 /* 5px */
@@ -364,7 +394,7 @@ MARGINI E DIMENSIONI
 
 /* Margine standard da applicare in un div prima e dopo il contenuto della pagina */
 .margin-page-container {
-    width:10%;
+    width: 10%;
     height: 100vh;
     flex-grow: 1;
 }
@@ -381,13 +411,6 @@ FLEXBOX CONTAINER
     display: flex !important;
 }
 
-.flex-center-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
 .flex-direction-column {
     display: flex !important;
     flex-direction: column;
@@ -398,20 +421,42 @@ FLEXBOX CONTAINER
     justify-content: flex-end;
 }
 
+.flex-start {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+}
+
+.flex-center-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 .flex-none {
-	flex: none;      /* flex-grow: 0; flex-shrink: 0; flex-basis: auto; */
+    flex: none;
+    /* flex-grow: 0; flex-shrink: 0; flex-basis: auto; */
 }
 
 .flex-auto {
-	flex: auto;      /* flex-grow: 1; flex-shrink: 1; flex-basis: auto; */
+    flex: auto;
+    /* flex-grow: 1; flex-shrink: 1; flex-basis: auto; */
 }
 
 .flex-content {
-	flex: content;   /* riempie automaticamente al contenuto: flex-basis: content; */
+    flex: content;
+    /* riempie automaticamente al contenuto: flex-basis: content; */
 }
 
 .flex-cell {
-	flex: 1;         /* indica all'elemento di crescere fino a occupare tutto lo spazio disponibile nel contenitore */
+    flex: 1;
+    /* indica all'elemento di crescere fino a occupare tutto lo spazio disponibile nel contenitore */
 }
 
 /* Un container può essere diviso al massimo in 12 colonne */
@@ -524,7 +569,7 @@ FLEXBOX CONTAINER
 
 .tooltip {
     position: relative;
-    display: inline-block;    
+    display: inline-block;
 }
 
 .tooltip .tooltiptext {
@@ -578,7 +623,7 @@ FLEXBOX CONTAINER
 
 .error-snackbar {
     --mdc-snackbar-container-color: $info-error-color;
-    --mat-snack-bar-button-color:#fff;
+    --mat-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: #fff;
 }
 
@@ -635,4 +680,20 @@ button {
 .btn {
     width: 120px !important;
     height: 40px !important;
+}
+
+.round-btn {
+    border-radius: 50%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+}
+
+.flat-mini-fab {
+    box-shadow: none;
+    border-style: solid;
+    border-width: 2px;
+    background-color: $primary-color;
+    border-color: $primary-color-dark;
 }

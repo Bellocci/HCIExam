@@ -28,7 +28,8 @@ export class UserService implements OnDestroy {
    * VARIABILI
    * ===========
    */
-  static readonly KEY_SESSION:string = "user";
+  static readonly USERNAME_KEY_SESSION:string = "username";
+  static readonly PASSWORD_KEY_SESSION:string = "password";
 
   private user:ObserverHelper<UserEntity> = new ObserverHelper<UserEntity>(new UserEntity());
 
@@ -41,17 +42,18 @@ export class UserService implements OnDestroy {
    * =========================
    */
 
-  constructor(private _session_storage:SessionStorageService<UserEntity>,
+  constructor(private sessionStorage:SessionStorageService,
     private userDecoratorFactory:UserDecoratorFactoryService) {
 
     console.log("Construct the User service");
 
-    const entity = this._session_storage.getData(UserService.KEY_SESSION);
-    console.log("Recupero utente dalla sessione: " + entity?.toString());
-    if(entity != null && entity.isUserDefined()) {
-      // Si prende l'utente che era loggato nella sessione
-      console.log("Utente: " + entity.toString());
-      this.user.setValue(entity);
+    const username:string | null = this.sessionStorage.getData(UserService.USERNAME_KEY_SESSION);
+    const password:string | null = this.sessionStorage.getData(UserService.PASSWORD_KEY_SESSION);
+    console.log("Recupero utente dalla sessione: " + username);
+    if(username != null && password != null) {
+      // FIXME: Si prende l'utente che era loggato nella sessione facendo nuovamente la richiesta al backend 
+      this.login(username, password);
+      console.log("Utente: " + this.user.getValue());
     } else {
       // Si genera un utente "stampino" necessario solo per eseguire le operazioni
       console.log("Generazione utente stampino");
@@ -108,10 +110,14 @@ export class UserService implements OnDestroy {
     // Query su db
     let result:UserEntity | undefined = USER_DATA.find(user => user.username == username && user.password == password);
     if(result != undefined) {
-      this._session_storage.saveData(UserService.KEY_SESSION, result);
+      console.log("User: " + result.toString());
+      this.sessionStorage.saveData(UserService.USERNAME_KEY_SESSION, result.username);
+      this.sessionStorage.saveData(UserService.PASSWORD_KEY_SESSION, result.password);
       this.setUser(result);
     } else {
-      this.setUser(new UserEntity());
+      this.setUser(this.userDecoratorFactory.createFakeUser());
+      this.sessionStorage.removeData(UserService.USERNAME_KEY_SESSION);
+      this.sessionStorage.removeData(UserService.PASSWORD_KEY_SESSION);
     }
   }
 
@@ -120,8 +126,9 @@ export class UserService implements OnDestroy {
    * come valore corrente uno User vuoto.
    */
   logout() : void {    
-    this._session_storage.saveData(UserService.KEY_SESSION, new UserEntity());
-    this.setUser(new UserEntity());
+    this.sessionStorage.removeData(UserService.USERNAME_KEY_SESSION);
+    this.sessionStorage.removeData(UserService.PASSWORD_KEY_SESSION);
+    this.setUser(this.userDecoratorFactory.createFakeUser());
   }
 
   // REGISTRAZIONE

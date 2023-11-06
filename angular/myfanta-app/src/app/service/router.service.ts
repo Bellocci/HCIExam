@@ -20,7 +20,7 @@ export class RouterService {
 
   constructor(private router: Router, 
     private internalDataService:InternalDataService,
-    private sessionStorageLastPage:SessionStorageService<string>) { 
+    private sessionStorageLastPage:SessionStorageService) { 
 
       this.lastPage = this.sessionStorageLastPage.getData(RouterService.KEY_SESSION_LAST_PAGE) != null ? 
         this.sessionStorageLastPage.getData(RouterService.KEY_SESSION_LAST_PAGE)! :

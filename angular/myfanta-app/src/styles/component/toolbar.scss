@@ -1,4 +1,5 @@
 @use "src/styles/global/styles";
+@use "src/styles/component/spinner";
 @import "src/styles/global/breakpoints";
 @import "src/styles/global/colors";
 
@@ -23,24 +24,15 @@ TOOLBAR STYLE
     position: sticky;
     top: 0;
     z-index: 100;
-    min-height: $toolbar-height;           
 }
 
 .toolbar-row {
-    height: $toolbar-height-mobile;
-}
-
-@media (min-width: $mobile-breakpoint) {
-
-    .toolbar-row {
-        height: $toolbar-height-mobile;
-    }
+    padding-left: 16px;
 }
 
 @media (min-width: $laptop-breakpoint) {
 
     .toolbar-row {
-        height: $toolbar-height;
         padding-left: 0;
     }
 }
@@ -49,7 +41,7 @@ TOOLBAR STYLE
 
 .btn-menu {
     height: calc($toolbar-height * 0.6);
-    background-color: inherit;
+    background-color: inherit !important;
     width: min-content;
 }
 
@@ -58,34 +50,71 @@ TOOLBAR STYLE
 }
 
 .btn-menu-link {
-    background-color: $primary-color;
+    background-color: $primary-color !important;
     border-style: solid;
     border-width: 2px;
     border-color: white;
     border-radius: 10px;
 }
 
+@media (max-width: $mobileXL-breakpoint) {
+
+    .btn-menu {
+        height: calc($toolbar-height-mobile * 0.6);
+    }
+}
+
 @media (max-width: $laptop-breakpoint) {
+
     .btn-menu {
         padding: 2px;
     }
 }
 
-/* Text */
-
 /* Menu user panel */
 
 .user-menu {
-    width: 150px !important;
+    min-width: 150px !important;
+    width: 100%;
 }
 
-.username-menu-panel {
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    cursor:auto;
+/*
+ * ========
+ * SIDENAV
+ * ========
+ */
+
+.sidenav-container {
+    height: 100%;
 }
 
-.username-menu-panel:hover {
-    background-color: inherit;
+.sidenav {
+    max-width: 300px;
+    width: 100%;
+}
+
+@media (max-width: $mobileXL-breakpoint) {
+
+    .sidenav {
+        width: calc(100% - 100px);
+    }
+}
+
+/* Expansion panel element */
+
+.expansion-panel-header-sport {
+    border-style: solid;
+    border-bottom: 2px !important;
+    border-width: 0.5px;
+}
+
+:host {
+
+    ::ng-deep {
+
+        .mat-expansion-panel-body {
+            padding: 0px;
+        }
+
+    }
 }

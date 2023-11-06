@@ -99,6 +99,10 @@ export class UserEntity {
         return this.userId == -1;
     }
 
+    getShortUsername() : string {
+        return this.username.trim().slice(0, 2).toUpperCase();
+    }
+
     toString() : string {
         return "Nome: " + this.name + " Cognome: " + this.surname + 
             " Username: " + this.username + " Password: " + this.password;
@@ -131,6 +135,10 @@ export class UserEntity {
     }
 
     static fromJSON(json: any): UserEntity {
+        console.log("JSON: " + json.toString());
+        console.log("JSON: " + json.userId);
+        console.log("JSON: " + json.name);
+        console.log("JSON: " + json.surname);
         return new UserEntity(json.userId, json.name, json.surname, json.username, json.passwod, json.color, json.active);
     }
 }

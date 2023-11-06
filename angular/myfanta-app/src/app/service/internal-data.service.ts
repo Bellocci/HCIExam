@@ -37,19 +37,24 @@ export class InternalDataService implements OnDestroy {
    * ========================
    */
 
-  constructor(private sessionStorageLeague:SessionStorageService<number>,
-    private sessionStoragePlayer:SessionStorageService<number>,
+  constructor(private sessionStorage:SessionStorageService,
     private loadDataService:LoadDataService,
     private searchPlayersService:SearchPlayersService) {
 
     console.log("Construct the Internal data service");
 
-    const leagueId:number | null = this.sessionStorageLeague.getData(InternalDataService.KEY_SESSION_LEAGUE_ID);
-    leagueId != null ? this.leagueSelected.setValue(this.loadDataService.loadLeagueById(leagueId)) : null;
+    const jsonLeagueId:string | null = this.sessionStorage.getData(InternalDataService.KEY_SESSION_LEAGUE_ID);
+    if(jsonLeagueId != null) {
+      const leagueId:number = JSON.parse(jsonLeagueId);
+      this.leagueSelected.setValue(this.loadDataService.loadLeagueById(leagueId));
+    }
     this._subscriptionLeagueObservable = this.updateSessionStorageLeague();
 
-    const playerId:number | null = this.sessionStoragePlayer.getData(InternalDataService.KEY_SESSION_PLAYER_ID);
-    playerId != null ? this.playerSelected.setValue(this.searchPlayersService.loadPlayerBydId(playerId)) : null;
+    const jsonPlayerId:string | null = this.sessionStorage.getData(InternalDataService.KEY_SESSION_PLAYER_ID);
+    if(jsonPlayerId != null) {
+      const playerId:number = JSON.parse(jsonPlayerId);
+      this.playerSelected.setValue(this.searchPlayersService.loadPlayerBydId(playerId));
+    }
     this._subscriptionPlayerObservable = this.updateSessionStoragePlayer();
   }  
 
@@ -71,8 +76,11 @@ export class InternalDataService implements OnDestroy {
   private updateSessionStorageLeague() : Subscription | undefined {
     return this.leagueSelected.addObserver(new ObserverStepBuilder<LeagueEntity | null>()
       .next(league => {
-        league instanceof LeagueEntity ? this.sessionStorageLeague.saveData(InternalDataService.KEY_SESSION_LEAGUE_ID, league.leagueId) :
-          this.sessionStorageLeague.saveData(InternalDataService.KEY_SESSION_LEAGUE_ID, null);
+        if(league != null) {
+          this.sessionStorage.saveData(InternalDataService.KEY_SESSION_LEAGUE_ID, league.leagueId.toString());
+        } else {
+          this.sessionStorage.removeData(InternalDataService.KEY_SESSION_LEAGUE_ID);
+        }        
       })
       .build()
     );
@@ -81,8 +89,11 @@ export class InternalDataService implements OnDestroy {
   private updateSessionStoragePlayer() : Subscription | undefined {
     return this.playerSelected.addObserver(new ObserverStepBuilder<PlayerEntity | null>()
       .next(player => {
-        player instanceof PlayerEntity ? this.sessionStoragePlayer.saveData(InternalDataService.KEY_SESSION_PLAYER_ID, player?.playerId) :
-          this.sessionStoragePlayer.saveData(InternalDataService.KEY_SESSION_PLAYER_ID, null);
+        if(player != null) {
+          this.sessionStorage.saveData(InternalDataService.KEY_SESSION_PLAYER_ID, player.playerId.toString());
+        } else {
+          this.sessionStorage.removeData(InternalDataService.KEY_SESSION_PLAYER_ID);
+        }
       })
       .build()
     );
@@ -126,8 +137,12 @@ export class InternalDataService implements OnDestroy {
    * =================================
    */
   
-  addObserverToLoadingData(observer: Observer<boolean>) : void {
-    this.loadingData.addObserver(observer);
+  getLoadingDataObservable() : Observable<boolean> {
+    return this.loadingData.getObservable();
+  }
+
+  addObserverToLoadingData(observer: Observer<boolean>) : Subscription | undefined {
+    return this.loadingData.addObserver(observer);
   }
 
   setLoadingData(isLoading:boolean) : void {
