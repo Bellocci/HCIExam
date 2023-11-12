@@ -24,7 +24,7 @@ export class OptionFilterComponent implements OnInit {
   }
 
   private subscribeTeams() {
-    this.internalDataService.getLeagueSelected().subscribe(league => {
+    this.internalDataService.getObservableLeagueSelected().subscribe(league => {
       if(league != null) {
         this.teamsList = this.filterDataService.filterTeamsByLeague(league);
       } else {

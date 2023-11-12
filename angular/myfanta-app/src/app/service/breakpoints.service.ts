@@ -81,7 +81,7 @@ export class BreakpointsService implements OnDestroy {
           if (event != null && event.target != null) {
             const window = event.target as Window;
             result = BreakpointsService.MOBILE_BREAKPOINT.minWidth <= window.innerWidth &&
-              window.innerWidth <= BreakpointsService.MOBILE_BREAKPOINT.maxWidth!;
+              window.innerWidth < BreakpointsService.MOBILE_BREAKPOINT.maxWidth!;
           }
           return result;
         }),
@@ -98,7 +98,7 @@ export class BreakpointsService implements OnDestroy {
           if (event != null && event.target != null) {
             const window = event.target as Window;
             result = BreakpointsService.MOBILE_XL_BREAKPOINT.minWidth <= window.innerWidth &&
-              window.innerWidth <= BreakpointsService.MOBILE_XL_BREAKPOINT.maxWidth!;
+              window.innerWidth < BreakpointsService.MOBILE_XL_BREAKPOINT.maxWidth!;
           }
           return result;
         }),
@@ -115,7 +115,7 @@ export class BreakpointsService implements OnDestroy {
           if (event != null && event.target != null) {
             const window = event.target as Window;
             result = BreakpointsService.TABLET_BREAKPOINT.minWidth <= window.innerWidth &&
-              window.innerWidth <= BreakpointsService.TABLET_BREAKPOINT.maxWidth!;
+              window.innerWidth < BreakpointsService.TABLET_BREAKPOINT.maxWidth!;
           }
           return result;
         }),
@@ -132,7 +132,7 @@ export class BreakpointsService implements OnDestroy {
           if (event != null && event.target != null) {
             const window = event.target as Window;
             result = BreakpointsService.LAPTOP_BREAKPOINT.minWidth <= window.innerWidth &&
-              window.innerWidth <= BreakpointsService.LAPTOP_BREAKPOINT.maxWidth!;
+              window.innerWidth < BreakpointsService.LAPTOP_BREAKPOINT.maxWidth!;
           }
           return result;
         }),

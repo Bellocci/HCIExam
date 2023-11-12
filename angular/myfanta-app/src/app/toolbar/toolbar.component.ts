@@ -17,6 +17,7 @@ import { SnackBarService } from '../service/snack-bar.service';
 import { DialogService } from '../service/dialog.service';
 import { BreakpointsService } from '../service/breakpoints.service';
 import { LoginDialogComponent } from '../Dialog/login-dialog/login-dialog.component';
+import { DialogHelper } from '../Dialog/dialogHelper.interface';
 
 @Component({
   selector: 'app-toolbar',
@@ -33,10 +34,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   // Permette di interagire direttamente con la componente mat-sidenav
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
+  @ViewChild('toolbarFirstRow', { static : true}) toolbarFirstRowEl: any;
 
   // Observable breakpoints
   private _isMobileOrTablet: Observable<boolean> = this.breakpointsService.mobileOrTabletObservable;
   private _isMobile: Observable<boolean> = this.breakpointsService.mobileObservable;  
+
+  private _isMobileBreakpointActive:boolean = false;
 
   private _userLogged: boolean = false;
   private _user!: UserEntity;
@@ -48,6 +52,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   private _subscriptionUserObservable: Subscription | undefined;
   private _subscriptionLeagueSelectedObservable: Subscription | undefined;
   private _subscriptionPlayerSelected: Subscription | undefined;
+  private _subscriptionMobileBreakpoint:Subscription;
 
   linkEnum: typeof LinkEnum = LinkEnum;
 
@@ -69,6 +74,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this._subscriptionUserObservable = this.observeUserLogged();
     this._subscriptionLeagueSelectedObservable = this.observeLeagueSelected();
     this._subscriptionPlayerSelected = this.observePlayerSelected();
+    this._subscriptionMobileBreakpoint = this.observeMobileBreakpoint();
   }
 
   ngOnInit(): void {
@@ -80,6 +86,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this._subscriptionUserObservable != undefined ? this._subscriptionUserObservable.unsubscribe() : undefined;
     this._subscriptionLeagueSelectedObservable != undefined ? this._subscriptionLeagueSelectedObservable.unsubscribe() : undefined;
     this._subscriptionPlayerSelected != undefined ? this._subscriptionPlayerSelected.unsubscribe() : undefined;
+    this._subscriptionMobileBreakpoint.unsubscribe();
   }
 
   /*
@@ -88,7 +95,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
    * ==========
    */
 
-  private observeUserLogged(): Subscription | undefined {
+  private observeUserLogged() : Subscription | undefined {    
     return this.userService.addObserverForUser(new ObserverStepBuilder<UserEntity>()
       .next(user => {
         this._user = user;
@@ -98,17 +105,25 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     );
   }
 
-  private observeLeagueSelected(): Subscription | undefined {
+  private observeLeagueSelected() : Subscription | undefined {
     return this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<LeagueEntity | null>()
       .next(league => this._leagueSelected = league)
       .build()
     );
   }
 
-  private observePlayerSelected(): Subscription | undefined {
+  private observePlayerSelected() : Subscription | undefined {
     return this.internalDataService.addObserverToPlayerSelected(new ObserverStepBuilder<PlayerEntity | null>()
       .next(player => this._playerSelected = player)
       .build());
+  }
+
+  private observeMobileBreakpoint() : Subscription {
+    return this.breakpointsService
+        .mobileObservable
+        .subscribe(new ObserverStepBuilder<boolean>()
+        .next(isMobile => this._isMobileBreakpointActive = isMobile)
+        .build());
   }
 
   /**
@@ -237,7 +252,15 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   openLoginDialog() : void {
-    this.dialogService.getDialogHelper().openDialog(LoginDialogComponent);
+    console.log("Open login dialog");
+    if(this._isMobileBreakpointActive) {     
+      let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
+      dialogHelper.setWidth("100%");
+      dialogHelper.setHeight("100%");
+      dialogHelper.openDialog(LoginDialogComponent);
+    } else {
+      this.dialogService.getDialogHelper().openDialog(LoginDialogComponent);
+    }
   }
 
   logout() : void {    

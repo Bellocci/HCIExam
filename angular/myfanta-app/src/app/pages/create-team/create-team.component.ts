@@ -34,7 +34,7 @@ export class CreateTeamComponent implements OnInit, AfterViewInit {
   }
 
   private subscribeLeague() : void {
-    this.internalDataService.getLeagueSelected().subscribe(league => this.currentLeague = league);
+    this.internalDataService.getObservableLeagueSelected().subscribe(league => this.currentLeague = league);
   }
 
   ngOnInit(): void { 

@@ -1,16 +1,9 @@
 @use "src/styles/global/styles";
 @use "src/styles/component/spinner";
+@use "src/styles/component/buttons";
 @import "src/styles/global/breakpoints";
 @import "src/styles/global/colors";
-
-/*
-===========
-VARIABILI
-===========
-*/
-
-$toolbar-height: 64px;
-$toolbar-height-mobile: 56px;
+@import "src/styles/global/variables";
 
 /*
 ==============

@@ -53,7 +53,7 @@ export class SearchAddPlayerComponent implements OnInit {
   }
 
   private subscribeLeagueSelected() : void {
-    this.internalDataService.getLeagueSelected().subscribe(league => {
+    this.internalDataService.getObservableLeagueSelected().subscribe(league => {
       this.leagueSelected = league;
     })
   }

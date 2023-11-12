@@ -113,7 +113,7 @@ export class InternalDataService implements OnDestroy {
     return this.leagueSelected.addObserver(observer);
   }
 
-  getLeagueSelected() : Observable<LeagueEntity | null> {
+  getObservableLeagueSelected() : Observable<LeagueEntity | null> {
     return this.leagueSelected.getObservable();
   }  
 
@@ -125,6 +125,10 @@ export class InternalDataService implements OnDestroy {
 
   addObserverToPlayerSelected(observer:Observer<PlayerEntity | null>) : Subscription | undefined {
     return this.playerSelected.addObserver(observer);
+  }
+
+  getObservablePlayer() : Observable<PlayerEntity | null> {
+    return this.playerSelected.getObservable();
   }
 
   setPlayerSelected(player:PlayerEntity | null) : void {

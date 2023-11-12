@@ -1,15 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-
 @import "breakpoints";
 @import "colors";
-
-/*
-==========
-VARIABILI
-==========
-*/
-
-$font-family: Roboto, sans-serif, Tahoma, Geneva, Verdana, sans-serif !important;
+@import "variables";
 
 html,
 body {
@@ -34,11 +26,13 @@ TESTO
 
 .txt-center {
     text-align: center;
+    color: black !important;
 }
 
 .label {
     font-size: 14px;
     word-break: break-word;
+    color: black !important;
 }
 
 .top-label {
@@ -46,43 +40,43 @@ TESTO
     margin-bottom: 10px;
     text-align: left;
     word-break: break-word;
+    color: black !important;
 }
 
 .text {
     font-size: 14px;
     word-break: break-word;
+    color: black !important;
 }
 
 h1 {
     font-size: 24px;
     word-break: break-word;
+    color: black !important;
 }
 
 h2 {
     font-size: 18px;
     word-break: break-word;
+    color: black !important;
 }
 
 h3 {
     font-size: 16px;
     word-break: break-word;
+    color: black !important;
 }
 
 h4 {
     font-size: 14px;
     word-break: break-word;
+    color: black !important;
 }
 
 @media (min-width: $mobile-breakpoint) {
 
     .label {
         font-size: 14px;
-    }
-
-    .top-label {
-        font-size: 14px;
-        margin-bottom: 10px;
-        text-align: left;
     }
 
     .text {
@@ -110,12 +104,6 @@ h4 {
 
     .label {
         font-size: 14px;
-    }
-
-    .top-label {
-        font-size: 14px;
-        margin-bottom: 10px;
-        text-align: left;
     }
 
     .text {
@@ -147,8 +135,6 @@ h4 {
 
     .top-label {
         font-size: 16px;
-        margin-bottom: 10px;
-        text-align: left;
     }
 
     .text {
@@ -180,8 +166,6 @@ h4 {
 
     .top-label {
         font-size: 18px;
-        margin-bottom: 10px;
-        text-align: left;
     }
 
     .text {
@@ -518,40 +502,48 @@ FLEXBOX CONTAINER
     flex: 1 1 auto;
 }
 
+// FIXME
 .flex-start-content {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
 }
 
+// FIXME
 .full-flex-start-main-axis {
     display: flex;
     justify-content: flex-start;
     width: 100%;
 }
 
+// FIXME
 .full-flex-end-main-axis {
     display: flex;
     justify-content: flex-end;
     width: 100%;
 }
 
+// FIXME
 .flex-wrap {
     flex-wrap: wrap;
 }
 
+// FIXME
 .align-content-center {
     align-content: center;
 }
 
+// FIXME
 .align-items-center {
     align-items: center;
 }
 
+// FIXME
 .alignCenter {
     align-self: center;
 }
 
+// FIXME
 .space-between {
     display: flex;
     justify-content: space-between;
@@ -563,29 +555,31 @@ FLEXBOX CONTAINER
     justify-content: space-evenly;
 }
 
-/* --- FINE SEZIONE CONTAINER E ITEM */
-
-/* SEZIONE TOOLTIP IMMAGINI */
+/*
+========
+TOOLTIP
+========
+*/
 
 .tooltip {
     position: relative;
     display: inline-block;
-}
 
-.tooltip .tooltiptext {
-    border: 1px solid black;
-    visibility: hidden;
-    width: 120px;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    background-color: blanchedalmond;
-
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
-    bottom: 0px;
-    right: 0;
+    .tooltiptext {
+        border: 1px solid black;
+        visibility: hidden;
+        width: 120px;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        background-color: blanchedalmond;
+    
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+        bottom: 0px;
+        right: 0;
+    }    
 }
 
 .tooltip:hover .tooltiptext {
@@ -597,35 +591,6 @@ FLEXBOX CONTAINER
 }
 
 /* --- FINE SEZIONE TOOLTIP IMMAGINI --- */
-
-/* Snackbar */
-
-.snackbar {
-    margin-top: calc(var(--toolbar-height) + 10px) !important;
-    margin-right: 100px !important;
-    max-width: 200px;
-    width: 100%;
-    height: auto;
-}
-
-.info-snackbar {
-    --mdc-snackbar-container-color: $primary-color-light;
-    --mat-snack-bar-button-color: black;
-    --mdc-snackbar-supporting-text-color: black;
-}
-
-.warning-snackbar {
-    --mdc-snackbar-container-color: $secondary-color-light;
-    --mat-snack-bar-button-color: black;
-    --mdc-snackbar-supporting-text-color: black;
-    opacity: 0.8 !important;
-}
-
-.error-snackbar {
-    --mdc-snackbar-container-color: $info-error-color;
-    --mat-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-}
 
 /* STYLE GRIGLIA */
 
@@ -668,32 +633,42 @@ FLEXBOX CONTAINER
 }
 
 /*
-========== 
-PULSANTI 
-==========
+=========
+SNACKBAR
+=========
 */
 
-button {
-    font-family: $font-family;
+/* Occorre metterli nello style globale altrimenti non vengono trovati dal service per l'apertura dello snackbar */
+.snackbar {
+    margin-top: calc($toolbar-height-mobile + 10px) !important;
+    margin-right: 100px !important;
+    max-width: 200px;
+    width: 100%;
+    height: auto;
 }
 
-.btn {
-    width: 120px !important;
-    height: 40px !important;
+@media (min-width: $mobileXL-breakpoint) {
+
+    .snackbar {        
+        margin-top: calc($toolbar-height + 10px) !important;        
+    }
 }
 
-.round-btn {
-    border-radius: 50%;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin: 4px 2px;
+.info-snackbar {
+    --mdc-snackbar-container-color: $primary-color-light;
+    --mat-snack-bar-button-color: black;
+    --mdc-snackbar-supporting-text-color: black;
 }
 
-.flat-mini-fab {
-    box-shadow: none;
-    border-style: solid;
-    border-width: 2px;
-    background-color: $primary-color;
-    border-color: $primary-color-dark;
+.warning-snackbar {
+    --mdc-snackbar-container-color: $secondary-color-light;
+    --mat-snack-bar-button-color: black;
+    --mdc-snackbar-supporting-text-color: black;
+    opacity: 0.8 !important;
+}
+
+.error-snackbar {
+    --mdc-snackbar-container-color: $info-error-color;
+    --mat-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
 }

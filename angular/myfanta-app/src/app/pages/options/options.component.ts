@@ -36,7 +36,7 @@ export class OptionsComponent implements OnInit, AfterViewInit {
   // METODI PRIVATI
 
   private observeLeagueSelected() {
-    this.internalDataService.getLeagueSelected()
+    this.internalDataService.getObservableLeagueSelected()
       .subscribe(league => this._sportSelected = league != null ? league.sport : null);
   }
 

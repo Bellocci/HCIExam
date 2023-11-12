@@ -3,6 +3,7 @@ import {MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { CustomSnackbarComponent } from '../components/custom-snackbar/custom-snackbar.component';
+import { ObserverHelper } from 'src/utility/observer-helper';
 
 export interface SnackBarData {
   type : SnackBarDataTypeEnum;
@@ -28,7 +29,7 @@ export class SnackBarService {
   constructor(private _snackBar:MatSnackBar) { }
   
   private _config:MatSnackBarConfig = {
-    duration : 5 * 1000,
+    duration : 500 * 1000,
     horizontalPosition : 'right',
     verticalPosition : 'top',
   }

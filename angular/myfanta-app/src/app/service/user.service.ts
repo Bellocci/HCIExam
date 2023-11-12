@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observer, Subscription } from 'rxjs';
+import { Observable, Observer, Subscription } from 'rxjs';
 import { USER_DATA, UserEntity } from 'src/model/userEntity.model';
 import { CUSTOMS_TEAM_DATA, UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { SessionStorageService } from './session-storage.service';
@@ -75,7 +75,11 @@ export class UserService implements OnDestroy {
 
   addObserverForUser(observer:Observer<UserEntity>) : Subscription | undefined {
     return this.user.addObserver(observer);
-  } 
+  }
+  
+  getObservableUser() : Observable<UserEntity> {
+    return this.user.getObservable();
+  }
 
   getUser(): UserEntity {
     return this.user.getValue();
