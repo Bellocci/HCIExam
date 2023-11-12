@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { MapHelper } from 'src/utility/map-helper';
-import { ObserverHelper } from 'src/utility/observer-helper';
+import { ObservableHelper } from 'src/utility/observer-helper';
 import { TableFilterOption } from '../components/table/table-filter';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { RouterService } from './router.service';
@@ -28,12 +28,12 @@ export class TeamDataService {
   /*
    * Opzioni di ricerca per la creazione della squadra 
    */
-  private option:ObserverHelper<OptionEntity | null> = new ObserverHelper<OptionEntity | null>(null);
+  private option:ObservableHelper<OptionEntity | null> = new ObservableHelper<OptionEntity | null>(null);
 
   /*
    * Filtro dei giocatori presenti nella tabella 
    */
-  private tableFilterOption:ObserverHelper<TableFilterOption> = new ObserverHelper(new TableFilterOption());
+  private tableFilterOption:ObservableHelper<TableFilterOption> = new ObservableHelper(new TableFilterOption());
 
   constructor(private routerService:RouterService) { }
 

@@ -4,7 +4,7 @@ import { USER_DATA, UserEntity } from 'src/model/userEntity.model';
 import { CUSTOMS_TEAM_DATA, UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { SessionStorageService } from './session-storage.service';
 import { ColorEnum } from 'src/enum/ColorEnum.model';
-import { ObserverHelper } from 'src/utility/observer-helper';
+import { ObservableHelper } from 'src/utility/observer-helper';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { UserDecoratorFactoryService } from 'src/decorator-factory/user-decorator-factory.service';
 
@@ -31,10 +31,10 @@ export class UserService implements OnDestroy {
   static readonly USERNAME_KEY_SESSION:string = "username";
   static readonly PASSWORD_KEY_SESSION:string = "password";
 
-  private user:ObserverHelper<UserEntity> = new ObserverHelper<UserEntity>(new UserEntity());
+  private user:ObservableHelper<UserEntity> = new ObservableHelper<UserEntity>(new UserEntity());
 
   private sportTeamMap:Map<SportEnum, UserTeamCouple> | undefined = undefined;
-  private selectedTeam:ObserverHelper<UserTeamEntity | undefined> = new ObserverHelper<UserTeamEntity | undefined>(undefined);
+  private selectedTeam:ObservableHelper<UserTeamEntity | undefined> = new ObservableHelper<UserTeamEntity | undefined>(undefined);
 
   /*
    * =========================

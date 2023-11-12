@@ -35,7 +35,7 @@ export class OptionsStandardComponent implements OnInit {
   // PRIVATE METHOD
 
   private observeLeagueSelected() {
-    this.internalDataService.getLeagueSelected().subscribe(league => {
+    this.internalDataService.getObservableLeagueSelected().subscribe(league => {
       this.teamsList = league != null ?
           this.filterDataService.filterTeamsByLeague(league) :
           [];

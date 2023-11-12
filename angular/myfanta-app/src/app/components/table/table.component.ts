@@ -8,10 +8,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { InternalDataService } from '../../service/internal-data.service';
 import { TableHelper } from './table-helper';
 import { RouterService } from '../../service/router.service';
-import { LoadDataService } from '../../service/load-data.service';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { TableFilterOption } from './table-filter';
-import { ObserverHelper } from 'src/utility/observer-helper';
+import { ObservableHelper } from 'src/utility/observer-helper';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { SnackBarService } from 'src/app/service/snack-bar.service';
@@ -46,7 +45,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   private pageSize:number = 10;
   private pageSizeOptions:number[] = [5, 10, 20]
 
-  private filtersOption:ObserverHelper<string> = new ObserverHelper("");
+  private filtersOption:ObservableHelper<string> = new ObservableHelper("");
   private static readonly SEPARATOR_FILTER_CHARACTER:string= "|";
   private static readonly SEPARATOR_FILTER_VALUE_CHARACTER:string = "-";
 

@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Observer, Subscription, of } from 'rxjs';
 import { SessionStorageService } from './session-storage.service';
 import { LoadDataService } from './load-data.service';
-import { ObserverHelper } from 'src/utility/observer-helper';
+import { ObservableHelper } from 'src/utility/observer-helper';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
@@ -25,11 +25,11 @@ export class InternalDataService implements OnDestroy {
   public static readonly KEY_SESSION_LEAGUE_ID:string = "leagueId";
   public static readonly KEY_SESSION_PLAYER_ID:string = "playerId";
 
-  private leagueSelected:ObserverHelper<LeagueEntity | null> = new ObserverHelper<LeagueEntity | null>(null);
+  private leagueSelected:ObservableHelper<LeagueEntity | null> = new ObservableHelper<LeagueEntity | null>(null);
   private _subscriptionLeagueObservable : Subscription | undefined;
-  private playerSelected:ObserverHelper<PlayerEntity | null> = new ObserverHelper<PlayerEntity | null>(null);
+  private playerSelected:ObservableHelper<PlayerEntity | null> = new ObservableHelper<PlayerEntity | null>(null);
   private _subscriptionPlayerObservable : Subscription | undefined;
-  private loadingData:ObserverHelper<boolean> = new ObserverHelper<boolean>(false);
+  private loadingData:ObservableHelper<boolean> = new ObservableHelper<boolean>(false);
 
   /*
    * ========================

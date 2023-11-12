@@ -1,6 +1,6 @@
 import { BehaviorSubject, Observable, Observer, Subscription } from "rxjs";
 
-export class ObserverHelper<T> {
+export class ObservableHelper<T> {
 
     private subject:BehaviorSubject<T>;
 
