@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { MapHelper } from 'src/utility/map-helper';
-import { ObservableHelper } from 'src/utility/observer-helper';
+import { ObservableHelper } from 'src/utility/observable-helper';
 import { TableFilterOption } from '../components/table/table-filter';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { RouterService } from './router.service';

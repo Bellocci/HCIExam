@@ -1,6 +1,7 @@
 @use "src/styles/global/styles";
 @use "src/styles/component/spinner";
 @use "src/styles/component/buttons";
+@use "src/styles/component/snackbar";
 @import "src/styles/global/breakpoints";
 @import "src/styles/global/colors";
 @import "src/styles/global/variables";
@@ -111,3 +112,4 @@ TOOLBAR STYLE
 
     }
 }
+

@@ -84,7 +84,7 @@
           </div>
 
           <!-- Pulsanti: Creazione team - Opzioni di ricerca - Lista giocatori -->
-          <div class="flex-cell cell-4of12 flex-container" *ngIf="!(isMobileOrTablet | async)">
+          <div class="flex-cell cell-4of12 flex-container" *ngIf="!(breakpointsService.mobileOrTabletObservable | async)">
             <ng-container *ngIf="isLeagueSelected()">
 
               <!-- Link alla pagina Create team -->
@@ -124,8 +124,8 @@
           </div>
 
           <!-- Spazio vuoto / Home -->
-          <div [ngClass]="(isMobileOrTablet | async) ? 'cell-9of12' : 'cell-4of12'">
-            <ng-container *ngIf="(isMobileOrTablet | async)">
+          <div [ngClass]="(breakpointsService.mobileOrTabletObservable | async) ? 'cell-9of12' : 'cell-4of12'">
+            <ng-container *ngIf="breakpointsService.mobileOrTabletObservable | async">
               <!-- Link alla pagina di Home -->
               <div class="flex-center-wrap">
                 <button mat-flat-button (click)="goToPage(linkEnum.HOME)" class="btn-menu">
@@ -136,19 +136,19 @@
           </div>
 
           <!-- Utente -->
-          <div class="flex-end" [ngClass]="(isMobile | async) ? 'cell-2of12' : 'cell-2of12'">
+          <div class="flex-end" [ngClass]="(breakpointsService.mobileObservable | async) ? 'cell-2of12' : 'cell-2of12'">
 
             <!-- Caso utente non autenticato: bottone apertura dialog -->
             <ng-container>
               <!-- Visualizzazione standard -->
-              <button mat-flat-button class="btn-menu" *ngIf="!userLogged && !(isMobile | async)"
+              <button mat-flat-button class="btn-menu" *ngIf="!userLogged && !(breakpointsService.mobileObservable | async)"
                 (click)="openLoginDialog()">
                 <mat-icon class="icon-size">account_circle</mat-icon>
                 <span class="label">Login</span>
               </button>
 
               <!-- Visualizzazione mobile -->
-              <button mat-icon-button *ngIf="!userLogged && (isMobile | async)" (click)="openLoginDialog()">
+              <button mat-icon-button *ngIf="!userLogged && (breakpointsService.mobileObservable | async)" (click)="openLoginDialog()">
                 <mat-icon class="icon-size">account_circle</mat-icon>
               </button>
 
@@ -158,14 +158,14 @@
             <ng-container *ngIf="userLogged">
 
               <!-- Visualizzazione standard -->
-              <button mat-flat-button class="btn-menu full-width" *ngIf="!(isMobile | async)"
+              <button mat-flat-button class="btn-menu full-width" *ngIf="!(breakpointsService.mobileObservable | async)"
                 [matMenuTriggerFor]="menuUser">
                 <mat-icon class="icon-size">account_circle</mat-icon>
                 <span class="label">{{ user.username }}</span>
               </button>
 
               <!-- Visualizzazione mobile -->
-              <button mat-mini-fab class="flat-mini-fab" *ngIf="(isMobile | async)" [matMenuTriggerFor]="menuUser">
+              <button mat-mini-fab class="flat-mini-fab" *ngIf="(breakpointsService.mobileObservable | async)" [matMenuTriggerFor]="menuUser">
                 {{ user.getShortUsername() }}
               </button>
 
@@ -182,7 +182,7 @@
             </ng-container>
           </div>
 
-          <ng-container *ngIf="!(isMobileOrTablet | async)">
+          <ng-container *ngIf="!(breakpointsService.mobileOrTabletObservable | async)">
             <div class="cell-1of12 flex-end flex-center-wrap">
               <!-- Link alla pagina di Home -->
               <button mat-flat-button (click)="goToPage(linkEnum.HOME)" class="btn-menu">
@@ -196,7 +196,7 @@
       </mat-toolbar-row>
 
       <!-- SECONDA RIGA (visibile solo per mobile / tablet) -->
-      <mat-toolbar-row *ngIf="(isMobileOrTablet | async) && isLeagueSelected()" #toolbarSecondRow
+      <mat-toolbar-row *ngIf="(breakpointsService.mobileOrTabletObservable | async) && isLeagueSelected()" #toolbarSecondRow
         class="toolbar-row">
 
         <div class="full-width flex-container">
@@ -241,11 +241,18 @@
 
 
     <!-- Spinner visualizzato in attesa che i dati della pagina siano caricati -->
-    <mat-progress-spinner class="spinner" *ngIf="(getLoadingDataObservable() | async)" mode="indeterminate"
+    <mat-progress-spinner class="spinner" *ngIf="getLoadingDataObservable() | async" mode="indeterminate"
       diameter="150">
     </mat-progress-spinner>
-    <div [ngClass]="{'opacity-page' : (getLoadingDataObservable() | async)}">      
+
+    <!-- Contenuto della pagina -->
+    <div [ngClass]="{'opacity-page' : getLoadingDataObservable() | async}">      
       <router-outlet></router-outlet>
+    </div>
+    
+    <!-- Snack Bar message  -->
+    <div *ngIf="isSnackBarVisibleObservable() | async" class="snack-bar-position">
+      <app-custom-snackbar></app-custom-snackbar>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

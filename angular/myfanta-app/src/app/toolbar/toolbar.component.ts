@@ -36,10 +36,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
   @ViewChild('toolbarFirstRow', { static : true}) toolbarFirstRowEl: any;
 
-  // Observable breakpoints
-  private _isMobileOrTablet: Observable<boolean> = this.breakpointsService.mobileOrTabletObservable;
-  private _isMobile: Observable<boolean> = this.breakpointsService.mobileObservable;  
-
   private _isMobileBreakpointActive:boolean = false;
 
   private _userLogged: boolean = false;
@@ -49,17 +45,19 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   private _leagueSelected!: LeagueEntity | null;
   private _playerSelected: PlayerEntity | null = null;
 
+  // Registrazioni degli observer
   private _subscriptionUserObservable: Subscription | undefined;
   private _subscriptionLeagueSelectedObservable: Subscription | undefined;
   private _subscriptionPlayerSelected: Subscription | undefined;
   private _subscriptionMobileBreakpoint:Subscription;
 
+  // Lista dei link navigabili
   linkEnum: typeof LinkEnum = LinkEnum;
 
   /*
-   * ==============================
-   * CONSTRUCTOR INIT & DESTROYER
-   * ==============================
+   * ============================================
+   * COSTRUTTORE - INIZIALIZZATORE - DISTRUTTORE
+   * ============================================
    */
 
   constructor(private filterDataService: FilterDataService,
@@ -69,7 +67,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackbarService: SnackBarService,
     private dialogService: DialogService,
-    private breakpointsService: BreakpointsService) {
+    public breakpointsService: BreakpointsService) {
 
     this._subscriptionUserObservable = this.observeUserLogged();
     this._subscriptionLeagueSelectedObservable = this.observeLeagueSelected();
@@ -90,24 +88,28 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   /*
-   * ==========
+   * =========
    * OBSERVER 
-   * ==========
+   * =========
    */
 
   private observeUserLogged() : Subscription | undefined {    
     return this.userService.addObserverForUser(new ObserverStepBuilder<UserEntity>()
-      .next(user => {
+      .next((user : UserEntity) => {
         this._user = user;
         this._userLogged = user.isUserDefined();
       })
+      .error((error : any) => console.error("Error to get user: " + error))
+      .complete( () => console.log("User observer completed"))
       .build()
     );
   }
 
   private observeLeagueSelected() : Subscription | undefined {
     return this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<LeagueEntity | null>()
-      .next(league => this._leagueSelected = league)
+      .next((league : LeagueEntity | null) => this._leagueSelected = league)
+      .error((error : any) => console.error("Error to get league: " + error))
+      .complete( () => console.log("League selected observer completed"))
       .build()
     );
   }
@@ -115,14 +117,17 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   private observePlayerSelected() : Subscription | undefined {
     return this.internalDataService.addObserverToPlayerSelected(new ObserverStepBuilder<PlayerEntity | null>()
       .next(player => this._playerSelected = player)
+      .error((error : any) => console.error("Error to get player selected: " + error))
+      .complete( () => console.log("Player selected observer completed"))
       .build());
   }
 
   private observeMobileBreakpoint() : Subscription {
-    return this.breakpointsService
-        .mobileObservable
+    return this.breakpointsService.mobileObservable
         .subscribe(new ObserverStepBuilder<boolean>()
-        .next(isMobile => this._isMobileBreakpointActive = isMobile)
+        .next((isMobile : boolean) => this._isMobileBreakpointActive = isMobile)
+        .error((error : any) => console.error("Error to get mobile breakpoint: " + error))
+        .complete( () => console.log("Mobile breakpoint observer completed"))
         .build());
   }
 
@@ -146,14 +151,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   private set user(value: UserEntity) {
     this._user = value;
-  }
-
-  public get isMobileOrTablet(): Observable<boolean> {
-    return this._isMobileOrTablet;
-  }
-
-  public get isMobile(): Observable<boolean> {
-    return this._isMobile;
   }
 
   public get leagueSelected(): LeagueEntity | null {
@@ -186,6 +183,10 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   getLoadingDataObservable() : Observable<boolean> {
     return this.internalDataService.getLoadingDataObservable();
+  }
+
+  isSnackBarVisibleObservable() : Observable<boolean> {
+    return this.snackbarService.getSnackBarVisibleObservable();
   }
 
   /*

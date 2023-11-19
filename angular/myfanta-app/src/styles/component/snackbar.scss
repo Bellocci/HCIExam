@@ -1,0 +1,51 @@
+@use "src/styles/global/styles";
+@use "src/styles/component/buttons";
+@import "src/styles/global/variables";
+@import "src/styles/global/breakpoints";
+@import "src/styles/global/colors";
+
+.snack-bar-container {
+    width: 100%;    
+    border-radius: 8px;
+    max-width: 300px;
+}
+
+@media (min-width: $mobileXL-breakpoint) {
+
+    .snack-bar-container {
+        max-width: none;
+    }
+}
+
+.snack-bar-position {
+    position: fixed;
+    top: calc($toolbar-height-mobile + 10px) !important;
+    z-index: 1000;
+    right: 10px;
+}
+
+@media (min-width: $mobileXL-breakpoint) {
+
+    .snack-bar-position {
+        position: fixed;
+        top: calc($toolbar-height + 10px) !important;
+        right: 30px;
+        z-index: 1000;
+    }
+}
+
+.info-snackbar {
+    background-color: $primary-color-light;
+    color: black;
+}
+
+.warning-snackbar {
+    background-color: $secondary-color-light;
+    color: black;
+    opacity: 0.8 !important;
+}
+
+.error-snackbar {
+    background-color: $info-error-color;
+    color: #fff;
+}

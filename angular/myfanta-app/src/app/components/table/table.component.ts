@@ -10,7 +10,7 @@ import { TableHelper } from './table-helper';
 import { RouterService } from '../../service/router.service';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { TableFilterOption } from './table-filter';
-import { ObservableHelper } from 'src/utility/observer-helper';
+import { ObservableHelper } from 'src/utility/observable-helper';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { SnackBarService } from 'src/app/service/snack-bar.service';

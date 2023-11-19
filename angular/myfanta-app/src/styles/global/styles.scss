@@ -310,28 +310,6 @@ MARGINI E DIMENSIONI
     margin: 0;
 }
 
-/* 5px */
-
-.m-5px {
-    margin: 5px !important;
-}
-
-.mt-5px {
-    margin-top: 5px !important;
-}
-
-.mb-5px {
-    margin-bottom: 5px !important;
-}
-
-.ml-5px {
-    margin-left: 5px !important;
-}
-
-.mr-5px {
-    margin-right: 5px !important;
-}
-
 /* 10px */
 
 .m-10px {
@@ -352,28 +330,6 @@ MARGINI E DIMENSIONI
 
 .mr-10px {
     margin-right: 10px !important;
-}
-
-/* 30px */
-
-.m-30px {
-    margin: 30px;
-}
-
-.mt-30px {
-    margin-top: 30px;
-}
-
-.mb-30px {
-    margin-bottom: 30px;
-}
-
-.ml-30px {
-    margin-left: 30px;
-}
-
-.mr-30px {
-    margin-right: 30px;
 }
 
 /* Margine standard da applicare in un div prima e dopo il contenuto della pagina */
@@ -443,7 +399,8 @@ FLEXBOX CONTAINER
     /* indica all'elemento di crescere fino a occupare tutto lo spazio disponibile nel contenitore */
 }
 
-/* Un container può essere diviso al massimo in 12 colonne */
+/* Una riga può essere divisa al massimo in 12 colonne */
+
 .cell-12of12 {
     flex: 1 1 100%;
 }
@@ -630,45 +587,4 @@ TOOLTIP
     color: black;
     text-decoration: underline;
     text-underline-offset: 2px;
-}
-
-/*
-=========
-SNACKBAR
-=========
-*/
-
-/* Occorre metterli nello style globale altrimenti non vengono trovati dal service per l'apertura dello snackbar */
-.snackbar {
-    margin-top: calc($toolbar-height-mobile + 10px) !important;
-    margin-right: 100px !important;
-    max-width: 200px;
-    width: 100%;
-    height: auto;
-}
-
-@media (min-width: $mobileXL-breakpoint) {
-
-    .snackbar {        
-        margin-top: calc($toolbar-height + 10px) !important;        
-    }
-}
-
-.info-snackbar {
-    --mdc-snackbar-container-color: $primary-color-light;
-    --mat-snack-bar-button-color: black;
-    --mdc-snackbar-supporting-text-color: black;
-}
-
-.warning-snackbar {
-    --mdc-snackbar-container-color: $secondary-color-light;
-    --mat-snack-bar-button-color: black;
-    --mdc-snackbar-supporting-text-color: black;
-    opacity: 0.8 !important;
-}
-
-.error-snackbar {
-    --mdc-snackbar-container-color: $info-error-color;
-    --mat-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
 }

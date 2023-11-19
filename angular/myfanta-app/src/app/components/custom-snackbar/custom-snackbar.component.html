@@ -1,21 +1,21 @@
 <!-- Componente per la visualizzazione di notifiche Snackbar -->
-<div class="flex-center notify-message-container">
+<div class="snack-bar-container flex-center" [ngClass]="type.styleClass">
     <!-- Icona del messaggio -->
-    <div class="notify-message-icon">
-        <mat-icon>{{ getIcon() }}</mat-icon>
+    <div class="cell-1of12 flex-start">
+        <button mat-icon-button class="cursor-default">
+            <mat-icon>{{ type.icon }}</mat-icon>
+        </button>
     </div>
 
     <!-- Contenuto del messaggio -->
-    <div class="ml-10px mr-10px notify-message">
-        {{ getMessage() }}
+    <div class="cell-10of12 flex-center-wrap mr-10px ml-10px">
+        {{ message }}
     </div>
 
     <!-- Icona chiusura messaggio -->
-    <div>
-        <span matSnackBarActions>
-            <button mat-button matSnackBarAction (click)="snackBarRef.dismissWithAction()">
-                <mat-icon>close</mat-icon>
-            </button>
-        </span>
+    <div class="cell-1of12">
+        <button mat-icon-button (click)="closeSnackBarMessage()">
+            <mat-icon>close</mat-icon>
+        </button>
     </div>
 </div>

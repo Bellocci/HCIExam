@@ -4,7 +4,7 @@ import { USER_DATA, UserEntity } from 'src/model/userEntity.model';
 import { CUSTOMS_TEAM_DATA, UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { SessionStorageService } from './session-storage.service';
 import { ColorEnum } from 'src/enum/ColorEnum.model';
-import { ObservableHelper } from 'src/utility/observer-helper';
+import { ObservableHelper } from 'src/utility/observable-helper';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { UserDecoratorFactoryService } from 'src/decorator-factory/user-decorator-factory.service';
 
