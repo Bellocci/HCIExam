@@ -5,10 +5,7 @@ import { DialogHelper } from "./dialogHelper.interface";
 
 
 export class DialogHelperImpl implements DialogHelper {
-
-    private static readonly MAX_HEIGHT: string = "600px";
-    private static readonly MAX_WIDTH: string = "800px";
-
+    
     private static readonly STANDARD_ENTER_ANIMATION = "300ms";
     private static readonly STANDARD_EXIT_ANIMATION = "400ms";
 
@@ -45,6 +42,7 @@ export class DialogHelperImpl implements DialogHelper {
      * @param dialogConfig : Opzionale
      */
     openDialog<T>(component: ComponentType<T>, dialogConfig?: MatDialogConfig<T | undefined>): void {
+        console.log("Open " + component.name)
         dialogConfig != undefined ?
             this.dialogRef = this.dialog.open(component, dialogConfig) :
             this.dialogRef = this.dialog.open(component, this.dialogConfig);
@@ -59,7 +57,7 @@ export class DialogHelperImpl implements DialogHelper {
         }
         console.log("Close dialog");
         this.setStandardConfiguration();
-        this.dialogRef.close(dialogResult);
+        this.dialogRef.close(dialogResult);        
     }
 
     /**

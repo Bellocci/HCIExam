@@ -227,21 +227,26 @@ COLORI
     background-color: $secondary-color-light !important;
 }
 
+.gray-color {
+    background-color: $gray-color;
+}
+
+.gray-color:hover {
+    background-color: $gray-color-dark !important;
+}
+
+.gray-color-light {
+    background-color: $gray-color;
+}
+
+.gray-color-light:hover {
+    background-color: $gray-color-light !important;
+}
+
 .no-color {
-    background-color: $no-color;
+    background-color: transparent !important;
 }
 
-.no-color:hover {
-    background-color: $no-color-dark !important;
-}
-
-.no-color-light {
-    background-color: $no-color;
-}
-
-.no-color-light:hover {
-    background-color: $no-color-light !important;
-}
 
 .error-color {
     color: $info-error-color !important;
@@ -339,7 +344,19 @@ MARGINI E DIMENSIONI
     flex-grow: 1;
 }
 
-/* --- FINE SEZIONE MARGINI --- */
+/*
+===================
+STANDARD-CONTAINER
+===================
+*/
+
+.standard-container {
+    margin: 30px 0;
+}
+
+.small-container {
+    margin: 10px 0;
+}
 
 /* 
 ==================

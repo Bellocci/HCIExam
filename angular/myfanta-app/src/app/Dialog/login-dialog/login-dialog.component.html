@@ -1,4 +1,4 @@
-<mat-dialog-content class="login-dialog-container">
+<mat-dialog-content class="full-width">
 
   <!-- Bottone per chiusura della dialog -->
   <div class="flex-end full-width">
@@ -17,15 +17,6 @@
           target="_blank">iconizer</a>
       </span>
     </figure>
-
-    <!--
-    <figure class="flex-container fig-container tooltip">
-      <img class="img-signup" src="assets/images/welcome.jpg" alt="Benvenuto nuovo utente">
-      <span class="tooltiptext">
-        Image by <a href="https://www.freepik.com/free-vector/flat-design-colorful-characters-welcoming_5403010.htm#query=welcome%20sport&position=48&from_view=search&track=ais" target="_blank">Freepik</a>
-      </span>
-    </figure>
-    -->
   </div>
 
   <!-- Titolo -->
@@ -57,17 +48,24 @@
           <label class="top-label link" (click)="recoveryPassword()">Recupera password</label>
         </div>
         <mat-form-field appearance="outline" class="input-txt">
-          <input matInput [type]="isPasswordVisible() ? 'text' : 'password'" class="text"
+          <input matInput [type]="showPassword ? 'text' : 'password'" class="text"
             placeholder="Campo obbligatorio*" (input)="disableLogin()" [formControl]="passwordControl">
 
           <button mat-icon-button matSuffix (click)="togglePasswordVisibility()">
-            <mat-icon>{{ isPasswordVisible() ? 'visibility' : 'visibility_off' }}</mat-icon>
+            <mat-icon>{{ showPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
           </button>
         </mat-form-field>
       </div>
 
+      <!-- Invalid username/password message -->
+      <div class="full-width txt-center mb-10px">
+        <span class="top-label error-color" *ngIf="isLoginErrorMessageVisible()">
+          Username o password errati 
+        </span>
+      </div>
+
       <!-- Pulsanti -->
-      <div class="flex-space-between mt-10px mb-10px">
+      <div class="flex-space-between standard-container">
 
         <!-- Registrazione -->
         <div>
@@ -78,20 +76,13 @@
 
         <!-- Login -->
         <div>
-          <button mat-raised-button class="standard-btn label" [ngClass]="{'secondary-color' : !isLoginBtnDisabled()}"
-            [disabled]="isLoginBtnDisabled()" (click)="login()">
+          <button mat-raised-button class="standard-btn label" [ngClass]="{'secondary-color' : !disableLoginBtn}"
+            [disabled]="disableLoginBtn" (click)="login()">
             Accedi
           </button>
         </div>
 
-      </div>
-
-      <!-- Invalid username/password message -->
-      <div class="full-width txt-center mt-30px mb-10px">
-        <span class="label error-color" *ngIf="isLoginErrorMessageVisible()">
-          Username e/o password sbagliati!
-        </span>
-      </div>
+      </div>      
 
     </div>
   </div>

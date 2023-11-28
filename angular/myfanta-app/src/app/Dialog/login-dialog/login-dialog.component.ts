@@ -7,6 +7,8 @@ import { RecoveryPasswordDialogComponent } from '../recovery-password-dialog/rec
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { UserEntity } from 'src/model/userEntity.model';
 import { Subscription } from 'rxjs';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
+import { DialogHelper } from '../dialogHelper.interface';
 
 @Component({
   selector: 'app-login-dialog',
@@ -33,13 +35,16 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
     validators: [Validators.required]
   });
 
-  private disableLoginBtn: boolean = true;
+  private _disableLoginBtn: boolean = true;  
   private showLoginErrorMessage: boolean = false;
-  private showPassword: boolean = false;
+  private _showPassword: boolean = false;  
   // Variabile per determinare se il metodo login() è stato invocato almeno una volta
   private firstLogin: boolean = true;
 
+  private _isMobileBreakpointActive:boolean = false;
+
   private _subscriptionUserObservable: Subscription | undefined;
+  private _subscriptionMobileBreakpoint:Subscription;
 
   /* 
   * ==============================
@@ -47,10 +52,14 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
   * ============================== 
   */
 
-  constructor(private userService: UserService,private dialogService: DialogService) {
+  constructor(private userService: UserService,
+    private dialogService: DialogService,
+    private breakpointsService: BreakpointsService) {
+      
     console.log("Construct login dialog");
-    this._subscriptionUserObservable = this.observeUser();
     this.firstLogin = true;
+    this._subscriptionUserObservable = this.observeUser();
+    this._subscriptionMobileBreakpoint = this.observeMobileBreakpoint();
   }
 
   ngOnInit(): void { }
@@ -58,6 +67,7 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     console.log("Destroy login dialog");
     this._subscriptionUserObservable != undefined ? this._subscriptionUserObservable?.unsubscribe() : null;
+    this._subscriptionMobileBreakpoint.unsubscribe();
   }
 
   /*
@@ -76,8 +86,19 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
           this.setLoginErrorMessageVisibility(true)
         }
       })
+      .error((error : any) => console.error("Error to get user: " + error))
+      .complete( () => console.log("User observer completed"))
       .build()
     );
+  }
+
+  private observeMobileBreakpoint() : Subscription {
+    return this.breakpointsService.mobileObservable
+        .subscribe(new ObserverStepBuilder<boolean>()
+        .next((isMobile : boolean) => this._isMobileBreakpointActive = isMobile)
+        .error((error : any) => console.error("Error to get mobile breakpoint: " + error))
+        .complete( () => console.log("Mobile breakpoint observer completed"))
+        .build());
   }
 
   /*
@@ -87,6 +108,21 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
    */
 
   /* Metodi di visibilità */
+
+  public get disableLoginBtn(): boolean {
+    return this._disableLoginBtn;
+  }
+
+  public set disableLoginBtn(value: boolean) {
+    this._disableLoginBtn = value;
+  }
+
+  public get showPassword(): boolean {
+    return this._showPassword;
+  }
+  public set showPassword(value: boolean) {
+    this._showPassword = value;
+  }
 
   isLoginErrorMessageVisible(): boolean {
     return this.showLoginErrorMessage && !this.firstLogin;
@@ -100,46 +136,38 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
     return !this.passwordControl.valid;
   }
 
-  isLoginBtnDisabled(): boolean {
-    return this.disableLoginBtn;
-  }
-
-  isPasswordVisible(): boolean {
-    return this.showPassword;;
-  }
-
-  /* Setter */
-
   setLoginErrorMessageVisibility(visible: boolean) {
     this.showLoginErrorMessage = visible;
   }
 
+  /*
+   * =========
+   * LISTENER 
+   * =========
+   */
+
   disableLogin(): void {
-    if (!this.usernameControl.hasError('required') && !this.passwordControl.hasError('required')) {
-      this.disableLoginBtn = false;
-    }
-    else {
-      this.disableLoginBtn = true;
-    }
+    this._disableLoginBtn = this.usernameControl.hasError('required') || this.passwordControl.hasError('required');
   }
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
 
-  /* Metodi comunicazione con parent */
-
   recoveryPassword(): void {
-    this.dialogService.getDialogHelper().closeDialog();
-    this.dialogService.getDialogHelper().openDialog(RecoveryPasswordDialogComponent);
+    let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
+    dialogHelper.closeDialog();
+    if(this._isMobileBreakpointActive) {     
+      dialogHelper.setWidth("100%");
+      dialogHelper.setHeight("100%");
+    }
+    dialogHelper.openDialog(RecoveryPasswordDialogComponent);
   }
 
   /* Login */
 
   login(): void {
-    if (this.firstLogin) {
-      this.firstLogin = false;
-    }
+    this.firstLogin = false;
     this.userService.login(this.usernameControl.value as string, this.passwordControl.value as string);
   }
 

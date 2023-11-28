@@ -253,15 +253,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   openLoginDialog() : void {
-    console.log("Open login dialog");
+    let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
     if(this._isMobileBreakpointActive) {     
-      let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
       dialogHelper.setWidth("100%");
       dialogHelper.setHeight("100%");
-      dialogHelper.openDialog(LoginDialogComponent);
-    } else {
-      this.dialogService.getDialogHelper().openDialog(LoginDialogComponent);
-    }
+    } 
+    dialogHelper.openDialog(LoginDialogComponent);
   }
 
   logout() : void {    
