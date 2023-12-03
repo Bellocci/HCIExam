@@ -1,15 +1,19 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormControl, UntypedFormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { DialogService } from 'src/app/service/dialog.service';
 import { UserService } from 'src/app/service/user.service';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 import { UserEntity } from 'src/model/userEntity.model';
+import { DialogHelper } from '../dialogHelper.interface';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
+import { Subscription } from 'rxjs';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 
 @Component({
-  selector: 'app-registration-dialog',
-  templateUrl: './registration-dialog.component.html',
-  styleUrls: ['./registration-dialog.component.scss'],
+  selector: 'app-signup-dialog',
+  templateUrl: './signup-dialog.component.html',
+  styleUrls: ['./signup-dialog.component.scss'],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -18,7 +22,13 @@ import { UserEntity } from 'src/model/userEntity.model';
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class RegistrationDialogComponent implements OnInit {
+export class SignupDialogComponent implements OnInit, OnDestroy {
+
+  /*
+   * ==========
+   * VARIABILI
+   * ==========
+   */
 
   /*
     - ^[\s] : se la parola inizia con uno spazio, tab o nuova linea allora abbiamo match    
@@ -46,11 +56,13 @@ export class RegistrationDialogComponent implements OnInit {
   private maxLengthPassword:number = 64;
 
   // Attributi visibilità
-  private showError:boolean = false;
-  private disableRegistrationBtn:boolean = true;
-  private showPassword:boolean = false;
+  private _showErrorMessage: boolean = false;    
+  private _signUpButtonDisabled: boolean = true;    
+  private _showPassword: boolean = false;  
+  private _createdNewUser: boolean = false;  
 
-  private createdNewUser:boolean = false;
+  private _isMobileBreakpointActive:boolean = false;
+  private _subscriptionMobileBreakpoint:Subscription;
   
   /* FORM CONTROL */
   nameFormControl:FormControl<string | null> = new FormControl<string | null>('', {
@@ -86,76 +98,70 @@ export class RegistrationDialogComponent implements OnInit {
     ["undefined", "Errore di validazione"]    
   ]);
 
-  constructor(private _userService:UserService, 
-    private dialogService:DialogService) {    
-  }
+  constructor(private _userService:UserService, private dialogService:DialogService, 
+    public breakpointsService:BreakpointsService) {
+      console.log("Construct Signup dialog component");
+      this._subscriptionMobileBreakpoint = this.observeMobileBreakpoint();
+  }  
 
   ngOnInit(): void {}
 
-  /* Custom validator */
-
-  nameAndSurnameValidator(nameAndSurnameRe:RegExp) : ValidatorFn {
-    return (control:AbstractControl): ValidationErrors | null => {    
-      const forbidden:boolean = nameAndSurnameRe.test(control.value);     
-      return forbidden ? {digitOrSpecialCharacters: control.value} : null;
-    };
+  ngOnDestroy(): void {
+    console.log("Destroy Signup dialog component");
+    this._subscriptionMobileBreakpoint.unsubscribe();
   }
 
-  usernameValidator(usernameRe:RegExp) : ValidatorFn {
-    return (control:AbstractControl): ValidationErrors | null => {
-      const forbidden:boolean = usernameRe.test(control.value);
-      return forbidden ? {specialCharacters: control.value} : null;
-    };
+  /**
+   * =========
+   * OBSERVER
+   * =========
+   */
+  private observeMobileBreakpoint() : Subscription {
+    return this.breakpointsService.mobileObservable
+        .subscribe(new ObserverStepBuilder<boolean>()
+        .next((isMobile : boolean) => this._isMobileBreakpointActive = isMobile)
+        .error((error : any) => console.error("Error to get mobile breakpoint: " + error))
+        .complete( () => console.log("Mobile breakpoint observer completed"))
+        .build());
   }
 
-  passwordValidator(passwordRe:RegExp) : ValidatorFn {
-    return (control:AbstractControl): ValidationErrors | null => {
-      const match:boolean = passwordRe.test(control.value);
-      return !match ? {passwordCharacters: control.value} : null;
-    }
+  /**
+   * ================
+   * GETTER & SETTER
+   * ================
+   */
+
+  public get showErrorMessage(): boolean {
+    return this._showErrorMessage;
   }
 
-  checkEqualsPasswordValidator() : ValidatorFn {
-    return (control:AbstractControl): ValidationErrors | null => {
-      const password:string = control.parent?.value.password;
-      return password != control.value ? {checkEqualsPassword: control.value} : null;
-    }
+  public set showErrorMessage(value: boolean) {
+    this._showErrorMessage = value;
   }
 
-  /* Metodi visibilità */
-  showErrorMessage() : boolean {
-    return this.showError;
+  public get signUpButtonDisabled(): boolean {
+    return this._signUpButtonDisabled;
   }
 
-  isRegistrationBtnDisabled() : boolean {
-    return this.disableRegistrationBtn;
+  public set signUpButtonDisabled(value: boolean) {
+    this._signUpButtonDisabled = value;
   }
 
-  isPasswordVisible() : boolean {
-    return this.showPassword;
+  public get showPassword(): boolean {
+    return this._showPassword;
   }
 
-  hasInputNameErrors() : boolean {
-    return !this.nameFormControl.valid;
+  public set showPassword(value: boolean) {
+    this._showPassword = value;
   }
 
-  hasInputSurnameErrors() : boolean {
-    return !this.surnameFormControl.valid;
+  public get createdNewUser(): boolean {
+    return this._createdNewUser;
   }
-
-  hasInputUsernameErrors() : boolean {
-    return !this.usernameFormControl.valid;
+  
+  public set createdNewUser(value: boolean) {
+    this._createdNewUser = value;
   }
-
-  hasInputPasswordErrors() : boolean {
-    return !this.passwordFormControl.valid;
-  }
-
-  hasNewUserBeenCreated() : boolean {
-    return this.createdNewUser;
-  }
-
-  /* Getter */
 
   getErrorNameMessage() : string {
     if(this.nameFormControl.errors) {
@@ -198,36 +204,33 @@ export class RegistrationDialogComponent implements OnInit {
   }
 
   private getErrorMessage(formControl:UntypedFormControl, typeError:string) : string {
-    let msg:string | undefined = this.errorMessageMap.get(typeError);
-    if(!msg) {
+    let message:string | undefined = this.errorMessageMap.get(typeError);
+    if(message == undefined) {
       return this.errorMessageMap.get("undefined")!;
     } else if(typeError == 'minlength') {      
-        return msg + formControl.errors?.[typeError].requiredLength + " caratteri";
+        return message + formControl.errors?.[typeError].requiredLength + " caratteri";
     } else if(typeError == 'maxlength') {
-        return msg + formControl.errors?.[typeError].requiredLength + " caratteri";
+        return message + formControl.errors?.[typeError].requiredLength + " caratteri";
     } else {
-      return msg;
+      return message;
     }
   }
 
-  /* Setter */
+  /**
+   * =========
+   * LISTENER
+   * =========
+   */
 
   toggleShowPassword() : void {
     this.showPassword = !this.showPassword;
   }
 
-  /* Metodi generici */
-
-  canCompleteRegistration() : boolean {
-    return this.nameFormControl.valid && this.surnameFormControl.valid && 
-      this.usernameFormControl.valid && this.passwordFormControl.valid;
-  }
-
   disableRegistration() : void {
-    this.canCompleteRegistration() ? this.disableRegistrationBtn = false : this.disableRegistrationBtn = true;
+    this.canCompleteRegistration() ? this.signUpButtonDisabled = false : this.signUpButtonDisabled = true;
   }
 
-    registration() : void {
+  registration() : void {
     let user:UserEntity | undefined = undefined;    
     if(this.canCompleteRegistration()) {
       // Siamo sicuri che contengono valori dal controllo precedente
@@ -236,20 +239,60 @@ export class RegistrationDialogComponent implements OnInit {
     }
     
     if(!user) {
-      this.showError = true;
+      this.showErrorMessage = true;
       this.createdNewUser = false;
     } else {
-      this.showError = false;
+      this.showErrorMessage = false;
       this.createdNewUser = true;
     }
   }
 
   openLoginDialog() : void {
-    this.dialogService.getDialogHelper().closeDialog();
-    this.dialogService.getDialogHelper().openDialog(LoginDialogComponent);
+    let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
+    dialogHelper.closeDialog();
+    if(this._isMobileBreakpointActive) {     
+      dialogHelper.setWidth("100%");
+      dialogHelper.setHeight("100%");
+    } 
+    dialogHelper.openDialog(LoginDialogComponent);
   }
 
   closeDialog() : void {
     this.dialogService.getDialogHelper().closeDialog();
+  }
+
+  /**
+   * ===============
+   * METODI PRIVATI
+   * ===============
+   */
+
+
+  /* Custom validator */
+
+  private nameAndSurnameValidator(nameAndSurnameRe:RegExp) : ValidatorFn {
+    return (control:AbstractControl): ValidationErrors | null => {    
+      const forbidden:boolean = nameAndSurnameRe.test(control.value);     
+      return forbidden ? {digitOrSpecialCharacters: control.value} : null;
+    };
+  }
+
+  private usernameValidator(usernameRe:RegExp) : ValidatorFn {
+    return (control:AbstractControl): ValidationErrors | null => {
+      const forbidden:boolean = usernameRe.test(control.value);
+      return forbidden ? {specialCharacters: control.value} : null;
+    };
+  }
+
+  private passwordValidator(passwordRe:RegExp) : ValidatorFn {
+    return (control:AbstractControl): ValidationErrors | null => {
+      const match:boolean = passwordRe.test(control.value);
+      return !match ? {passwordCharacters: control.value} : null;
+    }
+  }  
+
+  private canCompleteRegistration() : boolean {
+    return this.nameFormControl.valid && this.surnameFormControl.valid && 
+      this.usernameFormControl.valid && this.passwordFormControl.valid;
   }
 }

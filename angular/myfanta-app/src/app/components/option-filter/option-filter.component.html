@@ -16,7 +16,7 @@
             <!-- Budget -->
             <mat-grid-tile colspan="2" rowspan="1">                
                 <div class="flex-direction-column grid-container">
-                    <label class="label mb-10px">Budget</label>
+                    <label class="label margin-bottom">Budget</label>
                     <input matInput type="number"                
                         class="label input-container"
                         min="0" step="1"
@@ -29,18 +29,18 @@
             <!-- Età -->
             <mat-grid-tile colspan="2" rowspan="1">
                 <div class="flex-direction-column grid-container">
-                    <label class="label mb-10px">Età</label>
+                    <label class="label margin-bottom">Età</label>
                     <div class="flex-container align-items-center">
                         <label class="label">Da</label>
                         <input matInput type="number"
-                            class="label ml-10px mr-10px small-input input-container"
+                            class="label margin-left margin-right small-input input-container"
                             min="18" [max]="option.maxAge" step="1"
                             [disabled]="option.includeAdvancedFilter"
                             (blur)="checkMinAgeValue()"
                             [(ngModel)]="option.minAge">
                         <label class="label">A</label>
                         <input matInput type="number"
-                            class="label ml-10px small-input input-container"
+                            class="label margin-left small-input input-container"
                             [min]="option.minAge" max="99" step="1"
                             [disabled]="option.includeAdvancedFilter"
                             (blur)="checkMaxAgeValue()"
@@ -52,15 +52,15 @@
             <!-- Scelta lista giocatori -->
             <mat-grid-tile colspan="2" rowspan="1">
                 <div class="flex-direction-column grid-container">
-                    <label class="label mb-10px">Giocatori</label>
+                    <label class="label margin-bottom">Giocatori</label>
                     <div class="flex-container">
-                        <mat-checkbox class="mr-10px" color="primary" 
+                        <mat-checkbox class="margin-right" color="primary" 
                             labelPosition="before" [(ngModel)]="option.includeFavorite"
                             [disabled]="option.includeAdvancedFilter"
                             (change)="checkFavoritePlayersAreIncluded($event.checked)">
                             <label class="label">Preferiti</label>
                         </mat-checkbox>
-                        <mat-checkbox class="mr-10px" color="primary" 
+                        <mat-checkbox class="margin-right" color="primary" 
                         labelPosition="before" [(ngModel)]="option.includeBlacklist"
                         [disabled]="option.includeAdvancedFilter"
                         (change)="checkBlacklistPlayersAreIncluded($event.checked)">
@@ -77,9 +77,9 @@
             <mat-grid-tile colspan="1" rowspan="2">
                 <!-- Scelta team -->
                 <div class="flex-container flex-direction-column">
-                    <div class="mb-10px">
-                        <label class="label mb-10px">Squadre</label>        
-                        <mat-icon class="ml-10px icon-size"
+                    <div class="margin-bottom">
+                        <label class="label margin-bottom">Squadre</label>        
+                        <mat-icon class="margin-left icon-size"
                             matTooltip="Se nessuna squadra è selezionata la ricerca verrà effettuata su tutte le squadre">
                             info
                         </mat-icon>
@@ -103,7 +103,7 @@
 
             <!-- Opzioni di ricerca avanzate -->
             <mat-grid-tile colspan="1" rowspan="1">
-                <div class="flex-container mt-10px grid-container">    
+                <div class="flex-container margin-top grid-container">    
                     <mat-slide-toggle [(ngModel)]="option.includeAdvancedFilter"
                     labelPosition="before"
                     color="primary" 

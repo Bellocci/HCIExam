@@ -3,7 +3,7 @@
 
     <!-- TODO: Utilizzare una toolbar come fatto per la pagina delle Opzioni -->
     <!-- Sidemenu sinistro -->
-    <div class="ml-10px mr-10px mt-10px link-list-container">
+    <div class="margin-left margin-right margin-top link-list-container">
 
         <ng-container>
             <app-link-list [linkList]="getLinksList()"></app-link-list>
@@ -11,7 +11,7 @@
 
         <mat-divider></mat-divider>
 
-        <div class="link-list-container mt-10px" *ngIf="isActionListRendered()">
+        <div class="link-list-container margin-top" *ngIf="isActionListRendered()">
             <div mat-subheader class="bold">Azioni</div>
             <mat-nav-list>        
                 <!-- Salvataggio -->
@@ -32,7 +32,7 @@
     <!-- Contenuto della pagina -->
     <div class="player-list-container">       
 
-        <div class="mb-10px">
+        <div class="margin-bottom">
 
             <!-- Opzioni di ricerca da utilizzare nella generazione del team -->
             <ng-container *ngIf="isCurrentPageMyTeam()">
@@ -53,7 +53,7 @@
                         <!-- Ruolo -->
                         <mat-grid-tile colspan="1" rowspan="1">
                             <div class="flex-direction-column grid-container">
-                                <label class="bold mb-10px">Ruolo</label>
+                                <label class="bold margin-bottom">Ruolo</label>
                                 <div class="flex-container">
                                     <ng-container *ngFor="let role of getPlayerRoles()">
                                         <button mat-flat-button class="ml-5px mr-5px btn mat-elevation-z3" 
@@ -76,7 +76,7 @@
                         <!-- Filtro presenze -->
                         <mat-grid-tile colspan="1" rowspan="1">
                             <div class="flex-direction-column grid-container">
-                                <label class="bold mb-10px">Presenze</label>
+                                <label class="bold margin-bottom">Presenze</label>
                                 <div class="flex-container">
                                     <ng-container *ngFor="let filter of getMatchFilters()">
                                         <button mat-flat-button class="ml-5px mr-5px btn mat-elevation-z3" 
@@ -101,9 +101,9 @@
                         <!-- Filtro squadra -->
                         <mat-grid-list cols="1" rowHeight="80px">
                             <div class="mt-30px flex-direction-column">
-                                <div class="mb-10px">
-                                    <label class="label mb-10px">Squadre</label>        
-                                    <mat-icon class="ml-10px icon-size"
+                                <div class="margin-bottom">
+                                    <label class="label margin-bottom">Squadre</label>        
+                                    <mat-icon class="margin-left icon-size"
                                         matTooltip="Se nessuna squadra è selezionata la ricerca verrà effettuata su tutte le squadre">
                                         info
                                     </mat-icon>

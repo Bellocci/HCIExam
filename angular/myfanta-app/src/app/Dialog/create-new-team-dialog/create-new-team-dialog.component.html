@@ -8,7 +8,7 @@
         <h1 class="text txt-center">Nuovo Team</h1>
 
         <!-- Input nome team -->
-        <div class="flex-container flex-direction-column mt-10px">
+        <div class="flex-container flex-direction-column margin-top">
             <label class="label">Nome</label>
             <mat-form-field appearance="fill">
                 <input matInput type="text" class="text"
@@ -17,7 +17,7 @@
         </div>
 
         <!-- Scelta sport -->
-        <div class="flex-container flex-direction-column mt-10px">
+        <div class="flex-container flex-direction-column margin-top">
             <label class="label">Sport</label>
             <mat-form-field appearance="outline">
                 <mat-select [value]="getSportSelected()"
@@ -39,7 +39,7 @@
         </div>
 
         <!-- Scelta campionato -->
-        <div class="flex-container flex-direction-column mt-10px">
+        <div class="flex-container flex-direction-column margin-top">
             <label class="label">Campionato</label>
             <mat-form-field appearance="outline">
                 <mat-select [value]="getChampionshipSelected()"
@@ -64,7 +64,7 @@
         </div>
 
         <!-- Scelta lega -->
-        <div class="flex-container flex-direction-column mt-10px">
+        <div class="flex-container flex-direction-column margin-top">
             <label class="label">Lega</label>
             <mat-form-field appearance="outline">
                 <mat-select [value]="getLeagueSelected()"
@@ -97,14 +97,14 @@
             <div [matTooltip]="getAddTooltipMessage()" matTooltipDisabled="false" matTooltipShowDelay="500" matTooltipHideDelay="200">
                 <button mat-flat-button 
                 [ngClass]="isCreateBtnEnabled() ? 'secondary-color' : 'secondary-color-no-hover'"
-                class="mr-10px create-btn"
+                class="margin-right create-btn"
                 [disabled]="!isCreateBtnEnabled()"
                 (click)="addNewTeam()">
                     Aggiungi
                 </button>
             </div>
             <!-- Pulsante per annullare -->
-            <button mat-flat-button class="secondary-color ml-10px"
+            <button mat-flat-button class="secondary-color margin-left"
             (click)="closeDialog()"
             matTooltip="Chiudi" matTooltipShowDelay="500" matTooltipHideDelay="200">
                 Annulla

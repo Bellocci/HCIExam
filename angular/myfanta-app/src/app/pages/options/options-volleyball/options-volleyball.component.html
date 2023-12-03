@@ -15,14 +15,14 @@
             </mat-card-header>
 
             <mat-card-content class="card-content-container">
-                <div class="mt-30px mb-10px full-width">
+                <div class="mt-30px margin-bottom full-width">
                     <!-- Prima riga -->
                     <mat-grid-list cols="12" rowHeight="100px">
 
                         <!-- Budget disponibile -->
                         <mat-grid-tile colspan="2" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Budget disponibile</label>
+                                <label class="label margin-bottom">Budget disponibile</label>
                                 <input matInput disabled type="number" class="label input-container"
                                     [(ngModel)]="budgetAvailable">
                             </div>
@@ -37,7 +37,7 @@
                     <!-- Budget schiacciatori laterale -->
                     <mat-grid-tile colspan="2" rowspan="1">
                         <div class="grid-tile-container flex-direction-column">
-                            <label class="label mb-10px">Banda</label>
+                            <label class="label margin-bottom">Banda</label>
                             <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                 class="label input-container" [(ngModel)]="option.budgetHitterSpiker" min="4"
                                 (ngModelChange)="updateBudgetAvailable()">
@@ -47,7 +47,7 @@
                     <!-- Budget schiacciatori centrali -->
                     <mat-grid-tile colspan="2" rowspan="1">
                         <div class="grid-tile-container flex-direction-column">
-                            <label class="label mb-10px">Centrale</label>
+                            <label class="label margin-bottom">Centrale</label>
                             <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                 class="label input-container" [(ngModel)]="option.budgetMiddleBlocker" min="3"
                                 (ngModelChange)="updateBudgetAvailable()">
@@ -57,7 +57,7 @@
                     <!-- Budget schiacciatori opposti -->
                     <mat-grid-tile colspan="2" rowspan="1">
                         <div class="grid-tile-container flex-direction-column">
-                            <label class="label mb-10px">Opposto</label>
+                            <label class="label margin-bottom">Opposto</label>
                             <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                 class="label input-container" [(ngModel)]="option.budgetOppositeSpiker" min="2"
                                 (ngModelChange)="updateBudgetAvailable()">
@@ -67,7 +67,7 @@
                     <!-- Budget alzatori -->
                     <mat-grid-tile colspan="2" rowspan="1">
                         <div class="grid-tile-container flex-direction-column">
-                            <label class="label mb-10px">Palleggiatore</label>
+                            <label class="label margin-bottom">Palleggiatore</label>
                             <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                 class="label input-container" [(ngModel)]="option.budgetSetter" min="2"
                                 (ngModelChange)="updateBudgetAvailable()">
@@ -77,7 +77,7 @@
                     <!-- Budget libero -->
                     <mat-grid-tile colspan="2" rowspan="1">
                         <div class="grid-tile-container flex-direction-column">
-                            <label class="label mb-10px">Libero</label>
+                            <label class="label margin-bottom">Libero</label>
                             <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                 class="label input-container" [(ngModel)]="option.budgetLibero" min="1"
                                 (ngModelChange)="updateBudgetAvailable()">
@@ -99,7 +99,7 @@
             </mat-card-header>
 
             <mat-card-content class="card-content-container">
-                <div class="mt-30px mb-10px full-width">
+                <div class="mt-30px margin-bottom full-width">
 
                     <!-- Prima riga -->
                     <mat-grid-list cols="12" rowHeight="100px">
@@ -107,7 +107,7 @@
                         <!-- Media punti in attacco (PTATT)-->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Punti in attacco</label>
+                                <label class="label margin-bottom">Punti in attacco</label>
                                 <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                     class="label input-container" [(ngModel)]="option.avgAttackPointsScored" min="0">
                             </div>
@@ -116,7 +116,7 @@
                         <!-- Media muri realizzti (M) -->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Muri realizzati</label>
+                                <label class="label margin-bottom">Muri realizzati</label>
                                 <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                     class="label input-container" [(ngModel)]="option.avgBlockPointsScored" min="0">
                             </div>
@@ -125,7 +125,7 @@
                         <!-- Media ace realizzti (AE) -->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Ace</label>
+                                <label class="label margin-bottom">Ace</label>
                                 <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                     class="label input-container" [(ngModel)]="option.avgAcePointsScored" min="0">
                             </div>
@@ -134,7 +134,7 @@
                         <!-- Media ricezioni perfette realizzte (RPERF) -->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Ricezioni perfette</label>
+                                <label class="label margin-bottom">Ricezioni perfette</label>
                                 <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                     class="label input-container" [(ngModel)]="option.avgPerfectReceive" min="0">
                             </div>
@@ -147,7 +147,7 @@
                         <!-- Media errori in attacco -->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Errori in attacco</label>
+                                <label class="label margin-bottom">Errori in attacco</label>
                                 <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                     class="label input-container" [(ngModel)]="option.avgAttackErrors" min="0">
                             </div>
@@ -156,7 +156,7 @@
                         <!-- Media muri subiti -->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Muri subiti</label>
+                                <label class="label margin-bottom">Muri subiti</label>
                                 <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                     class="label input-container" [(ngModel)]="option.avgBlock" min="0">
                             </div>
@@ -165,7 +165,7 @@
                         <!-- Media errori in servizio -->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Errori in servizio</label>
+                                <label class="label margin-bottom">Errori in servizio</label>
                                 <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                     class="label input-container" [(ngModel)]="option.avgServiceErrors" min="0">
                             </div>
@@ -174,7 +174,7 @@
                         <!-- Media errori in ricezione -->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Errori in ricezione</label>
+                                <label class="label margin-bottom">Errori in ricezione</label>
                                 <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                     class="label input-container" [(ngModel)]="option.avgReceiveErrors" min="0">
                             </div>

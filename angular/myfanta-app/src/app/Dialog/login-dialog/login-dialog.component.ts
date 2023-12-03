@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewEncapsulation }
 import { FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/service/user.service';
 import { DialogService } from 'src/app/service/dialog.service';
-import { RegistrationDialogComponent } from '../registration-dialog/registration-dialog.component';
+import { SignupDialogComponent } from '../signup-dialog/signup-dialog.component';
 import { RecoveryPasswordDialogComponent } from '../recovery-password-dialog/recovery-password-dialog.component';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { UserEntity } from 'src/model/userEntity.model';
@@ -174,8 +174,13 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
   /* Apertura dialog */
 
   openRegistrationDialog(): void {
-    this.dialogService.getDialogHelper().closeDialog();
-    this.dialogService.getDialogHelper().openDialog(RegistrationDialogComponent);
+    let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
+    dialogHelper.closeDialog();
+    if(this._isMobileBreakpointActive) {     
+      dialogHelper.setWidth("100%");
+      dialogHelper.setHeight("100%");
+    }
+    dialogHelper.openDialog(SignupDialogComponent);
   }
 
   closeAllDialog(): void {

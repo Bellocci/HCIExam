@@ -16,7 +16,7 @@
             </mat-card-header>
 
             <mat-card-content class="card-content-container">
-                <div class="mt-30px mb-10px full-width">
+                <div class="mt-30px margin-bottom full-width">
 
                     <!-- Prima riga -->
                     <mat-grid-list cols="12" rowHeight="100px">
@@ -24,7 +24,7 @@
                         <!-- Budget disponibile -->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Budget disponibile</label>
+                                <label class="label margin-bottom">Budget disponibile</label>
                                 <input matInput disabled type="number" class="label input-container"
                                     [(ngModel)]="budgetAvailable">
                             </div>
@@ -38,7 +38,7 @@
                         <!-- Budget portieri -->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Portieri</label>
+                                <label class="label margin-bottom">Portieri</label>
                                 <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                     class="label input-container" [(ngModel)]="option.budgetGoalkeeper" min="3"
                                     (ngModelChange)="updateBudgetAvailable()">
@@ -48,7 +48,7 @@
                         <!-- Budget difensori -->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Difensori</label>
+                                <label class="label margin-bottom">Difensori</label>
                                 <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                     class="label input-container" [(ngModel)]="option.budgetDefender" min="8"
                                     (ngModelChange)="updateBudgetAvailable()">
@@ -58,7 +58,7 @@
                         <!-- Budget centrocampisti -->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Centrocampisti</label>
+                                <label class="label margin-bottom">Centrocampisti</label>
                                 <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                     class="label input-container" [(ngModel)]="option.budgetMidfielder" min="8"
                                     (ngModelChange)="updateBudgetAvailable()">
@@ -68,7 +68,7 @@
                         <!-- Budget attaccanti -->
                         <mat-grid-tile colspan="3" rowspan="1">
                             <div class="grid-tile-container flex-direction-column">
-                                <label class="label mb-10px">Attaccanti</label>
+                                <label class="label margin-bottom">Attaccanti</label>
                                 <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
                                     class="label input-container" [(ngModel)]="option.budgetStraikers" min="6"
                                     (ngModelChange)="updateBudgetAvailable()">
@@ -87,7 +87,7 @@
             </mat-card-header>
 
             <mat-card-content class="card-content-container">
-                <div class="mt-30px mb-10px">
+                <div class="mt-30px margin-bottom">
 
                     <div class="full-width">
 
@@ -97,7 +97,7 @@
                             <!-- Media goal -->
                             <mat-grid-tile colspan="4" rowspan="1">
                                 <div class="grid-tile-container flex-direction-column">
-                                    <label class="label mb-10px">Media Goal</label>
+                                    <label class="label margin-bottom">Media Goal</label>
                                     <input matInput type="number" class="label input-container" min="0"
                                         [(ngModel)]="option.averageGoal">
                                 </div>
@@ -106,7 +106,7 @@
                             <!-- Media assist -->
                             <mat-grid-tile colspan="4" rowspan="1">
                                 <div class="grid-tile-container flex-direction-column">
-                                    <label class="label mb-10px">Media Assist</label>
+                                    <label class="label margin-bottom">Media Assist</label>
                                     <input matInput type="number" class="label input-container" min="0"
                                         [(ngModel)]="option.averageAssist">
                                 </div>
@@ -115,7 +115,7 @@
                             <!-- Media presenze -->
                             <mat-grid-tile colspan="4" rowspan="1">
                                 <div class="grid-tile-container flex-direction-column">
-                                    <label class="label mb-10px">Media Presenze</label>
+                                    <label class="label margin-bottom">Media Presenze</label>
                                     <input matInput type="number" class="label input-container" min="0"
                                         [(ngModel)]="option.averageMatchPlayed">
                                 </div>
@@ -129,7 +129,7 @@
                             <!-- Media ammonizioni -->
                             <mat-grid-tile colspan="1" rowspan="1">
                                 <div class="grid-tile-container flex-direction-column">
-                                    <label class="label mb-10px">Media Ammonizioni</label>
+                                    <label class="label margin-bottom">Media Ammonizioni</label>
                                     <input matInput type="number" class="label input-container" min="0"
                                         [(ngModel)]="option.averageYellowCard">
                                 </div>
@@ -138,7 +138,7 @@
                             <!-- Media espulsioni -->
                             <mat-grid-tile colspan="1" rowspan="1">
                                 <div class="grid-tile-container flex-direction-column">
-                                    <label class="label mb-10px">Media Espulsioni</label>
+                                    <label class="label margin-bottom">Media Espulsioni</label>
                                     <input matInput type="number" class="label input-container" min="0"
                                         [(ngModel)]="option.averageRedCard">
                                 </div>

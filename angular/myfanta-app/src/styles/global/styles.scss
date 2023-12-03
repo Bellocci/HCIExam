@@ -21,7 +21,7 @@ TESTO
 */
 
 .bold {
-    font-weight: 500;
+    font-weight: 500 !important;
 }
 
 .txt-center {
@@ -37,6 +37,7 @@ TESTO
 
 .top-label {
     font-size: 14px;
+    margin-bottom: 1rem;
     margin-bottom: 10px;
     text-align: left;
     word-break: break-word;
@@ -315,26 +316,61 @@ MARGINI E DIMENSIONI
     margin: 0;
 }
 
-/* 10px */
+/* 1 rem
+Nota: la definizione in px serve per garantire il supporto per il browser Opera e le versioni precedenti di IE 
+che non supportano CSS3
+*/
 
-.m-10px {
-    margin: 10px !important;
+.margin-bottom {
+    margin-bottom: 10px;
+    margin-bottom: 1rem;
 }
 
-.mt-10px {
-    margin-top: 10px !important;
+.margin-top {
+    margin-top: 10px;
+    margin-top: 1rem;
 }
 
-.mb-10px {
-    margin-bottom: 10px !important;
+.margin-left {
+    margin-left: 10px;
+    margin-left: 1rem;
 }
 
-.ml-10px {
-    margin-left: 10px !important;
+.margin-right {
+    margin-right: 10px;
+    margin-right: 1rem;
 }
 
-.mr-10px {
-    margin-right: 10px !important;
+.margin {
+    margin: 10px;
+    margin: 1rem;
+}
+
+// 2 rem
+
+.large-margin-bottom {
+    margin-bottom: 20px;
+    margin-bottom: 2rem;
+}
+
+.large-margin-top {
+    margin-top: 20px;
+    margin-top: 2rem;
+}
+
+.large-margin-left {
+    margin-left: 20px;
+    margin-left: 2rem;
+}
+
+.large-margin-right {
+    margin-right: 20px;
+    margin-right: 2rem;
+}
+
+.large-margin {
+    margin: 20px;
+    margin: 2rem;
 }
 
 /* Margine standard da applicare in un div prima e dopo il contenuto della pagina */

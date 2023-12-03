@@ -8,7 +8,7 @@
         </mat-card-header>
 
         <mat-card-content class="card-content-container">
-            <div class="flex-container mt-30px mb-10px">
+            <div class="flex-container mt-30px margin-bottom">
                 <!-- Budget con valori standard -->
                 <ng-container *ngFor="let budget of getBudgets()">
                     <!-- Caso valore NON uguale a quello di Input -->
@@ -41,14 +41,14 @@
             <div class="flex-center mt-30px">
                 <!-- Eta minima -->
                 <div class="flex-direction-column">
-                    <label class="label mb-10px">Min</label>
+                    <label class="label margin-bottom">Min</label>
                     <input matInput type="number" class="label input-container mr-30px" min="0"
                         max="{{ option.maxAge }}" step="1" [(ngModel)]="option.minAge" (blur)="notifyOptionUpdate()">
                 </div>
 
                 <!-- Eta massima -->
                 <div class="flex-direction-column">
-                    <label class="label mb-10px">Max</label>
+                    <label class="label margin-bottom">Max</label>
                     <input matInput type="number" class="label input-container mr-30px"
                         min="{{ option.minAge }}" max="99" step="1" [(ngModel)]="option.maxAge" (blur)="notifyOptionUpdate()">
                 </div>
@@ -74,20 +74,20 @@
         <mat-card-content class="card-content-container">
             <div class="flex-center mt-30px mb-30px">
                 <label class="label mr-30px">Includi giocatori: </label>
-                <mat-checkbox class="mr-10px" color="primary" labelPosition="before"
+                <mat-checkbox class="margin-right" color="primary" labelPosition="before"
                     [(ngModel)]="includePlayersFromFavoriteList" (change)="updatePlayersToInclude()">
                     <label class="label">Preferiti</label>
                 </mat-checkbox>
-                <mat-checkbox class="mr-10px" color="primary" labelPosition="before"
+                <mat-checkbox class="margin-right" color="primary" labelPosition="before"
                     [(ngModel)]="excludePlayersFromBlacklist" (change)="updatePlayersToExclude()">
                     <label class="label">Esclusi</label>
                 </mat-checkbox>
             </div>
 
             <div class="flex-container flex-direction-column">
-                <div class="mb-10px">
-                    <label class="label mb-10px">Squadre</label>
-                    <mat-icon class="ml-10px icon-size"
+                <div class="margin-bottom">
+                    <label class="label margin-bottom">Squadre</label>
+                    <mat-icon class="margin-left icon-size"
                         matTooltip="Se nessuna squadra è selezionata la ricerca verrà effettuata su tutte le squadre">
                         info
                     </mat-icon>

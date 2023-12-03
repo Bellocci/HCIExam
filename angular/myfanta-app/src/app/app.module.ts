@@ -19,7 +19,7 @@ import { ToolbarBaseComponent } from './toolbar/toolbar-base/toolbar-base.compon
 import { SearchAddPlayerComponent } from './components/search-add-player/search-add-player.component';
 import { PlayerListComponent } from './pages/player-list/player-list.component';
 import { LoginDialogComponent } from './Dialog/login-dialog/login-dialog.component';
-import { RegistrationDialogComponent } from './Dialog/registration-dialog/registration-dialog.component';
+import { SignupDialogComponent } from './Dialog/signup-dialog/signup-dialog.component';
 import { RecoveryPasswordDialogComponent } from './Dialog/recovery-password-dialog/recovery-password-dialog.component';
 import { UserPageComponent } from './pages/user-page/user-page.component';
 import { CreateNewTeamDialogComponent } from './Dialog/create-new-team-dialog/create-new-team-dialog.component';
@@ -55,7 +55,7 @@ export function initializeApp(appInitService: AppInitService) {
     SearchAddPlayerComponent,
     PlayerListComponent,
     LoginDialogComponent,
-    RegistrationDialogComponent,
+    SignupDialogComponent,
     RecoveryPasswordDialogComponent,
     UserPageComponent,
     CreateNewTeamDialogComponent,

@@ -17,7 +17,7 @@
         </div>
         
         <!-- Sezione modifica colore -->
-        <label class="mt-30px label ml-10px mr-10px "> Modifica lo sfondo del tuo avatar:</label>
+        <label class="mt-30px label margin-left margin-right "> Modifica lo sfondo del tuo avatar:</label>
         <div class="flex-container flex-start-content">
           <ng-container *ngFor="let color of getColors()">
             <div class="div-color" [style]="{'background-color' : color}"
@@ -35,7 +35,7 @@
     <div class="flex-container flex-direction-column team-container">
         <span class="title-txt title-team">Lista Team</span>        
         
-        <div class="mr-10px ml-10px">
+        <div class="margin-right margin-left">
 
           <!-- Pulsante aggiunta team -->
           <button mat-raised-button class="secondary-color secondary-color-light"
@@ -70,7 +70,7 @@
                               <p class="label">{{ getNumberOfPlayerIntoBlacklist(team) }} giocatori esclusi</p>
                             </mat-card-content>
                             <mat-card-actions align="end">
-                              <button mat-flat-button class="secondary-color secondary-color-light mr-10px"
+                              <button mat-flat-button class="secondary-color secondary-color-light margin-right"
                                 (click)="loadTeam(team)">
                                 <mat-icon>rotate_left</mat-icon>
                                   Carica
