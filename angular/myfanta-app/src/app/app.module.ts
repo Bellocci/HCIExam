@@ -10,7 +10,6 @@ import { AppInitService } from './service/app-init.service';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './pages/home/home.component';
-import { CreateTeamComponent } from './pages/create-team/create-team.component';
 import { TableComponent } from './components/table/table.component';
 import { OptionsComponent } from './pages/options/options.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -47,7 +46,6 @@ export function initializeApp(appInitService: AppInitService) {
   declarations: [
     AppComponent,
     HomeComponent,
-    CreateTeamComponent,
     TableComponent,
     OptionsComponent,
     ToolbarComponent,
