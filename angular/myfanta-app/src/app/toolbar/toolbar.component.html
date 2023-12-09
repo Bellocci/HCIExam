@@ -20,7 +20,7 @@
         <ng-container *ngFor="let sport of getSports(); let indexSport = index;" #panels>
           <mat-expansion-panel [expanded]="isPanelSportOpen(indexSport)" (opened)="openedPanelSportListener(indexSport)"
             (closed)="closedPanelSportListener();">
-            <mat-expansion-panel-header class="expansion-panel-header-sport secondary-color mat-elevation-z3">
+            <mat-expansion-panel-header class="expansion-panel-header-sport mat-elevation-z3">
               <mat-panel-title>
                 <div class="text" [ngClass]="isPanelSportOpen(indexSport) ? 'bold' : ''">
                   {{ sport.description }}
@@ -33,7 +33,7 @@
               <!-- Championship expansion panel per uno specifico sport -->
               <ng-container *ngFor="let championship of getChampionships(sport); let indexChamp = index;">
                 <mat-expansion-panel [expanded]="false">
-                  <mat-expansion-panel-header>
+                  <mat-expansion-panel-header class="no-color">
                     <mat-panel-title class="flex-center-wrap">
                       <div class="label no-margin">
                         {{ championship.description }}

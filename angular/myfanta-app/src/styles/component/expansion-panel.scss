@@ -1,0 +1,56 @@
+@import "src/styles/global/breakpoints";
+@import "src/styles/global/colors";
+
+.expansion-panel {
+    max-width: 300px;
+    width: 100%;
+}
+
+@media (min-width: $tablet-breakpoint) {
+    .expansion-panel {
+        max-width: 280px;
+    }
+}
+
+@media (min-width: $laptop-breakpoint) {
+    .expansion-panel {
+        max-width: 240px;
+    }
+}
+
+@media (min-width: $large-device-breakpoint) {
+    .expansion-panel {
+        max-width: 300px;
+    }
+}
+
+@media (min-width: $extra-large-device-breakpoint) {
+    .expansion-panel {
+        max-width: 350px;
+    }
+}
+
+.expansion-panel-header {
+    justify-content: center;
+}
+
+.mat-expansion-panel {
+
+    // Si applica solo quando non è presente l'attributo .mat-expanded (ovvero il pannello è compresso)
+    &:not(.mat-expanded) {
+        .mat-expansion-panel-header {
+            background-color: $secondary-color;
+        }
+
+        .mat-expansion-panel-header:hover {
+            background-color: $secondary-color-light;
+        }
+    }
+
+    // Si applica solo quando è presente l'attributo .mat-expanded (ovvero il pannello è espanso)
+    &.mat-expanded {
+        .mat-expansion-panel-header {
+            background-color: $secondary-color-light;
+        }
+    }
+}

@@ -301,16 +301,70 @@ DIMENSIONI STANDARD WIDTH & HEIGHT
 }
 
 /*
-=====================
-MARGINI E DIMENSIONI
-=====================
+========
+PADDING
+========
 */
-
-/* Padding */
 
 .no-padding {
     padding: 0;
 }
+
+.padding-bottom {
+    padding-bottom: 10px;
+    padding-bottom: 1rem;
+}
+
+.padding-top {
+    padding-top: 10px;
+    padding-top: 1rem;
+}
+
+.padding-left {
+    padding-left: 10px;
+    padding-left: 1rem;
+}
+
+.padding-right {
+    padding-left: 10px;
+    padding-right: 1rem;
+}
+
+.padding {
+    padding: 10px;
+    padding: 1rem;
+}
+
+.large-padding-bottom {
+    padding-bottom: 20px;
+    padding-bottom: 2rem;
+}
+
+.large-padding-top {
+    padding-top: 20px;
+    padding-top: 2rem;
+}
+
+.large-padding-left {
+    padding-left: 20px;
+    padding-left: 2rem;
+}
+
+.large-padding-right {
+    padding-left: 20px;
+    padding-right: 2rem;
+}
+
+.large-padding {
+    padding: 20px;
+    padding: 2rem;
+}
+
+/*
+========
+MARGINI 
+========
+*/
 
 .no-margin {
     margin: 0;
@@ -381,17 +435,24 @@ che non supportano CSS3
 }
 
 /*
-===================
-STANDARD-CONTAINER
-===================
+===========
+CONTAINER
+===========
 */
 
 .standard-container {
-    margin: 30px 0;
+    margin: 20px 0;
+    margin: 2rem 0;
+}
+
+.full-standard-container {
+    margin: 20px;
+    margin: 2rem;
 }
 
 .small-container {
     margin: 10px 0;
+    margin: 1rem 0;
 }
 
 /* 
@@ -418,6 +479,7 @@ FLEXBOX CONTAINER
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .flex-center {
@@ -450,6 +512,25 @@ FLEXBOX CONTAINER
 .flex-cell {
     flex: 1;
     /* indica all'elemento di crescere fino a occupare tutto lo spazio disponibile nel contenitore */
+}
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* Distribuisce lo spazio in modo equo tra gli oggetti */
+.flex-space-evenly {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.align-items-top {
+    display: flex;
+    align-items: start;
+    flex-wrap: wrap;
 }
 
 /* Una riga può essere divisa al massimo in 12 colonne */
@@ -502,11 +583,6 @@ FLEXBOX CONTAINER
     flex: 1 1 8.333333%;
 }
 
-.flex-space-between {
-    display: flex;
-    justify-content: space-between;
-}
-
 // FIXME
 .flex-item-1-1-auto {
     flex: 1 1 auto;
@@ -557,12 +633,6 @@ FLEXBOX CONTAINER
 .space-between {
     display: flex;
     justify-content: space-between;
-}
-
-/* Distribuisce lo spazio in modo equo tra gli oggetti */
-.flex-space-evenly {
-    display: flex;
-    justify-content: space-evenly;
 }
 
 /*

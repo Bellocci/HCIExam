@@ -41,6 +41,7 @@ export class BreakpointsService implements OnDestroy {
   private readonly _laptopObservable: Observable<boolean>;
   private readonly _largeDeviceObservable: Observable<boolean>;
   private readonly _mobileOrTabletObservable: Observable<boolean>;  
+  private readonly _mobileOrMobileXLObservable: Observable<boolean>;
 
   constructor() {
     console.log("Construct the Breakpoints service");
@@ -51,6 +52,7 @@ export class BreakpointsService implements OnDestroy {
     this._laptopObservable = this.createLaptopObservable();
     this._largeDeviceObservable = this.createLargeDeviceObservable();
     this._mobileOrTabletObservable = this.createMobileOrTabletObservable();
+    this._mobileOrMobileXLObservable = this.createMobileOrMobileXLObservable();
   }
 
   ngOnDestroy(): void {
@@ -173,6 +175,23 @@ export class BreakpointsService implements OnDestroy {
       )
   }
 
+  private createMobileOrMobileXLObservable() : Observable<boolean> {
+    return fromEvent(window, "resize")
+      .pipe(
+        takeUntil(this.onDestroy$),
+        map((event) => {
+          let result:boolean = false;
+          if(event != null && event.target != null) {
+            const window = event.target as Window;
+            result = BreakpointsService.MOBILE_BREAKPOINT.minWidth <= window.innerWidth && 
+                window.innerWidth < BreakpointsService.MOBILE_XL_BREAKPOINT.maxWidth!;
+          }
+          return result;
+        }),
+        shareReplay()
+      )
+  }
+
   /*
    * ============
    * METODI GET
@@ -201,5 +220,9 @@ export class BreakpointsService implements OnDestroy {
 
   public get mobileOrTabletObservable(): Observable<boolean> {
     return this._mobileOrTabletObservable;
+  }
+
+  public get mobileOrMobileXLObservable() : Observable<boolean> {
+    return this._mobileOrMobileXLObservable;
   }
 }

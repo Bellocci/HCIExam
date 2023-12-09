@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger, group } from '@angular/animations';
-import { Component, OnInit, AfterViewInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FilterDataService } from '../../service/filter-data.service';
 import { InternalDataService } from '../../service/internal-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
@@ -9,6 +9,7 @@ import { UserService } from '../../service/user.service';
 import { TeamDataService } from '../../service/team-data.service';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
 
 
 @Component({
@@ -41,23 +42,30 @@ import { LeagueEntity } from 'src/model/leagueEntity.model';
     ])
   ]
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit {
+
+  /**
+   * ===================
+   * CONSTRUCTOR & INIT
+   *  ==================
+   */
 
   constructor(private routerService:RouterService,
     private filterDataService:FilterDataService,
     private internalDataService:InternalDataService,
     private userService:UserService,
-    private teamDataService:TeamDataService) { }
+    private teamDataService:TeamDataService,
+    public breakpointsService:BreakpointsService) { }
 
   ngOnInit(): void { 
     this.internalDataService.setLoadingData(false);
   }
 
-  ngAfterViewInit(): void { }
-
-  ngOnDestroy(): void {}
-
-  // GETTER
+  /*
+   * ================
+   * GETTER & SETTER
+   * ================
+   */
 
   getSports(): SportEnum[] {
     return SportEnum.getAllSport();
@@ -70,14 +78,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
   getLeagues(sport:SportEnum, championship:ChampionshipEnum) : LeagueEntity[] {
     return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
   }
-
-  // SETTER
-
-  private setLeagueSelected(league:LeagueEntity) : void {
-    this.internalDataService.setLeagueSelected(league);
-  }
   
-  /* LISTENER */
+  /**
+   * ================
+   * METODI LISTENER
+   * ================
+   */
 
   selectedLeagueListener(league:LeagueEntity) : void {
     this.clearData();
@@ -86,8 +92,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.routerService.goToMyTeamPage(LinkEnum.MYTEAM);
   }
 
+  /*
+   * =============== 
+   * METODI PRIVATI
+   * ===============
+   */
+
   private clearData() : void {
     this.userService.setSelectedTeam(undefined);
     this.teamDataService.clearAllList();
+  }
+
+  private setLeagueSelected(league:LeagueEntity) : void {
+    this.internalDataService.setLeagueSelected(league);
   }
 }
