@@ -5,25 +5,24 @@
     <!-- TODO: aggiungere l'aggiunta dei giocatori alla tabella -->
 
     <!-- Filtro ricerca -->
-    <div class="cell-6of12">
+    <div class="cell-6of12 margin-bottom">
 
       <!-- Filtro di ricerca giocatori (visibile per la lista di tutti i giocatori / preferiti / esclusi) -->
       <ng-container *ngIf="isFilterPlayerRendered()">
-        <mat-form-field class="large-input-txt">
+        <form class="form-xl-native-input">
           <div class="flex-container">
-            <input class="text" matInput [(ngModel)]="searchPlayerString" (keyup)="applyFilter($event)"
+            <input type="search" 
+              class="xl-native-input padding-left text"
+              [(ngModel)]="searchPlayerString" 
+              (keyup)="applyFilter($event)"
               placeholder="Cerca" #input>
-            <mat-icon class="cursor-pointer margin-left" *ngIf="isClearSearchPlayerInputButtonRendered()"
-              (click)="clearSearchPlayerInput()">
-              close
-            </mat-icon>
           </div>
-        </mat-form-field>
+        </form>
       </ng-container>
 
       <!-- Filtro aggiunta giocatori alla squadra (Visibile solo nella pagina 'Miei giocatori') -->
       <ng-container *ngIf="!isFilterPlayerRendered()">
-        <div class="margin-bottom">
+        <div>
           <app-search-add-player></app-search-add-player>
         </div>
       </ng-container>
