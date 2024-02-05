@@ -47,79 +47,79 @@ export class RouterService {
   }
 
   // Metodo che renderizza alla pagina di Home 
-  goToHomePage(link:LinkEnum) : void {
+  goToHomePage() : void {
     this.internalDataService.setLoadingData(true); 
-    this.currentPageIsHome(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+    this.currentPageIsHome() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.HOME.path);
   }
 
   // Verifica se la pagina currente è 'home'
-  currentPageIsHome(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsHome() : boolean {
+    return this.router.url == LinkEnum.HOME.path;
   }
 
   // Metodo che renderizza alla pagina di Create Team
-  goToMyTeamPage(link:LinkEnum) : void {
+  goToMyTeamPage() : void {
     this.internalDataService.setLoadingData(true);
-    this.currentPageIsMyTeam(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+    this.currentPageIsMyTeam() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.MYTEAM.path);
   }
 
   // Verifica se la pagina corrente è 'myTeam'
-  currentPageIsMyTeam(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsMyTeam() : boolean {
+    return this.router.url == LinkEnum.MYTEAM.path;
   }
 
   // Metodo che renderizza alla pagina di Lista dei giocatori
-  goToPlayerListPage(link:LinkEnum) : void {
+  goToPlayerListPage() : void {
     this.internalDataService.setLoadingData(true);
-    this.currentPageIsPlayerList(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+    this.currentPageIsPlayerList() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.PLAYER_LIST.path);
   }
 
-  currentPageIsPlayerList(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsPlayerList() : boolean {
+    return this.router.url == LinkEnum.PLAYER_LIST.path;
   }
 
   // Metodo che renderizza alla pagina di Lista dei giocatori preferiti
-  goToFavoritListPage(link:LinkEnum) : void {
+  goToFavoritListPage() : void {
     this.internalDataService.setLoadingData(true);
-    this.currentPageIsFavoritList(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+    this.currentPageIsFavoritList() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.FAVORIT_LIST.path);
   }
 
   // Verifica se la pagina corrente è 'Favorit List'
-  currentPageIsFavoritList(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsFavoritList() : boolean {
+    return this.router.url == LinkEnum.FAVORIT_LIST.path;
   }
 
   // Metodo che renderizza alla pagina di lista dei giocatori esclusi
-  goToBlacklistPage(link:LinkEnum) : void {
+  goToBlacklistPage() : void {
     this.internalDataService.setLoadingData(true);
-    this.currentPageIsBlacklist(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+    this.currentPageIsBlacklist() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.BLACKLIST.path);
   }
 
   // Verifica se la pagina corrente è 'Blacklist'
-  currentPageIsBlacklist(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsBlacklist() : boolean {
+    return this.router.url == LinkEnum.BLACKLIST.path;
   }
 
   // Metodo che renderizza alla pagina di profilo
-  goToMyProfilePage(link:LinkEnum) : void {
+  goToMyProfilePage() : void {
     this.internalDataService.setLoadingData(true);
-    this.currentPageIsMyProfile(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+    this.currentPageIsMyProfile() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.USER_PROFILE.path);
   }
 
   // Verifica se la pagina corrente è myProfile
-  currentPageIsMyProfile(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsMyProfile() : boolean {
+    return this.router.url == LinkEnum.USER_PROFILE.path;
   }
 
   // Metodo che renderizza alla pagina di opzioni di filtraggio dei giocatori
-  goToOptionsPage(link:LinkEnum) : void {
+  goToOptionsPage() : void {
     this.internalDataService.setLoadingData(true);
-    this.currentPageIsOptions(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+    this.currentPageIsOptions() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.OPTIONS.path);
   }
 
   // Verifica se la pagina corrente è myProfile
-  currentPageIsOptions(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsOptions() : boolean {
+    return this.router.url == LinkEnum.OPTIONS.path;
   }
 
   goToPlayerPage(player:PlayerEntity) : void {

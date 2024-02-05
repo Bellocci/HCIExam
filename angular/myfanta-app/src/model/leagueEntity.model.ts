@@ -1,21 +1,21 @@
 import { SportEnum } from "src/enum/SportEnum.model";
 import { ChampionshipEnum } from "../enum/ChampionshipEnum.model";
+import { TeamEntity } from "./teamEntity.model";
 
 export class LeagueEntity {
+
     private _leagueId: number;
     private _name: string;
     private _sport: SportEnum;
     private _championship: ChampionshipEnum;
-    private _active: boolean;
+    private _teamsList: TeamEntity[] = [];
 
-    constructor(leagueId: number, name: string, sport: SportEnum, 
-        championship: ChampionshipEnum, active: boolean) {
+    constructor(leagueId: number, name: string, sport: SportEnum, championship: ChampionshipEnum) {
 
         this._leagueId = leagueId
         this._name = name
         this._sport = sport
         this._championship = championship
-        this._active = active
     }
 
     public get leagueId(): number {
@@ -50,12 +50,12 @@ export class LeagueEntity {
         this._championship = value;
     }
 
-    public get active(): boolean {
-        return this._active;
+    public get teamsList(): TeamEntity[] {
+        return this._teamsList;
     }
 
-    private set active(value: boolean) {
-        this._active = value;
+    public set teamsList(value: TeamEntity[]) {
+        this._teamsList = value;
     }
 
     toString() : string {
@@ -82,19 +82,18 @@ export class LeagueEntity {
             sport : this.sport.toJSON(),
             name : this.name,
             championship : this.championship.toJSON(),
-            active : this.active
         }
     }
 
     static fromJSON(json:any) : LeagueEntity {
         return new LeagueEntity(
-            json.leagueId, json.name, SportEnum.fromJSON(json.sport), ChampionshipEnum.fromJSON(json.championship), json.active);
+            json.leagueId, json.name, SportEnum.fromJSON(json.sport), ChampionshipEnum.fromJSON(json.championship));
     } 
 }
 
 export const LEAGUE_DATA: LeagueEntity[] = [
-    new LeagueEntity(1, 'Serie A', SportEnum.FOOTBALL_SOCCER, ChampionshipEnum.ITA_CHAMP, true),
-    new LeagueEntity(2,'Premier League', SportEnum.FOOTBALL_SOCCER, ChampionshipEnum.ENG_CHAMP, true),
-    new LeagueEntity(3,'NBA', SportEnum.BASKETBALL, ChampionshipEnum.USA_CHAMP, true),
-    new LeagueEntity(4, 'Serie A1', SportEnum.VOLLEYBALL, ChampionshipEnum.ITA_CHAMP, true)
+    new LeagueEntity(1, 'Serie A', SportEnum.FOOTBALL_SOCCER, ChampionshipEnum.ITA_CHAMP),
+    new LeagueEntity(2,'Premier League', SportEnum.FOOTBALL_SOCCER, ChampionshipEnum.ENG_CHAMP),
+    new LeagueEntity(3,'NBA', SportEnum.BASKETBALL, ChampionshipEnum.USA_CHAMP),
+    new LeagueEntity(4, 'Serie A1', SportEnum.VOLLEYBALL, ChampionshipEnum.ITA_CHAMP)
 ]

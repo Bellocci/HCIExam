@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/service/user.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
-import { OptionsVolleyballEntity } from 'src/model/options/OptionsVolleyballEntity.model';
 import { OptionEntity } from 'src/model/options/optionEntity.model';
+import { OptionVolleyballEntity } from 'src/model/options/optionVolleyballEntity.model';
 import { UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { OptionsAbstract } from '../OptionsAbstract';
@@ -39,7 +39,7 @@ export class OptionsVolleyballComponent extends OptionsAbstract implements OnIni
   // FINE SEZIONE ID MAT CARD
   //
 
-  private _option!: OptionsVolleyballEntity;
+  private _option!: OptionVolleyballEntity;
   private _budgetAvailable!: number;  
 
   constructor(private userService: UserService) { 
@@ -47,31 +47,19 @@ export class OptionsVolleyballComponent extends OptionsAbstract implements OnIni
   }
 
   ngOnInit(): void {
-    this.addSelectedUserTeamObserver();
+    
   }
 
   // METODI PRIVATI
 
-  private addSelectedUserTeamObserver(): void {
-    this.userService.addSelectedTeamObserver(new ObserverStepBuilder<UserTeamEntity | undefined>()
-      .next(userTeam => {
-        if (userTeam != undefined && userTeam.option != null && userTeam.option.sport == SportEnum.VOLLEYBALL) {
-          this._option = userTeam.option as OptionsVolleyballEntity;
-        } else {
-          this._option = new OptionsVolleyballEntity();
-        }
-        this.updateBudgetAvailable();
-      })
-      .build())
-  }
 
   // GETTER & SETTER
 
-  public get option(): OptionsVolleyballEntity {
+  public get option(): OptionVolleyballEntity {
     return this._option;
   }
   
-  public set option(value: OptionsVolleyballEntity) {
+  public set option(value: OptionVolleyballEntity) {
     this._option = value;
   }
 

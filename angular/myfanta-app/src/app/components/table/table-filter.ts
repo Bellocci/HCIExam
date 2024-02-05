@@ -1,11 +1,12 @@
 import { SportEnum } from "src/enum/SportEnum.model";
+import { StandardMatchPlayedEnum } from "src/enum/optionEnum/StandardMatchPlayedEnum";
 import { RolePlayerEntity } from "src/model/rolePlayerEntity.model";
 import { TeamEntity } from "src/model/teamEntity.model";
 
 export class TableFilterOption {
 
     private static readonly ROLE_MAP_DEFAULT_VALUE:Map<number,RolePlayerEntity> = new Map();
-    private static readonly MATCH_PLAYED_PERC_DEFAULT_VALUE:number = 0;
+    private static readonly MATCH_PLAYED_PERC_DEFAULT_VALUE:number = StandardMatchPlayedEnum.ALL_PLAYERS.value;
     private static readonly TEAMS_MAP_DEFAULT_VALUE:Map<number, TeamEntity> = new Map();
     private static readonly PLAYER_NAME_DEFAULT_VALUE:string = "";
 
@@ -82,9 +83,9 @@ export class TableFilterOption {
     }
 
     clear() : void {
-        this.roleMap = TableFilterOption.ROLE_MAP_DEFAULT_VALUE;
+        this.roleMap.clear();
         this.matchPlayedPerc = TableFilterOption.MATCH_PLAYED_PERC_DEFAULT_VALUE;
-        this.teamsMap = TableFilterOption.TEAMS_MAP_DEFAULT_VALUE;
+        this.teamsMap.clear();
         this.playerName = TableFilterOption.PLAYER_NAME_DEFAULT_VALUE;
     }
 

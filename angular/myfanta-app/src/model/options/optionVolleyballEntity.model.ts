@@ -3,19 +3,13 @@ import { OptionEntity } from "./optionEntity.model";
 import { PlayerEntity } from "../playerEntity.model";
 import { TeamEntity } from "../teamEntity.model";
 
-export class OptionsVolleyballEntity extends OptionEntity {
+export class OptionVolleyballEntity extends OptionEntity {
 
-    // Parametro non rilevate per la creazione del team, non viene passato al backend
-    // utilizzato solo per sapere se considerare il budget dei giocatori 
-    private _isBudgetCustomisedByRoles: boolean;    
     private _budgetHitterSpiker: number;
     private _budgetMiddleBlocker: number;
     private _budgetSetter: number;
     private _budgetOppositeSpiker: number;
-    private _budgetLibero: number;
-    // Parametro non rilevate per la creazione del team, non viene passato al backend
-    // utilizzato solo per sapere se considerare i parametri per la media della squadra 
-    private _isVolleyballTeamOptionEnabled: boolean;    
+    private _budgetLibero: number;     
     private _avgAttackPointsScored: number;    
     private _avgBlockPointsScored: number;
     private _avgAcePointsScored: number;
@@ -25,8 +19,13 @@ export class OptionsVolleyballEntity extends OptionEntity {
     private _avgServiceErrors: number;
     private _avgReceiveErrors: number;
 
-    constructor(id?: string, active?: boolean) {
-        super(SportEnum.VOLLEYBALL, id, active);
+    // Parametro non rilevate per la creazione del team, non viene passato al backend
+    // utilizzato solo per sapere se considerare i parametri per la media della squadra 
+    private _isBudgetCustomisedByRoles: boolean;
+    private _isVolleyballTeamOptionEnabled: boolean;   
+
+    constructor(id?: string) {
+        super(SportEnum.VOLLEYBALL, id);
         this._isBudgetCustomisedByRoles = false;
         this._budgetHitterSpiker = 0;
         this._budgetMiddleBlocker = 0;
@@ -197,7 +196,6 @@ export class OptionsVolleyballEntity extends OptionEntity {
             teamsList: jsonTeamList,
             playersToInclude: jsonIncludePlayerList,
             playersToExclude: jsonExcludePlayerList,
-            active: this.active,
             budgetHitterSpiker: this.budgetHitterSpiker,
             budgetMiddleBlocker: this.budgetMiddleBlocker,
             budgetSetter: this.budgetSetter,
@@ -214,8 +212,8 @@ export class OptionsVolleyballEntity extends OptionEntity {
         }
     }
 
-    static override fromJSON(json: any): OptionsVolleyballEntity {
-        let entity:OptionsVolleyballEntity = new OptionsVolleyballEntity(json.id, json.active);
+    static override fromJSON(json: any): OptionVolleyballEntity {
+        let entity:OptionVolleyballEntity = new OptionVolleyballEntity(json.id);
         entity.budget = json.budget;
         entity.minAge = json.minAge;
         entity.maxAge = json.maxAge;
@@ -234,7 +232,7 @@ export class OptionsVolleyballEntity extends OptionEntity {
         entity.avgBlock = json.avgBlock;
         entity.avgServiceErrors = json.avgServiceErrors;
         entity.avgReceiveErrors = json.avgReceiveErrors;
-        json.teamsList.forEach((t: TeamEntity) => entity.teamsList.push(TeamEntity.fromJSON(t)));
+        json.teamsList.forEach((t: TeamEntity) => entity.teamsList.push(PlayerEntity.fromJSON(t)));
         json.playersToInclude.forEach((p: PlayerEntity) => entity.playersToInclude.push(PlayerEntity.fromJSON(p)));
         json.playersToExclude.forEach((p: PlayerEntity) => entity.playersToInclude.push(PlayerEntity.fromJSON(p)));
 

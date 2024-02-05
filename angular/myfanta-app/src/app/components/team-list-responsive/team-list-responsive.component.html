@@ -1,0 +1,35 @@
+<!-- Componente responsive personalizzata del chips angular -->
+
+<div class="full-width flex-start">
+
+    <!-- Visualizzazione standard -->
+    <ng-container *ngIf="!(breakpointsService.mobileObservable | async)">
+        <ng-container *ngFor="let team of teams">
+
+            <div class="margin-right margin-top">
+                <button mat-raised-button [@teamSelect]="isTeamSelected(team) ? 'selected' : 'unselected'"
+                    class="mat-elevation-z3"
+                    [ngClass]="isTeamSelected(team) ? ['custom-button-selected', 'primary-color-light'] : ['custom-button']"
+                    [matTooltip]="team.teamName" (click)="updateSelectedTeams(team)">
+                    <mat-icon>done</mat-icon>
+                    {{ team.teamAbbreviation }}
+                </button>
+            </div>
+
+        </ng-container>
+    </ng-container>
+
+    <!-- Visualizzazione mobile -->
+    <ng-container *ngIf="(breakpointsService.mobileObservable | async)">
+        <mat-form-field class="full-width">
+            <mat-label>Seleziona una squadra</mat-label>
+            <mat-select [value]="getSelectedTeams()" multiple #teamSelect>
+                <mat-option *ngFor="let team of teams" 
+                    [value]="team" (click)="updateSelectedTeams(team)">
+                    {{ team.teamName }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </ng-container>
+
+</div>

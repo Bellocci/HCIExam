@@ -9,37 +9,37 @@ export class LinkEnumIsCurrentPageVisitorWithReturn implements LinkEnumVisitorWi
     constructor(private readonly routerService:RouterService) {}
 
     home(): boolean {
-        return this.routerService.currentPageIsHome(LinkEnum.HOME);
+        return this.routerService.currentPageIsHome();
     }
 
     createTeam(): boolean {
-        return this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) || 
-            this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) || 
-            this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST);
+        return this.routerService.currentPageIsMyTeam() || 
+            this.routerService.currentPageIsFavoritList() || 
+            this.routerService.currentPageIsBlacklist();
     }
 
     myTeam(): boolean {
-        return this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM);
+        return this.routerService.currentPageIsMyTeam();
     }
 
     playerList(): boolean {
-        return this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST);
+        return this.routerService.currentPageIsPlayerList();
     }
 
     favoriteList(): boolean {
-        return this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST);
+        return this.routerService.currentPageIsFavoritList();
     }
 
     blackList(): boolean {
-        return this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST);
+        return this.routerService.currentPageIsBlacklist();
     }
 
     userProfile(): boolean {
-        return this.routerService.currentPageIsMyProfile(LinkEnum.USER_PROFILE);
+        return this.routerService.currentPageIsMyProfile();
     }
 
     options(): boolean {
-        return this.routerService.currentPageIsOptions(LinkEnum.OPTIONS);
+        return this.routerService.currentPageIsOptions();
     }
     
     playerProfile(player: PlayerEntity): boolean {

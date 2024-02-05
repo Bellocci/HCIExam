@@ -1,150 +1,108 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="second-sidenav" fixedInViewport
+        [attr.role]="(breakpointsService.mobileOrTabletObservable| async) ? 'dialog' : 'dialog'"
+        [mode]="(breakpointsService.mobileOrTabletObservable| async) ? 'over' : 'side'"
+        [opened]="!(breakpointsService.mobileOrTabletObservable| async)">
 
-<div class="flex-container">
+        <!-- TODO: quando si preme su un link e siamo su quella pagina i filtri ed i giocatori visualizzati non devono essere resettati-->
 
-    <!-- TODO: Utilizzare una toolbar come fatto per la pagina delle Opzioni -->
-    <!-- Sidemenu sinistro -->
-    <div class="margin-left margin-right margin-top link-list-container">
+        <!-- Link alle pagine -->
+        <div class="link-menu-container">
+            <mat-nav-list>
 
-        <ng-container>
-            <app-link-list [linkList]="getLinksList()"></app-link-list>
-        </ng-container>
+                <!-- Link alla pagina 'myTeam' -->
+                <a mat-list-item [activated]="routerService.currentPageIsMyTeam()" class="small-container"
+                    [ngClass]="{'primary-color-light' : routerService.currentPageIsMyTeam()}"
+                    (click)="routerService.goToMyTeamPage()">
+                    <span class="label" [ngClass]="{'bold' : routerService.currentPageIsMyTeam()}">
+                        {{ linkEnum.MYTEAM.description }}
+                    </span>
+                </a>
 
-        <mat-divider></mat-divider>
+                <!-- Link alla pagina 'favoriteList' -->
+                <a mat-list-item [activated]="routerService.currentPageIsFavoritList()" class="small-container"
+                    [ngClass]="{'primary-color-light' : routerService.currentPageIsFavoritList()}"
+                    (click)="routerService.goToFavoritListPage()">
+                    <span class="label" [ngClass]="{'bold' : routerService.currentPageIsFavoritList()}">
+                        {{ linkEnum.FAVORIT_LIST.description }}
+                    </span>
+                </a>
 
-        <div class="link-list-container margin-top" *ngIf="isActionListRendered()">
-            <div mat-subheader class="bold">Azioni</div>
-            <mat-nav-list>        
-                <!-- Salvataggio -->
-                <mat-list-item *ngIf="isSaveBtnRendered()">
-                    <mat-icon matListItemIcon>save</mat-icon>
-                    <div matListItemTitle>Salva</div>
-                </mat-list-item>
+                <!-- Link alla pagina 'blacklist' -->
+                <a mat-list-item [activated]="routerService.currentPageIsBlacklist()" class="small-container"
+                    [ngClass]="{'primary-color-light' : routerService.currentPageIsBlacklist()}"
+                    (click)="routerService.goToBlacklistPage()">
+                    <span class="label" [ngClass]="{'bold' : routerService.currentPageIsBlacklist()}">
+                        {{ linkEnum.BLACKLIST.description }}
+                    </span>
+                </a>
 
-                <!-- Salvataggio in un nuovo team -->
-                <mat-list-item *ngIf="isSaveNewTeamBtnRendered()">
-                    <mat-icon matListItemIcon>save</mat-icon>
-                    <div matListItemTitle (click)="openCreateNewTeamDialog()">Salva nuova squadra</div>
-                </mat-list-item>
+                <!-- Link alla pagina 'playerList' -->
+                <a mat-list-item [activated]="routerService.currentPageIsPlayerList()" class="small-container"
+                    [ngClass]="{'primary-color-light' : routerService.currentPageIsPlayerList()}"
+                    (click)="routerService.goToPlayerListPage()">
+                    <span class="label" [ngClass]="{'bold' : routerService.currentPageIsPlayerList()}">
+                        {{ linkEnum.PLAYER_LIST.description }}
+                    </span>
+                </a>
+
             </mat-nav-list>
-        </div>
-    </div>
 
-    <!-- Contenuto della pagina -->
-    <div class="player-list-container">       
+            <mat-divider class="full-width"></mat-divider>
 
-        <div class="margin-bottom">
-
-            <!-- Opzioni di ricerca da utilizzare nella generazione del team -->
-            <ng-container *ngIf="isCurrentPageMyTeam()">
-                <app-option-filter (optionToSend)="changeOption($event)"></app-option-filter>                
-            </ng-container>
-
-            <!-- Filtri di ricerca dei giocatori nella tabella -->
-            <mat-expansion-panel expanded="true" *ngIf="isFilterTableRendered()">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>Filtri ricerca dei giocatori</mat-panel-title>
-                </mat-expansion-panel-header>
-
-                <!-- Sezione filtri di ricerca -->
-                <div class="filter-container">
-                    
-                    <!-- Prima riga -->
-                    <mat-grid-list cols="2" rowHeight="100px">
-                        <!-- Ruolo -->
-                        <mat-grid-tile colspan="1" rowspan="1">
-                            <div class="flex-direction-column grid-container">
-                                <label class="bold margin-bottom">Ruolo</label>
-                                <div class="flex-container">
-                                    <ng-container *ngFor="let role of getPlayerRoles()">
-                                        <button mat-flat-button class="ml-5px mr-5px btn mat-elevation-z3" 
-                                        *ngIf="!isRoleSelected(role)"
-                                        (click)="updateRolesSelectedList(role)">
-                                            {{ role.shortDescription }}
-                                        </button>
-
-                                        <button mat-flat-button class="ml-5px mr-5px btn-selected primary-color"
-                                        *ngIf="isRoleSelected(role)"
-                                        (click)="updateRolesSelectedList(role)">
-                                            {{ role.shortDescription }}
-                                        </button>
-                                    </ng-container>
-
-                                </div>
-                            </div>
-                        </mat-grid-tile>
-
-                        <!-- Filtro presenze -->
-                        <mat-grid-tile colspan="1" rowspan="1">
-                            <div class="flex-direction-column grid-container">
-                                <label class="bold margin-bottom">Presenze</label>
-                                <div class="flex-container">
-                                    <ng-container *ngFor="let filter of getMatchFilters()">
-                                        <button mat-flat-button class="ml-5px mr-5px btn mat-elevation-z3" 
-                                        *ngIf="!isMatchFilterSelected(filter)"
-                                        (click)="updateMatchFilterSelected(filter)">
-                                            {{ filter.label }}
-                                        </button>
-
-                                        <button mat-flat-button class="ml-5px mr-5px btn-selected primary-color"
-                                        *ngIf="isMatchFilterSelected(filter)"
-                                        (click)="updateMatchFilterSelected(filter)">
-                                        {{ filter.label }}
-                                        </button>
-                                    </ng-container>
-                                </div>                           
-                            </div>
-                        </mat-grid-tile>
-                    </mat-grid-list>
-
-                    <!-- Seconda riga -->
-                    <mat-grid-list cols="1" rowHeight="100px">
-                        <!-- Filtro squadra -->
-                        <mat-grid-list cols="1" rowHeight="80px">
-                            <div class="mt-30px flex-direction-column">
-                                <div class="margin-bottom">
-                                    <label class="label margin-bottom">Squadre</label>        
-                                    <mat-icon class="margin-left icon-size"
-                                        matTooltip="Se nessuna squadra è selezionata la ricerca verrà effettuata su tutte le squadre">
-                                        info
-                                    </mat-icon>
-                                </div>
-                                <mat-chip-listbox #chipsTeamList multiple="true">
-                                    <ng-container *ngFor="let team of getTeams()">
-                                        <mat-chip-option 
-                                        [matTooltip]="team.teamName"
-                                        (selectionChange)="changeSelectedTeamsList(team)">
-                                            {{ team.teamAbbreviation }}
-                                        </mat-chip-option>
-                                    </ng-container>
-                                </mat-chip-listbox>
-                            </div>
-                        </mat-grid-list>
-                    </mat-grid-list>
-                </div>
-
-            </mat-expansion-panel>
-        </div>
-
-        <!-- Aggiunta giocatori -->
-        <div class="flex-container mt-30px">
-            <!-- Ricerca aggiunta giocatore -->
-            <div class="flex-item-1-1-auto" *ngIf="isCurrentPageCreateTeam()">
-                <app-search-add-player></app-search-add-player>
-            </div>
-
-            <!-- Bottone generazione squadra -->
-            <div class="btn-container flex-item-1-1-auto" *ngIf="isCurrentPageMyTeam()">
-                <button mat-raised-button class="text secondary-color create-team-btn"
-                (click)="createTeam()">
-                    Ricerca giocatori
+            <!-- Pulsante di salvataggio -->
+            <div class="small-container flex-center-wrap" *ngIf="isSaveBtnRendered()">
+                <button mat-raised-button class="small-btn width-80" (click)="saveTeam()">
+                    <mat-icon>save</mat-icon>
+                    Salva
                 </button>
             </div>
+
+            <!-- Pulsante di salvataggio e creazione nuova squadra -->
+            <div class="small-container flex-center-wrap" *ngIf="isSaveNewTeamBtnRendered()">
+                <button mat-raised-button class="small-btn width-80" (click)="openCreateNewTeamDialog()">
+                    <mat-icon>save</mat-icon>
+                    Salva nuova squadra
+                </button>
+            </div>
+
         </div>
 
-        <!-- Tabella giocatori -->
-        <div class="table-container" id="tableContainer">
-            <app-table></app-table>
-        </div>
+    </mat-sidenav>
 
-    </div>
-</div>
+    <mat-sidenav-content>
+
+        <!-- Toolbar menu visibile solo in versione mobile o Tablet -->
+        <mat-toolbar class="toolbar-filter-option primary-color-light mat-elevation-z1 second-toolbar"
+            *ngIf="breakpointsService.mobileOrTabletObservable| async">
+            <button mat-flat-button aria-label="Toggle sidenav" class="label no-color no-padding"
+                (click)="drawer.toggle()">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                Liste giocatori
+            </button>
+        </mat-toolbar>
+
+        <!-- Contenuto della pagina -->
+        <div class="large-margin custom-page-container">
+
+            <div class="margin-bottom">
+
+                <!-- Opzioni di filtro visualizzati nella pagina 'myTeams' -->
+                <ng-container *ngIf="isOptionFilterRendered()">
+                    <app-option-filter (optionToSend)="updateOption($event)"></app-option-filter>
+                </ng-container>
+
+                <!-- Opzioni di ricerca dei giocatori -->
+                <ng-container *ngIf="isTableFilterRendered()">
+                    <app-option-player-search></app-option-player-search>
+                </ng-container>
+            </div>
+
+            <!-- Tabella giocatori -->
+            <div class="xl-margin-top xl-margin-bottom" id="tableContainer">
+                <app-table [playersList]="getPlayersList()"></app-table>
+            </div>
+
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

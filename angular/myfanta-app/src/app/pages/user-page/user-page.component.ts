@@ -136,9 +136,8 @@ export class UserPageComponent implements OnInit, AfterViewInit {
   }
 
   loadTeam(team:UserTeamEntity) : void {
-    this.userService.setSelectedTeam(team);
     this.teamDataService.loadTeam(team);
-    this.routerService.goToMyTeamPage(LinkEnum.MYTEAM);
+    this.routerService.goToMyTeamPage();
     this.internalDataService.setLeagueSelected(team.league);
   }
 

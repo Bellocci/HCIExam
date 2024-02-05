@@ -11,7 +11,8 @@ import { ValidationProblemBuilder } from 'src/utility/validation/ValidationProbl
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
-import { SearchPlayersService } from 'src/app/service/search-players.service';
+import { PlayerSearchRequestService } from 'src/app/service/player-search-request.service';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
 
 @Component({
   selector: 'app-search-add-player',
@@ -20,18 +21,31 @@ import { SearchPlayersService } from 'src/app/service/search-players.service';
 })
 export class SearchAddPlayerComponent implements OnInit {
 
+  /*
+   * ==========
+   * VARIABILI 
+   * ==========
+   */
+
   inputPlayerName:string = '';
   players: PlayerEntity[] = []; // Lista dei giocatori restituiti dall'autocomplete
   private playerResultList:Subject<string> = new Subject<string>();
   private leagueSelected:LeagueEntity | null = null;
 
+  /*
+   * =================
+   * CONSTRUCT & INIT 
+   * =================
+   */
+
   constructor(
     private internalDataService:InternalDataService,
     private routerService:RouterService,
     private teamDataService:TeamDataService,
-    private searchPlayersService:SearchPlayersService,
+    private playerSearchRequest:PlayerSearchRequestService,
     private snackBarService:SnackBarService,
-    private searchAddPlayerValidator:SearchAddPlayerValidatorService) { }
+    private searchAddPlayerValidator:SearchAddPlayerValidatorService,
+    public breakpointsService:BreakpointsService) { }
 
   ngOnInit(): void {
 
@@ -44,7 +58,7 @@ export class SearchAddPlayerComponent implements OnInit {
       // ignore new term if same as previous term
       distinctUntilChanged(),
 
-      switchMap((name:string) => this.searchPlayersService.searchPlayerToAddList(name, this.leagueSelected)),
+      switchMap((name:string) => this.playerSearchRequest.byNameAndLeagueAsObservable(name, this.leagueSelected!)),
     ).subscribe(
       (players) => {
         this.players = players;
@@ -52,27 +66,47 @@ export class SearchAddPlayerComponent implements OnInit {
     );
   }
 
+  /*
+   * =========
+   * OBSERVER 
+   * =========
+   */
+
   private subscribeLeagueSelected() : void {
     this.internalDataService.getObservableLeagueSelected().subscribe(league => {
       this.leagueSelected = league;
     })
   }
 
-  /* GETTER */
+  /*
+   * ========
+   * GETTER 
+   * ========
+   */
 
   getAddBtnDescription() : string {
-    const value = this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) ? 'Aggiungi giocatore al Team' :
-      this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) ? 'Aggiungi giocatore ai preferiti' :
-      this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) ? 'Aggiungi giocatore da escludere' :
+    const value = this.routerService.currentPageIsMyTeam() ? 'Aggiungi giocatore al Team' :
+      this.routerService.currentPageIsFavoritList() ? 'Aggiungi giocatore ai preferiti' :
+      this.routerService.currentPageIsBlacklist() ? 'Aggiungi giocatore da escludere' :
       'Aggiungi giocatore';
     return value;
   }
 
-  /* METHODS */
+  /*
+   * ============
+   * VISIBILITA' 
+   * ============
+   */
 
   isValueInputTextEmpty() : boolean {
     return this.inputPlayerName.trimStart() == '' ? true : false;
   }
+
+  /*
+   * =========
+   * LISTENER 
+   * =========
+   */
 
   searchPlayer(player_name:string) : void {
     this.playerResultList.next(player_name);
@@ -100,10 +134,16 @@ export class SearchAddPlayerComponent implements OnInit {
     }
   }
 
+  /*
+   * ===============
+   * METODI PRIVATI 
+   * ===============
+   */
+
   private loadPlayer(playerName:string) : PlayerEntity | undefined {
     let playerSelected:PlayerEntity | undefined = this.players.find(player => player.playerName.toLowerCase() === playerName.toLocaleLowerCase());
     if(playerSelected == undefined && this.leagueSelected != null) {
-      playerSelected = this.searchPlayersService.searchPlayer(playerName, this.leagueSelected);
+      playerSelected = this.playerSearchRequest.byNameAndLeague(playerName, this.leagueSelected)[0];
     }
 
     return playerSelected;

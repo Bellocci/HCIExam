@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Observer } from "rxjs";
+import { BehaviorSubject, Observable, Observer, Subscription } from "rxjs";
 
 export class MapHelper<K, T> {
 
@@ -7,8 +7,8 @@ export class MapHelper<K, T> {
     private map:Map<K,T> = new Map<K, T>(this.initialMapState);
     private values:BehaviorSubject<T[]> = new BehaviorSubject<T[]>([... this.map.values()]);
 
-    addObserver(observer: Observer<T[]>) {
-        this.values.subscribe(observer);
+    addObserver(observer: Observer<T[]>) : Subscription {
+        return this.values.subscribe(observer);
     }
 
     getObservable() : Observable<T[]> {

@@ -1,10 +1,9 @@
-<div class="flex-container">
-    <mat-form-field class="form-field margin-right" appearance="fill">
-        <mat-label>Nome giocatore</mat-label>
-        <input matInput type='text'
+<div class="flex-center">
+    <form class="form-xl-native-input large-margin-right">
+        <input type='text'
+            class="xl-native-input padding-left text"
             (keypress)="filterText($event)"
-            placeholder="Nome giocatore..."
-            matInput
+            placeholder="Cerca"
             [(ngModel)]="inputPlayerName"
             [matAutocomplete]="auto"
             (input)="searchPlayer(inputPlayerName)">
@@ -20,14 +19,31 @@
                 </mat-option>
             </ng-container>
         </mat-autocomplete>
-    </mat-form-field>
-    <div class="align-button-with-input">
-        <button mat-raised-button 
-        class="label secondary-color add-btn"
-        [matTooltip]="getAddBtnDescription()"
-        [disabled]="isValueInputTextEmpty()"
-        (click)="addPlayer(inputPlayerName)">
-            <span>Aggiungi</span>
-        </button>
-    </div>
+    </form>
+
+    <!-- Pulsante aggiunta giocatore alla lista: versione standard -->
+    <ng-container *ngIf="!(breakpointsService.mobileObservable | async)">
+        <div>
+            <button mat-raised-button 
+            class="standard-btn"
+            [matTooltip]="getAddBtnDescription()"
+            [disabled]="isValueInputTextEmpty()"
+            (click)="addPlayer(inputPlayerName)">
+                <span>Aggiungi</span>
+            </button>
+        </div>
+    </ng-container>
+
+    <!-- Pulsante aggiunta giocatore alla lista: versione mobile -->
+    <ng-container *ngIf="breakpointsService.mobileObservable | async">
+        <div>
+            <button mat-raised-button
+            class="mini-btn" 
+            [matTooltip]="getAddBtnDescription()"
+            [disabled]="isValueInputTextEmpty()"
+            (click)="addPlayer(inputPlayerName)">
+                <mat-icon class="no-margin">add</mat-icon>
+            </button>
+        </div>
+    </ng-container>
 </div>

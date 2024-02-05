@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FilterDataService } from 'src/app/service/filter-data.service';
 import { InternalDataService } from 'src/app/service/internal-data.service';
 import { TeamDataService } from 'src/app/service/team-data.service';
-import { StandardOption } from 'src/decorator/option/standard-option.model';
 import { OptionEntity } from 'src/model/options/optionEntity.model';
 import { TeamEntity } from 'src/model/teamEntity.model';
 

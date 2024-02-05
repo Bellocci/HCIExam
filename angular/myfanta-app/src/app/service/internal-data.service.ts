@@ -6,7 +6,7 @@ import { ObservableHelper } from 'src/utility/observable-helper';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
-import { SearchPlayersService } from './search-players.service';
+import { PlayerSearchRequestService } from './player-search-request.service';
 
 /**
  * Servizio per la memorizzazione delle informazioni necessarie a livello di front-end
@@ -39,7 +39,7 @@ export class InternalDataService implements OnDestroy {
 
   constructor(private sessionStorage:SessionStorageService,
     private loadDataService:LoadDataService,
-    private searchPlayersService:SearchPlayersService) {
+    private searchPlayersService:PlayerSearchRequestService) {
 
     console.log("Construct the Internal data service");
 
@@ -116,6 +116,10 @@ export class InternalDataService implements OnDestroy {
   getObservableLeagueSelected() : Observable<LeagueEntity | null> {
     return this.leagueSelected.getObservable();
   }  
+
+  getSelectedLeague() : LeagueEntity | null {
+    return this.leagueSelected.getValue();
+  }
 
   /*
    * ==============================

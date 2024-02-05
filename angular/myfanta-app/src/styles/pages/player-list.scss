@@ -1,0 +1,15 @@
+@use "src/styles/global/styles";
+@use "src/styles/angular-component/toolbar";
+@import "src/styles/global/breakpoints";
+@import "src/styles/global/variables";
+
+
+.link-menu-container {
+    margin-top: calc($toolbar-height + 10px);
+}
+
+@media (max-width: $laptop-breakpoint){
+    .link-menu-container {
+        margin-top: calc($toolbar-height * 2);
+    }
+}

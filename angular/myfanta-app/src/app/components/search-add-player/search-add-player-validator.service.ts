@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RouterService } from 'src/app/service/router.service';
-import { SearchPlayersService } from 'src/app/service/search-players.service';
+import { PlayerSearchRequestService } from 'src/app/service/player-search-request.service';
 import { TeamDataService } from 'src/app/service/team-data.service';
-import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
@@ -14,7 +13,7 @@ import { ValidationProblemBuilder } from 'src/utility/validation/ValidationProbl
 export class SearchAddPlayerValidatorService {
 
   constructor(private teamDataService:TeamDataService,
-    private searchPlayersService:SearchPlayersService,
+    private playerSearchRequest:PlayerSearchRequestService,
     private routerService:RouterService) { }
 
     private static readonly LIST_HAS_PLAYER_MESSAGE = "Il giocatore è già presente nella lista";
@@ -22,11 +21,11 @@ export class SearchAddPlayerValidatorService {
     private static readonly FAVORITE_LIST_HAS_PLAYER_MESSAGE = "Operazione non riuscita. Il giocatore è presente nella lista dei giocatori preferiti";      
   
     validateAddPlayerToListOperation(player:PlayerEntity) : ValidationProblem | null {
-      if(this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM)) {
+      if(this.routerService.currentPageIsMyTeam()) {
         return this.addPlayerToMyListValidation(player);
-      } else if(this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST)) {
+      } else if(this.routerService.currentPageIsFavoritList()) {
         return this.addPlayerToFavoriteListValidation(player);
-      } else if(this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST)) {
+      } else if(this.routerService.currentPageIsBlacklist()) {
         return this.addPlayerToBlacklistValidation(player);
       } else {
         // Operazione non ancora supportata
@@ -41,7 +40,7 @@ export class SearchAddPlayerValidatorService {
   
       // Validazione comuni
       const searchIntoListFunction:(player:PlayerEntity) => boolean = 
-          (player:PlayerEntity) => {return this.teamDataService.userTeamHasPlayer(player)};
+          (player:PlayerEntity) => {return this.teamDataService.myTeamHasPlayer(player)};
       let resultCommonValidation:ValidationProblem | null = this.commonValidation(player, searchIntoListFunction);
       if(resultCommonValidation != null) {
         return resultCommonValidation;
@@ -111,7 +110,7 @@ export class SearchAddPlayerValidatorService {
      */
     private commonValidation(player:PlayerEntity, checkListfunction:(player:PlayerEntity) => boolean) : ValidationProblem | null {  
       // Verifico l'esistenza del giocatore
-      let result:PlayerEntity | null = this.searchPlayersService.loadPlayerBydId(player.playerId);
+      let result:PlayerEntity | null = this.playerSearchRequest.loadPlayerBydId(player.playerId);
       if(result == null) {
         return new ValidationProblemBuilder()
             .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)

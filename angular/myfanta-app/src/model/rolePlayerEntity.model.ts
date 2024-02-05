@@ -1,20 +1,16 @@
 import { SportEnum } from "src/enum/SportEnum.model";
-import { LEAGUE_DATA, LeagueEntity } from "./leagueEntity.model";
-
-
 export class RolePlayerEntity {
-    private _roleId: number;    
-    private _description: string;    
-    private _shortDescription: string;    
-    private _sport: SportEnum;    
-    private _active: boolean;    
 
-    constructor(roleId:number, description:string, shortDescription:string, sport:SportEnum, active:boolean) {
+    private _roleId: number; 
+    private _description: string;    
+    private _shortDescription: string;
+    private _sport: SportEnum;    
+
+    constructor(roleId:number, description:string, shortDescription:string, sport:SportEnum) {
         this._roleId = roleId;
         this._description = description;
         this._shortDescription = shortDescription;
         this._sport = sport;
-        this._active = active;
     }
 
     public get roleId(): number {
@@ -49,48 +45,51 @@ export class RolePlayerEntity {
         this._sport = value;
     }
 
-    public get active(): boolean {
-        return this._active;
-    }
-
-    private set active(value: boolean) {
-        this._active = value;
-    }
-
     toJSON() : any {
         return {
             roleId : this.roleId,
             description : this.description,
             shortDescription : this.shortDescription,
             sport : this.sport.toJSON(),
-            active : this.active
         }
     }
 
     static fromJSON(json:any) : RolePlayerEntity {
         return new RolePlayerEntity(json.roleId, json.description, json.shortDescription, 
-            SportEnum.fromJSON(json.sport), json.active);
+            SportEnum.fromJSON(json.sport));
+    }
+
+    equals(other:any) : boolean {
+        if(other == null) {
+            return false;
+        }
+
+        if(!(other instanceof RolePlayerEntity)) {
+            return false;
+        }
+
+        return this.roleId == other.roleId && this.description == other.description && this.sport.code == other.sport.code;
     }
 }
 
 export const ROLE_PLAYER_DATA:RolePlayerEntity[] = [
     // CALCIO
-    new RolePlayerEntity(1, "Portiere", "P", SportEnum.FOOTBALL_SOCCER, true),
-    new RolePlayerEntity(2, "Difensore", "D", SportEnum.FOOTBALL_SOCCER, true),
-    new RolePlayerEntity(3, "Centrocampista", "C", SportEnum.FOOTBALL_SOCCER, true),
-    new RolePlayerEntity(4, "Attaccante", "A", SportEnum.FOOTBALL_SOCCER, true),
+    new RolePlayerEntity(1, "Portiere", "P", SportEnum.FOOTBALL_SOCCER),
+    new RolePlayerEntity(2, "Difensore", "D", SportEnum.FOOTBALL_SOCCER),
+    new RolePlayerEntity(3, "Centrocampista", "C", SportEnum.FOOTBALL_SOCCER),
+    new RolePlayerEntity(4, "Attaccante", "A", SportEnum.FOOTBALL_SOCCER),
 
     // PALLAVOLO
-    new RolePlayerEntity(5, "Palleggiatore", "P", SportEnum.VOLLEYBALL, true),
-    new RolePlayerEntity(6, "Schiacciatore", "S", SportEnum.VOLLEYBALL, true),
-    new RolePlayerEntity(7, "Opposto", "O", SportEnum.VOLLEYBALL, true),
-    new RolePlayerEntity(8, "Libero", "L", SportEnum.VOLLEYBALL, true),
-    new RolePlayerEntity(9, "Centrale", "C", SportEnum.VOLLEYBALL, true),
+    new RolePlayerEntity(5, "Palleggiatore", "P", SportEnum.VOLLEYBALL),
+    new RolePlayerEntity(6, "Schiacciatore", "S", SportEnum.VOLLEYBALL),
+    new RolePlayerEntity(7, "Opposto", "O", SportEnum.VOLLEYBALL),
+    new RolePlayerEntity(8, "Libero", "L", SportEnum.VOLLEYBALL),
+    new RolePlayerEntity(9, "Centrale", "C", SportEnum.VOLLEYBALL),
     
     // BASKET
-    new RolePlayerEntity(10, "Playmaker", "PG", SportEnum.BASKETBALL, true),
-    new RolePlayerEntity(11, "Guardia", "SG", SportEnum.BASKETBALL, true),
-    new RolePlayerEntity(12, "Ala piccola", "SF", SportEnum.BASKETBALL, true),
-    new RolePlayerEntity(13, "Ala grande", "PF", SportEnum.BASKETBALL, true),
-    new RolePlayerEntity(14, "Centro", "C", SportEnum.BASKETBALL, true),
+    new RolePlayerEntity(10, "Playmaker", "PG", SportEnum.BASKETBALL),
+    new RolePlayerEntity(11, "Guardia", "SG", SportEnum.BASKETBALL),
+    new RolePlayerEntity(12, "Ala piccola", "SF", SportEnum.BASKETBALL),
+    new RolePlayerEntity(13, "Ala grande", "PF", SportEnum.BASKETBALL),
+    new RolePlayerEntity(14, "Centro", "C", SportEnum.BASKETBALL),
 ]

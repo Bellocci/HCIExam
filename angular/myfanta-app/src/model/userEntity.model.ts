@@ -1,18 +1,18 @@
 import { ColorEnum } from "src/enum/ColorEnum.model";
 
 export class UserEntity {
-    private _userId: number;    
+
+    private _userId: number; 
     private _name: string;
     private _surname: string;
     private _username: string;
     private _password: string;
-    private _color: string;
-    private _active: boolean;    
+    private _color: ColorEnum;
 
     // Unico modo per avere un costruttore multiplo in typescript
     constructor();
     constructor(userId: number, name: string, surname: string, username: string,
-        password: string, color: string, active: boolean);
+        password: string, color: string);
     constructor(... params:any[]) {
         if(params.length == 7) {
             this._userId = params[0];
@@ -21,15 +21,13 @@ export class UserEntity {
             this._username = params[3];
             this._password = params[4];
             this._color = params[5];
-            this._active = params[6];
         } else {
             this._userId = -1;
             this._name = "";
             this._surname = "";
             this._username = "";
             this._password = "";
-            this._color = "";
-            this._active = true;
+            this._color = ColorEnum.WHITE;
         }        
     }
 
@@ -73,20 +71,12 @@ export class UserEntity {
         this._password = value;
     }
 
-    public get color(): string {
+    public get color(): ColorEnum {
         return this._color;
     }
 
-    public set color(value: string) {
+    public set color(value: ColorEnum) {
         this._color = value;
-    }
-
-    public get active(): boolean {
-        return this._active;
-    }
-
-    public set active(value: boolean) {
-        this._active = value;
     }
 
     // Metodi di utilità
@@ -130,7 +120,6 @@ export class UserEntity {
             username: this.username,
             password: this.password,
             color: this.color,
-            active: this.active
         }
     }
 
@@ -139,13 +128,13 @@ export class UserEntity {
         console.log("JSON: " + json.userId);
         console.log("JSON: " + json.name);
         console.log("JSON: " + json.surname);
-        return new UserEntity(json.userId, json.name, json.surname, json.username, json.passwod, json.color, json.active);
+        return new UserEntity(json.userId, json.name, json.surname, json.username, json.passwod, json.color);
     }
 }
 
 export const USER_DATA: UserEntity[] = [
-    new UserEntity(1, "Francesco", "Bellocci", "scon", "scon", ColorEnum.YELLOW, true),
-    new UserEntity(3, "Caterina", "Cocchiaro", "Catescon95", "Password1?", ColorEnum.GREEN, true),
+    new UserEntity(1, "Francesco", "Bellocci", "scon", "scon", ColorEnum.YELLOW),
+    new UserEntity(3, "Caterina", "Cocchiaro", "Catescon95", "Password1?", ColorEnum.GREEN),
     new UserEntity(4, "aaa", "aaa", "aaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        ColorEnum.RED, true)
+        ColorEnum.RED)
 ]

@@ -1,0 +1,191 @@
+<mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+        <mat-panel-title><span class="text"> Filtri ricerca giocatori</span></mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <!-- Visualizzazione standard -->
+    <ng-container *ngIf="!(breakpointsService.mobileOrMobileXLObservable | async)">
+        <!-- Riga : Ruoli / Presenze -->
+        <div class="flex-container small-container large-margin-right large-margin-left">
+
+            <!-- Ruoli -->
+            <div class="cell-6of12 flex-direction-column">
+                <label class="top-label">Ruolo</label>
+
+                <div class="flex-container">
+                    <ng-container *ngFor="let role of roles">
+                        <button mat-flat-button class="margin-right mini-btn"
+                            [ngClass]="isRoleSelected(role) ? 'custom-mini-btn-selected' : ['custom-mini-btn', 'mat-elevation-z3']"
+                            (click)="updateRolesSelectedList(role)">
+                            {{ role.shortDescription }}
+                        </button>
+                    </ng-container>
+                </div>
+
+            </div>
+
+            <!-- Presenze -->
+            <div class="cell-6of12 flex-direction-column">
+                <label class="top-label">Presenze</label>
+                <div class="flex-container">
+                    <ng-container *ngFor="let filter of standardMatchPlayedEnum.getValues()">
+                        <button mat-flat-button class="margin-right mini-btn"
+                            [ngClass]="isMatchFilterSelected(filter) ? 'custom-mini-btn-selected' : ['custom-mini-btn', 'mat-elevation-z3']"
+                            (click)="updateMatchFilterSelected(filter)">
+                            {{ filter.label }}
+                        </button>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>        
+
+        <!-- Riga : squadre -->
+        <div class="flex-container large-margin-right large-margin-left standard-container">
+
+            <div class="cell-12of12 flex-direction-column">
+
+                <div class="margin-bottom">
+                    <label class="label">Squadre</label>
+                    <mat-icon class="margin-left icon-size"
+                        matTooltip="Se nessuna squadra è selezionata la ricerca verrà effettuata su tutte le squadre">
+                        info
+                    </mat-icon>
+                </div>
+                <div class="cell-12of12">
+                    <app-team-list-responsive [clearTeams]="isClearSelectedTeamsEnabled()"
+                        (updateSelectedTeamEvent)="updateSelectedTeamsList($event)">
+                    </app-team-list-responsive>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Riga : pulsanti -->
+        <div class="flex-container large-margin">
+
+            <!-- Ripulisce i filtri di ricerca-->
+            <div class="flex-end cell-2of12">
+                <button mat-raised-button class="standard-btn label"
+                    (click)="clearSearchFilter()">
+                    Clear
+                </button>
+            </div>
+
+        </div>
+    </ng-container>
+
+    <!-- Visualizzazione mobile -->
+    <ng-container *ngIf="breakpointsService.mobileOrMobileXLObservable | async">
+        <!-- Riga 1 -->
+        <div class="flex-container small-container large-margin-right large-margin-left">
+
+            <!-- Ruoli -->
+            <div class="cell-12of12 flex-direction-column">
+                <label class="top-label">Ruolo</label>
+
+                <!-- Versione estesa -->
+                <div class="flex-container" *ngIf="!isMobileBreakpointActive">
+                    <ng-container *ngFor="let role of roles">
+                        <button mat-flat-button class="margin-right mini-btn"
+                            [ngClass]="isRoleSelected(role) ? 'custom-mini-btn-selected' : ['custom-mini-btn', 'mat-elevation-z3']"
+                            (click)="updateRolesSelectedList(role)">
+                            {{ role.shortDescription }}
+                        </button>
+                    </ng-container>
+                </div>
+
+                <!-- Versione compatta -->
+                <div *ngIf="isMobileBreakpointActive">
+                    <mat-form-field class="full-width">
+                        <mat-label>Scegli un opzione</mat-label>
+                        <mat-select multiple [value]="getSelectedRoles()" #roleSelect>
+                            <ng-container *ngFor="let role of roles">
+                                <mat-option [value]="role" (onSelectionChange)="updateRolesSelectedList(role)">
+                                    {{ role.description }}
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Riga 2 -->
+        <div class="flex-container small-container large-margin-right large-margin-left">
+
+            <!-- Presenze -->
+            <div class="cell-12of12 flex-direction-column"
+                *ngIf="(breakpointsService.mobileOrMobileXLObservable | async)">
+                <label class="top-label">Presenze</label>
+
+                <!-- Versione estesa  -->
+                <div class="flex-start" *ngIf="!isMobileBreakpointActive">
+                    <ng-container *ngFor="let filter of standardMatchPlayedEnum.getValues()">
+                        <button mat-flat-button class="margin-right mini-btn"
+                            [ngClass]="isMatchFilterSelected(filter) ? 'custom-mini-btn-selected' : ['custom-mini-btn', 'mat-elevation-z3']"
+                            (click)="updateMatchFilterSelected(filter)">
+                            {{ filter.label }}
+                        </button>
+                    </ng-container>
+                </div>
+
+                <!-- Versione compatta -->
+                <div *ngIf="isMobileBreakpointActive">
+                    <mat-form-field class="full-width">
+                        <mat-label>Scegli un opzione</mat-label>
+                        <mat-select [value]="getMatchPlayedPerc()" #matchPlayedPercSelect>
+                            <ng-container *ngFor="let filter of standardMatchPlayedEnum.getValues()">
+                                <mat-option [value]="filter" (onSelectionChange)="updateMatchFilterSelected(filter)">
+                                    {{ filter.label }}
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Riga 3 -->
+        <div class="flex-container large-margin-right large-margin-left"
+            [ngClass]="isMobileBreakpointActive ? 'small-container' : 'standard-container'">
+
+            <!-- Squadre -->
+            <div class="cell-12of12 flex-direction-column">
+
+                <div class="margin-bottom">
+                    <label class="label">Squadre</label>
+                    <mat-icon class="margin-left icon-size"
+                        matTooltip="Se nessuna squadra è selezionata la ricerca verrà effettuata su tutte le squadre">
+                        info
+                    </mat-icon>
+                </div>
+                <div class="cell-12of12">
+                    <app-team-list-responsive [clearTeams]="isClearSelectedTeamsEnabled()"
+                        (updateSelectedTeamEvent)="updateSelectedTeamsList($event)">
+                    </app-team-list-responsive>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Riga 4 : pulsanti -->
+        <div class="flex-container large-margin">
+
+            <!-- Ripulisce i filtri di ricerca-->
+            <div class="cell-2of12" [ngClass]="[isMobileBreakpointActive ? 'flex-center-wrap' : 'flex-end']">
+                <button mat-raised-button class="label"
+                    [ngClass]="[isMobileBreakpointActive ? 'small-btn' : 'standard-btn']"
+                    (click)="clearSearchFilter()">
+                    Clear
+                </button>
+            </div>
+
+        </div>
+    </ng-container>
+
+</mat-expansion-panel>

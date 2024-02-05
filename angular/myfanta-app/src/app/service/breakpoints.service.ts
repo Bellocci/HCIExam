@@ -27,7 +27,8 @@ export class BreakpointsService implements OnDestroy {
   private static readonly MOBILE_XL_BREAKPOINT : Breakpoint = {minWidth: 600, maxWidth : 767.98}
   private static readonly TABLET_BREAKPOINT: Breakpoint = { minWidth: 768, maxWidth: 991.98 }
   private static readonly LAPTOP_BREAKPOINT: Breakpoint = { minWidth: 992, maxWidth: 1199.98 }
-  private static readonly LARGE_DEVICE_BREAKPOINT: Breakpoint = { minWidth: 1200 }
+  private static readonly LARGE_DEVICE_BREAKPOINT: Breakpoint = { minWidth: 1200, maxWidth: 1399.98}
+  private static readonly XL_DEVICE_BREAKPOINT: Breakpoint = {minWidth: 1400}
 
   /*
    * ======================= 
@@ -40,6 +41,7 @@ export class BreakpointsService implements OnDestroy {
   private readonly _tabletObservable: Observable<boolean>;  
   private readonly _laptopObservable: Observable<boolean>;
   private readonly _largeDeviceObservable: Observable<boolean>;
+  private readonly _xlDeviceObservable: Observable<boolean>;  
   private readonly _mobileOrTabletObservable: Observable<boolean>;  
   private readonly _mobileOrMobileXLObservable: Observable<boolean>;
 
@@ -51,6 +53,7 @@ export class BreakpointsService implements OnDestroy {
     this._tabletObservable = this.createTabletObservable();
     this._laptopObservable = this.createLaptopObservable();
     this._largeDeviceObservable = this.createLargeDeviceObservable();
+    this._xlDeviceObservable = this.createXLDeviceObservable();
     this._mobileOrTabletObservable = this.createMobileOrTabletObservable();
     this._mobileOrMobileXLObservable = this.createMobileOrMobileXLObservable();
   }
@@ -150,7 +153,24 @@ export class BreakpointsService implements OnDestroy {
           let result: boolean = false;
           if (event != null && event.target != null) {
             const window = event.target as Window;
-            result = BreakpointsService.LARGE_DEVICE_BREAKPOINT.minWidth <= window.innerWidth
+            result = BreakpointsService.LARGE_DEVICE_BREAKPOINT.minWidth <= window.innerWidth &&
+              window.innerWidth < BreakpointsService.LARGE_DEVICE_BREAKPOINT.maxWidth!;
+          }
+          return result;
+        }),
+        shareReplay()
+      )
+  }
+
+  private createXLDeviceObservable(): Observable<boolean> {
+    return fromEvent(window, "resize")
+      .pipe(
+        takeUntil(this.onDestroy$),
+        map((event) => {
+          let result: boolean = false;
+          if (event != null && event.target != null) {
+            const window = event.target as Window;
+            result = BreakpointsService.XL_DEVICE_BREAKPOINT.minWidth <= window.innerWidth;
           }
           return result;
         }),
@@ -216,6 +236,10 @@ export class BreakpointsService implements OnDestroy {
 
   public get largeDeviceObservable(): Observable<boolean> {
     return this._largeDeviceObservable;
+  }
+
+  public get xlDeviceObservable(): Observable<boolean> {
+    return this._xlDeviceObservable;
   }
 
   public get mobileOrTabletObservable(): Observable<boolean> {

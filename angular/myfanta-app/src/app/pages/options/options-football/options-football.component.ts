@@ -49,23 +49,10 @@ export class OptionsFootballComponent extends OptionsAbstract implements OnInit 
 
 
   ngOnInit(): void {
-    this.addSelectedUserTeamObserver();
+
   }
 
   // PRIVATE
-
-  private addSelectedUserTeamObserver(): void {
-    this.userService.addSelectedTeamObserver(new ObserverStepBuilder<UserTeamEntity | undefined>()
-      .next(userTeam => {
-        if (userTeam != undefined && userTeam.option != null && userTeam.option.sport == SportEnum.FOOTBALL_SOCCER) {
-          this._option = userTeam.option as OptionFootballSoccerEntity;
-        } else {
-          this._option = new OptionFootballSoccerEntity();
-        }
-        this.updateBudgetAvailable();
-      })
-      .build())
-  }
 
   // GETTER & SETTER
 

@@ -8,16 +8,6 @@ import { ObservableHelper } from 'src/utility/observable-helper';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { UserDecoratorFactoryService } from 'src/decorator-factory/user-decorator-factory.service';
 
-/**
- * Interfaccia utilizzata insieme alla mappa per definire una coppia
- * di valori, una contenente la lista dei team attivi, l'altra la lista
- * dei team non attivi.
- */
-interface UserTeamCouple {
-  activeList: UserTeamEntity[];
-  deactiveList: UserTeamEntity[];
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -33,8 +23,7 @@ export class UserService implements OnDestroy {
 
   private user:ObservableHelper<UserEntity> = new ObservableHelper<UserEntity>(new UserEntity());
 
-  private sportTeamMap:Map<SportEnum, UserTeamCouple> | undefined = undefined;
-  private selectedTeam:ObservableHelper<UserTeamEntity | undefined> = new ObservableHelper<UserTeamEntity | undefined>(undefined);
+  private sportTeamMap:Map<SportEnum, UserTeamEntity[]> | undefined = undefined;  
 
   /*
    * =========================
@@ -63,8 +52,7 @@ export class UserService implements OnDestroy {
 
   ngOnDestroy(): void {
     console.log("Destroy the User service");
-    this.user.destroy();
-    this.selectedTeam.destroy();
+    this.user.destroy();    
   }
 
   /*
@@ -87,15 +75,7 @@ export class UserService implements OnDestroy {
 
   private setUser(user:UserEntity) {
     this.user.setValue(user);
-  }
-
-  setSelectedTeam(userTeam : UserTeamEntity | undefined) {
-    this.selectedTeam.setValue(userTeam);
-  }
-
-  addSelectedTeamObserver(observer:Observer<UserTeamEntity | undefined>) : Subscription | undefined {
-    return this.selectedTeam.addObserver(observer);
-  }
+  }  
 
   /*
    * ================
@@ -154,7 +134,7 @@ export class UserService implements OnDestroy {
       // TODO: Salvataggio su db
 
       // TODO: Chiamata al db per caricare il nuovo utente
-      let entity:UserEntity = new UserEntity(USER_DATA.length, name, surname, username, password, ColorEnum.WHITE, true);
+      let entity:UserEntity = new UserEntity(USER_DATA.length, name, surname, username, password, ColorEnum.WHITE);
       // Salvataggio su db
       USER_DATA.push(entity)
       return entity;
@@ -197,39 +177,30 @@ export class UserService implements OnDestroy {
     let myTeams:UserTeamEntity[] = [];
     if(!this.user.getValue().isFakeUser()) {
       if(this.sportTeamMap == undefined) {
-        this.sportTeamMap = new Map<SportEnum, UserTeamCouple>();
+        this.sportTeamMap = new Map<SportEnum, UserTeamEntity[]>();
       }
   
       if(!this.sportTeamMap.has(sport)) {
-        // Caricamento da db
+        // FIXME: Caricamento da db
         myTeams = CUSTOMS_TEAM_DATA.filter(team => team.user.equals(this.user.getValue()) && 
             team.league.sport.code == sport.code);   
-        this.buildSportTeamMap(myTeams, sport);
+        this.sportTeamMap.set(sport, myTeams);
       }
-      return this.sportTeamMap.get(sport)?.activeList!;
+
+      return this.sportTeamMap.get(sport)!;
     }
 
     return myTeams;
   } 
 
-  private buildSportTeamMap(myTeams:UserTeamEntity[], sport:SportEnum) : void {
-    if(this.sportTeamMap != undefined) {
-      this.sportTeamMap.set(sport, { activeList : [], deactiveList : [] });
-      myTeams.forEach(t => {
-        t.active ? this.sportTeamMap!.get(sport)!.activeList.push(t) : 
-          this.sportTeamMap!.get(sport)!.deactiveList.push(t);
-      })
-    }
-  }
-
   addNewTeam(userTeam:UserTeamEntity) : boolean {
     let sport:SportEnum = userTeam.league.sport;
     this.loadTeams(sport);
     if(this.sportTeamMap != undefined && this.sportTeamMap.has(sport) && 
-        this.sportTeamMap.get(sport)!.activeList.filter(t => t.nameTeam == userTeam.nameTeam).length == 0) {
-        // Chiamata al backend
+        this.sportTeamMap.get(sport)!.filter(t => t.nameTeam == userTeam.nameTeam).length == 0) {
+        // FIXME: Chiamata al backend
         CUSTOMS_TEAM_DATA.push(userTeam);      
-        this.sportTeamMap.get(sport)?.activeList.push(userTeam);
+        this.sportTeamMap.get(sport)?.push(userTeam);
         return true;
     }
     return false;
@@ -238,11 +209,10 @@ export class UserService implements OnDestroy {
   removeTeam(userTeam:UserTeamEntity) : boolean {
     const sport:SportEnum = userTeam.league.sport;
     if(this.sportTeamMap != undefined && this.sportTeamMap.has(sport)) {
-      const index:number = this.sportTeamMap.get(sport)!.activeList.findIndex(t => t.equals(userTeam));
+      const index:number = this.sportTeamMap.get(sport)!.findIndex(t => t.equals(userTeam));
       if(index != -1) {
         // Contiene esattamente un valore
-        const team:UserTeamEntity[] = this.sportTeamMap.get(sport)!.activeList.splice(index, 1);        
-        this.sportTeamMap.get(sport)!.deactiveList.push(team[0]);
+        this.sportTeamMap.get(sport)!.splice(index, 1);        
         return true;
       }
     }
@@ -255,6 +225,10 @@ export class UserService implements OnDestroy {
     }
 
     // E' sicuramente presente per il controllo precedente
-    return this.sportTeamMap!.get(sport)!.activeList.length > 0;
+    return this.sportTeamMap!.get(sport)!.length > 0;
+  }
+
+  saveTeam() : void {
+    // FIXME: SALVATAGGIO SQUADRA, GIOCATORI PREFERITI, GIOCATORI DA ESCLUDERE, OPZIONI DI RICERCA
   }
 }

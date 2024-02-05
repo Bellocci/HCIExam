@@ -86,10 +86,9 @@ export class HomeComponent implements OnInit {
    */
 
   selectedLeagueListener(league:LeagueEntity) : void {
-    this.clearData();
     this.internalDataService.setLoadingData(true);
     this.setLeagueSelected(league);
-    this.routerService.goToMyTeamPage(LinkEnum.MYTEAM);
+    this.routerService.goToMyTeamPage();
   }
 
   /*
@@ -97,11 +96,6 @@ export class HomeComponent implements OnInit {
    * METODI PRIVATI
    * ===============
    */
-
-  private clearData() : void {
-    this.userService.setSelectedTeam(undefined);
-    this.teamDataService.clearAllList();
-  }
 
   private setLeagueSelected(league:LeagueEntity) : void {
     this.internalDataService.setLeagueSelected(league);

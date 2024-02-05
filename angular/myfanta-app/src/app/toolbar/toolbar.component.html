@@ -91,8 +91,8 @@
               <div class="cell-4of12 flex-center-wrap">
                 <button mat-flat-button class="btn-menu "
                   [ngClass]="isCreateTeamLinkSelected() ? 'btn-menu-link' : 'primary-color-dark'"
-                  (click)="goToPage(linkEnum.CREATE_TEAM)">
-                  <span class="label" [ngClass]="isPageSelected(linkEnum.CREATE_TEAM) ? 'bold' : ''">
+                  (click)="routerService.goToMyTeamPage()">
+                  <span class="label" [ngClass]="{'bold' : routerService.currentPageIsMyTeam()}">
                     {{ linkEnum.CREATE_TEAM.description }}
                   </span>
                 </button>
@@ -101,9 +101,9 @@
               <!-- Link alla pagina Options -->
               <div class="cell-4of12 flex-center-wrap">
                 <button mat-flat-button class="btn-menu "
-                  [ngClass]="isPageSelected(linkEnum.OPTIONS) ? 'btn-menu-link' : 'primary-color-dark'"
-                  (click)="goToPage(linkEnum.OPTIONS)">
-                  <span class="label" [ngClass]="isPageSelected(linkEnum.OPTIONS) ? 'bold' : ''">
+                  [ngClass]="routerService.currentPageIsOptions() ? 'btn-menu-link' : 'primary-color-dark'"
+                  (click)="routerService.goToOptionsPage()">
+                  <span class="label" [ngClass]="{'bold' : routerService.currentPageIsOptions()}">
                     {{ linkEnum.OPTIONS.description }}
                   </span>
                 </button>
@@ -112,9 +112,9 @@
               <!-- link alla pagina Player list-->
               <div class="cell-4of12 flex-center-wrap">
                 <button mat-flat-button class="btn-menu "
-                  [ngClass]="isPageSelected(linkEnum.PLAYER_LIST) ? 'btn-menu-link' : 'primary-color-dark'"
-                  (click)="goToPage(linkEnum.PLAYER_LIST)">
-                  <span class="label" [ngClass]="isPageSelected(linkEnum.PLAYER_LIST) ? 'bold' : ''">
+                  [ngClass]="routerService.currentPageIsPlayerList() ? 'btn-menu-link' : 'primary-color-dark'"
+                  (click)="routerService.goToPlayerListPage()">
+                  <span class="label" [ngClass]="{'bold' : routerService.currentPageIsPlayerList()}">
                     {{ linkEnum.PLAYER_LIST.description }}
                   </span>
                 </button>
@@ -128,7 +128,7 @@
             <ng-container *ngIf="breakpointsService.mobileOrTabletObservable | async">
               <!-- Link alla pagina di Home -->
               <div class="flex-center-wrap">
-                <button mat-flat-button (click)="goToPage(linkEnum.HOME)" class="btn-menu">
+                <button mat-flat-button (click)="routerService.goToHomePage()" class="btn-menu">
                   <h2 class="bold">FantasyTeam</h2>
                 </button>
               </div>
@@ -172,7 +172,7 @@
               <!-- Menu -->
               <mat-menu #menuUser="matMenu" xPosition="before">
                 <div class="user-menu">
-                  <button mat-menu-item (click)="goToPage(linkEnum.USER_PROFILE)">
+                  <button mat-menu-item (click)="routerService.goToMyProfilePage()">
                     Mio profilo
                   </button>
                   <mat-divider></mat-divider>
@@ -185,7 +185,7 @@
           <ng-container *ngIf="!(breakpointsService.mobileOrTabletObservable | async)">
             <div class="cell-1of12 flex-end flex-center-wrap">
               <!-- Link alla pagina di Home -->
-              <button mat-flat-button (click)="goToPage(linkEnum.HOME)" class="btn-menu">
+              <button mat-flat-button (click)="routerService.goToHomePage()" class="btn-menu">
                 <mat-icon class="icon-size">home</mat-icon>
                 <span class="label">{{ linkEnum.HOME.description }}</span>
               </button>
@@ -205,8 +205,8 @@
           <div class="cell-4of12 flex-center-wrap">
             <button mat-flat-button class="btn-menu "
               [ngClass]="isCreateTeamLinkSelected() ? 'btn-menu-link' : 'primary-color-dark'"
-              (click)="goToPage(linkEnum.CREATE_TEAM)">
-              <span class="label" [ngClass]="isPageSelected(linkEnum.CREATE_TEAM) ? 'bold' : ''">
+              (click)="routerService.goToMyTeamPage()">
+              <span class="label" [ngClass]="{'bold' : routerService.currentPageIsMyTeam()}">
                 {{ linkEnum.CREATE_TEAM.description }}
               </span>
             </button>
@@ -215,9 +215,9 @@
           <!-- Link alla pagina Options -->
           <div class="cell-4of12 flex-center-wrap">
             <button mat-flat-button class="btn-menu "
-              [ngClass]="isPageSelected(linkEnum.OPTIONS) ? 'btn-menu-link' : 'primary-color-dark'"
-              (click)="goToPage(linkEnum.OPTIONS)">
-              <span class="label" [ngClass]="isPageSelected(linkEnum.OPTIONS) ? 'bold' : ''">
+              [ngClass]="routerService.currentPageIsOptions() ? 'btn-menu-link' : 'primary-color-dark'"
+              (click)="routerService.goToOptionsPage()">
+              <span class="label" [ngClass]="{'bold' : routerService.currentPageIsOptions()}">
                 {{ linkEnum.OPTIONS.description }}
               </span>
             </button>
@@ -226,9 +226,9 @@
           <!-- link alla pagina Player list-->
           <div class="cell-4of12 flex-center-wrap">
             <button mat-flat-button class="btn-menu "
-              [ngClass]="isPageSelected(linkEnum.PLAYER_LIST) ? 'btn-menu-link' : 'primary-color-dark'"
-              (click)="goToPage(linkEnum.PLAYER_LIST)">
-              <span class="label" [ngClass]="isPageSelected(linkEnum.PLAYER_LIST) ? 'bold' : ''">
+              [ngClass]="routerService.currentPageIsPlayerList() ? 'btn-menu-link' : 'primary-color-dark'"
+              (click)="routerService.goToPlayerListPage()">
+              <span class="label" [ngClass]="{'bold' : routerService.currentPageIsPlayerList()}">
                 {{ linkEnum.PLAYER_LIST.description }}
               </span>
             </button>

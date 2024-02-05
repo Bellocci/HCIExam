@@ -121,7 +121,7 @@ export class CreateNewTeamDialogComponent implements OnInit {
     let newTeam:UserTeamEntity;
     if(this.importPlayer) {
       newTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUser(), 
-        this.teamNameFormControl.value, this.selectedLeague!, this.teamDataService.getUserTeamList(), 
+        this.teamNameFormControl.value, this.selectedLeague!, this.teamDataService.getMyTeamList(), 
         this.teamDataService.getFavoritePlayersList(), this.teamDataService.getBlacklistPlayers());
     } else {
       newTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUser(), 

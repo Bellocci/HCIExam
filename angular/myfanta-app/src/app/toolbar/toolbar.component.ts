@@ -204,20 +204,17 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   isBtnHomeRendered() : boolean {
-    return !this.routerService.currentPageIsHome(LinkEnum.HOME) && 
-      (this.isLeagueSelected() || this.routerService.currentPageIsMyProfile(LinkEnum.USER_PROFILE));
+    return !this.routerService.currentPageIsHome() && (this.isLeagueSelected() || this.routerService.currentPageIsMyProfile());
   }
 
   isCreateTeamLinkSelected() : boolean {
-    return this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM) || this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) || this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST);
+    return this.routerService.currentPageIsMyTeam() || 
+      this.routerService.currentPageIsFavoritList() || 
+      this.routerService.currentPageIsBlacklist();
   }
 
   isBackBtnRendered() : boolean {
     return this._playerSelected != null ? this.routerService.currentPageIsPlayerProfile(this._playerSelected) : false;
-  }
-
-  isPageSelected(link:LinkEnum) : boolean {
-    return this.routerService.isLinkActivated(link);
   }
 
   /*
@@ -246,10 +243,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   selectedLeagueListener(league: LeagueEntity) {
-    this.clearData();
     this.leagueSelected = league;
     this.closeSidenav();
-    this.routerService.goToMyTeamPage(LinkEnum.MYTEAM);
+    this.routerService.goToMyTeamPage();
   }
 
   openLoginDialog() : void {
@@ -263,23 +259,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   logout() : void {    
     this.userService.logout();
-    if(this.routerService.currentPageIsMyProfile(LinkEnum.USER_PROFILE)) {
-      this.routerService.goToHomePage(LinkEnum.HOME);
+    if(this.routerService.currentPageIsMyProfile()) {
+      this.routerService.goToHomePage();
     }
     this.snackbarService.openInfoSnackBar("Ti sei scollegato dal tuo account");    
   }
-
-  private clearData(): void {
-    this.userService.setSelectedTeam(undefined);
-    this.teamDataService.clearAllList();
-  }
-
-  /*
-   * ============
-   * NAVIGAZIONE
-   * ============
-   */
-  goToPage(link:LinkEnum) : void {
-    this.routerService.goToLink(link);
-  }  
 }

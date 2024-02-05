@@ -1,12 +1,10 @@
-import { SportEnum } from "src/enum/SportEnum.model";
 import { OptionEntity } from "./optionEntity.model";
+import { SportEnum } from "src/enum/SportEnum.model";
 import { TeamEntity } from "../teamEntity.model";
 import { PlayerEntity } from "../playerEntity.model";
 
-
 export class OptionFootballSoccerEntity extends OptionEntity {
-
-    private _isBudgetCustomisedByRoles: boolean;
+    
     private _budgetGoalkeeper: number;
     private _budgetDefender: number;
     private _budgetMidfielder: number;
@@ -17,8 +15,10 @@ export class OptionFootballSoccerEntity extends OptionEntity {
     private _averageYellowCard: number;
     private _averageRedCard: number;
 
-    constructor(id?: string, active?: boolean) {
-        super(SportEnum.FOOTBALL_SOCCER, id, active);
+    private _isBudgetCustomisedByRoles: boolean;
+
+    constructor(id?: string) {
+        super(SportEnum.FOOTBALL_SOCCER, id);
         this._isBudgetCustomisedByRoles = false;
         this._budgetGoalkeeper = 0;
         this._budgetDefender = 0;
@@ -142,7 +142,6 @@ export class OptionFootballSoccerEntity extends OptionEntity {
             teamsList: jsonTeamList,
             playersToInclude: jsonIncludePlayerList,
             playersToExclude: jsonExcludePlayerList,
-            active: this.active,
             isCustomBudgetByRoles: this.isBudgetCustomisedByRoles,
             budgetGoalkeeper: this.budgetGoalkeeper,
             budgetDefender: this.budgetDefender,
@@ -157,7 +156,7 @@ export class OptionFootballSoccerEntity extends OptionEntity {
     }
 
     static override fromJSON(json: any): OptionFootballSoccerEntity {
-        let entity: OptionFootballSoccerEntity = new OptionFootballSoccerEntity(json.optionId, json.active);
+        let entity: OptionFootballSoccerEntity = new OptionFootballSoccerEntity(json.optionId);
         entity.budget = json.budget;
         entity.minAge = json.minAge;
         entity.maxAge = json.maxAge;
@@ -171,10 +170,10 @@ export class OptionFootballSoccerEntity extends OptionEntity {
         entity.averageMatchPlayed = json.averageMatchPlayed;
         entity.averageYellowCard = json.averageYellowCard;
         entity.averageRedCard = json._averageRedCard;
-        json.teamsList.forEach((t: TeamEntity) => entity.teamsList.push(TeamEntity.fromJSON(t)));
+        json.teamsList.forEach((t: TeamEntity) => entity.teamsList.push(PlayerEntity.fromJSON(t)));
         json.playersToInclude.forEach((p: PlayerEntity) => entity.playersToInclude.push(PlayerEntity.fromJSON(p)));
         json.playersToExclude.forEach((p: PlayerEntity) => entity.playersToInclude.push(PlayerEntity.fromJSON(p)));
 
         return entity;
-    }
+    }    
 }

@@ -1,8 +1,9 @@
 @use "src/styles/global/styles";
-@use "src/styles/component/spinner";
-@use "src/styles/component/buttons";
+@use "src/styles/angular-component/spinner";
+@use "src/styles/angular-component/buttons";
+@use "src/styles/angular-component/toolbar";
+@use "src/styles/angular-component/expansion-panel";
 @use "src/styles/component/snackbar";
-@use "src/styles/component/expansion-panel";
 @import "src/styles/global/breakpoints";
 @import "src/styles/global/colors";
 @import "src/styles/global/variables";
@@ -14,12 +15,6 @@ TOOLBAR STYLE
 */
 
 /* Toolbar */
-
-.toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
 
 .toolbar-row {
     padding-left: 16px;
@@ -78,22 +73,6 @@ TOOLBAR STYLE
  * SIDENAV
  * ========
  */
-
-.sidenav-container {
-    height: 100%;
-}
-
-.sidenav {
-    max-width: 300px;
-    width: 100%;
-}
-
-@media (max-width: $mobileXL-breakpoint) {
-
-    .sidenav {
-        width: calc(100% - 100px);
-    }
-}
 
 /* Expansion panel element */
 

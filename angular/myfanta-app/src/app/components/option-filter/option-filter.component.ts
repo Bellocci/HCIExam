@@ -3,6 +3,29 @@ import { InternalDataService } from '../../service/internal-data.service';
 import { FilterDataService } from '../../service/filter-data.service';
 import { StandardOption } from 'src/decorator/option/standard-option.model';
 import { TeamEntity } from 'src/model/teamEntity.model';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
+
+/*
+Metodo da utilizzare soprattutto per lo scroll della pagina quando si genera la squadra
+createTeam(): void {
+    if (!this.simpleOption.includeAdvancedFilter) {
+      this.externalService.createTeamWithSimpleOption(this.simpleOption);
+    } else if (this.option != null && this.leagueSelected != null) {
+      this.externalService.createTeamWithAdvancedOption(this.option, this.leagueSelected.sport);
+    }
+
+    // Effettua lo scroll della pagina fino alla tabella dei giocatori
+    const tableContainer = document.querySelector('#tableContainer');
+    tableContainer?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest"
+    });
+
+    // TODO: Una volta terminato la creazione del team si visualizza un messaggio
+    this.snackbarService.openInfoSnackBar("Generazione del team terminata!");
+  }
+*/
 
 @Component({
   selector: 'app-option-filter',
@@ -18,7 +41,9 @@ export class OptionFilterComponent implements OnInit {
   @Output() private optionToSend:EventEmitter<StandardOption> = new EventEmitter<StandardOption>();
 
   constructor(private internalDataService:InternalDataService,
-    private filterDataService:FilterDataService) {
+    private filterDataService:FilterDataService,
+    public breakpointsService:BreakpointsService) {
+
     this.subscribeTeams();
     this.option = new StandardOption();
   }
@@ -96,5 +121,14 @@ export class OptionFilterComponent implements OnInit {
   checkAdvancedFilterAreIncluded(included:boolean) : void {
     this.option.includeAdvancedFilter = included;
     this.optionToSend.emit(this.option);
+  }
+
+  isClearSelectedTeamsEnabled() : boolean {
+    // TODO: da implementare
+    return false;
+  }
+
+  updateSelectedTeamsList(team: TeamEntity): void {
+    // TODO: da implementare
   }
 }

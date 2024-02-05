@@ -1,4 +1,4 @@
-import { OnInit, Component, ViewChild, AfterViewInit } from '@angular/core';
+import { OnInit, Component, ViewChild, AfterViewInit, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -11,12 +11,13 @@ import { RouterService } from '../../service/router.service';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { TableFilterOption } from './table-filter';
 import { ObservableHelper } from 'src/utility/observable-helper';
-import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { SnackBarService } from 'src/app/service/snack-bar.service';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
-import { SearchPlayersService } from 'src/app/service/search-players.service';
+import { PlayerSearchRequestService } from 'src/app/service/player-search-request.service';
+import { Subscription } from 'rxjs';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
 
 @Component({
   selector: 'app-table',
@@ -25,73 +26,262 @@ import { SearchPlayersService } from 'src/app/service/search-players.service';
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '80px'})),
+      state('expanded', style({height: '*'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
 
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
-  private tableHelper:TableHelper;
-  private isTableEmpty : boolean = true;
-  private leagueSelected : LeagueEntity | null = null;
+  /*
+   * ==========
+   * ATTRIBUTI 
+   * ==========
+   */
 
-  dataSource!:MatTableDataSource<PlayerEntity>;
+  @Input()
+  playersList:PlayerEntity[] = [];
+
   @ViewChild(MatPaginator) private paginator!: MatPaginator;
   @ViewChild(MatSort) private sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<PlayerEntity>;
-  private _pageIndex:number = 0;
-  private pageSize:number = 10;
-  private pageSizeOptions:number[] = [5, 10, 20]
+  dataSource!:MatTableDataSource<PlayerEntity>;
 
-  private filtersOption:ObservableHelper<string> = new ObservableHelper("");
-  private static readonly SEPARATOR_FILTER_CHARACTER:string= "|";
-  private static readonly SEPARATOR_FILTER_VALUE_CHARACTER:string = "-";
+  private _pageIndex: number = 0;  
+  private _pageSizeOptions: number[] = [10, 20, 50];
+
+  private _tableHelper:TableHelper;
+  private _isTableEmpty: boolean = true;  
+  private _leagueSelected: LeagueEntity | null = null;  
+  public searchPlayerString:string = "";
+  private _expandedPlayer: PlayerEntity | null = null;
+  private _displayedColumns: string[] = [];  
+  private _isMobileBreakpointActive:boolean = false;
+
+  private _filtersOption:ObservableHelper<string> = new ObservableHelper("");
+
+  private _subscriptionToLeagueObservable:Subscription | undefined;
+  private _subscriptionToTableFilterOptionObservable: Subscription | undefined;
+  private _subscriptionToMobileObservable: Subscription;
+
+  /*
+   * ===================================
+   * CONSTRUCTOR, INIT, CHANGE, DESTROY
+   * ===================================
+   */
 
   constructor(private teamDataService: TeamDataService,
     private internalDataService:InternalDataService,
     public routerService:RouterService,
-    private searchPlayersService:SearchPlayersService,
-    private snackbarService:SnackBarService) { 
+    private playerSearchRequest:PlayerSearchRequestService,
+    private snackbarService:SnackBarService,
+    public breakpointsService:BreakpointsService) { 
 
-      this.tableHelper = new TableHelper(teamDataService, routerService, searchPlayersService);
-      this.subscribeTableSize();            
-      this.observeLeagueSelected();
-      this.observeTableFilterOption();
+      console.log("Construct table component");
+
+      this._tableHelper = new TableHelper(teamDataService, routerService, playerSearchRequest);       
+      this._subscriptionToLeagueObservable = this.observeLeagueSelected();
+      this._subscriptionToTableFilterOptionObservable = this.observeTableFilterOption();
+      this._subscriptionToMobileObservable = this.addObserverToMobileObservable();
       this.dataSource = new MatTableDataSource<PlayerEntity>();
-      
-      this.tableHelper.getPlayerList(this.leagueSelected).subscribe(list => {        
-        this.dataSource.data = list;
-      })
-  }
-
-  /*
-   * METODI PRIVATI 
-   */
-
-  private observeLeagueSelected() : void {
-    this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<LeagueEntity | null>()
-        .next(league => this.leagueSelected = league)
-        .build());
-  }
-
-  private subscribeTableSize() : void {
-    this.tableHelper.getPlayerList(this.leagueSelected).subscribe(list => this.isTableEmpty = list.length == 0);
-  }
-
-  private observeTableFilterOption() : void {
-    this.teamDataService.addObserverToTableFilterOption(
-      new ObserverStepBuilder<TableFilterOption | null>().next(filter => {
-        // Impostazione del filtro
-        let serialize = JSON.stringify(filter);
-        this.filtersOption.setValue(serialize);
-      }).build());
-  }
+  }  
 
   ngOnInit(): void {
     this.dataSource.sortData = this.sortData();
     this.dataSource.filterPredicate = this.filterPlayers();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.addObserverToFilter();
+  }  
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.dataSource.data = changes['playersList'].currentValue;
+  }
+
+  ngOnDestroy(): void {
+    console.log("Destroy table component");
+    
+    this._subscriptionToLeagueObservable != undefined ? this._subscriptionToLeagueObservable?.unsubscribe() : null;
+    this._subscriptionToTableFilterOptionObservable != undefined ? this._subscriptionToTableFilterOptionObservable.unsubscribe() : null;
+    this._subscriptionToMobileObservable.unsubscribe();
+    this._filtersOption.complete();
+  }
+
+  /* 
+   * =========
+   * OBSERVER
+   * =========
+   */
+
+  private observeLeagueSelected() : Subscription | undefined {
+    return this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<LeagueEntity | null>()
+        .next(league => this.leagueSelected = league)
+        .error(error => console.log("Error while retriving league selected :" + error))  
+        .build());
+  }
+
+  private observeTableFilterOption() : Subscription | undefined {
+    return this.teamDataService.addObserverToTableFilterOption(new ObserverStepBuilder<TableFilterOption | null>()
+      .next(filter => {
+        // Impostazione del filtro
+        let serialize = JSON.stringify(filter);
+        this._filtersOption.setValue(serialize);
+      })
+      .error(error => console.log("Error while retriving filter option :" + error))
+      .build());
+  }
+
+  private addObserverToFilter() : Subscription | undefined {
+    return this._filtersOption.addObserver(new ObserverStepBuilder<string>()
+        .next(filters => this.dataSource.filter = filters)
+        .error(error => console.log("Error while retriving filter :" + error))
+        .build());
+  }
+
+  private addObserverToMobileObservable() : Subscription {
+    return this.breakpointsService.mobileObservable.subscribe(new ObserverStepBuilder<boolean>()
+        .next(isMobile => {
+          this.displayedColumns = this._tableHelper.getDisplayedColumns(isMobile);
+          this._isMobileBreakpointActive = isMobile;
+          this._expandedPlayer = isMobile ? this._expandedPlayer : null;
+        })
+        .error(error => console.log("Error while retriving mobile or mobile XL breakpoint : " + error))
+        .build());
+  }
+
+  /*
+   * ================
+   * GETTER & SETTER
+   * ================
+   */
+
+  public get pageIndex(): number {
+    return this._pageIndex;
+  }
+
+  public set pageIndex(value: number) {
+    this._pageIndex = value;
+  }
+
+  public get pageSizeOptions(): number[] {
+    return this._pageSizeOptions;
+  }
+
+  public set pageSizeOptions(value: number[]) {
+    this._pageSizeOptions = value;
+  }
+
+  public get isTableEmpty(): boolean {
+    return this._isTableEmpty;
+  }
+
+  public set isTableEmpty(value: boolean) {
+    this._isTableEmpty = value;
+  }
+
+  public get leagueSelected(): LeagueEntity | null {
+    return this._leagueSelected;
+  }
+
+  private set leagueSelected(value: LeagueEntity | null) {
+    this._leagueSelected = value;
+  }
+
+  public get expandedPlayer(): PlayerEntity | null {
+    return this._expandedPlayer;
+  }
+
+  public set expandedPlayer(value: PlayerEntity | null) {
+    this._expandedPlayer = value;
+  }
+
+  public get displayedColumns(): string[] {
+    return this._displayedColumns;
+  }
+
+  public set displayedColumns(value: string[]) {
+    this._displayedColumns = value;
+  }
+
+  getFavoriteMessageTooltip(player:PlayerEntity) : string {
+    if(this.teamDataService.blacklistHasPlayer(player)) {
+      return "Giocatore già presente nella lista dei giocatori da escludere";
+    } else if(this.teamDataService.favoriteListHasPlayer(player)) {
+      return "Rimuovi dalla lista dei preferiti";
+    } else {
+      return "Aggiungi alla lista dei preferiti";
+    }
+  }
+
+  getBlacklistMessageTooltip(player:PlayerEntity) : string {
+    if(this.teamDataService.favoriteListHasPlayer(player)) {
+      return "Giocatore già presente nella lista dei preferiti";
+    } else if(this.teamDataService.blacklistHasPlayer(player)) {
+      return "Rimuovi dalla lista dei giocatori da escludere";      
+    } else {
+      return "Aggiungi alla lista dei giocatori da escludere";
+    }
+  }
+
+  /*
+   * ======================
+   * METODI DI VISIBILITA' 
+   * ======================
+   */
+
+  isClearSearchPlayerInputButtonRendered() : boolean {
+    return this.searchPlayerString.trim().length > 0;
+  }
+
+  isRowExpanded(player:PlayerEntity) : boolean {
+    return player.equals(this.expandedPlayer);
+  }
+
+  isClearTableRendered() : boolean {
+    return !this.routerService.currentPageIsPlayerList();
+  }
+
+  isClearTableDisabled() : boolean {
+    return this.isTableEmpty;
+  }  
+
+  isFavoritePlayer(player:PlayerEntity) : boolean {
+    return this.teamDataService.favoriteListHasPlayer(player);
+  }
+
+  isFavoriteBtnDisabled(player:PlayerEntity) : boolean {
+    return this.teamDataService.blacklistHasPlayer(player);
+  }
+
+  isPlayerIntoBlacklist(player:PlayerEntity) : boolean {
+    return this.teamDataService.blacklistHasPlayer(player);
+  }
+
+  isBlacklistBtnDisabled(player:PlayerEntity) : boolean {
+    return this.teamDataService.favoriteListHasPlayer(player);
+  }
+
+  isFilterPlayerRendered() : boolean {
+    return !this.routerService.currentPageIsMyTeam();
+  }
+
+  private canRowsBeExpand() : boolean {
+    return this._isMobileBreakpointActive;
+  }
+
+  /*
+   * =========
+   * LISTENER 
+   * =========
+   */
+
+  clearSearchPlayerInput() : void {
+    this.searchPlayerString = "";
+    this.teamDataService.filterPlayersByName(this.searchPlayerString);
   }
 
   /**
@@ -168,109 +358,22 @@ export class TableComponent implements OnInit, AfterViewInit {
     return sorting;
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.addObserverToFilter();
-  }
-
-  private addObserverToFilter() : void {
-    this.filtersOption.addObserver(new ObserverStepBuilder<string>()
-        .next(filters => this.dataSource.filter = filters)
-        .build());
-  }
-
-  /* GETTER */
-
-  getColumns() : string[] {
-    return this.tableHelper.getDisplayedColumns();
-  }
-
-  public get pageIndex() : number {
-    return this._pageIndex;
-  }
-
-  getPageSize() : number {
-    return this.pageSize;
-  }
-
-  getPageSizeOptions() : number[] {
-    return this.pageSizeOptions;
-  }
-
-  getFavoriteMessageTooltip(player:PlayerEntity) : string {
-    if(this.isFavoriteBtnDisabled(player)) {
-      return "Giocatore già presente nella lista dei giocatori da escludere";
-    } else if(!this.isFavoritePlayer(player)) {
-      return "Aggiungi alla lista dei preferiti";
-    } else {
-      return "Rimuovi dalla lista dei preferiti";
+  updateExpandedPlayer(player:PlayerEntity) : void {
+    if(this.canRowsBeExpand()) {
+      this.expandedPlayer = player.equals(this.expandedPlayer) ? null : player;
     }
-  }
-
-  getBlacklistMessageTooltip(player:PlayerEntity) : string {
-    if(this.isBlacklistBtnDisabled(player)) {
-      return "Giocatore già presente nella lista dei preferiti";
-    } else if(!this.isPlayerIntoBlacklist(player)) {
-      return "Aggiungi alla lista dei giocatori da escludere";
-    } else {
-      return "Rimuovi dalla lista dei giocatori da escludere";
-    }
-  }
-
-  /* VISIBILITA' */
-
-  isFavoriteColumnRendered() : boolean {
-    if(this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) || this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST)) {
-        return true;
-    }
-    return false;
-  }
-
-  isBlacklistColumnRendered() : boolean {
-    if(this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) || this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST)) {
-      return true;
-    }
-    return false;
-  }
-
-  isClearTableRendered() : boolean {
-    return !this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST);
-  }
-
-  isClearTableDisabled() : boolean {
-    return this.isTableEmpty;
-  }
-
-  isFavoritePlayer(player:PlayerEntity) : boolean {
-    return this.teamDataService.favoriteListHasPlayer(player);
-  }
-
-  isPlayerIntoBlacklist(player:PlayerEntity) : boolean {
-    return this.teamDataService.blacklistHasPlayer(player);
-  }
-
-  isFavoriteBtnDisabled(player:PlayerEntity) : boolean {
-    return this.teamDataService.blacklistHasPlayer(player);
-  }
-
-  isBlacklistBtnDisabled(player:PlayerEntity) : boolean {
-    return this.teamDataService.favoriteListHasPlayer(player);
-  }
-
-  /* LISTENER */
+  }  
 
   handlePageEvent(event: PageEvent) : void {
     this._pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
   }
 
   clearTable() : void {
-    this.tableHelper.clearList();
+    this._tableHelper.clearList();
   }
 
   removePlayer(player:PlayerEntity) : void {
-    const validationProblem:ValidationProblem | null = this.tableHelper.removePlayer(player);
+    const validationProblem:ValidationProblem | null = this._tableHelper.removePlayer(player);
     if(validationProblem != null) {
       this.snackbarService.openSnackBar(validationProblem);
     }
@@ -282,13 +385,12 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.teamDataService.filterPlayersByName(filterValue.trim().toLowerCase());
+    this.teamDataService.filterPlayersByName(this.searchPlayerString);
   }
 
   updateFavoriteList(player:PlayerEntity) : void {
     let validationProblem:ValidationProblem | null = null;
-    if(!this.isFavoritePlayer(player)) {
+    if(!this.teamDataService.favoriteListHasPlayer(player)) {
       validationProblem = this.teamDataService.addPlayerToFavoriteList(player);
     } else {
       validationProblem = this.teamDataService.removePlayerFromFavoriteList(player);
@@ -301,7 +403,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   updateBlacklist(player:PlayerEntity) : void {
     let validationProblem:ValidationProblem | null = null;
-    if(!this.isPlayerIntoBlacklist(player)) {
+    if(!this.teamDataService.blacklistHasPlayer(player)) {
       validationProblem = this.teamDataService.addPlayerToBlacklist(player);
     } else {
       validationProblem = this.teamDataService.removePlayerFromBlacklist(player);
