@@ -1,0 +1,45 @@
+@import "src/styles/global/breakpoints";
+
+/*
+========
+TOOLBAR 
+========
+*/
+
+.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;    
+}
+
+.second-toolbar {
+    position: fixed;
+    z-index: 100;
+}
+
+/*
+ * ========
+ * SIDENAV
+ * ========
+ */
+
+.sidenav-container {
+    height: 100%;
+}
+
+.sidenav {
+    max-width: 300px;
+    width: 100%;
+}
+
+.second-sidenav {
+    max-width: 220px;
+    width: 100%;
+}
+
+@media (max-width: $mobileXL-breakpoint) {
+
+    .sidenav {
+        width: calc(100% - 100px);
+    }
+}

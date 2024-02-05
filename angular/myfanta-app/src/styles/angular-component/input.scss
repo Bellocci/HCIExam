@@ -1,0 +1,96 @@
+@import "src/styles/global/breakpoints";
+
+/*
+ * ====================
+ * ANGULAR INPUT STYLE
+ * ====================
+ */
+
+
+.input-txt {
+    max-width: 350px !important;
+    width: 100%;
+}
+
+@media (min-width: $mobileXL-breakpoint) {
+
+    .input-txt {
+        max-width: none;
+        min-width: 350px !important;
+        width: 100%;
+    }
+}
+
+.large-input-txt {
+    max-width: 400px !important;
+    width: 100%;
+}
+
+@media (min-width: $mobileXL-breakpoint) {
+
+    .large-input-txt {
+        max-width: none;
+        min-width: 400px !important;
+        width: 100%;
+    }
+}
+
+/*
+ * ===================
+ * NATIVE INPUT STYLE
+ * ===================
+ */
+
+.form-xl-native-input {
+    min-width: 80px;
+    max-width: 250px;
+    width: 100%;
+}
+
+.xl-native-input {
+    width: 100%;    
+    height: 40px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+}
+
+.xl-native-input:disabled {
+    opacity: 0.5;
+}
+
+@media (min-width: $mobileXL-breakpoint) {
+
+    .form-xl-native-input {
+        max-width: 350px;
+    }
+}
+
+.native-input {
+    max-width: 200px;
+    min-width: 60px;
+    width: 100%;
+    height: 30px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;  
+}
+
+.native-input:disabled {
+    opacity: 0.5;
+}
+
+.small-native-input {
+    max-width: 80px;
+    min-width: 60px;
+    width: 100%;
+    height: 30px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;   
+}
+
+.native-input-number {
+    text-align: right;
+    padding-right: 10px;
+}
