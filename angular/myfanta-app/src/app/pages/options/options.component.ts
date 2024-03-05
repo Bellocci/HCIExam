@@ -1,43 +1,65 @@
-import { Component, OnInit, AfterViewInit, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { InternalDataService } from '../../service/internal-data.service';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, map, shareReplay } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { OptionsFootballComponent } from './options-football/options-football.component';
 import { IdMatCard } from './IdMatCardInterface';
 import { OptionsVolleyballComponent } from './options-volleyball/options-volleyball.component';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
 
 @Component({
   selector: 'app-options',
   templateUrl: './options.component.html',
   styleUrls: ['./options.component.scss']
 })
-export class OptionsComponent implements OnInit, AfterViewInit {
+export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  private breakpointObserver = inject(BreakpointObserver);
+  /*
+   * ==========
+   * VARIABILI 
+   * ==========
+   */
   private _sportSelected: SportEnum | null = null;
+  private _subscribeToLeagueObservable : Subscription | undefined;
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  /*
+   * ============================
+   * CONSTRUCTOR, INIT & DESTROY 
+   * ============================
+   */
+  constructor(private internalDataService: InternalDataService,
+    public breakpointsService:BreakpointsService) { 
 
-  constructor(private internalDataService: InternalDataService) { }
-
-  ngOnInit(): void {
-    this.observeLeagueSelected();
+      console.log("Construct Option component");
+      this._subscribeToLeagueObservable = this.observeLeagueSelected();
   }
+
+  ngOnInit(): void { }
 
   ngAfterViewInit(): void {
-    this.internalDataService.setLoadingData(false);
+    // this.internalDataService.setLoadingData(false);
   }
 
-  // METODI PRIVATI
+  ngOnDestroy(): void {
+    console.log("Destroy option component");
 
-  private observeLeagueSelected() {
-    this.internalDataService.getObservableLeagueSelected()
-      .subscribe(league => this._sportSelected = league != null ? league.sport : null);
+    this._subscribeToLeagueObservable != undefined ? this._subscribeToLeagueObservable.unsubscribe() : null;
+  }
+
+  /*
+   * =========
+   * OBSERVER 
+   * =========
+   */
+
+  private observeLeagueSelected() : Subscription | undefined {
+    return this.internalDataService.getObservableLeagueSelected()
+        .subscribe(new ObserverStepBuilder<LeagueEntity | null>()
+          .next(league => this._sportSelected = league != undefined ? league.sport : null)
+          .error(err => console.log("Error while retriving League selected: " + err))
+          .build());
   }
 
   // GETTER

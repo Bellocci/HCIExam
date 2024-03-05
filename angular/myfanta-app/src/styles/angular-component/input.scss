@@ -41,6 +41,12 @@
  * ===================
  */
 
+.native-input-border {
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+}
+
 .form-xl-native-input {
     min-width: 80px;
     max-width: 250px;
@@ -48,11 +54,9 @@
 }
 
 .xl-native-input {
+    @extend .native-input-border;
     width: 100%;    
-    height: 40px;
-    border: solid;
-    border-width: 1px;
-    border-radius: 5px;
+    height: 40px;    
 }
 
 .xl-native-input:disabled {
@@ -67,13 +71,11 @@
 }
 
 .native-input {
+    @extend .native-input-border;
     max-width: 200px;
     min-width: 60px;
     width: 100%;
     height: 30px;
-    border: solid;
-    border-width: 1px;
-    border-radius: 5px;  
 }
 
 .native-input:disabled {
@@ -81,16 +83,42 @@
 }
 
 .small-native-input {
+    @extend .native-input-border;
     max-width: 80px;
     min-width: 60px;
     width: 100%;
     height: 30px;
-    border: solid;
-    border-width: 1px;
-    border-radius: 5px;   
 }
 
 .native-input-number {
     text-align: right;
     padding-right: 10px;
+}
+
+/* 
+Nasconde i pulsanti per incrementare e diminuire il valore nell'input text 
+[type=number] (Firefox) , -webkit-outer-spin-button & -webkit-inner-spin-button (Chrome, Safari, Edge, Opera)
+*/
+.hide-up-down-number[type=number],
+.hide-up-down-number::-webkit-outer-spin-button,
+.hide-up-down-number::-webkit-inner-spin-button {
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/*
+ * =================
+ * INPUT RESPONSIVE
+ * =================
+ */
+
+.native-input-responsive {
+    @extend .native-input;
+    max-width: 350px;
+    min-width: 40px;
+}
+
+.native-input-responsive:disabled {
+    opacity: 0.5;
 }

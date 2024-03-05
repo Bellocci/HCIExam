@@ -13,6 +13,12 @@ button {
     font-family: $font-family;
 }
 
+.border-btn {
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+}
+
 .standard-btn {
     min-width: 120px;
     width: max-content;
@@ -85,5 +91,30 @@ button {
     
     .mat-mdc-button-base {
         height: max(36px, 100%);
+    }
+}
+
+/*
+ * ====================
+ * PULSANTI RESPONSIVE
+ * ====================
+ */
+
+.btn-responsive {
+    max-width: 150px;
+    min-width: 48px;
+    width: 100%;
+    height: 40px !important;
+    background-color: $secondary-color;
+}
+
+.btn-responsive:hover {
+    background-color: $secondary-color-light;
+}
+
+@media(min-width: $mobileXL-breakpoint) {
+
+    .btn-responsive {
+        height: 48px !important;
     }
 }

@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
     public breakpointsService:BreakpointsService) { }
 
   ngOnInit(): void { 
-    this.internalDataService.setLoadingData(false);
+    //this.internalDataService.setLoadingData(false);
   }
 
   /*
@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit {
    */
 
   selectedLeagueListener(league:LeagueEntity) : void {
-    this.internalDataService.setLoadingData(true);
+    //this.internalDataService.setLoadingData(true);
     this.setLeagueSelected(league);
     this.routerService.goToMyTeamPage();
   }

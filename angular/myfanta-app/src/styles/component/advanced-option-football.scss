@@ -1,0 +1,10 @@
+@use "src/styles/angular-component/buttons";
+@use "src/styles/angular-component/cards";
+@use "src/styles/angular-component/input";
+@use "src/styles/global/styles";
+
+@import "src/styles/global/colors";
+
+.standard-budget-btn {
+    background-color: $secondary-color-light;
+}

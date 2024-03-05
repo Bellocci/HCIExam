@@ -15,7 +15,7 @@ export class PlayerPageComponent implements OnInit {
   constructor(private internalDataService:InternalDataService) {}
 
   ngOnInit(): void {
-    this.internalDataService.setLoadingData(false);
+    //this.internalDataService.setLoadingData(false);
     this.addObserverToPlayer();
   }
 

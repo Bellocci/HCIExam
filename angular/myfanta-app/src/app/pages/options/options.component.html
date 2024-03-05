@@ -1,21 +1,18 @@
 <!-- Pagina Opzioni di filtro -->
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'dialog'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport 
+    [attr.role]="(breakpointsService.mobileOrTabletObservable| async) ? 'dialog' : 'dialog'"
+    [mode]="(breakpointsService.mobileOrTabletObservable | async) ? 'over' : 'side'" 
+    [opened]="(breakpointsService.mobileOrTabletObservable | async) === false">
+
     <mat-toolbar>Menu</mat-toolbar>
 
     <!-- Sezione Filtri -->
     <mat-nav-list>
-      <!-- Filtri standard -->
-      <div mat-subheader class="label bold">Filtri Standard</div>
-
-      <a mat-list-item (click)="scrollToCard('budgetCard')">Budget</a>
-      <a mat-list-item (click)="scrollToCard('ageCard')">Eta</a>
-      <a mat-list-item (click)="scrollToCard('teamCard')">Squadre</a>
 
       <!-- Lista degli id specifici a seconda dello sport selezionato -->
       <ng-container *ngIf="isAdvancedFilterRendered()">
-        <div mat-subheader class="label bold">Filtri avanzati</div>
+        <div mat-subheader class="label bold">Filtri</div>
 
         <ng-container *ngFor="let id of getIds()">
           <a mat-list-item (click)="scrollToCard(id.id)">{{ id.description }}</a>
@@ -36,7 +33,7 @@
   <mat-sidenav-content>
     <mat-toolbar class="toolbar-filter-option">
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        *ngIf="breakpointsService.mobileOrTabletObservable | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
     </mat-toolbar>

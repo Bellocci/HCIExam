@@ -48,7 +48,7 @@ export class RouterService {
 
   // Metodo che renderizza alla pagina di Home 
   goToHomePage() : void {
-    this.internalDataService.setLoadingData(true); 
+    //this.internalDataService.setLoadingData(true); 
     this.currentPageIsHome() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.HOME.path);
   }
 
@@ -59,7 +59,7 @@ export class RouterService {
 
   // Metodo che renderizza alla pagina di Create Team
   goToMyTeamPage() : void {
-    this.internalDataService.setLoadingData(true);
+    //this.internalDataService.setLoadingData(true);
     this.currentPageIsMyTeam() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.MYTEAM.path);
   }
 
@@ -70,7 +70,7 @@ export class RouterService {
 
   // Metodo che renderizza alla pagina di Lista dei giocatori
   goToPlayerListPage() : void {
-    this.internalDataService.setLoadingData(true);
+    //this.internalDataService.setLoadingData(true);
     this.currentPageIsPlayerList() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.PLAYER_LIST.path);
   }
 
@@ -80,7 +80,7 @@ export class RouterService {
 
   // Metodo che renderizza alla pagina di Lista dei giocatori preferiti
   goToFavoritListPage() : void {
-    this.internalDataService.setLoadingData(true);
+    //this.internalDataService.setLoadingData(true);
     this.currentPageIsFavoritList() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.FAVORIT_LIST.path);
   }
 
@@ -91,7 +91,7 @@ export class RouterService {
 
   // Metodo che renderizza alla pagina di lista dei giocatori esclusi
   goToBlacklistPage() : void {
-    this.internalDataService.setLoadingData(true);
+    //this.internalDataService.setLoadingData(true);
     this.currentPageIsBlacklist() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.BLACKLIST.path);
   }
 
@@ -102,7 +102,7 @@ export class RouterService {
 
   // Metodo che renderizza alla pagina di profilo
   goToMyProfilePage() : void {
-    this.internalDataService.setLoadingData(true);
+    //this.internalDataService.setLoadingData(true);
     this.currentPageIsMyProfile() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.USER_PROFILE.path);
   }
 
@@ -113,7 +113,7 @@ export class RouterService {
 
   // Metodo che renderizza alla pagina di opzioni di filtraggio dei giocatori
   goToOptionsPage() : void {
-    this.internalDataService.setLoadingData(true);
+    //this.internalDataService.setLoadingData(true);
     this.currentPageIsOptions() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.OPTIONS.path);
   }
 
@@ -123,7 +123,7 @@ export class RouterService {
   }
 
   goToPlayerPage(player:PlayerEntity) : void {
-    this.internalDataService.setLoadingData(true);
+    //this.internalDataService.setLoadingData(true);
     const playerProfilePath:string = this.buildPlayerProfilePath(player);
     this.reloadOrNavigate(false, playerProfilePath);
   }

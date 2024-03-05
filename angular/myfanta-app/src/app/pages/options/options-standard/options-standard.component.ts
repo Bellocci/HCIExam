@@ -44,7 +44,7 @@ export class OptionsStandardComponent implements OnInit {
   // VISIBILITA'
 
   isBudgetSelected(budget: number) : boolean {
-    return budget == this.option.budget;
+    return true;
   }
 
   // GETTER & SETTER

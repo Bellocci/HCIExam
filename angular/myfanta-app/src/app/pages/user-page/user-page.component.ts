@@ -32,7 +32,7 @@ export class UserPageComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.dialogHelper = this.dialogService.getDialogHelper();
-    this.internalDataService.setLoadingData(false);
+    //this.internalDataService.setLoadingData(false);
   }
 
   ngAfterViewInit(): void {    

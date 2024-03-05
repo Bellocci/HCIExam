@@ -74,17 +74,17 @@ export class RolePlayerEntity {
 
 export const ROLE_PLAYER_DATA:RolePlayerEntity[] = [
     // CALCIO
-    new RolePlayerEntity(1, "Portiere", "P", SportEnum.FOOTBALL_SOCCER),
-    new RolePlayerEntity(2, "Difensore", "D", SportEnum.FOOTBALL_SOCCER),
-    new RolePlayerEntity(3, "Centrocampista", "C", SportEnum.FOOTBALL_SOCCER),
-    new RolePlayerEntity(4, "Attaccante", "A", SportEnum.FOOTBALL_SOCCER),
+    new RolePlayerEntity(1, "Portiere", "POR", SportEnum.FOOTBALL_SOCCER),
+    new RolePlayerEntity(2, "Difensore", "DIF", SportEnum.FOOTBALL_SOCCER),
+    new RolePlayerEntity(3, "Centrocampista", "CEN", SportEnum.FOOTBALL_SOCCER),
+    new RolePlayerEntity(4, "Attaccante", "ATT", SportEnum.FOOTBALL_SOCCER),
 
     // PALLAVOLO
-    new RolePlayerEntity(5, "Palleggiatore", "P", SportEnum.VOLLEYBALL),
-    new RolePlayerEntity(6, "Schiacciatore", "S", SportEnum.VOLLEYBALL),
-    new RolePlayerEntity(7, "Opposto", "O", SportEnum.VOLLEYBALL),
-    new RolePlayerEntity(8, "Libero", "L", SportEnum.VOLLEYBALL),
-    new RolePlayerEntity(9, "Centrale", "C", SportEnum.VOLLEYBALL),
+    new RolePlayerEntity(5, "Palleggiatore", "PAL", SportEnum.VOLLEYBALL),
+    new RolePlayerEntity(6, "Schiacciatore", "SCH", SportEnum.VOLLEYBALL),
+    new RolePlayerEntity(7, "Opposto", "OPP", SportEnum.VOLLEYBALL),
+    new RolePlayerEntity(8, "Libero", "LIB", SportEnum.VOLLEYBALL),
+    new RolePlayerEntity(9, "Centrale", "CEN", SportEnum.VOLLEYBALL),
     
     // BASKET
     new RolePlayerEntity(10, "Playmaker", "PG", SportEnum.BASKETBALL),

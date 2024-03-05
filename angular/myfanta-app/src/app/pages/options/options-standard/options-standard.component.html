@@ -26,7 +26,7 @@
 
                 <!-- Numero di crediti personalizzato -->
                 <input matInput type="number" class="label input-container " min="0" step="1" 
-                    (blur)="notifyOptionUpdate()" [(ngModel)]="option.budget">
+                    (blur)="notifyOptionUpdate()">
             </div>
         </mat-card-content>
     </mat-card>
@@ -43,14 +43,14 @@
                 <div class="flex-direction-column">
                     <label class="label margin-bottom">Min</label>
                     <input matInput type="number" class="label input-container mr-30px" min="0"
-                        max="{{ option.maxAge }}" step="1" [(ngModel)]="option.minAge" (blur)="notifyOptionUpdate()">
+                        max="99" step="1" (blur)="notifyOptionUpdate()">
                 </div>
 
                 <!-- Eta massima -->
                 <div class="flex-direction-column">
                     <label class="label margin-bottom">Max</label>
                     <input matInput type="number" class="label input-container mr-30px"
-                        min="{{ option.minAge }}" max="99" step="1" [(ngModel)]="option.maxAge" (blur)="notifyOptionUpdate()">
+                        min="0" max="99" step="1" (blur)="notifyOptionUpdate()">
                 </div>
 
             </div>
@@ -58,8 +58,8 @@
             <!-- Slider visualizzazione eta -->
             <div class="full-width mt-30px">
                 <mat-slider min="0" max="99" class="slider" showTickMarks discrete>
-                    <input [(ngModel)]="option.minAge" matSliderStartThumb (blur)="notifyOptionUpdate()">
-                    <input [(ngModel)]="option.maxAge" matSliderEndThumb (blur)="notifyOptionUpdate()">
+                    <input matSliderStartThumb (blur)="notifyOptionUpdate()">
+                    <input matSliderEndThumb (blur)="notifyOptionUpdate()">
                 </mat-slider>
             </div>
         </mat-card-content>

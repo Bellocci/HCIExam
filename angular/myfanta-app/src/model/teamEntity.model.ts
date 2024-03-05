@@ -102,6 +102,6 @@ export const TEAM_DATA: TeamEntity[] = [
     new TeamEntity(20, 'Verona', 'VER', LEAGUE_DATA[0]),
     new TeamEntity(21, 'Arsenal', 'ARS', LEAGUE_DATA[1]),
     new TeamEntity(22, 'Aston Villa', 'ASV', LEAGUE_DATA[1]),
-    new TeamEntity(23, 'Savino Del Bene', 'SAV', LEAGUE_DATA[2]),
-    new TeamEntity(24, 'Losa Angeles Lakers', 'LAL', LEAGUE_DATA[3]),
+    new TeamEntity(23, 'Savino Del Bene', 'SAV', LEAGUE_DATA[3]),
+    new TeamEntity(24, 'Losa Angeles Lakers', 'LAL', LEAGUE_DATA[2]),
 ]

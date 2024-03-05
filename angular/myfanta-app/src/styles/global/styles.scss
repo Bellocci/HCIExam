@@ -24,6 +24,10 @@ TESTO
     font-weight: 500 !important;
 }
 
+.no-bold {
+    font-weight: normal !important;
+}
+
 .txt-center {
     text-align: center;
     color: black !important;
@@ -46,7 +50,7 @@ TESTO
     text-align: left;
     word-break: break-word;
     color: black !important;
-    font-weight: 500 !important;
+    font-weight: 500;
 }
 
 .text {
@@ -291,6 +295,12 @@ ICONE
     }
 }
 
+.small-icon-size {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+}
+
 /*
 ===================================
 DIMENSIONI STANDARD WIDTH & HEIGHT
@@ -510,6 +520,11 @@ che non supportano CSS3
 CONTAINER
 ===========
 */
+
+.large-container {
+    margin: 48px 0;
+    margin: 3rem 0;
+}
 
 .standard-container {
     margin: 32px 0;

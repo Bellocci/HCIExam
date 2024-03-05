@@ -83,7 +83,7 @@ export class PlayerListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.internalDataService.setLoadingData(false);
+    //this.internalDataService.setLoadingData(false);
   }
 
   ngOnDestroy(): void {
