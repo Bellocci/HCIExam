@@ -38,18 +38,17 @@ export class LoadDataService {
     return result != undefined ? result : null;
   }
 
-  private loadAllTeams(league:LeagueEntity) : TeamEntity[] {   
+  private loadAllTeams(league:LeagueEntity) : void {   
     let list:TeamEntity[] = [];
     //TODO: interazione con il db
-    list = this.teamDecoratorFactory.decorateList(TEAM_DATA.filter(team => team.league.equals(league)));
+    list = this.teamDecoratorFactory.decorateList(TEAM_DATA.filter(team => team.league.equals(league)));    
     this.teamsMap.set(league.leagueId, list);
-    return list;
   }
 
   getAllTeams(league:LeagueEntity) : TeamEntity[] {
-
-    return this.teamsMap.has(league.leagueId) ?
-      this.teamsMap.get(league.leagueId)! :
+    if(!this.teamsMap.has(league.leagueId)) {
       this.loadAllTeams(league);
+    }
+    return this.teamsMap.get(league.leagueId)!;
   }  
 }
