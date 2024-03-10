@@ -621,6 +621,8 @@ FLEXBOX CONTAINER
 
 /* Una riga può essere divisa al massimo in 12 colonne */
 
+// Dimensioni celle con occupazione dello spazio uniforme
+
 .cell-12of12 {
     flex: 1 1 100%;
 }
@@ -667,6 +669,56 @@ FLEXBOX CONTAINER
 
 .cell-1of12 {
     flex: 1 1 8.333333%;
+}
+
+// Occupano al massimo lo spazio dedicato
+
+.cell-static-12of12 {
+    flex: 0 1 100%;
+}
+
+.cell-static-11of12 {
+    flex: 0 1 91.666667%;
+}
+
+.cell-static-10of12 {
+    flex: 0 1 83.333333%;
+}
+
+.cell-static-9of12 {
+    flex: 0 1 75%;
+}
+
+.cell-static-8of12 {
+    flex: 0 1 66.666667%;
+}
+
+.cell-static-7of12 {
+    flex: 0 1 58.333333%;
+}
+
+.cell-static-6of12 {
+    flex: 0 1 50%;
+}
+
+.cell-static-5of12 {
+    flex: 0 1 41.666667%;
+}
+
+.cell-static-4of12 {
+    flex: 0 1 33.333333%;
+}
+
+.cell-static-3of12 {
+    flex: 0 1 25%;
+}
+
+.cell-static-2of12 {
+    flex: 0 1 16.666667%;
+}
+
+.cell-static-1of12 {
+    flex: 0 1 8.333333%;
 }
 
 // FIXME
