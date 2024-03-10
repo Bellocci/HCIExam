@@ -8,6 +8,7 @@ import { OptionsVolleyballComponent } from './options-volleyball/options-volleyb
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { OptionsBasketballComponent } from './options-basketball/options-basketball.component';
 
 @Component({
   selector: 'app-options',
@@ -62,19 +63,29 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy {
           .build());
   }
 
-  // GETTER
+  /*
+   * ================
+   * GETTER & SETTER 
+   * ================
+   */
 
   getIds() : IdMatCard[] {
     if(this.isFootballOptionsRendered()) {
       return OptionsFootballComponent.getIds();
     } else if(this.isVolleyballOptionsRendered()) {
       return OptionsVolleyballComponent.getIds();
+    } else if(this.isBasketballOptionsRendered()) {
+      return OptionsBasketballComponent.getIds();
     } else {
       return [];
     }
   }
 
-  // VISIBILITA'
+  /*
+   * ============
+   * VISIBILITA' 
+   * ============
+   */
 
   isFootballOptionsRendered(): boolean {
     return this._sportSelected != null && this._sportSelected.code == SportEnum.FOOTBALL_SOCCER.code;
@@ -84,11 +95,15 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy {
     return this._sportSelected != null && this._sportSelected.code == SportEnum.VOLLEYBALL.code;
   }
 
-  isAdvancedFilterRendered() : boolean {
-    return this._sportSelected != null;
+  isBasketballOptionsRendered() : boolean {
+    return this._sportSelected != null && this._sportSelected.code == SportEnum.BASKETBALL.code;
   }
 
-  // LISTENER  
+  /*
+   * =========
+   * LISTENER 
+   * =========
+   */
 
   scrollToCard(idCard: string) {
     // Effettua lo scroll della pagina fino alla card passata come parametro    

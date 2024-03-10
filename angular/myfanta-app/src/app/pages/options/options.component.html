@@ -11,7 +11,7 @@
     <mat-nav-list>
 
       <!-- Lista degli id specifici a seconda dello sport selezionato -->
-      <ng-container *ngIf="isAdvancedFilterRendered()">
+      <ng-container>
         <div mat-subheader class="label bold">Filtri</div>
 
         <ng-container *ngFor="let id of getIds()">
@@ -49,6 +49,11 @@
       <!-- FILTRI PALLAVOLO -->
       <ng-container *ngIf="isVolleyballOptionsRendered()">
         <app-options-volleyball></app-options-volleyball>
+      </ng-container>
+
+      <!-- FILTRI BASKET -->
+      <ng-container *ngIf="isBasketballOptionsRendered()">
+        <app-options-basketball></app-options-basketball>
       </ng-container>
 
     </div>
