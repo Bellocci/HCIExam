@@ -26,7 +26,7 @@ export class OptionsFootballComponent extends OptionsAbstract implements OnInit,
    * ===================
    */
 
-  /**
+  /*
    * Lista hardcoded contenente gli id delle singole mat-card.
    * Ogni volta che si aggiunge una nuova mat-card il nuovo id
    * deve essere aggiunto alla lista 
@@ -176,7 +176,11 @@ export class OptionsFootballComponent extends OptionsAbstract implements OnInit,
     return this._option.budget == budget;
   }
 
-  // LISTENER
+  /**
+   * =========
+   * LISTENER 
+   * =========
+   */
 
   updateOptionStandard(option: OptionEntity): void {
     // FIXME

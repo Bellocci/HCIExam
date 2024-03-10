@@ -1,162 +1,160 @@
-<div>
-    <div class="full-width flex-direction-column flex-center">
+<div class="full-width flex-direction-column flex-center">
 
-        <!-- Opzioni Squadre -->
-        <mat-card class="card-container large-margin" id="teamsCard">
-            <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
-                <mat-card-title>
-                    <span>Squadre</span>
-                </mat-card-title>
-            </mat-card-header>
+    <!-- Opzioni Squadre -->
+    <mat-card class="card-container large-margin" id="teamsCard">
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>
+                <span>Squadre</span>
+            </mat-card-title>
+        </mat-card-header>
 
-            <mat-card-content>
-                <div class="standard-container full-width">
+        <mat-card-content>
+            <div class="standard-container full-width">
 
-                    <!-- Prima riga : Squadre -->
-                    <div class="flex-direction-column" 
-                        [ngClass]="isMobileOrMobileXLBreakpointActive ? 'small-container' : 'standard-container'">
-
-                        <div class="full-width">
-                            <app-team-list-responsive [clearTeams]="true"
-                                (updateSelectedTeamEvent)="updateSelectedTeamsList($event)">
-                            </app-team-list-responsive>
-                        </div>
-                    </div>
-
-                    <!-- Seconda riga -->
-                    <div class="flex-end full-width small-container">
-                        <button mat-raised-button class="small-btn label" (click)="clearTeams()">
-                            Clear
-                        </button>
-                    </div>
-
-                </div>                
-            </mat-card-content>
-        </mat-card>
-
-        <!-- Divisione budget per Ruoli -->
-        <mat-card class="card-container large-margin" id="budgetForFootballSoccerRolesCard">
-            <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
-                <mat-card-title>
-                    <span>Budget</span>
-                    <mat-checkbox color="primary" labelPosition="before"></mat-checkbox>
-                </mat-card-title>
-            </mat-card-header>
-
-            <mat-card-content>
-                <div class="standard-container full-width">
-
-                    <!-- Prima riga: Budget personalizzato -->
-                    <div class="flex-center" 
+                <!-- Prima riga : Squadre -->
+                <div class="flex-direction-column" 
                     [ngClass]="isMobileOrMobileXLBreakpointActive ? 'small-container' : 'standard-container'">
 
-                        <div class="cell-3of12 flex-direction-column large-margin-right">
-                            <label class="top-label no-bold">Budget disponibile</label>
-                            <div>
-                                <input matInput type="number" 
-                                    list="standardBudget"
-                                    class="native-input-responsive label native-input-number hide-up-down-number">
-
-                                <datalist id="standardBudget">
-                                    <option value="{{SMALL_BUDGET}}"></option>
-                                    <option value="{{MIDDLE_BUDGET}}"></option>
-                                    <option value="{{BIG_BUDGET}}"></option>
-                                </datalist>
-                            </div>
-                        </div>         
-                        
-                        <!-- Spazio vuoto -->
-                        <div class="cell-9of12" *ngIf="!isMobileOrMobileXLBreakpointActive"></div>
-
-                    </div>
-
-                    <!-- Seconda riga: Budget per ruoli -->
-                    <div
-                        [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center standard-container'">
-
-                        <ng-container *ngFor="let role of roles">
-                            <div class="cell-4of12 flex-direction-column large-margin-right"
-                                [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
-                                <label class="top-label no-bold">{{ getRoleDescription(role) }}</label>
-                                <div>
-                                    <input matInput type="number" 
-                                        class="native-input-responsive native-input-number hide-up-down-number label">
-                                </div>
-                            </div>                       
-                        </ng-container>
-
+                    <div class="full-width">
+                        <app-team-list-responsive [clearTeams]="true"
+                            (updateSelectedTeamEvent)="updateSelectedTeamsList($event)">
+                        </app-team-list-responsive>
                     </div>
                 </div>
-            </mat-card-content>
-        </mat-card>        
 
-        <!-- Filtro media statistiche -->
-        <mat-card class="card-container large-margin" id="footballSoccerTeamOptionCard">
-            <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
-                <mat-card-title>Statistiche squadra</mat-card-title>
-            </mat-card-header>
+                <!-- Seconda riga -->
+                <div class="flex-end full-width small-container">
+                    <button mat-raised-button class="small-btn label" (click)="clearTeams()">
+                        Clear
+                    </button>
+                </div>
 
-            <mat-card-content>
-                <div class="full-width" [ngClass]="isMobileBreakpointActive ? 'small-container' : 'standard-container'">
+            </div>                
+        </mat-card-content>
+    </mat-card>
 
-                    <!-- Prima riga -->
-                    <div class="flex-start standard-container">
+    <!-- Divisione budget per Ruoli -->
+    <mat-card class="card-container large-margin" id="budgetForFootballSoccerRolesCard">
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>
+                <span>Budget</span>
+                <mat-checkbox color="primary" labelPosition="before"></mat-checkbox>
+            </mat-card-title>
+        </mat-card-header>
 
-                        <!-- Media goal -->
-                        <div class="flex-direction-column large-margin-right" 
-                            [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
-                            <label class="top-label no-bold">Media goal</label>
-                            <div>
-                                <input matInput type="number" 
-                                    class="native-input-responsive native-input-number hide-up-down-number label">
-                            </div>
+        <mat-card-content>
+            <div class="standard-container full-width">
+
+                <!-- Prima riga: Budget personalizzato -->
+                <div class="flex-center" 
+                [ngClass]="isMobileOrMobileXLBreakpointActive ? 'small-container' : 'standard-container'">
+
+                    <div class="cell-3of12 flex-direction-column large-margin-right">
+                        <label class="top-label no-bold">Budget disponibile</label>
+                        <div>
+                            <input matInput type="number" 
+                                list="standardBudget"
+                                class="native-input-responsive label native-input-number hide-up-down-number">
+
+                            <datalist id="standardBudget">
+                                <option value="{{SMALL_BUDGET}}"></option>
+                                <option value="{{MIDDLE_BUDGET}}"></option>
+                                <option value="{{BIG_BUDGET}}"></option>
+                            </datalist>
                         </div>
-
-                        <!-- Media assist -->
-                        <div class="flex-direction-column large-margin-right"
-                            [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
-                            <label class="top-label no-bold">Media assist</label>
-                            <div>
-                                <input matInput type="number" 
-                                    class="native-input-responsive native-input-number hide-up-down-number label">
-                            </div>
-                        </div>
-
-                        <!-- Media presenza nelle partite -->
-                        <div class="flex-direction-column large-margin-right"
-                            [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
-                            <label class="top-label no-bold">Media presenze</label>
-                            <div>
-                                <input matInput type="number" 
-                                    class="native-input-responsive native-input-number hide-up-down-number label">
-                            </div>
-                        </div>
-
-                        <!-- Media ammonizioni -->
-                        <div class="flex-direction-column large-margin-right"
-                            [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
-                            <label class="top-label no-bold">Media cartellini gialli</label>
-                            <div>
-                                <input matInput type="number" 
-                                    class="native-input-responsive native-input-number hide-up-down-number label">
-                            </div>
-                        </div>
-
-                        <!-- Media espulsioni -->
-                        <div class="flex-direction-column large-margin-right"
-                            [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
-                            <label class="top-label no-bold">Media cartellini rossi</label>
-                            <div>
-                                <input matInput type="number" 
-                                    class="native-input-responsive native-input-number hide-up-down-number label">
-                            </div>
-                        </div>
-
-                    </div>
+                    </div>         
+                    
+                    <!-- Spazio vuoto -->
+                    <div class="cell-9of12" *ngIf="!isMobileOrMobileXLBreakpointActive"></div>
 
                 </div>
 
-            </mat-card-content>
-        </mat-card>
-    </div>
+                <!-- Seconda riga: Budget per ruoli -->
+                <div
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center standard-container'">
+
+                    <ng-container *ngFor="let role of roles">
+                        <div class="cell-4of12 flex-direction-column large-margin-right"
+                            [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                            <label class="top-label no-bold">{{ getRoleDescription(role) }}</label>
+                            <div>
+                                <input matInput type="number" 
+                                    class="native-input-responsive native-input-number hide-up-down-number label">
+                            </div>
+                        </div>                       
+                    </ng-container>
+
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>        
+
+    <!-- Filtro media statistiche -->
+    <mat-card class="card-container large-margin" id="footballSoccerTeamOptionCard">
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>Statistiche squadra</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="full-width" [ngClass]="isMobileBreakpointActive ? 'small-container' : 'standard-container'">
+
+                <!-- Prima riga -->
+                <div class="flex-start standard-container">
+
+                    <!-- Media goal -->
+                    <div class="flex-direction-column large-margin-right" 
+                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
+                        <label class="top-label no-bold">Media goal</label>
+                        <div>
+                            <input matInput type="number" 
+                                class="native-input-responsive native-input-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                    <!-- Media assist -->
+                    <div class="flex-direction-column large-margin-right"
+                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
+                        <label class="top-label no-bold">Media assist</label>
+                        <div>
+                            <input matInput type="number" 
+                                class="native-input-responsive native-input-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                    <!-- Media presenza nelle partite -->
+                    <div class="flex-direction-column large-margin-right"
+                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
+                        <label class="top-label no-bold">Media presenze</label>
+                        <div>
+                            <input matInput type="number" 
+                                class="native-input-responsive native-input-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                    <!-- Media ammonizioni -->
+                    <div class="flex-direction-column large-margin-right"
+                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
+                        <label class="top-label no-bold">Media cartellini gialli</label>
+                        <div>
+                            <input matInput type="number" 
+                                class="native-input-responsive native-input-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                    <!-- Media espulsioni -->
+                    <div class="flex-direction-column large-margin-right"
+                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
+                        <label class="top-label no-bold">Media cartellini rossi</label>
+                        <div>
+                            <input matInput type="number" 
+                                class="native-input-responsive native-input-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </mat-card-content>
+    </mat-card>
 </div>

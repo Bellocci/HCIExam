@@ -1,188 +1,153 @@
-<div>
-    <!-- Filtri Standard -->
-    <app-options-standard [option]="option" (optionEvent)="updateOptionStandard($event)"></app-options-standard>
+<div class="full-width flex-direction-column flex-center">
 
-    <div class="full-width flex-direction-column flex-center">
+    <!-- Opzioni Squadre -->
+    <mat-card class="card-container large-margin" id="volleyballTeamsCard">
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>
+                <span>Squadre</span>
+            </mat-card-title>
+        </mat-card-header>
 
-        <!-- Divisione budget per Ruoli -->
-        <mat-card class="card-container mb-30px" id="budgetForVolleyballRolesCard">
-            <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
-                <mat-card-title>
-                    <span>Budget per Ruoli</span>
-                    <mat-checkbox color="primary" labelPosition="before" [(ngModel)]="option.isBudgetCustomisedByRoles">
-                    </mat-checkbox>
-                </mat-card-title>
-            </mat-card-header>
+        <mat-card-content>
+            <div class="standard-container full-width">
 
-            <mat-card-content class="card-content-container">
-                <div class="mt-30px margin-bottom full-width">
-                    <!-- Prima riga -->
-                    <mat-grid-list cols="12" rowHeight="100px">
+                <!-- Prima riga : Squadre -->
+                <div class="flex-direction-column"
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'small-container' : 'standard-container'">
 
-                        <!-- Budget disponibile -->
-                        <mat-grid-tile colspan="2" rowspan="1">
-                            <div class="grid-tile-container flex-direction-column">
-                                <label class="label margin-bottom">Budget disponibile</label>
-                                <input matInput disabled type="number" class="label input-container"
-                                    [(ngModel)]="budgetAvailable">
-                            </div>
-                        </mat-grid-tile>
-
-                    </mat-grid-list>
+                    <div class="full-width">
+                        <app-team-list-responsive [clearTeams]="true"
+                            (updateSelectedTeamEvent)="updateSelectedTeamsList($event)">
+                        </app-team-list-responsive>
+                    </div>
                 </div>
 
                 <!-- Seconda riga -->
-                <mat-grid-list cols="12" rowHeight="100px">
-
-                    <!-- Budget schiacciatori laterale -->
-                    <mat-grid-tile colspan="2" rowspan="1">
-                        <div class="grid-tile-container flex-direction-column">
-                            <label class="label margin-bottom">Banda</label>
-                            <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                class="label input-container" [(ngModel)]="option.budgetHitterSpiker" min="4"
-                                (ngModelChange)="updateBudgetAvailable()">
-                        </div>
-                    </mat-grid-tile>
-
-                    <!-- Budget schiacciatori centrali -->
-                    <mat-grid-tile colspan="2" rowspan="1">
-                        <div class="grid-tile-container flex-direction-column">
-                            <label class="label margin-bottom">Centrale</label>
-                            <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                class="label input-container" [(ngModel)]="option.budgetMiddleBlocker" min="3"
-                                (ngModelChange)="updateBudgetAvailable()">
-                        </div>
-                    </mat-grid-tile>
-
-                    <!-- Budget schiacciatori opposti -->
-                    <mat-grid-tile colspan="2" rowspan="1">
-                        <div class="grid-tile-container flex-direction-column">
-                            <label class="label margin-bottom">Opposto</label>
-                            <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                class="label input-container" [(ngModel)]="option.budgetOppositeSpiker" min="2"
-                                (ngModelChange)="updateBudgetAvailable()">
-                        </div>
-                    </mat-grid-tile>
-
-                    <!-- Budget alzatori -->
-                    <mat-grid-tile colspan="2" rowspan="1">
-                        <div class="grid-tile-container flex-direction-column">
-                            <label class="label margin-bottom">Palleggiatore</label>
-                            <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                class="label input-container" [(ngModel)]="option.budgetSetter" min="2"
-                                (ngModelChange)="updateBudgetAvailable()">
-                        </div>
-                    </mat-grid-tile>
-
-                    <!-- Budget libero -->
-                    <mat-grid-tile colspan="2" rowspan="1">
-                        <div class="grid-tile-container flex-direction-column">
-                            <label class="label margin-bottom">Libero</label>
-                            <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                class="label input-container" [(ngModel)]="option.budgetLibero" min="1"
-                                (ngModelChange)="updateBudgetAvailable()">
-                        </div>
-                    </mat-grid-tile>
-
-                </mat-grid-list>
-            </mat-card-content>
-        </mat-card>
-
-        <!-- Caratteristiche medie della squadra -->
-        <mat-card class="card-container mb-30px" id="volleyballTeamOptionCard">
-            <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
-                <mat-card-title>
-                    <span>Caratteristiche della squadra (in media)</span>
-                    <mat-checkbox color="primary" labelPosition="before" [(ngModel)]="option.isVolleyballTeamOptionEnabled">
-                    </mat-checkbox>
-                </mat-card-title>
-            </mat-card-header>
-
-            <mat-card-content class="card-content-container">
-                <div class="mt-30px margin-bottom full-width">
-
-                    <!-- Prima riga -->
-                    <mat-grid-list cols="12" rowHeight="100px">
-
-                        <!-- Media punti in attacco (PTATT)-->
-                        <mat-grid-tile colspan="3" rowspan="1">
-                            <div class="grid-tile-container flex-direction-column">
-                                <label class="label margin-bottom">Punti in attacco</label>
-                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                    class="label input-container" [(ngModel)]="option.avgAttackPointsScored" min="0">
-                            </div>
-                        </mat-grid-tile>
-
-                        <!-- Media muri realizzti (M) -->
-                        <mat-grid-tile colspan="3" rowspan="1">
-                            <div class="grid-tile-container flex-direction-column">
-                                <label class="label margin-bottom">Muri realizzati</label>
-                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                    class="label input-container" [(ngModel)]="option.avgBlockPointsScored" min="0">
-                            </div>
-                        </mat-grid-tile>
-
-                        <!-- Media ace realizzti (AE) -->
-                        <mat-grid-tile colspan="3" rowspan="1">
-                            <div class="grid-tile-container flex-direction-column">
-                                <label class="label margin-bottom">Ace</label>
-                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                    class="label input-container" [(ngModel)]="option.avgAcePointsScored" min="0">
-                            </div>
-                        </mat-grid-tile>
-
-                        <!-- Media ricezioni perfette realizzte (RPERF) -->
-                        <mat-grid-tile colspan="3" rowspan="1">
-                            <div class="grid-tile-container flex-direction-column">
-                                <label class="label margin-bottom">Ricezioni perfette</label>
-                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                    class="label input-container" [(ngModel)]="option.avgPerfectReceive" min="0">
-                            </div>
-                        </mat-grid-tile>
-                    </mat-grid-list>
-
-                    <!-- Seconda riga -->
-                    <mat-grid-list cols="12" rowHeight="100px">
-                        
-                        <!-- Media errori in attacco -->
-                        <mat-grid-tile colspan="3" rowspan="1">
-                            <div class="grid-tile-container flex-direction-column">
-                                <label class="label margin-bottom">Errori in attacco</label>
-                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                    class="label input-container" [(ngModel)]="option.avgAttackErrors" min="0">
-                            </div>
-                        </mat-grid-tile>
-
-                        <!-- Media muri subiti -->
-                        <mat-grid-tile colspan="3" rowspan="1">
-                            <div class="grid-tile-container flex-direction-column">
-                                <label class="label margin-bottom">Muri subiti</label>
-                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                    class="label input-container" [(ngModel)]="option.avgBlock" min="0">
-                            </div>
-                        </mat-grid-tile>
-
-                        <!-- Media errori in servizio -->
-                        <mat-grid-tile colspan="3" rowspan="1">
-                            <div class="grid-tile-container flex-direction-column">
-                                <label class="label margin-bottom">Errori in servizio</label>
-                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                    class="label input-container" [(ngModel)]="option.avgServiceErrors" min="0">
-                            </div>
-                        </mat-grid-tile>
-
-                        <!-- Media errori in ricezione -->
-                        <mat-grid-tile colspan="3" rowspan="1">
-                            <div class="grid-tile-container flex-direction-column">
-                                <label class="label margin-bottom">Errori in ricezione</label>
-                                <input matInput [disabled]="!option.isBudgetCustomisedByRoles" type="number"
-                                    class="label input-container" [(ngModel)]="option.avgReceiveErrors" min="0">
-                            </div>
-                        </mat-grid-tile>
-
-                    </mat-grid-list>
+                <div class="flex-end full-width small-container">
+                    <button mat-raised-button class="small-btn label" (click)="clearTeams()">
+                        Clear
+                    </button>
                 </div>
-            </mat-card-content>
-        </mat-card>
-    </div>
+
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Divisione budget per Ruoli -->
+    <mat-card class="card-container large-margin" id="budgetForVolleyballRolesCard">
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>
+                <span>Budget per Ruoli</span>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="standard-container full-width">
+
+                <!-- Prima riga: Budget personalizzato -->
+                <div class="flex-center"
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'small-container' : 'standard-container'">
+
+                    <div class="cell-3of12 flex-direction-column large-margin-right">
+                        <label class="top-label no-bold">Budget disponibile</label>
+                        <div>
+                            <input matInput type="number" list="standardBudget"
+                                class="native-input-responsive label native-input-number hide-up-down-number">
+
+                            <datalist id="standardBudget">
+                                <option value="{{SMALL_BUDGET}}"></option>
+                                <option value="{{MIDDLE_BUDGET}}"></option>
+                                <option value="{{BIG_BUDGET}}"></option>
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <!-- Spazio vuoto -->
+                    <div class="cell-9of12" *ngIf="!isMobileOrMobileXLBreakpointActive"></div>
+
+                </div>
+
+                <!-- Seconda riga: Budget per ruoli -->
+                <div
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center standard-container'">
+                    <ng-container *ngFor="let role of roles">
+                        <div class="cell-4of12 flex-direction-column large-margin-right"
+                            [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                            <label class="top-label no-bold">{{ getRoleDescription(role) }}</label>
+                            <div>
+                                <input matInput type="number"
+                                    class="native-input-responsive native-input-number hide-up-down-number label">
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <div *ngIf="isMobileOrMobileXLBreakpointActive" class="cell-4of12 large-margin-right"></div>
+                </div>
+
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Filtro media statistiche -->
+    <mat-card class="card-container large-margin" id="volleyballTeamOptionCard">
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>
+                <span>Statistiche squadra (media)</span>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="standard-container full-width">
+
+                <!-- Prima riga -->
+                <div class="flex-center"
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center standard-container'">
+
+                    <!-- Media punti in attacco (PTI ATT)-->
+                    <div class="cell-4of12 flex-direction-column large-margin-right"
+                        [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                        <label class="top-label no-bold" *ngIf="!isMobileOrMobileXLBreakpointActive">Punti in attacco</label>
+                        <label class="top-label no-bold" *ngIf="isMobileOrMobileXLBreakpointActive">Pti Att.</label>
+                        <div>
+                            <input matInput type="number"
+                                class="native-input-responsive native-input-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                    <!-- Media muri realizzti (PTI M) -->
+                    <div class="cell-4of12 flex-direction-column large-margin-right"
+                        [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                        <label class="top-label no-bold" *ngIf="!isMobileOrMobileXLBreakpointActive">Muri realizzati</label>
+                        <label class="top-label no-bold" *ngIf="isMobileOrMobileXLBreakpointActive">Pti Muri</label>
+                        <div>
+                            <input matInput type="number"
+                                class="native-input-responsive native-input-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                    <!-- Media Ace realizzati (Ace) -->
+                    <div class="cell-4of12 flex-direction-column large-margin-right"
+                        [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                        <label class="top-label no-bold">Ace</label>
+                        <div>
+                            <input matInput type="number"
+                                class="native-input-responsive native-input-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                    <!-- Media ricezioni perfette realizzte (RPERF) -->
+                    <div class="cell-4of12 flex-direction-column large-margin-right"
+                        [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                        <label class="top-label no-bold" *ngIf="!isMobileOrMobileXLBreakpointActive">Ricezioni perfette</label>
+                        <label class="top-label no-bold" *ngIf="isMobileOrMobileXLBreakpointActive">Ric. Perf.</label>
+                        <div>
+                            <input matInput type="number"
+                                class="native-input-responsive native-input-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
 </div>

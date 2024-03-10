@@ -1,29 +1,39 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/service/user.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { OptionEntity } from 'src/model/options/optionEntity.model';
 import { OptionVolleyballEntity } from 'src/model/options/optionVolleyballEntity.model';
-import { UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { OptionsAbstract } from '../OptionsAbstract';
 import { IdMatCard } from '../IdMatCardInterface';
+import { Subscription } from 'rxjs';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
+import { TeamEntity } from 'src/model/teamEntity.model';
+import { RolePlayerSearchRequestService } from 'src/app/service/role-player-search-request.service';
+import { RolePlayerEntity } from 'src/model/rolePlayerEntity.model';
 
 @Component({
   selector: 'app-options-volleyball',
   templateUrl: './options-volleyball.component.html',
-  styleUrls: ['../options.component.scss']
+  styleUrls: ['./options-volleyball.component.scss']
 })
-export class OptionsVolleyballComponent extends OptionsAbstract implements OnInit {
+export class OptionsVolleyballComponent extends OptionsAbstract implements OnInit, OnDestroy {
 
-  //
-  // ID MAT CARD
-  //
+  /*
+   * ===================
+   * VARIABILI STATICHE 
+   * ===================
+   */
 
-  /**
+  /*
    * Lista hardcoded contenente gli id delle singole mat-card.
    * Ogni volta che si aggiunge una nuova mat-card il nuovo id
    * deve essere aggiunto alla lista 
   */
+
+  static readonly idTeamsCard: IdMatCard = {
+    id : "volleyballTeamsCard",
+    description : "Squadre"
+  }
 
   static readonly idBudgetForVolleyballRolesCard : IdMatCard = {
     id : "budgetForVolleyballRolesCard",
@@ -35,25 +45,97 @@ export class OptionsVolleyballComponent extends OptionsAbstract implements OnIni
     description : "Caratteristiche squadra"
   }
 
-  //
-  // FINE SEZIONE ID MAT CARD
-  //
+  // Valori standard utilizzabili per il budget
+  readonly SMALL_BUDGET:number = 100;
+  readonly MIDDLE_BUDGET:number = 250;
+  readonly BIG_BUDGET:number = 500;
+
+  /*
+   * ==========
+   * VARIABILI 
+   * ==========
+   */
 
   private _option!: OptionVolleyballEntity;
   private _budgetAvailable!: number;  
+  private _roles: RolePlayerEntity[];  
 
-  constructor(private userService: UserService) { 
+  private _isMobileOrMobileXLBreakpointActive: boolean = false;  
+  private _subscriptionMobileOrMobileXLBreakpointObservable:Subscription;
+
+  private _isMobileBreakpointActive: boolean = false;    
+  private _subscriptionMobileBreakpointObservable:Subscription;
+
+  /*
+   * ============================
+   * CONSTRUCTOR, INIT & DESTROY
+   * ============================
+   */
+
+  constructor(public breakpointsService:BreakpointsService,
+    private rolePlayerSearchRequest:RolePlayerSearchRequestService) { 
+    console.log("Construct Advanced Option Volleyball component");
+
     super();
+    this._roles = this.rolePlayerSearchRequest.bySport(SportEnum.VOLLEYBALL);
+    this._subscriptionMobileOrMobileXLBreakpointObservable = this.observeMobileOrMobileXLBreakpoint();
+    this._subscriptionMobileBreakpointObservable = this.observeMobileBreakpoint();
+  }  
+
+  ngOnInit(): void { }
+
+  ngOnDestroy(): void {
+    console.log("Destroy Advanced Option Volleyball component");
+
+    this._subscriptionMobileOrMobileXLBreakpointObservable.unsubscribe();
+    this._subscriptionMobileBreakpointObservable.unsubscribe();
   }
 
-  ngOnInit(): void {
-    
+   /*
+   * =========
+   * OBSERVER 
+   * =========
+   */
+
+   private observeMobileOrMobileXLBreakpoint() : Subscription {
+    return this.breakpointsService.mobileOrMobileXLObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(isActive => this.isMobileOrMobileXLBreakpointActive = isActive)
+        .error(err => console.log("Error while retriving mobileOrMobileXLBreakpoint : " + err))
+        .build()
+    );
   }
 
-  // METODI PRIVATI
+  private observeMobileBreakpoint() : Subscription {
+    return this.breakpointsService.mobileObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(isActive => this.isMobileBreakpointActive = isActive)
+        .error(err => console.log("Error while retriving mobileBreakpoint : " + err))
+        .build()
+    );
+  }
 
+  /*
+   * ================
+   * GETTER & SETTER 
+   * ================
+   */
 
-  // GETTER & SETTER
+  public get isMobileOrMobileXLBreakpointActive(): boolean {
+    return this._isMobileOrMobileXLBreakpointActive;
+  }
+  
+  private set isMobileOrMobileXLBreakpointActive(value: boolean) {
+    this._isMobileOrMobileXLBreakpointActive = value;
+  }
+
+  public get isMobileBreakpointActive(): boolean {
+    return this._isMobileBreakpointActive;
+  }
+
+  private set isMobileBreakpointActive(value: boolean) {
+    this._isMobileBreakpointActive = value;
+  }
 
   public get option(): OptionVolleyballEntity {
     return this._option;
@@ -71,7 +153,27 @@ export class OptionsVolleyballComponent extends OptionsAbstract implements OnIni
     this._budgetAvailable = value;
   }
 
-  // LISTENER
+  public get roles(): RolePlayerEntity[] {
+    return this._roles;
+  }
+
+  public getRoleDescription(role:RolePlayerEntity) : String {
+    return this.isMobileOrMobileXLBreakpointActive ? role.shortDescription : role.description;
+  }
+
+  /*
+   * =========
+   * LISTENER
+   * =========
+   */
+
+  updateSelectedTeamsList(team: TeamEntity) : void {
+    // TODO: da implementare
+  }
+
+  clearTeams() : void {
+    // TODO: da implementare
+  }
 
   updateOptionStandard(option: OptionEntity): void {
     this._option.budget = option.budget
@@ -88,10 +190,15 @@ export class OptionsVolleyballComponent extends OptionsAbstract implements OnIni
     this._budgetAvailable = this.option.budget - this.option.calculateTotalBudgetByRoles();
   }
 
-  // STATICI
+  /*
+   * ===============
+   * METODI STATICI 
+   * ===============
+   */
 
   public static override getIds(): IdMatCard[] {
     return [
+      this.idTeamsCard,
       this.idBudgetForVolleyballRolesCard,
       this.idVolleyballTeamOptionCard
     ];  
