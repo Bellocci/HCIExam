@@ -2,7 +2,7 @@
 
 - **Anno accademico**: 2021-2022
 
-- **Titolo progetto**: Website responsive per la creazione di squadre per il fantasport
+- **Titolo progetto**: Website per la creazione di squadre per i giochi di fantasport
 
 - **Studente**: Bellocci Francesco
 
