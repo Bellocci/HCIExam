@@ -8,8 +8,8 @@
 
 - **CFU**: 9
     
-In questo progetto sarà implementato un website responsive che permetta ad un utente di generare la miglior squadra, in base ai criteri indicati, per il gioco di fantasport scelto.
-La parte di front-end con il quale gli utenti si interfacceranno sarà realizzata utilizzando il framework Angular combinata ai suoi Material Design in modo da rendere intuitive le funzionalità ed operazioni disponibili. La parte di back-end verrà implementata con il framework Python Django in modo da semplificare la comunicazione tra il server ed il client e la navigazione tra pagine web, inoltre in questo modo sarà possibile utilizzare la libreria python PuLP per risolvere il problema di ottimizzazione per il calcolo della miglior squadra.
+In questo progetto sarà implementato un website responsive che consenta ad un utente di generare la miglior squadra, in base ai criteri indicati, per il gioco di fantasport scelto.
+La parte di front-end sarà realizzata utilizzando il framework Angular combinata ai suoi Material Design in modo da rendere le funzionalità e le operazioni disponibili intuitive. La parte di back-end per la lettura e scrittura dei dati verrà implementata in Python in modo da utilizzare la libreria python PuLP per risolvere il problema di ottimizzazione vincolato sul calcolo della miglior squadra.
 
 
 # Tool e tecnologie
@@ -40,7 +40,7 @@ Risultati attesi da questo progetto:
 
 # Riepilogo 
 
-Lo scopo di questo progetto è di realizzare un website responsive adatto a qualunque utente, principiante o esperto, per creare la miglior squadra per il fantasport a cui vogliono giocare. Il website aiuta gli utenti che si interfacciano per la prima volta a questa tipologia di giochi rendendo semplice ed intuitivo la creazione di una propria squadra e le operazioni base, mentre per gli utenti esperti li aiuta offrendo funzionalità più sofisticate permettendo la modifica dei criteri per la scelta dei giocatori.
+Lo scopo di questo progetto è di realizzare un website responsive adatto a qualunque utente, principiante o esperto, che gli consenta di generare la miglior squadra per i giochi di fantasport. Il website aiuta gli utenti che si interfacciano per la prima volta a questa tipologia di giochi rendendo semplice ed intuitivo la creazione di una propria squadra ma allo stesso tempo permette agli utenti esperti di personalizzare i criteri di ricerca dei giocatori in modo da realizzare la squadra più accurata secondo la propria esigenza.
 
 
 # Sitografia
