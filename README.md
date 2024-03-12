@@ -18,11 +18,11 @@ I principali tool e tecnologie che saranno implementate sono:
 
 - **Angular**: per la realizzazione dell’interfaccia utente[1][2].
 
-- **Django**: per gestire la navigazione tra le pagine del website e semplificare la comunicazione tra client e server[3].
+- **Python**: linguaggio utilizzato in backend per le operazioni di CRUD e di ottimizzazione.
 
-- **PiLP**: libreria python per risolvere il problema vincolato per il calcolo della miglior squadra[4].
+- **PiLP**: libreria python per risolvere il problema vincolato per il calcolo della miglior squadra[3].
 
-- **Docker**: per eseguire facilmente Django, Angular ed il database nel quale sono memorizzati le informazioni dei giocatori[5].
+- **Docker**: per l'esecuzione del Website[4].
 
 
 # Risultato atteso
@@ -35,7 +35,7 @@ Risultati attesi da questo progetto:
 
 - Il website dovrà fornire una lista dei giocatori in base allo sport ed al campionato selezionato, ogni giocatore avrà una sua scheda contenente tutte le informazioni e le statistiche dell'ultima stagione.
 
-- Il website dovrà offire le stesse funzionalità indipendentemente dal dispositivo con il quale l'utente decide di accedervi.
+- Il website dovrà offire le stesse funzionalità indipendentemente dal dispositivo con il quale l'utente decide di accedervi (Pc, Tablet, smartphone...).
 
 
 # Riepilogo 
@@ -49,11 +49,9 @@ Lo scopo di questo progetto è di realizzare un website responsive adatto a qual
 
 [2] https://material.angular.io/
 
-[3] https://www.djangoproject.com/
+[3] https://pypi.org/project/PuLP/
 
-[4] https://pypi.org/project/PuLP/
-
-[5] https://www.docker.com/
+[4] https://www.docker.com/
 
 
 # Immagini
