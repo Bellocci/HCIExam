@@ -36,6 +36,8 @@ import { OptionsVolleyballComponent } from './pages/options/options-volleyball/o
 import { OptionsBasketballComponent } from './pages/options/options-basketball/options-basketball.component';
 import { TeamListResponsiveComponent } from './components/team-list-responsive/team-list-responsive.component';
 import { OptionPlayerSearchComponent } from './components/option-player-search/option-player-search.component';
+import { UserProfileStandardComponent } from './pages/user-page/user-profile-standard/user-profile-standard.component';
+import { AvatarComponent } from './components/avatar/avatar.component';
 
 export function initializeApp(appInitService: AppInitService) {
   return (): Promise<any> => { 
@@ -67,6 +69,8 @@ export function initializeApp(appInitService: AppInitService) {
     OptionsBasketballComponent,
     TeamListResponsiveComponent,
     OptionPlayerSearchComponent,
+    UserProfileStandardComponent,
+    AvatarComponent,
   ],
   imports: [
     AppRoutingModule,

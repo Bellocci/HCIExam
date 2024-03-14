@@ -1,0 +1,35 @@
+<div class="avatar-container">
+
+    <!-- Immagine -->
+    <div class="tooltip" [ngClass]="viewSmallAvatar ? 'xs-image-container' : 'image-container'"
+    [ngStyle]="{backgroundImage: 'url(' + file + ')'}">
+
+        <span class="tooltip-text-left" *ngIf="!isFileUpdated && !viewSmallAvatar">
+            <a href="https://www.freepik.com/free-vector/illustration-businessman_2606517.htm" target="_blank">
+                Image by rawpixel.com</a> on Freepik
+        </span>
+    </div>
+
+    <ng-container *ngIf="!viewSmallAvatar">
+
+        <!-- Pulsante rimozione immagine -->
+        <ng-container *ngIf="isFileUpdated">
+            <label for="avatar-remove-file" class="flex-center-wrap">
+                <div class="delete-icon-wrapper">
+                    <input type="button" id="avatar-remove-file" class="hidden-element"
+                        (click)="onResetFile()" />
+                    <mat-icon>delete</mat-icon>
+                </div>
+            </label>
+        </ng-container>
+    
+        <!-- Il label serve ad aprire il prompt del file quando si preme sull'icona -->
+        <label for="avatar-input-file" class="flex-center-wrap">
+            <div class="icon-wrapper">
+                <input type="file" id="avatar-input-file" class="hidden-element" 
+                    accept="image/*" (change)="onUpdateFile($event)"/>
+                <mat-icon>edit</mat-icon>
+            </div>
+        </label>
+    </ng-container>
+</div>

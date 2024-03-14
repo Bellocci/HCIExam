@@ -14,7 +14,7 @@ export class UserEntity {
     constructor(userId: number, name: string, surname: string, username: string,
         password: string, color: string);
     constructor(... params:any[]) {
-        if(params.length == 7) {
+        if(params.length == 6) {
             this._userId = params[0];
             this._name = params[1];
             this._surname = params[2];

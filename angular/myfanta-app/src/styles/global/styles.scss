@@ -783,7 +783,7 @@ TOOLTIP
     position: relative;
     display: inline-block;
 
-    .tooltiptext {
+    .tooltip-text {
         border: 1px solid black;
         visibility: hidden;
         width: 120px;
@@ -791,17 +791,36 @@ TOOLTIP
         border-radius: 6px;
         padding: 5px 0;
         background-color: blanchedalmond;
-    
-        /* Position the tooltip */
+    }
+
+    .tooltiptext {
+        @extend .tooltip-text;
+
         position: absolute;
         z-index: 1;
         bottom: 0px;
         right: 0;
-    }    
+    }   
+    
+    .tooltip-text-left {
+        @extend .tooltip-text;
+        
+        position: absolute;
+        z-index: 1;
+        bottom: 0px;
+        left: 0;
+    }
 }
 
-.tooltip:hover .tooltiptext {
-    visibility: visible;
+.tooltip:hover {
+
+    .tooltiptext {
+        visibility: visible;
+    }    
+
+    .tooltip-text-left {
+        visibility: visible;
+    }
 }
 
 .mat-tooltip {
