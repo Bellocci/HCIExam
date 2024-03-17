@@ -38,6 +38,7 @@ import { TeamListResponsiveComponent } from './components/team-list-responsive/t
 import { OptionPlayerSearchComponent } from './components/option-player-search/option-player-search.component';
 import { UserProfileStandardComponent } from './pages/user-page/user-profile-standard/user-profile-standard.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
+import { UserProfileMobileComponent } from './pages/user-page/user-profile-mobile/user-profile-mobile.component';
 
 export function initializeApp(appInitService: AppInitService) {
   return (): Promise<any> => { 
@@ -71,6 +72,7 @@ export function initializeApp(appInitService: AppInitService) {
     OptionPlayerSearchComponent,
     UserProfileStandardComponent,
     AvatarComponent,
+    UserProfileMobileComponent,
   ],
   imports: [
     AppRoutingModule,
