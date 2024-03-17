@@ -265,7 +265,6 @@ COLORI
     background-color: transparent !important;
 }
 
-
 .error-color {
     color: $info-error-color !important;
 }
@@ -454,6 +453,11 @@ che non supportano CSS3
     margin: 1rem;
 }
 
+.column-gap {
+    margin: 0 16px;
+    margin: 0 1rem;
+}
+
 // 2 rem
 
 .large-margin-bottom {
@@ -481,6 +485,11 @@ che non supportano CSS3
     margin: 2rem;
 }
 
+.large-column-gap {
+    margin: 0 32px;
+    margin: 0 2rem;
+}
+
 // 3 Rem
 
 .xl-margin-bottom {
@@ -506,6 +515,11 @@ che non supportano CSS3
 .xl-margin {
     margin: 48px;
     margin: 3rem;
+}
+
+.xl-column-gap {
+    margin: 0 48px;
+    margin: 0 3rem;
 }
 
 /* Margine standard da applicare in un div prima e dopo il contenuto della pagina */
@@ -604,6 +618,7 @@ FLEXBOX CONTAINER
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 /* Distribuisce lo spazio in modo equo tra gli oggetti */

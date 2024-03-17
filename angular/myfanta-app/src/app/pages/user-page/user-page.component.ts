@@ -1,6 +1,5 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../../service/user.service';
-import { ColorEnum } from 'src/enum/ColorEnum.model';
 import { TeamDataService } from '../../service/team-data.service';
 import { RouterService } from '../../service/router.service';
 import { InternalDataService } from '../../service/internal-data.service';
@@ -8,48 +7,139 @@ import { SportEnum } from 'src/enum/SportEnum.model';
 import { CreateNewTeamDialogComponent } from '../../Dialog/create-new-team-dialog/create-new-team-dialog.component';
 import { DialogService } from '../../service/dialog.service';
 import { DialogHelper } from '../../Dialog/dialogHelper.interface';
-import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { UserEntity } from 'src/model/userEntity.model';
 import { UserTeamEntity } from 'src/model/userTeamEntity.model';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
+import { Subscription } from 'rxjs';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
   styleUrls: ['./user-page.component.scss'],
 })
-export class UserPageComponent implements OnInit, AfterViewInit {
+export class UserPageComponent implements OnInit, OnDestroy {
+
+  /*
+   * ==========
+   * VARIABILI 
+   * ==========
+   */
 
   private dialogHelper!:DialogHelper;
 
   private myTeams:UserTeamEntity[] = [];
   private removedTeams:UserTeamEntity[] = [];
 
+  private _isMobileOrMobileXLBreakpointActive: boolean = false;
+  private _subscriptionToMobileOrMobileXLObservable : Subscription;
+
+  private _isLargeDeviceBreakpointActive: boolean = false;
+  private _subscriptionToLargeDeviceBreakpointObservable : Subscription;
+
+  private _isXLDeviceBreakpointActive: boolean = false;  
+  private _subscriptionToXLDeviceBreakpointObservable : Subscription;
+  
+
+  /*
+   * ==============================
+   * CONSTRUCTOR, INIT & DESTROYER 
+   * ==============================
+   */
+
   constructor(private userService:UserService,
     private teamDataService:TeamDataService, 
     private routerService:RouterService,
     private internalDataService:InternalDataService,
-    private dialogService:DialogService) { }
+    private dialogService:DialogService,
+    public breakpointsService:BreakpointsService) { 
 
-  ngOnInit(): void {
+    console.log("Construct User profile page");
+    this._subscriptionToMobileOrMobileXLObservable = this.observeMobileOrMobileXLBreakpoints();
+    this._subscriptionToLargeDeviceBreakpointObservable = this.observeLargeDeviceBreakpoints();
+    this._subscriptionToXLDeviceBreakpointObservable = this.observeXLDeviceBreakpoints();
     this.dialogHelper = this.dialogService.getDialogHelper();
+  }  
+
+  ngOnInit(): void {    
     //this.internalDataService.setLoadingData(false);
   }
 
-  ngAfterViewInit(): void {    
+  ngOnDestroy(): void {
+    console.log("Destroy User profile page");
+
+    this._subscriptionToMobileOrMobileXLObservable.unsubscribe();
+    this._subscriptionToLargeDeviceBreakpointObservable.unsubscribe();
+    this._subscriptionToXLDeviceBreakpointObservable.unsubscribe();
   }
 
-  // Getter
+  /*
+   * ==========
+   * OBSERVERS 
+   * ==========
+   */
+
+  private observeMobileOrMobileXLBreakpoints() : Subscription {
+    return this.breakpointsService.mobileOrMobileXLObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(active => this.isMobileOrMobileXLBreakpointActive = active)
+        .error(err => console.log("Error while retriving mobile or mobile XL breakpoint : " + err))
+        .build()
+    );
+  }
+
+  private observeLargeDeviceBreakpoints() : Subscription {
+    return this.breakpointsService.largeDeviceObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(active => this.isLargeDeviceBreakpointActive = active)
+        .error(err => console.log("Error while retriving large device breakpoint : " + err))
+        .build()
+    );
+  }
+
+  private observeXLDeviceBreakpoints() : Subscription {
+    return this.breakpointsService.xlDeviceObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(active => this.isXLDeviceBreakpointActive = active)
+        .error(err => console.log("Error while retriving XL Device breakpoint : " + err))
+        .build()
+    );
+  }
+
+  /*
+   * ================
+   * GETTER & SETTER
+   * ================
+   */
+
+  public get isMobileOrMobileXLBreakpointActive(): boolean {
+    return this._isMobileOrMobileXLBreakpointActive;
+  }
+
+  private set isMobileOrMobileXLBreakpointActive(value: boolean) {
+    this._isMobileOrMobileXLBreakpointActive = value;
+  }
+
+  public get isLargeDeviceBreakpointActive(): boolean {
+    return this._isLargeDeviceBreakpointActive;
+  }
+
+  private set isLargeDeviceBreakpointActive(value: boolean) {
+    this._isLargeDeviceBreakpointActive = value;
+  }
+
+  public get isXLDeviceBreakpointActive(): boolean {
+    return this._isXLDeviceBreakpointActive;
+  }
+
+  private set isXLDeviceBreakpointActive(value: boolean) {
+    this._isXLDeviceBreakpointActive = value;
+  }
 
   getUser() : UserEntity {
     return this.userService.getUser();
   }
 
-  /**
-   * Restituisce tutti i team dell'utenti che sono attivi per quello sport
-   * 
-   * @param sport 
-   * @returns UserTeam[]
-   */
   getTeams(sport:SportEnum) : UserTeamEntity[] {
     return this.userService.loadTeams(sport);
   }
@@ -66,35 +156,11 @@ export class UserPageComponent implements OnInit, AfterViewInit {
     return team.blacklist.length;
   }
 
-  getColors() : string[] {
-    return Object.values(ColorEnum);
-  }
-
-  // Setter
-
-  /**
-   * Evento listener che scatta per l'evento onmouseenter.
-   * Setta all'elemento un bordo di dimensione 3px e style solid.
-   * 
-   * @param event 
+  /*
+   * ===========
+   * VISIBILITA' 
+   * ===========
    */
-  setBorderColor(event: MouseEvent) {
-    const divElement:HTMLDivElement = event.currentTarget as HTMLDivElement;
-    divElement.style.border = '3px solid';
-  }
-
-  /**
-   * Evento listener che scatta all'evento onmouseleave.
-   * Setta all'elemento un bordo di dimensione 1px e style solid.
-   * 
-   * @param event 
-   */
-  removeBorderColor(event: MouseEvent) {
-    const divElement:HTMLDivElement = event.currentTarget as HTMLDivElement;
-    divElement.style.border = '1px solid';
-  }
-
-  /* Visibilità */
 
   /**
    * Verifica se alla chiave nella mappa sono associati team attivi.
@@ -106,31 +172,12 @@ export class UserPageComponent implements OnInit, AfterViewInit {
     return this.userService.hasActiveTeam(sport);
   }
 
-  /* Funzionalità */
-
-  /**
-   * Evento listener che scatta all'evento click del mouse.
-   * Cambia il background color dell'immagine dell'utente con quello selezionato.
-   * 
-   * @param event 
+  /*
+   * =========
+   * LISTENER
+   * =========
    */
-  changeBackgroundColorToAvatar(event: MouseEvent) {
-    const colorDiv:HTMLDivElement = event.currentTarget as HTMLDivElement;
-    const color:string | null = colorDiv.style.backgroundColor;
 
-    const divImgElment:HTMLElement | null = document.getElementById("img-user-container");
-    if(color != null && divImgElment != null) {
-      divImgElment.style.backgroundColor = color;
-    }
-  }
-
-  /**
-   * Evento listener che scatta alla cancellazione di un team.
-   * Si rimuove il team dalla lista di quelli attivi e lo si aggiunge a quella dei non attivi.
-   *  
-   * @param sport 
-   * @param team 
-   */
   removeTeam(team:UserTeamEntity) : void {
     this.userService.removeTeam(team);
   }
