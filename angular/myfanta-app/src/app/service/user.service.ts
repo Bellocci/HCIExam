@@ -3,7 +3,6 @@ import { Observable, Observer, Subscription } from 'rxjs';
 import { USER_DATA, UserEntity } from 'src/model/userEntity.model';
 import { CUSTOMS_TEAM_DATA, UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { SessionStorageService } from './session-storage.service';
-import { ColorEnum } from 'src/enum/ColorEnum.model';
 import { ObservableHelper } from 'src/utility/observable-helper';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { UserDecoratorFactoryService } from 'src/decorator-factory/user-decorator-factory.service';
@@ -134,7 +133,7 @@ export class UserService implements OnDestroy {
       // TODO: Salvataggio su db
 
       // TODO: Chiamata al db per caricare il nuovo utente
-      let entity:UserEntity = new UserEntity(USER_DATA.length, name, surname, username, password, ColorEnum.WHITE);
+      let entity:UserEntity = new UserEntity(USER_DATA.length, name, surname, username, password);
       // Salvataggio su db
       USER_DATA.push(entity)
       return entity;

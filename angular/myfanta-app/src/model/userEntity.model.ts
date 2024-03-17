@@ -1,5 +1,3 @@
-import { ColorEnum } from "src/enum/ColorEnum.model";
-
 export class UserEntity {
 
     private _userId: number; 
@@ -7,27 +5,24 @@ export class UserEntity {
     private _surname: string;
     private _username: string;
     private _password: string;
-    private _color: ColorEnum;
 
     // Unico modo per avere un costruttore multiplo in typescript
     constructor();
     constructor(userId: number, name: string, surname: string, username: string,
-        password: string, color: string);
+        password: string);
     constructor(... params:any[]) {
-        if(params.length == 6) {
+        if(params.length == 5) {
             this._userId = params[0];
             this._name = params[1];
             this._surname = params[2];
             this._username = params[3];
             this._password = params[4];
-            this._color = params[5];
         } else {
             this._userId = -1;
             this._name = "";
             this._surname = "";
             this._username = "";
             this._password = "";
-            this._color = ColorEnum.WHITE;
         }        
     }
 
@@ -71,14 +66,6 @@ export class UserEntity {
         this._password = value;
     }
 
-    public get color(): ColorEnum {
-        return this._color;
-    }
-
-    public set color(value: ColorEnum) {
-        this._color = value;
-    }
-
     // Metodi di utilità
 
     isUserDefined() : boolean {
@@ -109,7 +96,7 @@ export class UserEntity {
 
         return this.userId == other.userId && this.name == other.name && 
             this.surname == other.surname && this.username == other.username &&
-            this.password == other.password && this.color == other.color;
+            this.password == other.password;
     }
 
     toJSON(): any {
@@ -118,8 +105,7 @@ export class UserEntity {
             name: this.name,
             surname: this.surname,
             username: this.username,
-            password: this.password,
-            color: this.color,
+            password: this.password
         }
     }
 
@@ -128,13 +114,12 @@ export class UserEntity {
         console.log("JSON: " + json.userId);
         console.log("JSON: " + json.name);
         console.log("JSON: " + json.surname);
-        return new UserEntity(json.userId, json.name, json.surname, json.username, json.passwod, json.color);
+        return new UserEntity(json.userId, json.name, json.surname, json.username, json.passwod);
     }
 }
 
 export const USER_DATA: UserEntity[] = [
-    new UserEntity(1, "Francesco", "Bellocci", "scon", "scon", ColorEnum.YELLOW),
-    new UserEntity(3, "Caterina", "Cocchiaro", "Catescon95", "Password1?", ColorEnum.GREEN),
-    new UserEntity(4, "aaa", "aaa", "aaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        ColorEnum.RED)
+    new UserEntity(1, "Francesco", "Bellocci", "scon", "scon"),
+    new UserEntity(3, "Caterina", "Cocchiaro", "Catescon95", "Password1?"),
+    new UserEntity(4, "aaa", "aaa", "aaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 ]
