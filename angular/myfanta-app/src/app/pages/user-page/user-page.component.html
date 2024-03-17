@@ -3,3 +3,8 @@
 <ng-container *ngIf="!isMobileOrMobileXLBreakpointActive">
   <app-user-profile-standard></app-user-profile-standard>
 </ng-container>
+
+<!-- Visualizzazione mobile -->
+<ng-container *ngIf="isMobileOrMobileXLBreakpointActive">
+  <app-user-profile-mobile></app-user-profile-mobile>
+</ng-container>

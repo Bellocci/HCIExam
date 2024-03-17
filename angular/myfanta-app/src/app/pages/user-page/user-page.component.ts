@@ -31,6 +31,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
   private myTeams:UserTeamEntity[] = [];
   private removedTeams:UserTeamEntity[] = [];
 
+  private _isMobileBreakpointActive: boolean = false;
+  private _subscriptionToMobileObservable: Subscription;
+
   private _isMobileOrMobileXLBreakpointActive: boolean = false;
   private _subscriptionToMobileOrMobileXLObservable : Subscription;
 
@@ -55,6 +58,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     public breakpointsService:BreakpointsService) { 
 
     console.log("Construct User profile page");
+    this._subscriptionToMobileObservable = this.observeMobileBreakpoints();
     this._subscriptionToMobileOrMobileXLObservable = this.observeMobileOrMobileXLBreakpoints();
     this._subscriptionToLargeDeviceBreakpointObservable = this.observeLargeDeviceBreakpoints();
     this._subscriptionToXLDeviceBreakpointObservable = this.observeXLDeviceBreakpoints();
@@ -68,6 +72,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     console.log("Destroy User profile page");
 
+    this._subscriptionToMobileObservable.unsubscribe();
     this._subscriptionToMobileOrMobileXLObservable.unsubscribe();
     this._subscriptionToLargeDeviceBreakpointObservable.unsubscribe();
     this._subscriptionToXLDeviceBreakpointObservable.unsubscribe();
@@ -78,6 +83,15 @@ export class UserPageComponent implements OnInit, OnDestroy {
    * OBSERVERS 
    * ==========
    */
+
+  private observeMobileBreakpoints() : Subscription {
+    return this.breakpointsService.mobileObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(active => this.isMobileBreakpointActive = active)
+        .error(err => console.log("Error while retriving mobile breakpoint : " + err))
+        .build()
+    );
+  }
 
   private observeMobileOrMobileXLBreakpoints() : Subscription {
     return this.breakpointsService.mobileOrMobileXLObservable.subscribe(
@@ -134,6 +148,14 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   private set isXLDeviceBreakpointActive(value: boolean) {
     this._isXLDeviceBreakpointActive = value;
+  }
+
+  public get isMobileBreakpointActive(): boolean {
+    return this._isMobileBreakpointActive;
+  }
+  
+  private set isMobileBreakpointActive(value: boolean) {
+    this._isMobileBreakpointActive = value;
   }
 
   getUser() : UserEntity {
