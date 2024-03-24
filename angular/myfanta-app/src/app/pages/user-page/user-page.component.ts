@@ -214,8 +214,13 @@ export class UserPageComponent implements OnInit, OnDestroy {
    * Listener per l'apertura della dialog CreateNewTeamDialog
    */
   openCreateNewTeamDialog() {
-    this.dialogHelper.setData(null);
-    this.dialogHelper.openDialog(CreateNewTeamDialogComponent);
+    let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
+    dialogHelper.setData(null);
+    if(this.isMobileBreakpointActive) {     
+      dialogHelper.setWidth("100%");
+      dialogHelper.setHeight("100%");
+    } 
+    dialogHelper.openDialog(CreateNewTeamDialogComponent);
     this.dialogHelper.afterClosed()?.subscribe(result => {
       if(result instanceof UserTeamEntity) {
         this.userService.addNewTeam(result);

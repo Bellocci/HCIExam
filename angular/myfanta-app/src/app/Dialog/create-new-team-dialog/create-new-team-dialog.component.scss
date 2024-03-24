@@ -1,17 +1,1 @@
-.mat-mdc-dialog-content {
-    max-height: 100% !important;
-}
-
-.dialog-container {
-    min-width: 500px;
-    padding: 50px;
-}
-
-.create-btn:disabled {
-    pointer-events: auto;
-}
-
-input:disabled {
-    opacity: 0.7;
-    color: black;
-}
+@use "src/styles/dialog/new-team";

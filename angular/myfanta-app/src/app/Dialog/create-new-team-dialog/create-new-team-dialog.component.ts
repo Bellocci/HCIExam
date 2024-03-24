@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogService } from 'src/app/service/dialog.service';
@@ -12,24 +12,23 @@ import { TeamDataService } from 'src/app/service/team-data.service';
 import { SnackBarService } from 'src/app/service/snack-bar.service';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { UserTeamEntity } from 'src/model/userTeamEntity.model';
+import { Subscription } from 'rxjs';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 
 @Component({
   selector: 'app-create-new-team-dialog',
   templateUrl: './create-new-team-dialog.component.html',
   styleUrls: ['./create-new-team-dialog.component.scss'],
 })
-export class CreateNewTeamDialogComponent implements OnInit {
+export class CreateNewTeamDialogComponent implements OnInit, OnDestroy {
 
+  /*
+   * ==========
+   * VARIABILI 
+   * ==========
+   */  
   private showSelected:boolean = true;
-
-  constructor(private dialogService:DialogService,
-    private filterDataService:FilterDataService,
-    private userService:UserService,
-    private userTeamDecoratorFactory:UserTeamDecoratorFactoryService,
-    @Inject(MAT_DIALOG_DATA) private data: CreateNewTeamDataStructure,
-    private teamDataService:TeamDataService,
-    private snackBarService:SnackBarService) { }
-  
   teamNameFormControl:FormControl = new FormControl('My team', { validators : [ Validators.required] });
   private selectedSport:SportEnum | string = "";
   private selectedChampionship:ChampionshipEnum | string = "";
@@ -38,6 +37,28 @@ export class CreateNewTeamDialogComponent implements OnInit {
 
   private championshipsList:ChampionshipEnum[] = [];
   private leaguesList:LeagueEntity[] = [];
+
+  private _isMobileBreakpointActive: boolean = false;  
+  private _subscriptionToMobileBreakpointObservable:Subscription;
+
+  /*
+   * ===============================
+   * CONSTRUCTOR - INIT - DESTROYER 
+   * ===============================
+   */
+
+  constructor(private dialogService:DialogService, public breakpointsService:BreakpointsService,
+    private filterDataService:FilterDataService,
+    private userService:UserService,
+    private userTeamDecoratorFactory:UserTeamDecoratorFactoryService,
+    @Inject(MAT_DIALOG_DATA) private data: CreateNewTeamDataStructure,
+    private teamDataService:TeamDataService,
+    private snackBarService:SnackBarService) { 
+
+      console.log("Construct New Team dialog component");
+
+      this._subscriptionToMobileBreakpointObservable = this.observeMobileBreakpoint();
+  }    
 
   ngOnInit(): void {
     if(this.data != undefined && this.data.sport != undefined && this.data.championship != undefined && 
@@ -49,11 +70,39 @@ export class CreateNewTeamDialogComponent implements OnInit {
       if(this.data.teamName.length > 0) {
         this.teamNameFormControl.setValue(this.data.teamName);
       }
-      this.importPlayer = this.data.importPlayer;
+      this.importPlayer = this.data.importPlayer;      
     }
   }
 
+  ngOnDestroy(): void {
+    console.log("Destroyer New Team Dialog");
+
+    this._subscriptionToMobileBreakpointObservable.unsubscribe();
+  }
+
+  /*
+   * =========
+   * OBSERVER 
+   * =========
+   */
+
+  private observeMobileBreakpoint() : Subscription {
+    return this.breakpointsService.mobileObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(isActive => this.isMobileBreakpointActive = isActive)
+        .error(err => console.log("Error while retriving mobile breakpoint observable : " + err))
+        .build())    
+  }
+
   /* GETTER */
+
+  public get isMobileBreakpointActive(): boolean {
+    return this._isMobileBreakpointActive;
+  }
+  
+  private set isMobileBreakpointActive(value: boolean) {
+    this._isMobileBreakpointActive = value;
+  }
 
   getSports() : SportEnum[] {
     return SportEnum.getAllSport();
