@@ -246,7 +246,7 @@ COLORI
 }
 
 .gray-color {
-    background-color: $gray-color;
+    background-color: $gray-color !important;
 }
 
 .gray-color:hover {
@@ -259,6 +259,10 @@ COLORI
 
 .gray-color-light:hover {
     background-color: $gray-color-light !important;
+}
+
+.gray-color-dark {
+    background-color: $gray-color-dark !important;
 }
 
 .no-color {
