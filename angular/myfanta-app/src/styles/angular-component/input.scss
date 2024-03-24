@@ -1,41 +1,6 @@
 @import "src/styles/global/breakpoints";
 
 /*
- * ====================
- * ANGULAR INPUT STYLE
- * ====================
- */
-
-
-.input-txt {
-    max-width: 350px !important;
-    width: 100%;
-}
-
-@media (min-width: $mobileXL-breakpoint) {
-
-    .input-txt {
-        max-width: none;
-        min-width: 350px !important;
-        width: 100%;
-    }
-}
-
-.large-input-txt {
-    max-width: 400px !important;
-    width: 100%;
-}
-
-@media (min-width: $mobileXL-breakpoint) {
-
-    .large-input-txt {
-        max-width: none;
-        min-width: 400px !important;
-        width: 100%;
-    }
-}
-
-/*
  * ===================
  * NATIVE INPUT STYLE
  * ===================
@@ -47,12 +12,6 @@
     border-radius: 5px;
 }
 
-.form-xl-native-input {
-    min-width: 80px;
-    max-width: 250px;
-    width: 100%;
-}
-
 .xl-native-input {
     @extend .native-input-border;
     width: 100%;    
@@ -61,13 +20,6 @@
 
 .xl-native-input:disabled {
     opacity: 0.5;
-}
-
-@media (min-width: $mobileXL-breakpoint) {
-
-    .form-xl-native-input {
-        max-width: 350px;
-    }
 }
 
 .native-input {

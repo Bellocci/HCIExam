@@ -1,0 +1,54 @@
+@import "src/styles/global/breakpoints";
+
+/*
+ * ==================
+ * ANGULAR COMPONENT
+ * ==================
+ */
+
+.form-standard-container {
+    max-width: 350px !important;
+    width: 100%;
+}
+
+@media (min-width: $mobileXL-breakpoint) {
+
+    .form-standard-container {
+        max-width: none;
+        min-width: 350px !important;
+        width: 100%;
+    }
+}
+
+.form-large-container {
+    max-width: 400px !important;
+    width: 100%;
+}
+
+@media (min-width: $mobileXL-breakpoint) {
+
+    .form-large-container {
+        max-width: none;
+        min-width: 400px !important;
+        width: 100%;
+    }
+}
+
+/*
+ * ==================
+ * NATIVE COMPONENT
+ * ==================
+ */
+
+.form-native-container {
+    min-width: 80px;
+    max-width: 250px;
+    width: 100%;
+}
+
+@media (min-width: $mobileXL-breakpoint) {
+
+    .form-native-container {
+        max-width: 350px;
+    }
+}
