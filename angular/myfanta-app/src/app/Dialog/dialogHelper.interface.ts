@@ -1,6 +1,7 @@
 import { ComponentType } from "@angular/cdk/portal";
 import { DialogPosition, MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { Observable } from "rxjs";
+import { DialogDataAbstract } from "./dialog-data.abstract";
 
 export interface DialogHelper {
 
@@ -25,7 +26,7 @@ export interface DialogHelper {
      * 
      * @param data 
      */
-    setData(data: any): void;
+    setData(data: DialogDataAbstract): void;
 
     /**
      * Imposta la largezza della dialog

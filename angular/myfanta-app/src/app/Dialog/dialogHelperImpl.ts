@@ -2,6 +2,7 @@ import { DialogPosition, MatDialog, MatDialogConfig, MatDialogRef } from "@angul
 import { Observable, map, take } from "rxjs";
 import { ComponentType } from "@angular/cdk/portal";
 import { DialogHelper } from "./dialogHelper.interface";
+import { DialogDataAbstract } from "./dialog-data.abstract";
 
 
 export class DialogHelperImpl implements DialogHelper {
@@ -68,7 +69,7 @@ export class DialogHelperImpl implements DialogHelper {
         return this.dialogConfig;
     }
 
-    setData(data: any): void {
+    setData(data: DialogDataAbstract): void {
         this.dialogConfig.data = data;
     }
 
