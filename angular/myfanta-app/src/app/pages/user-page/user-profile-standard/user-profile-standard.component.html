@@ -52,8 +52,15 @@
 
                                         <mat-card-header class="no-padding">
                                             <div class="full-width primary-color-light">
-                                                <div class="margin">
-                                                    <mat-card-title>{{ team.nameTeam }}</mat-card-title>
+                                                <div class="margin flex-center">
+                                                    <div class="cell-static-10of12">
+                                                        <mat-card-title>{{ team.nameTeam }}</mat-card-title>
+                                                    </div>
+                                                    <div class="cell-static-2of12">
+                                                        <button mat-icon-button (click)="openEditUserTeamDialog(team)">
+                                                            <mat-icon>edit</mat-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </mat-card-header>

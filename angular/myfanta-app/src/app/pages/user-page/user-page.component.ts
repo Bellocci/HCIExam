@@ -12,6 +12,8 @@ import { UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
 import { Subscription } from 'rxjs';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { DialogDataAbstract } from 'src/app/Dialog/dialog-data.abstract';
+import { UserTeamDialogDataBuilder } from 'src/app/Dialog/create-new-team-dialog/user-team-dialog-data-builder';
 
 @Component({
   selector: 'app-user-page',
@@ -215,16 +217,42 @@ export class UserPageComponent implements OnInit, OnDestroy {
    */
   openCreateNewTeamDialog() {
     let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
-    dialogHelper.setData(null);
-    if(this.isMobileBreakpointActive) {     
-      dialogHelper.setWidth("100%");
-      dialogHelper.setHeight("100%");
-    } 
-    dialogHelper.openDialog(CreateNewTeamDialogComponent);
+
+    let dialogData : DialogDataAbstract = new UserTeamDialogDataBuilder()
+      .setCreateMode(true)
+      .build();
+    dialogHelper.setData(dialogData);
+
     this.dialogHelper.afterClosed()?.subscribe(result => {
       if(result instanceof UserTeamEntity) {
         this.userService.addNewTeam(result);
       }
     });
+
+    this.openUserTeamDialog(dialogHelper);
+  }
+
+  openEditUserTeamDialog(userTeam:UserTeamEntity) {
+    let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
+    let dialogData : DialogDataAbstract = new UserTeamDialogDataBuilder()
+      .setCreateMode(false)
+      .setUserTeam(userTeam)
+      .build();
+    dialogHelper.setData(dialogData);
+    this.openUserTeamDialog(dialogHelper);        
+  }
+
+  /*
+   * ===============
+   * METODI PRIVATI 
+   * ===============
+   */
+
+  private openUserTeamDialog(dialogHelper:DialogHelper) {
+    if(this.isMobileBreakpointActive) {     
+      dialogHelper.setWidth("100%");
+      dialogHelper.setHeight("100%");
+    } 
+    dialogHelper.openDialog(CreateNewTeamDialogComponent);
   }
 }

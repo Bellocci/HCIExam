@@ -1,6 +1,6 @@
-import { DialogDataBuilderInterface } from "./dialog-data-builder.interface";
+import { DialogDataInterface } from "./dialog-data.interface";
 
-export abstract class DialogDataAbstract {
+export abstract class DialogDataAbstract implements DialogDataInterface {
     
     /*
      * ============

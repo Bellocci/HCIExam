@@ -2,12 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InternalDataService } from '../../service/internal-data.service';
 import { TeamDataService } from '../../service/team-data.service';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
-import { FilterDataService } from 'src/app/service/filter-data.service';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { RouterService } from 'src/app/service/router.service';
 import { StandardOption } from 'src/decorator/option/standard-option.model';
 import { UserService } from 'src/app/service/user.service';
-import { CreateNewTeamDataStructure } from 'src/app/Dialog/create-new-team-dialog/create-new-team-data-structure.interface';
 import { DialogService } from 'src/app/service/dialog.service';
 import { CreateNewTeamDialogComponent } from 'src/app/Dialog/create-new-team-dialog/create-new-team-dialog.component';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
@@ -22,6 +20,8 @@ import { PlayerSearchFilter } from 'src/app/service/player-search-filter';
 import { PlayerSearchRequestService } from 'src/app/service/player-search-request.service';
 import { ObservableHelper } from 'src/utility/observable-helper';
 import { PlayerEntity } from 'src/model/playerEntity.model';
+import { DialogDataInterface } from 'src/app/Dialog/dialog-data.interface';
+import { UserTeamDialogDataBuilder } from 'src/app/Dialog/create-new-team-dialog/user-team-dialog-data-builder';
 
 @Component({
   selector: 'app-player-list',
@@ -43,7 +43,7 @@ export class PlayerListComponent implements OnInit, OnDestroy {
   private option: OptionEntity | null = null;
   private leagueSelected: LeagueEntity | null = null;
   private _user!: UserEntity;
-  private _userTeam: UserTeamEntity | undefined = undefined;
+  private _userTeam!: UserTeamEntity;
  
   private _subscriptionObserverToLeague: Subscription | undefined;
   private _subscriptionObserverToOption: Subscription | undefined;
@@ -147,11 +147,11 @@ export class PlayerListComponent implements OnInit, OnDestroy {
     this._user = value;
   }
 
-  public get userTeam(): UserTeamEntity | undefined {
+  public get userTeam(): UserTeamEntity {
     return this._userTeam;
   }
 
-  private set userTeam(value: UserTeamEntity | undefined) {
+  private set userTeam(value: UserTeamEntity) {
     this._userTeam = value;
   }
 
@@ -207,15 +207,12 @@ export class PlayerListComponent implements OnInit, OnDestroy {
 
   openCreateNewTeamDialog(): void {
     if (this.leagueSelected != null) {
-      let dataStructure: CreateNewTeamDataStructure = {
-        sport: this.leagueSelected.sport,
-        championship: this.leagueSelected.championship,
-        league: this.leagueSelected,
-        teamName: '',
-        importPlayer: true
-      }
+      let dialogData:DialogDataInterface = new UserTeamDialogDataBuilder()
+          .setCreateMode(true)
+          .setUserTeam(this.userTeam)
+          .build();
       let dialogHelper: DialogHelper = this.dialogService.getDialogHelper();
-      dialogHelper.setData(dataStructure);
+      dialogHelper.setData(dialogData);
       dialogHelper.openDialog(CreateNewTeamDialogComponent);
     }
   }

@@ -7,7 +7,6 @@ import { UserService } from 'src/app/service/user.service';
 import { UserTeamDecoratorFactoryService } from 'src/decorator-factory/user-team-decorator-factory.service';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 import { SportEnum } from 'src/enum/SportEnum.model';
-import { CreateNewTeamDataStructure } from './create-new-team-data-structure.interface';
 import { TeamDataService } from 'src/app/service/team-data.service';
 import { SnackBarService } from 'src/app/service/snack-bar.service';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
@@ -15,6 +14,7 @@ import { UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { Subscription } from 'rxjs';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { UserTeamDialogData } from './user-team-dialog-data';
 
 @Component({
   selector: 'app-create-new-team-dialog',
@@ -51,7 +51,7 @@ export class CreateNewTeamDialogComponent implements OnInit, OnDestroy {
     private filterDataService:FilterDataService,
     private userService:UserService,
     private userTeamDecoratorFactory:UserTeamDecoratorFactoryService,
-    @Inject(MAT_DIALOG_DATA) private data: CreateNewTeamDataStructure,
+    @Inject(MAT_DIALOG_DATA) private dialogData: UserTeamDialogData,
     private teamDataService:TeamDataService,
     private snackBarService:SnackBarService) { 
 
@@ -61,16 +61,21 @@ export class CreateNewTeamDialogComponent implements OnInit, OnDestroy {
   }    
 
   ngOnInit(): void {
-    if(this.data != undefined && this.data.sport != undefined && this.data.championship != undefined && 
-        this.data.league != undefined && this.data.importPlayer != undefined) {        
-      this.showSelected = false;
-      this.selectedSport = this.data.sport;
-      this.selectedChampionship = this.data.championship;
-      this.selectedLeague = this.data.league;
-      if(this.data.teamName.length > 0) {
-        this.teamNameFormControl.setValue(this.data.teamName);
+    if(this.dialogData.isCreateMode && this.dialogData.userTeam != undefined) {
+        this.teamNameFormControl.setValue(this.dialogData.userTeam.nameTeam);
+        this.selectedSport = this.dialogData.userTeam.league.sport
+        this.selectedChampionship = this.dialogData.userTeam.league.championship;
+        this.selectedLeague = this.dialogData.userTeam.league;               
+    } 
+    else if(!this.dialogData.isCreateMode) {
+      if(this.dialogData.userTeam == undefined) {
+        throw Error("Unable to edit user team " + this.dialogData.userTeam);
       }
-      this.importPlayer = this.data.importPlayer;      
+
+      this.teamNameFormControl.setValue(this.dialogData.userTeam.nameTeam);
+        this.selectedSport = this.dialogData.userTeam.league.sport
+        this.selectedChampionship = this.dialogData.userTeam.league.championship;
+        this.selectedLeague = this.dialogData.userTeam.league;
     }
   }
 
