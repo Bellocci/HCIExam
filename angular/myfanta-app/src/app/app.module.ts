@@ -39,6 +39,7 @@ import { OptionPlayerSearchComponent } from './components/option-player-search/o
 import { UserProfileStandardComponent } from './pages/user-page/user-profile-standard/user-profile-standard.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { UserProfileMobileComponent } from './pages/user-page/user-profile-mobile/user-profile-mobile.component';
+import { OutputTextResponsiveComponent } from './components/output-text-responsive/output-text-responsive.component';
 
 export function initializeApp(appInitService: AppInitService) {
   return (): Promise<any> => { 
@@ -73,6 +74,7 @@ export function initializeApp(appInitService: AppInitService) {
     UserProfileStandardComponent,
     AvatarComponent,
     UserProfileMobileComponent,
+    OutputTextResponsiveComponent,
   ],
   imports: [
     AppRoutingModule,
