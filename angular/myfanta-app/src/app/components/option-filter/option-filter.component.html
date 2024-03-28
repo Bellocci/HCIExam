@@ -5,7 +5,7 @@
     </mat-expansion-panel-header>
 
     <!-- Sezione filtri di ricerca -->
-    <div class="large-padding">
+    <div class="padding-large">
 
         <!-- Verione standard -->
         <div *ngIf="!(breakpointsService.mobileOrMobileXLObservable | async)">
@@ -116,7 +116,7 @@
                 </div>
     
                 <!-- Valutazione media squadra -->
-                <div class="cell-static-5of12 flex-direction-column large-margin-left">
+                <div class="cell-static-5of12 flex-direction-column margin-large-left">
                     <label class="top-label">FMV</label>
                     <input matInput type="number" class="native-input-responsive native-input-number hide-up-down-number label" 
                         min="0" step="1"

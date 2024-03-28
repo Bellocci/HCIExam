@@ -5,7 +5,7 @@
     <div class="standard-container flex-center">
         <app-avatar></app-avatar>
 
-        <button mat-raised-button class="mini-btn large-margin-left">
+        <button mat-raised-button class="mini-btn margin-large-left">
             <mat-icon>save</mat-icon>
             Salva
         </button>
@@ -13,7 +13,7 @@
 
     <!-- Gestione Squadre -->
     <div class="flex-direction-column full-width">
-        <div [ngClass]="(isLargeDeviceBreakpointActive || isXLDeviceBreakpointActive) ? 'xl-margin' : 'large-margin'">
+        <div [ngClass]="(isLargeDeviceBreakpointActive || isXLDeviceBreakpointActive) ? 'margin-xl' : 'margin-large'">
             <h1 class="txt-center">Mie squadre</h1>
         </div>
 
@@ -34,7 +34,7 @@
 
                 <!-- Lazy rendering -->
                 <ng-template matExpansionPanelContent>
-                    <div class="flex-start">
+                    <div class="flex-start align-top">
                         <ng-container *ngIf="hasTeam(sport)">
                             <ng-container *ngFor="let team of getTeams(sport)">
 

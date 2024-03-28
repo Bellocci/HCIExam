@@ -28,13 +28,16 @@ TESTO
     font-weight: normal !important;
 }
 
-.txt-center {
-    text-align: center;
-    color: black !important;
-}
+.txt {
 
-.txt-right {
-    text-align: right;
+    &-center {
+        text-align: center;
+        color: black !important;    
+    }
+
+    &-right {
+        text-align: right;
+    }
 }
 
 .label {
@@ -213,56 +216,65 @@ COLORI
 ========
 */
 
-.primary-color {
-    background-color: $primary-color !important;
+.primary {
+
+    &-color {
+        background-color: $primary-color !important;    
+    }
+
+    &-color-light {
+        background-color: $primary-color-light !important;
+    }
+
+    &-color-dark {
+        background-color: $primary-color-dark !important;    
+    }
 }
 
-.primary-color-light {
-    background-color: $primary-color-light !important;
+.secondary {
+
+    &-color {
+        background-color: $secondary-color !important;
+    }
+
+    &-color:hover {
+        background-color: $secondary-color-light !important;
+    }
+
+    &-color:focus {
+        background-color: $secondary-color-light !important;
+    }
+
+    &-color-no-hover {
+        background-color: $secondary-color !important;
+    }
+
+    &-color-light {
+        background-color: $secondary-color-light !important;
+    }
 }
 
-.primary-color-dark {
-    background-color: $primary-color-dark !important;
-}
+.gray {
 
-.secondary-color {
-    background-color: $secondary-color !important;
-}
+    &-color {
+        background-color: $gray-color !important;
+    }
 
-.secondary-color-no-hover {
-    background-color: $secondary-color !important;
-}
+    &-color:hover {
+        background-color: $gray-color-dark !important;
+    }
 
-.secondary-color:hover {
-    background-color: $secondary-color-light !important;
-}
+    &-color-light {
+        background-color: $gray-color;
+    }
 
-.secondary-color:focus {
-    background-color: $secondary-color-light !important;
-}
+    &-color-light:hover {
+        background-color: $gray-color-light !important;
+    }
 
-.secondary-color-light {
-    background-color: $secondary-color-light !important;
-}
-
-.gray-color {
-    background-color: $gray-color !important;
-}
-
-.gray-color:hover {
-    background-color: $gray-color-dark !important;
-}
-
-.gray-color-light {
-    background-color: $gray-color;
-}
-
-.gray-color-light:hover {
-    background-color: $gray-color-light !important;
-}
-
-.gray-color-dark {
-    background-color: $gray-color-dark !important;
+    &-color-dark {
+        background-color: $gray-color-dark !important;
+    }
 }
 
 .no-color {
@@ -332,89 +344,138 @@ PADDING
 ========
 */
 
-.no-padding {
-    padding: 0;
+.no {
+
+    &-padding-bottom {
+        padding-bottom: 0;
+    }
+    
+    &-padding-top {
+        padding-top: 0;
+    }
+    
+    &-padding-left {
+        padding-left: 0;
+    }
+    
+    &-padding-right {
+        padding-right: 0;
+    }
+    
+    &-padding {
+        padding: 0;
+    }
 }
 
-// 1 Rem
-
-.padding-bottom {
-    padding-bottom: 16px;
-    padding-bottom: 1rem;
-}
-
-.padding-top {
-    padding-top: 16px;
-    padding-top: 1rem;
-}
-
-.padding-left {
-    padding-left: 16px;
-    padding-left: 1rem;
-}
-
-.padding-right {
-    padding-left: 16px;
-    padding-right: 1rem;
-}
-
+/*
+Nota: la definizione in px serve per garantire il supporto per il browser Opera e le versioni precedenti di IE 
+che non supportano CSS3
+*/
 .padding {
-    padding: 16px;
-    padding: 1rem;
-}
 
-// 2 Rem
+    // 0.5 Rem
+    &-xs-bottom {
+        padding-bottom: 8px;
+        padding-bottom: 0.5rem;
+    }
+    
+    &-xs-top {
+        padding-top: 8px;
+        padding-top: 0.5rem;
+    }
+    
+    &-xs-left {
+        padding-left: 8px;
+        padding-left: 0.5rem;
+    }
+    
+    &-xs-right {
+        padding-left: 8px;
+        padding-right: 0.5rem;
+    }
+    
+    &-xs {
+        padding: 8px;
+        padding: 0.5rem;
+    }
 
-.large-padding-bottom {
-    padding-bottom: 32px;
-    padding-bottom: 2rem;
-}
+    // 1 Rem    
+    &-bottom {
+        padding-bottom: 16px;
+        padding-bottom: 1rem;
+    }
+    
+    &-top {
+        padding-top: 16px;
+        padding-top: 1rem;
+    }
+    
+    &-left {
+        padding-left: 16px;
+        padding-left: 1rem;
+    }
+    
+    &-right {
+        padding-left: 16px;
+        padding-right: 1rem;
+    }
+    
+    &-standard {
+        padding: 16px;
+        padding: 1rem;
+    }
 
-.large-padding-top {
-    padding-top: 32px;
-    padding-top: 2rem;
-}
+    // 2 Rem    
+    &-large-bottom {
+        padding-bottom: 32px;
+        padding-bottom: 2rem;
+    }
 
-.large-padding-left {
-    padding-left: 32px;
-    padding-left: 2rem;
-}
+    &-large-top {
+        padding-top: 32px;
+        padding-top: 2rem;
+    }
 
-.large-padding-right {
-    padding-left: 32px;
-    padding-right: 2rem;
-}
+    &-large-left {
+        padding-left: 32px;
+        padding-left: 2rem;
+    }
 
-.large-padding {
-    padding: 32px;
-    padding: 2rem;
-}
+    &-large--right {
+        padding-left: 32px;
+        padding-right: 2rem;
+    }
 
-// 3 Rem
+    &-large {
+        padding: 32px;
+        padding: 2rem;
+    }
 
-.xl-padding-bottom {
-    padding-bottom: 48px;
-    padding-bottom: 3rem;
-}
-
-.xl-padding-top {
-    padding-top: 48px;
-    padding-top: 3rem;
-}
-
-.xl-padding-left {
-    padding-left: 48px;
-    padding-left: 3rem;
-}
-
-.xl-padding-right {
-    padding-left: 48px;
-    padding-right: 3rem;
-}
-
-.xl-padding {
-    padding: 48px;
-    padding: 3rem;
+    // 3 Rem    
+    &-xl-bottom {
+        padding-bottom: 48px;
+        padding-bottom: 3rem;
+    }
+    
+    &-xl-top {
+        padding-top: 48px;
+        padding-top: 3rem;
+    }
+    
+    &-xl-left {
+        padding-left: 48px;
+        padding-left: 3rem;
+    }
+    
+    &-xl-right {
+        padding-left: 48px;
+        padding-right: 3rem;
+    }
+    
+    &-xl {
+        padding: 48px;
+        padding: 3rem;
+    }
 }
 
 /*
@@ -427,105 +488,106 @@ MARGINI
     margin: 0;
 }
 
-/* 1 rem
-Nota: la definizione in px serve per garantire il supporto per il browser Opera e le versioni precedenti di IE 
-che non supportano CSS3
-*/
-
-.margin-bottom {
-    margin-bottom: 16px;
-    margin-bottom: 1rem;
-}
-
-.margin-top {
-    margin-top: 16px;
-    margin-top: 1rem;
-}
-
-.margin-left {
-    margin-left: 16px;
-    margin-left: 1rem;
-}
-
-.margin-right {
-    margin-right: 16px;
-    margin-right: 1rem;
-}
-
 .margin {
-    margin: 16px;
-    margin: 1rem;
+
+    // 1 rem
+    & {
+        margin: 16px;
+        margin: 1rem;
+    }
+
+    &-bottom {
+        margin-bottom: 16px;
+        margin-bottom: 1rem;    
+    }
+
+    &-top {
+        margin-top: 16px;
+        margin-top: 1rem;
+    }
+    
+    &-left {
+        margin-left: 16px;
+        margin-left: 1rem;
+    }
+    
+    &-right {
+        margin-right: 16px;
+        margin-right: 1rem;
+    }    
+    
+    // 2 rem
+    &-large-bottom {
+        margin-bottom: 32px;
+        margin-bottom: 2rem;
+    }
+
+    &-large-top {
+        margin-top: 32px;
+        margin-top: 2rem;
+    }
+    
+    &-large-left {
+        margin-left: 32px !important;
+        margin-left: 2rem !important;
+    }
+
+    &-large-right {
+        margin-right: 32px !important;
+        margin-right: 2rem !important;
+    }
+    
+    &-large {
+        margin: 32px;
+        margin: 2rem;
+    }
+
+    // 3 Rem
+    &-xl-bottom {
+        margin-bottom: 48px;
+        margin-bottom: 3rem;
+    }
+
+    &-xl-top {
+        margin-top: 48px;
+        margin-top: 3rem;
+    }
+
+    &-xl-left {
+        margin-left: 48px !important;
+        margin-left: 3rem !important;
+    }
+
+    &-xl-right {
+        margin-right: 48px !important;
+        margin-right: 3rem !important;
+    }
+
+    &-xl {
+        margin: 48px;
+        margin: 3rem;
+    }
 }
 
-.column-gap {
-    margin: 0 16px;
-    margin: 0 1rem;
+.column {
+
+    &-gap {
+        margin: 0 16px;
+        margin: 0 1rem;
+    }
+
+    &-large-gap {
+        margin: 0 32px;
+        margin: 0 2rem;
+    }
+
+    &-xl-gap {
+        margin: 0 48px;
+        margin: 0 3rem;
+    }
 }
 
-// 2 rem
-
-.large-margin-bottom {
-    margin-bottom: 32px;
-    margin-bottom: 2rem;
-}
-
-.large-margin-top {
-    margin-top: 32px;
-    margin-top: 2rem;
-}
-
-.large-margin-left {
-    margin-left: 32px !important;
-    margin-left: 2rem !important;
-}
-
-.large-margin-right {
-    margin-right: 32px !important;
-    margin-right: 2rem !important;
-}
-
-.large-margin {
-    margin: 32px;
-    margin: 2rem;
-}
-
-.large-column-gap {
-    margin: 0 32px;
-    margin: 0 2rem;
-}
-
-// 3 Rem
-
-.xl-margin-bottom {
-    margin-bottom: 48px;
-    margin-bottom: 3rem;
-}
-
-.xl-margin-top {
-    margin-top: 48px;
-    margin-top: 3rem;
-}
-
-.xl-margin-left {
-    margin-left: 48px !important;
-    margin-left: 3rem !important;
-}
-
-.xl-margin-right {
-    margin-right: 48px !important;
-    margin-right: 3rem !important;
-}
-
-.xl-margin {
-    margin: 48px;
-    margin: 3rem;
-}
-
-.xl-column-gap {
-    margin: 0 48px;
-    margin: 0 3rem;
-}
-
+// FIXME: RIMUOVERE
 /* Margine standard da applicare in un div prima e dopo il contenuto della pagina */
 .margin-page-container {
     width: 10%;
@@ -565,231 +627,202 @@ FLEXBOX CONTAINER
 ==================
 */
 
-.flex-container {
-    display: flex !important;
-}
+.flex {
 
-.flex-direction-column {
-    display: flex !important;
-    flex-direction: column;
-}
+    &-container {
+        display: flex;
+    }
 
-.flex-end {
-    display: flex;
-    justify-content: flex-end;
-}
+    &-direction-column {
+        display: flex;
+        flex-direction: column;
+    }
 
-.flex-start {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-}
+    &-start {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+    }
 
-.flex-center {
-    display: flex;
-    align-items: center;
-}
+    &-end {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex-wrap: wrap;
+    }
 
-.flex-center-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
+    &-center {
+        display: flex;
+        align-items: center;
+    }
 
-.flex-none {
-    flex: none;
+    &-center-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
     /* flex-grow: 0; flex-shrink: 0; flex-basis: auto; */
-}
+    &-none {
+        flex: none;
+    }
 
-.flex-auto {
-    flex: auto;
     /* flex-grow: 1; flex-shrink: 1; flex-basis: auto; */
-}
+    &-auto {
+        flex: auto;
+    }
 
-.flex-content {
-    flex: content;
     /* riempie automaticamente al contenuto: flex-basis: content; */
-}
+    &-content {
+        flex: content;
+    }
 
-.flex-cell {
-    flex: 1;
     /* indica all'elemento di crescere fino a occupare tutto lo spazio disponibile nel contenitore */
+    &-cell {
+        flex: 1;
+    }
+
+    &-space-between {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    /* Distribuisce lo spazio in modo equo tra gli oggetti */
+    &-space-evenly {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+    }
 }
 
-.flex-space-between {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    align-items: center;
+.align {
+
+    &-center {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;    
+    }
+
+    &-top {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    &-content-center {
+        display: flex;
+        align-content: center;
+        flex-wrap: wrap;
+    }
 }
 
-/* Distribuisce lo spazio in modo equo tra gli oggetti */
-.flex-space-evenly {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-}
+/* 
+    Una riga può essere divisa al massimo in 12 colonne 
+*/
 
-.align-items-top {
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-}
+.cell {
 
-/* Una riga può essere divisa al massimo in 12 colonne */
+    // Dimensioni celle con occupazione dello spazio uniforme
+    &-12of12 {
+        flex: 1 1 100%;
+    }
 
-// Dimensioni celle con occupazione dello spazio uniforme
+    &-11of12 {
+        flex: 1 1 91.666667%;
+    }
+    
+    &-10of12 {
+        flex: 1 1 83.333333%;
+    }
+    
+    &-9of12 {
+        flex: 1 1 75%;
+    }
+    
+    &-8of12 {
+        flex: 1 1 66.666667%;
+    }
+    
+    &-7of12 {
+        flex: 1 1 58.333333%;
+    }
+    
+    &-6of12 {
+        flex: 1 1 50%;
+    }
+    
+    &-5of12 {
+        flex: 1 1 41.666667%;
+    }
+    
+    &-4of12 {
+        flex: 1 1 33.333333%;
+    }
+    
+    &-3of12 {
+        flex: 1 1 25%;
+    }
+    
+    &-2of12 {
+        flex: 1 1 16.666667%;
+    }
+    
+    &-1of12 {
+        flex: 1 1 8.333333%;
+    }
 
-.cell-12of12 {
-    flex: 1 1 100%;
-}
-
-.cell-11of12 {
-    flex: 1 1 91.666667%;
-}
-
-.cell-10of12 {
-    flex: 1 1 83.333333%;
-}
-
-.cell-9of12 {
-    flex: 1 1 75%;
-}
-
-.cell-8of12 {
-    flex: 1 1 66.666667%;
-}
-
-.cell-7of12 {
-    flex: 1 1 58.333333%;
-}
-
-.cell-6of12 {
-    flex: 1 1 50%;
-}
-
-.cell-5of12 {
-    flex: 1 1 41.666667%;
-}
-
-.cell-4of12 {
-    flex: 1 1 33.333333%;
-}
-
-.cell-3of12 {
-    flex: 1 1 25%;
-}
-
-.cell-2of12 {
-    flex: 1 1 16.666667%;
-}
-
-.cell-1of12 {
-    flex: 1 1 8.333333%;
-}
-
-// Occupano al massimo lo spazio dedicato
-
-.cell-static-12of12 {
-    flex: 0 1 100%;
-}
-
-.cell-static-11of12 {
-    flex: 0 1 91.666667%;
-}
-
-.cell-static-10of12 {
-    flex: 0 1 83.333333%;
-}
-
-.cell-static-9of12 {
-    flex: 0 1 75%;
-}
-
-.cell-static-8of12 {
-    flex: 0 1 66.666667%;
-}
-
-.cell-static-7of12 {
-    flex: 0 1 58.333333%;
-}
-
-.cell-static-6of12 {
-    flex: 0 1 50%;
-}
-
-.cell-static-5of12 {
-    flex: 0 1 41.666667%;
-}
-
-.cell-static-4of12 {
-    flex: 0 1 33.333333%;
-}
-
-.cell-static-3of12 {
-    flex: 0 1 25%;
-}
-
-.cell-static-2of12 {
-    flex: 0 1 16.666667%;
-}
-
-.cell-static-1of12 {
-    flex: 0 1 8.333333%;
-}
-
-// FIXME
-.flex-item-1-1-auto {
-    flex: 1 1 auto;
-}
-
-// FIXME
-.flex-start-content {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-}
-
-// FIXME
-.full-flex-start-main-axis {
-    display: flex;
-    justify-content: flex-start;
-    width: 100%;
-}
-
-// FIXME
-.full-flex-end-main-axis {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-}
-
-// FIXME
-.flex-wrap {
-    flex-wrap: wrap;
-}
-
-// FIXME
-.align-content-center {
-    align-content: center;
-}
-
-// FIXME
-.align-items-center {
-    align-items: center;
-}
-
-// FIXME
-.alignCenter {
-    align-self: center;
-}
-
-// FIXME
-.space-between {
-    display: flex;
-    justify-content: space-between;
+    // Occupano al massimo lo spazio dedicato
+    &-static-12of12 {
+        flex: 0 1 100%;
+    }
+    
+    &-static-11of12 {
+        flex: 0 1 91.666667%;
+    }
+    
+    &-static-10of12 {
+        flex: 0 1 83.333333%;
+    }
+    
+    &-static-9of12 {
+        flex: 0 1 75%;
+    }
+    
+    &-static-8of12 {
+        flex: 0 1 66.666667%;
+    }
+    
+    &-static-7of12 {
+        flex: 0 1 58.333333%;
+    }
+    
+    &-static-6of12 {
+        flex: 0 1 50%;
+    }
+    
+    &-static-5of12 {
+        flex: 0 1 41.666667%;
+    }
+    
+    &-static-4of12 {
+        flex: 0 1 33.333333%;
+    }
+    
+    &-static-3of12 {
+        flex: 0 1 25%;
+    }
+    
+    &-static-2of12 {
+        flex: 0 1 16.666667%;
+    }
+    
+    &-static-1of12 {
+        flex: 0 1 8.333333%;
+    }
 }
 
 /*
@@ -852,29 +885,22 @@ TOOLTIP
  * ================
  */
 
-.cursor-pointer {
-    cursor: pointer;
-} 
+.cursor {
 
-.cursor-default {
-    cursor: default;
+    &-pointer {
+        cursor: pointer;
+    }
+
+    &-default {
+        cursor: default;
+    }
 }
 
-/* --- FINE SEZIONE TOOLTIP IMMAGINI --- */
-
-/* STYLE GRIGLIA */
-
-.grid-tile-container {
-    width: 90%;
-    display: flex;
-    justify-content: flex-start;
-}
-
-/* STYLE GENERALI */
-
-.block-container {
-    display: block;
-}
+/* 
+===============
+STYLE GENERALI 
+===============
+*/
 
 .hidden-element {
     display: none;

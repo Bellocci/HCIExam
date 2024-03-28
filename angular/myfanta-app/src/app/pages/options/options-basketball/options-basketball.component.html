@@ -1,7 +1,7 @@
 <div class="full-width flex-direction-column flex-center">
 
     <!-- Opzioni Squadre -->
-    <mat-card class="card-container large-margin" id="basketballTeamsCard">
+    <mat-card class="card-container margin-large" id="basketballTeamsCard">
         <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
             <mat-card-title>
                 <span>Squadre</span>
@@ -34,7 +34,7 @@
     </mat-card>
 
     <!-- Divisione budget per Ruoli -->
-    <mat-card class="card-container large-margin" id="budgetForBasketballRolesCard">
+    <mat-card class="card-container margin-large" id="budgetForBasketballRolesCard">
         <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
             <mat-card-title>
                 <span>Budget per Ruoli</span>
@@ -48,7 +48,7 @@
                 <div class="flex-center"
                     [ngClass]="isMobileOrMobileXLBreakpointActive ? 'small-container' : 'standard-container'">
 
-                    <div class="cell-3of12 flex-direction-column large-margin-right">
+                    <div class="cell-3of12 flex-direction-column margin-large-right">
                         <label class="top-label no-bold">Budget disponibile</label>
                         <div>
                             <input matInput type="number" list="standardBudget"
@@ -71,7 +71,7 @@
                 <div
                     [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center standard-container'">
                     <ng-container *ngFor="let role of roles">
-                        <div class="cell-4of12 flex-direction-column large-margin-right"
+                        <div class="cell-4of12 flex-direction-column margin-large-right"
                             [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">{{ getRoleDescription(role) }}</label>
                             <div>
@@ -81,7 +81,7 @@
                         </div>
                     </ng-container>
 
-                    <div *ngIf="isMobileOrMobileXLBreakpointActive" class="cell-4of12 large-margin-right"></div>
+                    <div *ngIf="isMobileOrMobileXLBreakpointActive" class="cell-4of12 margin-large-right"></div>
                 </div>
 
             </div>
@@ -89,7 +89,7 @@
     </mat-card>
 
     <!-- Filtro media statistiche -->
-    <mat-card class="card-container large-margin" id="basketballTeamOptionCard">
+    <mat-card class="card-container margin-large" id="basketballTeamOptionCard">
         <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
             <mat-card-title>
                 <span>Statistiche squadra (media)</span>
@@ -106,7 +106,7 @@
                     <div class="flex-center standard-container">
     
                         <!-- Media punti-->
-                        <div class="cell-static-4of12 flex-direction-column large-margin-right"
+                        <div class="cell-static-4of12 flex-direction-column margin-large-right"
                             [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">Punti</label>
                             <div>
@@ -116,7 +116,7 @@
                         </div>
     
                         <!-- Media assist -->
-                        <div class="cell-static-4of12 flex-direction-column large-margin-right"
+                        <div class="cell-static-4of12 flex-direction-column margin-large-right"
                             [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">Assist</label>
                             <div>
@@ -126,7 +126,7 @@
                         </div>
     
                         <!-- Media rimbalzi -->
-                        <div class="cell-static-4of12 flex-direction-column large-margin-right"
+                        <div class="cell-static-4of12 flex-direction-column margin-large-right"
                             [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">Rimbalzi</label>
                             <div>
@@ -140,7 +140,7 @@
                     <div class="flex-center standard-container">
     
                         <!-- Media stoppate -->
-                        <div class="cell-static-4of12 flex-direction-column large-margin-right"
+                        <div class="cell-static-4of12 flex-direction-column margin-large-right"
                             [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">Stoppate</label>
                             <div>
@@ -150,7 +150,7 @@
                         </div>
     
                         <!-- Media palle perse -->
-                        <div class="cell-static-4of12 flex-direction-column large-margin-right"
+                        <div class="cell-static-4of12 flex-direction-column margin-large-right"
                             [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">Stoppate</label>
                             <div>
@@ -160,7 +160,7 @@
                         </div>
     
                         <!-- Media recuperi -->
-                        <div class="cell-static-4of12 flex-direction-column large-margin-right"
+                        <div class="cell-static-4of12 flex-direction-column margin-large-right"
                             [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">Recuperi</label>
                             <div>
@@ -178,7 +178,7 @@
                     <!-- Riga 1 -->
                     <div class="flex-center small-container">
                         <!-- Media punti-->
-                        <div class="cell-static-6of12 flex-direction-column large-margin-right small-container">
+                        <div class="cell-static-6of12 flex-direction-column margin-large-right small-container">
                             <label class="top-label no-bold">Punti</label>
                             <div>
                                 <input matInput type="number"
@@ -187,7 +187,7 @@
                         </div>
     
                         <!-- Media assist -->
-                        <div class="cell-static-6of12 flex-direction-column large-margin-right small-container">
+                        <div class="cell-static-6of12 flex-direction-column margin-large-right small-container">
                             <label class="top-label no-bold">Assist</label>
                             <div>
                                 <input matInput type="number"
@@ -199,7 +199,7 @@
                     <!-- Seconda riga -->
                     <div class="flex-center small-container">
                         <!-- Media rimbalzi -->
-                        <div class="cell-static-6of12 flex-direction-column large-margin-right small-container">
+                        <div class="cell-static-6of12 flex-direction-column margin-large-right small-container">
                             <label class="top-label no-bold">Rimbalzi</label>
                             <div>
                                 <input matInput type="number"
@@ -208,7 +208,7 @@
                         </div>
 
                         <!-- Media stoppate -->
-                        <div class="cell-static-6of12 flex-direction-column large-margin-right small-container">
+                        <div class="cell-static-6of12 flex-direction-column margin-large-right small-container">
                             <label class="top-label no-bold">Stoppate</label>
                             <div>
                                 <input matInput type="number"
@@ -221,7 +221,7 @@
                     <div class="flex-center small-container">
 
                         <!-- Media palle perse -->
-                        <div class="cell-static-6of12 flex-direction-column large-margin-right small-container">
+                        <div class="cell-static-6of12 flex-direction-column margin-large-right small-container">
                             <label class="top-label no-bold">Stoppate</label>
                             <div>
                                 <input matInput type="number"
@@ -230,7 +230,7 @@
                         </div>
     
                         <!-- Media recuperi -->
-                        <div class="cell-static-6of12 flex-direction-column large-margin-right small-container">
+                        <div class="cell-static-6of12 flex-direction-column margin-large-right small-container">
                             <label class="top-label no-bold">Recuperi</label>
                             <div>
                                 <input matInput type="number"

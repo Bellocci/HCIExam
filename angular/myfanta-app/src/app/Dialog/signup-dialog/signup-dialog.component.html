@@ -22,7 +22,7 @@
   <!-- Form per la registrazione -->
   <ng-container *ngIf="!createdNewUser">
 
-    <div class="margin-top large-margin-bottom">
+    <div class="margin-top margin-large-bottom">
       <h1 class="txt-center">Registrazione</h1>
     </div>
 
@@ -130,7 +130,7 @@
       </div>
 
       <ng-container *ngIf="showErrorMessage">
-        <div class="full-width txt-center large-margin-bottom">
+        <div class="full-width txt-center margin-large-bottom">
           <span class="label error-color">Username già esistente!!</span>
         </div>
       </ng-container>
@@ -178,7 +178,7 @@
 
     </div>
 
-    <div class="flex-center-wrap large-margin-top margin-bottom">
+    <div class="flex-center-wrap margin-large-top margin-bottom">
 
       <button mat-raised-button class="standard-btn label secondary-color" (click)="openLoginDialog()">
         Torna al login

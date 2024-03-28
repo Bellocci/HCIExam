@@ -1,7 +1,7 @@
 <div class="full-width flex-direction-column flex-center">
 
     <!-- Opzioni Squadre -->
-    <mat-card class="card-container large-margin" id="volleyballTeamsCard">
+    <mat-card class="card-container margin-large" id="volleyballTeamsCard">
         <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
             <mat-card-title>
                 <span>Squadre</span>
@@ -34,7 +34,7 @@
     </mat-card>
 
     <!-- Divisione budget per Ruoli -->
-    <mat-card class="card-container large-margin" id="budgetForVolleyballRolesCard">
+    <mat-card class="card-container margin-large" id="budgetForVolleyballRolesCard">
         <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
             <mat-card-title>
                 <span>Budget per Ruoli</span>
@@ -48,7 +48,7 @@
                 <div class="flex-center"
                     [ngClass]="isMobileOrMobileXLBreakpointActive ? 'small-container' : 'standard-container'">
 
-                    <div class="cell-3of12 flex-direction-column large-margin-right">
+                    <div class="cell-3of12 flex-direction-column margin-large-right">
                         <label class="top-label no-bold">Budget disponibile</label>
                         <div>
                             <input matInput type="number" list="standardBudget"
@@ -71,7 +71,7 @@
                 <div
                     [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center standard-container'">
                     <ng-container *ngFor="let role of roles">
-                        <div class="cell-4of12 flex-direction-column large-margin-right"
+                        <div class="cell-4of12 flex-direction-column margin-large-right"
                             [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">{{ getRoleDescription(role) }}</label>
                             <div>
@@ -81,7 +81,7 @@
                         </div>
                     </ng-container>
 
-                    <div *ngIf="isMobileOrMobileXLBreakpointActive" class="cell-4of12 large-margin-right"></div>
+                    <div *ngIf="isMobileOrMobileXLBreakpointActive" class="cell-4of12 margin-large-right"></div>
                 </div>
 
             </div>
@@ -89,7 +89,7 @@
     </mat-card>
 
     <!-- Filtro media statistiche -->
-    <mat-card class="card-container large-margin" id="volleyballTeamOptionCard">
+    <mat-card class="card-container margin-large" id="volleyballTeamOptionCard">
         <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
             <mat-card-title>
                 <span>Statistiche squadra (media)</span>
@@ -104,7 +104,7 @@
                     [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center standard-container'">
 
                     <!-- Media punti in attacco (PTI ATT)-->
-                    <div class="cell-4of12 flex-direction-column large-margin-right"
+                    <div class="cell-4of12 flex-direction-column margin-large-right"
                         [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                         <label class="top-label no-bold" *ngIf="!isMobileOrMobileXLBreakpointActive">Punti in attacco</label>
                         <label class="top-label no-bold" *ngIf="isMobileOrMobileXLBreakpointActive">Pti Att.</label>
@@ -115,7 +115,7 @@
                     </div>
 
                     <!-- Media muri realizzti (PTI M) -->
-                    <div class="cell-4of12 flex-direction-column large-margin-right"
+                    <div class="cell-4of12 flex-direction-column margin-large-right"
                         [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                         <label class="top-label no-bold" *ngIf="!isMobileOrMobileXLBreakpointActive">Muri realizzati</label>
                         <label class="top-label no-bold" *ngIf="isMobileOrMobileXLBreakpointActive">Pti Muri</label>
@@ -126,7 +126,7 @@
                     </div>
 
                     <!-- Media Ace realizzati (Ace) -->
-                    <div class="cell-4of12 flex-direction-column large-margin-right"
+                    <div class="cell-4of12 flex-direction-column margin-large-right"
                         [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                         <label class="top-label no-bold">Ace</label>
                         <div>
@@ -136,7 +136,7 @@
                     </div>
 
                     <!-- Media ricezioni perfette realizzte (RPERF) -->
-                    <div class="cell-4of12 flex-direction-column large-margin-right"
+                    <div class="cell-4of12 flex-direction-column margin-large-right"
                         [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                         <label class="top-label no-bold" *ngIf="!isMobileOrMobileXLBreakpointActive">Ricezioni perfette</label>
                         <label class="top-label no-bold" *ngIf="isMobileOrMobileXLBreakpointActive">Ric. Perf.</label>

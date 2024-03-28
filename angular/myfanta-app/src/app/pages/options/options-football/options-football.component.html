@@ -1,7 +1,7 @@
 <div class="full-width flex-direction-column flex-center">
 
     <!-- Opzioni Squadre -->
-    <mat-card class="card-container large-margin" id="teamsCard">
+    <mat-card class="card-container margin-large" id="teamsCard">
         <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
             <mat-card-title>
                 <span>Squadre</span>
@@ -34,7 +34,7 @@
     </mat-card>
 
     <!-- Divisione budget per Ruoli -->
-    <mat-card class="card-container large-margin" id="budgetForFootballSoccerRolesCard">
+    <mat-card class="card-container margin-large" id="budgetForFootballSoccerRolesCard">
         <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
             <mat-card-title>
                 <span>Budget</span>
@@ -49,7 +49,7 @@
                 <div class="flex-center" 
                 [ngClass]="isMobileOrMobileXLBreakpointActive ? 'small-container' : 'standard-container'">
 
-                    <div class="cell-3of12 flex-direction-column large-margin-right">
+                    <div class="cell-3of12 flex-direction-column margin-large-right">
                         <label class="top-label no-bold">Budget disponibile</label>
                         <div>
                             <input matInput type="number" 
@@ -74,7 +74,7 @@
                     [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center standard-container'">
 
                     <ng-container *ngFor="let role of roles">
-                        <div class="cell-4of12 flex-direction-column large-margin-right"
+                        <div class="cell-4of12 flex-direction-column margin-large-right"
                             [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">{{ getRoleDescription(role) }}</label>
                             <div>
@@ -90,7 +90,7 @@
     </mat-card>        
 
     <!-- Filtro media statistiche -->
-    <mat-card class="card-container large-margin" id="footballSoccerTeamOptionCard">
+    <mat-card class="card-container margin-large" id="footballSoccerTeamOptionCard">
         <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
             <mat-card-title>Statistiche squadra</mat-card-title>
         </mat-card-header>
@@ -102,8 +102,8 @@
                 <div class="flex-start standard-container">
 
                     <!-- Media goal -->
-                    <div class="flex-direction-column large-margin-right" 
-                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
+                    <div class="flex-direction-column margin-large-right" 
+                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'margin-large-top'">
                         <label class="top-label no-bold">Media goal</label>
                         <div>
                             <input matInput type="number" 
@@ -112,8 +112,8 @@
                     </div>
 
                     <!-- Media assist -->
-                    <div class="flex-direction-column large-margin-right"
-                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
+                    <div class="flex-direction-column margin-large-right"
+                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'margin-large-top'">
                         <label class="top-label no-bold">Media assist</label>
                         <div>
                             <input matInput type="number" 
@@ -122,8 +122,8 @@
                     </div>
 
                     <!-- Media presenza nelle partite -->
-                    <div class="flex-direction-column large-margin-right"
-                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
+                    <div class="flex-direction-column margin-large-right"
+                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'margin-large-top'">
                         <label class="top-label no-bold">Media presenze</label>
                         <div>
                             <input matInput type="number" 
@@ -132,8 +132,8 @@
                     </div>
 
                     <!-- Media ammonizioni -->
-                    <div class="flex-direction-column large-margin-right"
-                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
+                    <div class="flex-direction-column margin-large-right"
+                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'margin-large-top'">
                         <label class="top-label no-bold">Media cartellini gialli</label>
                         <div>
                             <input matInput type="number" 
@@ -142,8 +142,8 @@
                     </div>
 
                     <!-- Media espulsioni -->
-                    <div class="flex-direction-column large-margin-right"
-                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'large-margin-top'">
+                    <div class="flex-direction-column margin-large-right"
+                        [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'margin-large-top'">
                         <label class="top-label no-bold">Media cartellini rossi</label>
                         <div>
                             <input matInput type="number" 

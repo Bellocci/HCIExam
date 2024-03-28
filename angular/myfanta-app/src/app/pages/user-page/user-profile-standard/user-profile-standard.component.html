@@ -3,10 +3,10 @@
     <!-- Pulsanti -->
     <div class="cell-static-2of12 flex-container">
         <!-- Avatar utente -->
-        <div class="xl-margin flex-direction-column flex-center">
+        <div class="margin-xl flex-direction-column flex-center">
             <app-avatar></app-avatar>
 
-            <button mat-raised-button class="standard-btn large-margin-top">
+            <button mat-raised-button class="standard-btn margin-large-top">
                 <mat-icon>save</mat-icon>
                 Salva foto profilo
             </button>
@@ -22,7 +22,7 @@
         <!-- Lista Teams utente -->
         <div class="flex-direction-column full-width large-container">
 
-            <div [ngClass]="(isLargeDeviceBreakpointActive || isXLDeviceBreakpointActive) ? 'xl-margin' : 'large-margin'">
+            <div [ngClass]="(isLargeDeviceBreakpointActive || isXLDeviceBreakpointActive) ? 'margin-xl' : 'margin-large'">
                 <h1 class="txt-center">Mie squadre</h1>
             </div>
 
@@ -43,7 +43,7 @@
 
                     <!-- Lazy rendering -->
                     <ng-template matExpansionPanelContent>
-                        <div class="flex-start margin">
+                        <div class="flex-start margin align-top">
                             <ng-container *ngIf="hasTeam(sport)">
                                 <ng-container *ngFor="let team of getTeams(sport)">
 

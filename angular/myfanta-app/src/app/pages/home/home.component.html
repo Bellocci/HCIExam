@@ -6,7 +6,7 @@
     </div>
 
     <div class="flex-center-wrap"
-        [ngClass]="(breakpointsService.mobileOrMobileXLObservable | async) ? 'margin' : 'large-margin'">
+        [ngClass]="(breakpointsService.mobileOrMobileXLObservable | async) ? 'margin' : 'margin-large'">
         <h2 class="bold title-animation txt-center">
             Crea la squadra che ti porterà alla vittoria
         </h2>
@@ -41,7 +41,7 @@
     <div class="cell-10of12">
 
         <div
-            [ngClass]="(breakpointsService.mobileOrMobileXLObservable| async) ? ['flex-direction-column','flex-center-wrap'] : ['flex-space-between','align-items-top']">
+            [ngClass]="(breakpointsService.mobileOrMobileXLObservable| async) ? ['flex-direction-column','flex-center-wrap'] : ['flex-space-between','align-top']">
             <ng-container *ngFor="let sport of getSports()">
 
                 <mat-expansion-panel class="expansion-panel"

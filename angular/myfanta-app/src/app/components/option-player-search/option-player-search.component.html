@@ -6,7 +6,7 @@
     <!-- Visualizzazione standard -->
     <ng-container *ngIf="!(breakpointsService.mobileOrMobileXLObservable | async)">
         <!-- Riga : Ruoli / Presenze -->
-        <div class="flex-container small-container large-margin-right large-margin-left">
+        <div class="flex-container small-container margin-large-right margin-large-left">
 
             <!-- Ruoli -->
             <div class="cell-6of12 flex-direction-column">
@@ -41,7 +41,7 @@
         </div>        
 
         <!-- Riga : squadre -->
-        <div class="flex-container large-margin-right large-margin-left standard-container">
+        <div class="flex-container margin-large-right margin-large-left standard-container">
 
             <div class="cell-12of12 flex-direction-column">
 
@@ -63,7 +63,7 @@
         </div>
 
         <!-- Riga : pulsanti -->
-        <div class="flex-container large-margin">
+        <div class="flex-container margin-large">
 
             <!-- Ripulisce i filtri di ricerca-->
             <div class="flex-end cell-2of12">
@@ -79,7 +79,7 @@
     <!-- Visualizzazione mobile -->
     <ng-container *ngIf="breakpointsService.mobileOrMobileXLObservable | async">
         <!-- Riga 1 -->
-        <div class="flex-container small-container large-margin-right large-margin-left">
+        <div class="flex-container small-container margin-large-right margin-large-left">
 
             <!-- Ruoli -->
             <div class="cell-12of12 flex-direction-column">
@@ -114,7 +114,7 @@
         </div>
 
         <!-- Riga 2 -->
-        <div class="flex-container small-container large-margin-right large-margin-left">
+        <div class="flex-container small-container margin-large-right margin-large-left">
 
             <!-- Presenze -->
             <div class="cell-12of12 flex-direction-column"
@@ -150,7 +150,7 @@
         </div>
 
         <!-- Riga 3 -->
-        <div class="flex-container large-margin-right large-margin-left"
+        <div class="flex-container margin-large-right margin-large-left"
             [ngClass]="isMobileBreakpointActive ? 'small-container' : 'standard-container'">
 
             <!-- Squadre -->
@@ -174,7 +174,7 @@
         </div>
 
         <!-- Riga 4 : pulsanti -->
-        <div class="flex-container large-margin">
+        <div class="flex-container margin-large">
 
             <!-- Ripulisce i filtri di ricerca-->
             <div class="cell-2of12" [ngClass]="[isMobileBreakpointActive ? 'flex-center-wrap' : 'flex-end']">
