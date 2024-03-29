@@ -4,7 +4,7 @@ import { TeamDataService } from '../../service/team-data.service';
 import { RouterService } from '../../service/router.service';
 import { InternalDataService } from '../../service/internal-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
-import { CreateNewTeamDialogComponent } from '../../Dialog/create-new-team-dialog/create-new-team-dialog.component';
+import { UserTeamDialogComponent } from '../../Dialog/user-team-dialog/user-team-dialog.component';
 import { DialogService } from '../../service/dialog.service';
 import { DialogHelper } from '../../Dialog/dialogHelper.interface';
 import { UserEntity } from 'src/model/userEntity.model';
@@ -13,7 +13,7 @@ import { BreakpointsService } from 'src/app/service/breakpoints.service';
 import { Subscription } from 'rxjs';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { DialogDataAbstract } from 'src/app/Dialog/dialog-data.abstract';
-import { UserTeamDialogDataBuilder } from 'src/app/Dialog/create-new-team-dialog/user-team-dialog-data-builder';
+import { UserTeamDialogDataBuilder } from 'src/app/Dialog/user-team-dialog/user-team-dialog-data-builder';
 
 @Component({
   selector: 'app-user-page',
@@ -253,6 +253,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
       dialogHelper.setWidth("100%");
       dialogHelper.setHeight("100%");
     } 
-    dialogHelper.openDialog(CreateNewTeamDialogComponent);
+    dialogHelper.openDialog(UserTeamDialogComponent);
   }
 }

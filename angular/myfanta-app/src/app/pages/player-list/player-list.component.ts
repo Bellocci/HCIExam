@@ -7,7 +7,7 @@ import { RouterService } from 'src/app/service/router.service';
 import { StandardOption } from 'src/decorator/option/standard-option.model';
 import { UserService } from 'src/app/service/user.service';
 import { DialogService } from 'src/app/service/dialog.service';
-import { CreateNewTeamDialogComponent } from 'src/app/Dialog/create-new-team-dialog/create-new-team-dialog.component';
+
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { UserEntity } from 'src/model/userEntity.model';
 import { UserTeamEntity } from 'src/model/userTeamEntity.model';
@@ -21,7 +21,8 @@ import { PlayerSearchRequestService } from 'src/app/service/player-search-reques
 import { ObservableHelper } from 'src/utility/observable-helper';
 import { PlayerEntity } from 'src/model/playerEntity.model';
 import { DialogDataInterface } from 'src/app/Dialog/dialog-data.interface';
-import { UserTeamDialogDataBuilder } from 'src/app/Dialog/create-new-team-dialog/user-team-dialog-data-builder';
+import { UserTeamDialogDataBuilder } from 'src/app/Dialog/user-team-dialog/user-team-dialog-data-builder';
+import { UserTeamDialogComponent } from 'src/app/Dialog/user-team-dialog/user-team-dialog.component';
 
 @Component({
   selector: 'app-player-list',
@@ -213,7 +214,7 @@ export class PlayerListComponent implements OnInit, OnDestroy {
           .build();
       let dialogHelper: DialogHelper = this.dialogService.getDialogHelper();
       dialogHelper.setData(dialogData);
-      dialogHelper.openDialog(CreateNewTeamDialogComponent);
+      dialogHelper.openDialog(UserTeamDialogComponent);
     }
   }
 }

@@ -17,11 +17,11 @@ import { UserTeamDialogData } from './user-team-dialog-data';
 import { FilterUtility } from 'src/utility/filter-utility';
 
 @Component({
-  selector: 'app-create-new-team-dialog',
-  templateUrl: './create-new-team-dialog.component.html',
-  styleUrls: ['./create-new-team-dialog.component.scss']
+  selector: 'app-user-team-dialog',
+  templateUrl: './user-team-dialog.component.html',
+  styleUrls: ['./user-team-dialog.component.scss']
 })
-export class CreateNewTeamDialogComponent implements OnInit, OnDestroy {
+export class UserTeamDialogComponent implements OnInit, OnDestroy {
 
   /*
    * ==========
@@ -61,7 +61,7 @@ export class CreateNewTeamDialogComponent implements OnInit, OnDestroy {
 
       console.log("Construct New Team dialog component");
 
-      this._teamName = CreateNewTeamDialogComponent.TEAM_NAME_DEFAULT;
+      this._teamName = UserTeamDialogComponent.TEAM_NAME_DEFAULT;
       this._subscriptionToMobileBreakpointObservable = this.observeMobileBreakpoint();
 
       this.isCreateMode = this.dialogData.isCreateMode != undefined ? 

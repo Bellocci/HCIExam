@@ -21,7 +21,7 @@ import { LoginDialogComponent } from './Dialog/login-dialog/login-dialog.compone
 import { SignupDialogComponent } from './Dialog/signup-dialog/signup-dialog.component';
 import { RecoveryPasswordDialogComponent } from './Dialog/recovery-password-dialog/recovery-password-dialog.component';
 import { UserPageComponent } from './pages/user-page/user-page.component';
-import { CreateNewTeamDialogComponent } from './Dialog/create-new-team-dialog/create-new-team-dialog.component';
+import { UserTeamDialogComponent } from './Dialog/user-team-dialog/user-team-dialog.component';
 import { OptionFilterComponent } from './components/option-filter/option-filter.component';
 import { PlayerPageComponent } from './pages/player-page/player-page.component';
 import { CustomSnackbarComponent } from './components/custom-snackbar/custom-snackbar.component';
@@ -61,7 +61,7 @@ export function initializeApp(appInitService: AppInitService) {
     SignupDialogComponent,
     RecoveryPasswordDialogComponent,
     UserPageComponent,
-    CreateNewTeamDialogComponent,
+    UserTeamDialogComponent,
     OptionFilterComponent,
     PlayerPageComponent,
     CustomSnackbarComponent,
