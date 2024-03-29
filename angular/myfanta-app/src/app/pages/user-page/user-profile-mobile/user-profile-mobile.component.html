@@ -48,7 +48,7 @@
                                                     <mat-card-title>{{ team.nameTeam }}</mat-card-title>
                                                 </div>
                                                 <div class="cell-static-2of12">
-                                                    <button mat-icon-button>
+                                                    <button mat-icon-button (click)="openEditUserTeamDialog(team)">
                                                         <mat-icon>edit</mat-icon>
                                                     </button>
                                                 </div>
