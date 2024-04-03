@@ -601,24 +601,27 @@ CONTAINER
 ===========
 */
 
-.large-container {
-    margin: 48px 0;
-    margin: 3rem 0;
-}
+.container {
 
-.standard-container {
-    margin: 32px 0;
-    margin: 2rem 0;
-}
+    &-small {
+        margin: 16px 0;
+        margin: 1rem 0;
+    }
 
-.full-standard-container {
-    margin: 32px;
-    margin: 2rem;
-}
+    &-standard {
+        margin: 32px 0;
+        margin: 2rem 0;
+    }
 
-.small-container {
-    margin: 16px 0;
-    margin: 1rem 0;
+    &-full-standard {
+        margin: 32px;
+        margin: 2rem;
+    }
+
+    &-large {
+        margin: 48px 0;
+        margin: 3rem 0;    
+    }
 }
 
 /* 
@@ -716,6 +719,12 @@ FLEXBOX CONTAINER
     &-content-center {
         display: flex;
         align-content: center;
+        flex-wrap: wrap;
+    }
+
+    &-self-center {
+        display: flex;
+        align-self: center;
         flex-wrap: wrap;
     }
 }

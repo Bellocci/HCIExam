@@ -61,7 +61,7 @@
 
         <!-- Info giocatore -->
         <ng-container *ngIf="isMobileBreakpointActive">
-            <div class="standard-container flex-start">
+            <div class="container-standard flex-start">
 
                 <!-- Nome -->
                 <div class="column-gap">
@@ -95,7 +95,7 @@
         </ng-container>
 
         <!-- Descrizione giocatore -->
-        <div [ngClass]="isMobileBreakpointActive ? 'small-container' : 'standard-container'">
+        <div [ngClass]="isMobileBreakpointActive ? 'container-small' : 'container-standard'">
 
             <h2>Descrizione</h2>
             <div [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'margin-large-top'">

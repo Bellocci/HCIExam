@@ -21,7 +21,7 @@
         
         <!-- Select abilitato -->
         <ng-container *ngIf="isCreateMode">
-            <mat-form-field class="form-standard-container">
+            <mat-form-field class="form-container-standard">
                 <mat-select [(ngModel)]="selectedSport"                
                     disableOptionCentering 
                     placeholder="-- Seleziona sport --">
@@ -47,7 +47,7 @@
     </div>
 
     <!-- Selezione campionato -->    
-    <div class="flex-direction-column flex-center-wrap" [ngClass]="{'standard-container' : !isCreateMode}">
+    <div class="flex-direction-column flex-center-wrap" [ngClass]="{'container-standard' : !isCreateMode}">
         <h3 class="bold margin-bottom" 
             [ngClass]="{'label-disabled' : isSelectChampionshipDisabled()}">
             Campionato
@@ -55,7 +55,7 @@
 
         <!-- Select abilitato -->
         <ng-container *ngIf="isCreateMode">                
-            <mat-form-field class="form-standard-container">
+            <mat-form-field class="form-container-standard">
                 <mat-select [(ngModel)]="selectedChampionship"                
                 disableOptionCentering 
                 [disabled]="isSelectChampionshipDisabled()"
@@ -87,7 +87,7 @@
 
          <!-- Select abilitato -->
          <ng-container *ngIf="isCreateMode"> 
-            <mat-form-field class="form-standard-container">
+            <mat-form-field class="form-container-standard">
                 <mat-select [(ngModel)]="selectedLeague"
                 [disabled]="isSelectLeagueDisabled()"
                 disableOptionCentering 
@@ -111,7 +111,7 @@
     </div>
     
     <!-- Sezione pulsanti -->
-    <div class="flex-center-wrap standard-container">        
+    <div class="flex-center-wrap container-standard">        
 
         <!-- Pulsante per annullare -->
         <button mat-raised-button class="btn-standard label"

@@ -9,11 +9,11 @@
         </mat-card-header>
 
         <mat-card-content>
-            <div class="standard-container full-width">
+            <div class="container-standard full-width">
 
                 <!-- Prima riga : Squadre -->
                 <div class="flex-direction-column"
-                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'small-container' : 'standard-container'">
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'container-small' : 'container-standard'">
 
                     <div class="full-width">
                         <app-team-list-responsive [clearTeams]="true"
@@ -23,7 +23,7 @@
                 </div>
 
                 <!-- Seconda riga -->
-                <div class="flex-end full-width small-container">
+                <div class="flex-end full-width container-small">
                     <button mat-raised-button class="btn-small label" (click)="clearTeams()">
                         Clear
                     </button>
@@ -42,11 +42,11 @@
         </mat-card-header>
 
         <mat-card-content>
-            <div class="standard-container full-width">
+            <div class="container-standard full-width">
 
                 <!-- Prima riga: Budget personalizzato -->
                 <div class="flex-center"
-                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'small-container' : 'standard-container'">
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'container-small' : 'container-standard'">
 
                     <div class="cell-3of12 flex-direction-column margin-large-right">
                         <label class="top-label no-bold">Budget disponibile</label>
@@ -69,10 +69,10 @@
 
                 <!-- Seconda riga: Budget per ruoli -->
                 <div
-                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center standard-container'">
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center container-standard'">
                     <ng-container *ngFor="let role of roles">
                         <div class="cell-4of12 flex-direction-column margin-large-right"
-                            [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                            [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">{{ getRoleDescription(role) }}</label>
                             <div>
                                 <input matInput type="number"
@@ -97,17 +97,17 @@
         </mat-card-header>
         
         <mat-card-content>
-            <div class="standard-container full-width">
+            <div class="container-standard full-width">
 
                 <!-- Versione standard -->
                 <ng-container *ngIf="!isMobileOrMobileXLBreakpointActive">
 
                     <!-- Prima riga -->
-                    <div class="flex-center standard-container">
+                    <div class="flex-center container-standard">
     
                         <!-- Media punti-->
                         <div class="cell-static-4of12 flex-direction-column margin-large-right"
-                            [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                            [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">Punti</label>
                             <div>
                                 <input matInput type="number"
@@ -117,7 +117,7 @@
     
                         <!-- Media assist -->
                         <div class="cell-static-4of12 flex-direction-column margin-large-right"
-                            [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                            [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">Assist</label>
                             <div>
                                 <input matInput type="number"
@@ -127,7 +127,7 @@
     
                         <!-- Media rimbalzi -->
                         <div class="cell-static-4of12 flex-direction-column margin-large-right"
-                            [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                            [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">Rimbalzi</label>
                             <div>
                                 <input matInput type="number"
@@ -137,11 +137,11 @@
                     </div>
     
                     <!-- Seconda riga -->
-                    <div class="flex-center standard-container">
+                    <div class="flex-center container-standard">
     
                         <!-- Media stoppate -->
                         <div class="cell-static-4of12 flex-direction-column margin-large-right"
-                            [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                            [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">Stoppate</label>
                             <div>
                                 <input matInput type="number"
@@ -151,7 +151,7 @@
     
                         <!-- Media palle perse -->
                         <div class="cell-static-4of12 flex-direction-column margin-large-right"
-                            [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                            [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">Stoppate</label>
                             <div>
                                 <input matInput type="number"
@@ -161,7 +161,7 @@
     
                         <!-- Media recuperi -->
                         <div class="cell-static-4of12 flex-direction-column margin-large-right"
-                            [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                            [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">Recuperi</label>
                             <div>
                                 <input matInput type="number"
@@ -176,9 +176,9 @@
                 <ng-container *ngIf="isMobileOrMobileXLBreakpointActive">
 
                     <!-- Riga 1 -->
-                    <div class="flex-center small-container">
+                    <div class="flex-center container-small">
                         <!-- Media punti-->
-                        <div class="cell-static-6of12 flex-direction-column margin-large-right small-container">
+                        <div class="cell-static-6of12 flex-direction-column margin-large-right container-small">
                             <label class="top-label no-bold">Punti</label>
                             <div>
                                 <input matInput type="number"
@@ -187,7 +187,7 @@
                         </div>
     
                         <!-- Media assist -->
-                        <div class="cell-static-6of12 flex-direction-column margin-large-right small-container">
+                        <div class="cell-static-6of12 flex-direction-column margin-large-right container-small">
                             <label class="top-label no-bold">Assist</label>
                             <div>
                                 <input matInput type="number"
@@ -197,9 +197,9 @@
                     </div>
     
                     <!-- Seconda riga -->
-                    <div class="flex-center small-container">
+                    <div class="flex-center container-small">
                         <!-- Media rimbalzi -->
-                        <div class="cell-static-6of12 flex-direction-column margin-large-right small-container">
+                        <div class="cell-static-6of12 flex-direction-column margin-large-right container-small">
                             <label class="top-label no-bold">Rimbalzi</label>
                             <div>
                                 <input matInput type="number"
@@ -208,7 +208,7 @@
                         </div>
 
                         <!-- Media stoppate -->
-                        <div class="cell-static-6of12 flex-direction-column margin-large-right small-container">
+                        <div class="cell-static-6of12 flex-direction-column margin-large-right container-small">
                             <label class="top-label no-bold">Stoppate</label>
                             <div>
                                 <input matInput type="number"
@@ -218,10 +218,10 @@
                     </div>
     
                     <!-- Terza riga -->
-                    <div class="flex-center small-container">
+                    <div class="flex-center container-small">
 
                         <!-- Media palle perse -->
-                        <div class="cell-static-6of12 flex-direction-column margin-large-right small-container">
+                        <div class="cell-static-6of12 flex-direction-column margin-large-right container-small">
                             <label class="top-label no-bold">Stoppate</label>
                             <div>
                                 <input matInput type="number"
@@ -230,7 +230,7 @@
                         </div>
     
                         <!-- Media recuperi -->
-                        <div class="cell-static-6of12 flex-direction-column margin-large-right small-container">
+                        <div class="cell-static-6of12 flex-direction-column margin-large-right container-small">
                             <label class="top-label no-bold">Recuperi</label>
                             <div>
                                 <input matInput type="number"

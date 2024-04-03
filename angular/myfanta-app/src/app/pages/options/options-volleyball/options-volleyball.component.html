@@ -9,11 +9,11 @@
         </mat-card-header>
 
         <mat-card-content>
-            <div class="standard-container full-width">
+            <div class="container-standard full-width">
 
                 <!-- Prima riga : Squadre -->
                 <div class="flex-direction-column"
-                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'small-container' : 'standard-container'">
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'container-small' : 'container-standard'">
 
                     <div class="full-width">
                         <app-team-list-responsive [clearTeams]="true"
@@ -23,7 +23,7 @@
                 </div>
 
                 <!-- Seconda riga -->
-                <div class="flex-end full-width small-container">
+                <div class="flex-end full-width container-small">
                     <button mat-raised-button class="btn-small label" (click)="clearTeams()">
                         Clear
                     </button>
@@ -42,11 +42,11 @@
         </mat-card-header>
 
         <mat-card-content>
-            <div class="standard-container full-width">
+            <div class="container-standard full-width">
 
                 <!-- Prima riga: Budget personalizzato -->
                 <div class="flex-center"
-                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'small-container' : 'standard-container'">
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'container-small' : 'container-standard'">
 
                     <div class="cell-3of12 flex-direction-column margin-large-right">
                         <label class="top-label no-bold">Budget disponibile</label>
@@ -69,10 +69,10 @@
 
                 <!-- Seconda riga: Budget per ruoli -->
                 <div
-                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center standard-container'">
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center container-standard'">
                     <ng-container *ngFor="let role of roles">
                         <div class="cell-4of12 flex-direction-column margin-large-right"
-                            [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                            [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
                             <label class="top-label no-bold">{{ getRoleDescription(role) }}</label>
                             <div>
                                 <input matInput type="number"
@@ -97,15 +97,15 @@
         </mat-card-header>
 
         <mat-card-content>
-            <div class="standard-container full-width">
+            <div class="container-standard full-width">
 
                 <!-- Prima riga -->
                 <div class="flex-center"
-                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center standard-container'">
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center container-standard'">
 
                     <!-- Media punti in attacco (PTI ATT)-->
                     <div class="cell-4of12 flex-direction-column margin-large-right"
-                        [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                        [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
                         <label class="top-label no-bold" *ngIf="!isMobileOrMobileXLBreakpointActive">Punti in attacco</label>
                         <label class="top-label no-bold" *ngIf="isMobileOrMobileXLBreakpointActive">Pti Att.</label>
                         <div>
@@ -116,7 +116,7 @@
 
                     <!-- Media muri realizzti (PTI M) -->
                     <div class="cell-4of12 flex-direction-column margin-large-right"
-                        [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                        [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
                         <label class="top-label no-bold" *ngIf="!isMobileOrMobileXLBreakpointActive">Muri realizzati</label>
                         <label class="top-label no-bold" *ngIf="isMobileOrMobileXLBreakpointActive">Pti Muri</label>
                         <div>
@@ -127,7 +127,7 @@
 
                     <!-- Media Ace realizzati (Ace) -->
                     <div class="cell-4of12 flex-direction-column margin-large-right"
-                        [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                        [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
                         <label class="top-label no-bold">Ace</label>
                         <div>
                             <input matInput type="number"
@@ -137,7 +137,7 @@
 
                     <!-- Media ricezioni perfette realizzte (RPERF) -->
                     <div class="cell-4of12 flex-direction-column margin-large-right"
-                        [ngClass]="{'small-container' : isMobileOrMobileXLBreakpointActive}">
+                        [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
                         <label class="top-label no-bold" *ngIf="!isMobileOrMobileXLBreakpointActive">Ricezioni perfette</label>
                         <label class="top-label no-bold" *ngIf="isMobileOrMobileXLBreakpointActive">Ric. Perf.</label>
                         <div>

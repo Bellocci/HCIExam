@@ -3,12 +3,12 @@
 .form {
 
     // ANGULAR COMPONENT
-    &-standard-container {
+    &-container-standard {
         max-width: 350px !important;
         width: 100%;
     }
 
-    &-large-container {
+    &-container-large {
         max-width: 400px !important;
         width: 100%;
     }
@@ -26,13 +26,13 @@
 
     .form {
 
-        &-standard-container {
+        &-container-standard {
             max-width: none;
             min-width: 350px !important;
             width: 100%;
         }
 
-        &-large-container {
+        &-container-large {
             max-width: none;
             min-width: 400px !important;
             width: 100%;

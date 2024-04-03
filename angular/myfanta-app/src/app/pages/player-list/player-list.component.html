@@ -11,7 +11,7 @@
             <mat-nav-list>
 
                 <!-- Link alla pagina 'myTeam' -->
-                <a mat-list-item [activated]="routerService.currentPageIsMyTeam()" class="small-container"
+                <a mat-list-item [activated]="routerService.currentPageIsMyTeam()" class="container-small"
                     [ngClass]="{'primary-color-light' : routerService.currentPageIsMyTeam()}"
                     (click)="routerService.goToMyTeamPage()">
                     <span class="label" [ngClass]="{'bold' : routerService.currentPageIsMyTeam()}">
@@ -20,7 +20,7 @@
                 </a>
 
                 <!-- Link alla pagina 'favoriteList' -->
-                <a mat-list-item [activated]="routerService.currentPageIsFavoritList()" class="small-container"
+                <a mat-list-item [activated]="routerService.currentPageIsFavoritList()" class="container-small"
                     [ngClass]="{'primary-color-light' : routerService.currentPageIsFavoritList()}"
                     (click)="routerService.goToFavoritListPage()">
                     <span class="label" [ngClass]="{'bold' : routerService.currentPageIsFavoritList()}">
@@ -29,7 +29,7 @@
                 </a>
 
                 <!-- Link alla pagina 'blacklist' -->
-                <a mat-list-item [activated]="routerService.currentPageIsBlacklist()" class="small-container"
+                <a mat-list-item [activated]="routerService.currentPageIsBlacklist()" class="container-small"
                     [ngClass]="{'primary-color-light' : routerService.currentPageIsBlacklist()}"
                     (click)="routerService.goToBlacklistPage()">
                     <span class="label" [ngClass]="{'bold' : routerService.currentPageIsBlacklist()}">
@@ -38,7 +38,7 @@
                 </a>
 
                 <!-- Link alla pagina 'playerList' -->
-                <a mat-list-item [activated]="routerService.currentPageIsPlayerList()" class="small-container"
+                <a mat-list-item [activated]="routerService.currentPageIsPlayerList()" class="container-small"
                     [ngClass]="{'primary-color-light' : routerService.currentPageIsPlayerList()}"
                     (click)="routerService.goToPlayerListPage()">
                     <span class="label" [ngClass]="{'bold' : routerService.currentPageIsPlayerList()}">
@@ -51,7 +51,7 @@
             <mat-divider class="full-width"></mat-divider>
 
             <!-- Pulsante di salvataggio -->
-            <div class="small-container flex-center-wrap" *ngIf="isSaveBtnRendered()">
+            <div class="container-small flex-center-wrap" *ngIf="isSaveBtnRendered()">
                 <button mat-raised-button class="btn-small width-80" (click)="saveTeam()">
                     <mat-icon>save</mat-icon>
                     Salva
@@ -59,7 +59,7 @@
             </div>
 
             <!-- Pulsante di salvataggio e creazione nuova squadra -->
-            <div class="small-container flex-center-wrap" *ngIf="isSaveNewTeamBtnRendered()">
+            <div class="container-small flex-center-wrap" *ngIf="isSaveNewTeamBtnRendered()">
                 <button mat-raised-button class="btn-small width-80" (click)="openCreateNewTeamDialog()">
                     <mat-icon>save</mat-icon>
                     Salva nuova squadra

@@ -15,7 +15,7 @@
 
 
 <!-- Introduzione al sito -->
-<div class="flex-container standard-container">
+<div class="flex-container container-standard">
 
     <div class="cell-1of12"></div>
 
@@ -34,7 +34,7 @@
 </div>
 
 <!-- Visualizzazione sport -->
-<div class="flex-container standard-container">
+<div class="flex-container container-standard">
 
     <div class="cell-1of12"></div>
 
@@ -45,7 +45,7 @@
             <ng-container *ngFor="let sport of getSports()">
 
                 <mat-expansion-panel class="expansion-panel"
-                    [ngClass]="(breakpointsService.mobileOrMobileXLObservable| async) ? 'small-container' : 'margin'">
+                    [ngClass]="(breakpointsService.mobileOrMobileXLObservable| async) ? 'container-small' : 'margin'">
                     <mat-expansion-panel-header collapsedHeight="70px">
                         <mat-panel-title class="expansion-panel-header text">{{ sport.description }}</mat-panel-title>
                     </mat-expansion-panel-header>
