@@ -1,22 +1,21 @@
-
-<!-- Container intera pagina -->
 <div class="flex-container">
 
-    <!-- Margine sinistro -->
-    <div class="margin-page-container primary-color-light"></div>
+    <ng-container *ngIf="!isMobileBreakpointActive">
+        <div class="cell-static-2of12 primary-color-light"></div>
+    </ng-container>
 
-    <!-- Container contenuto della pagina -->
-    <div class="player-card-container">
+    <!-- Contenuto della pagina -->
+    <div class="margin-xl" [ngClass]="{'cell-static-8of12' : !isMobileBreakpointActive}">
 
         <!-- Titolo pagina -->
-        <div class="padding-container title-card-container">
+        <div class="txt-center">
             <h1 class="title-card-text">Scheda giocatore</h1>
         </div>
 
         <!-- Immagine giocatore + info -->
-        <div class="flex-container">
+        <div [ngClass]="isMobileBreakpointActive ? 'flex-center-wrap' : 'flex-container'">
             <!-- Immagine giocatore -->
-            <div class="img-player-container">
+            <div class="img-player-profile-container">
                 <figure class="flex-container tooltip">
                   <img class="img-player-profile" src="assets/images/football-player.png" alt="Immagine giocatore">
                   <span class="tooltiptext">
@@ -26,49 +25,90 @@
             </div>
 
             <!-- Info giocatore -->
-            <div class="info-player-container">
-                <!-- Nome -->
-                <div class="ml-30px">
-                    <label class="text">
-                        <span class="bold">Nome</span> : {{ playerSelected?.playerName }}
-                    </label> 
+            <ng-container *ngIf="!isMobileBreakpointActive">
+                <div class="align-self-center flex-direction-column">
+    
+                    <!-- Nome -->
+                    <div>
+                        <label class="text">
+                            <span class="bold">Nome</span> : {{ playerSelected?.playerName }}
+                        </label> 
+                    </div>
+                    
+                    <!-- Squadra -->
+                    <div class="margin-top">
+                        <label class="text">
+                            <span class="bold">Squadra</span> : {{ playerSelected?.team?.teamName }}
+                        </label> 
+                    </div>
+    
+                    <!-- Ruolo -->
+                    <div class="margin-top">
+                        <label class="text">
+                            <span class="bold">Ruolo</span> : {{ playerSelected?.role?.description}}
+                        </label> 
+                    </div>
+    
+                    <!-- Eta -->
+                    <div class="margin-top">
+                        <label class="text">
+                            <span class="bold">Età</span> : {{ playerSelected?.age}}
+                        </label> 
+                    </div>
                 </div>
-                
+            </ng-container>
+        </div>
+
+        <!-- Info giocatore -->
+        <ng-container *ngIf="isMobileBreakpointActive">
+            <div class="standard-container flex-start">
+
+                <!-- Nome -->
+                <div class="column-gap">
+                    <h3>
+                        <span class="bold">Nome</span> : {{ playerSelected?.playerName }}
+                    </h3> 
+                </div>
+
                 <!-- Squadra -->
-                <div class="ml-30px mt-30px">
-                    <label class="text">
+                <div class="column-gap">
+                    <h3>
                         <span class="bold">Squadra</span> : {{ playerSelected?.team?.teamName }}
-                    </label> 
+                    </h3> 
                 </div>
 
                 <!-- Ruolo -->
-                <div class="ml-30px mt-30px">
-                    <label class="text">
+                <div class="column-gap">
+                    <h3>
                         <span class="bold">Ruolo</span> : {{ playerSelected?.role?.description}}
-                    </label> 
+                    </h3> 
                 </div>
 
-                <!-- Eta -->
-                <div class="ml-30px mt-30px">
-                    <label class="text">
+                <!-- Età -->
+                <div class="column-gap">
+                    <h3>
                         <span class="bold">Età</span> : {{ playerSelected?.age}}
-                    </label> 
+                    </h3> 
                 </div>
+
             </div>
-        </div>
+        </ng-container>
 
         <!-- Descrizione giocatore -->
-        <div class="padding-container">            
-            <h1>Descrizione</h1>
+        <div [ngClass]="isMobileBreakpointActive ? 'small-container' : 'standard-container'">
 
-            <div class="mt-30px">
+            <h2>Descrizione</h2>
+            <div [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'margin-large-top'">
                 <span class="text"> {{ playerSelected?.description}} </span>
             </div>
+
         </div>
     </div>
 
     <!-- Margine destro -->
-    <div class="margin-page-container primary-color-light"></div>
+    <ng-container *ngIf="!isMobileBreakpointActive">
+        <div class="cell-static-2of12 primary-color-light"></div>
+    </ng-container>
 
 </div>
 
