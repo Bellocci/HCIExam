@@ -1,7 +1,7 @@
 <div class="flex-center">
     <form class="form-native-container margin-large-right">
         <input type='search'
-            class="xl-native-input padding-left text"
+            class="input-native-xl padding-left text"
             (keypress)="filterText($event)"
             placeholder="Cerca"
             [(ngModel)]="inputPlayerName"
@@ -20,7 +20,7 @@
     <ng-container *ngIf="!(breakpointsService.mobileObservable | async)">
         <div>
             <button mat-raised-button 
-            class="standard-btn"
+            class="btn-standard"
             [matTooltip]="getAddBtnDescription()"
             [disabled]="isValueInputTextEmpty()"
             (click)="addPlayer(inputPlayerName)">
@@ -33,7 +33,7 @@
     <ng-container *ngIf="breakpointsService.mobileObservable | async">
         <div>
             <button mat-raised-button
-            class="mini-btn" 
+            class="btn-mini" 
             [matTooltip]="getAddBtnDescription()"
             [disabled]="isValueInputTextEmpty()"
             (click)="addPlayer(inputPlayerName)">

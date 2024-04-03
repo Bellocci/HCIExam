@@ -1,50 +1,59 @@
 @import "src/styles/global/breakpoints";
 
-/*
- * ===================
- * NATIVE INPUT STYLE
- * ===================
- */
+.input {
 
-.native-input-border {
-    border: solid;
-    border-width: 1px;
-    border-radius: 5px;
-}
+    // NATIVE INPUT STYLE
+    &-native-border {
+        border: solid;
+        border-width: 1px;
+        border-radius: 5px;
+    }
 
-.xl-native-input {
-    @extend .native-input-border;
-    width: 100%;    
-    height: 40px;    
-}
+    &-native-xl {
+        @extend .input-native-border;
+        width: 100%;    
+        height: 40px;    
+    }
+    
+    &-native-xl:disabled {
+        opacity: 0.5;
+    }
 
-.xl-native-input:disabled {
-    opacity: 0.5;
-}
+    &-native {
+        @extend .input-native-border;
+        max-width: 200px;
+        min-width: 60px;
+        width: 100%;
+        height: 30px;
+    }
+    
+    &-native:disabled {
+        opacity: 0.5;
+    }
 
-.native-input {
-    @extend .native-input-border;
-    max-width: 200px;
-    min-width: 60px;
-    width: 100%;
-    height: 30px;
-}
+    &-native-small {
+        @extend .input-native-border;
+        max-width: 80px;
+        min-width: 60px;
+        width: 100%;
+        height: 30px;
+    }
 
-.native-input:disabled {
-    opacity: 0.5;
-}
+    &-native-number {
+        text-align: right;
+        padding-right: 10px;
+    }
 
-.small-native-input {
-    @extend .native-input-border;
-    max-width: 80px;
-    min-width: 60px;
-    width: 100%;
-    height: 30px;
-}
-
-.native-input-number {
-    text-align: right;
-    padding-right: 10px;
+    // INPUT RESPONSIVE
+    &-native-responsive {
+        @extend .input-native;
+        max-width: 350px;
+        min-width: 40px;
+    }
+    
+    &-native-responsive:disabled {
+        opacity: 0.5;
+    }
 }
 
 /* 
@@ -57,20 +66,4 @@ Nasconde i pulsanti per incrementare e diminuire il valore nell'input text
     -moz-appearance: textfield;
     -webkit-appearance: none;
     margin: 0;
-}
-
-/*
- * =================
- * INPUT RESPONSIVE
- * =================
- */
-
-.native-input-responsive {
-    @extend .native-input;
-    max-width: 350px;
-    min-width: 40px;
-}
-
-.native-input-responsive:disabled {
-    opacity: 0.5;
 }

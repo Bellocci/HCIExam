@@ -6,23 +6,23 @@
 @import "src/styles/global/breakpoints";
 
 
-.custom-mini-btn {
+.custom-btn-mini {
     background-color: transparent;
     border-width: 1px;
     border-style: solid;
 }
 
-.custom-mini-btn:hover {
+.custom-btn-mini:hover {
     background-color: $primary-color-light;
 }
 
-.custom-mini-btn-selected {
+.custom-btn-mini-selected {
     background-color: $primary-color-light;
     border-width: 2px;
     border-style: solid;
 }
 
-.custom-mini-btn-selected:hover {
+.custom-btn-mini-selected:hover {
     background-color: $primary-color;
 }
 

@@ -52,7 +52,7 @@
 
             <!-- Pulsante di salvataggio -->
             <div class="small-container flex-center-wrap" *ngIf="isSaveBtnRendered()">
-                <button mat-raised-button class="small-btn width-80" (click)="saveTeam()">
+                <button mat-raised-button class="btn-small width-80" (click)="saveTeam()">
                     <mat-icon>save</mat-icon>
                     Salva
                 </button>
@@ -60,7 +60,7 @@
 
             <!-- Pulsante di salvataggio e creazione nuova squadra -->
             <div class="small-container flex-center-wrap" *ngIf="isSaveNewTeamBtnRendered()">
-                <button mat-raised-button class="small-btn width-80" (click)="openCreateNewTeamDialog()">
+                <button mat-raised-button class="btn-small width-80" (click)="openCreateNewTeamDialog()">
                     <mat-icon>save</mat-icon>
                     Salva nuova squadra
                 </button>

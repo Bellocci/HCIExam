@@ -1,54 +1,46 @@
 @import "src/styles/global/breakpoints";
 
-/*
- * ==================
- * ANGULAR COMPONENT
- * ==================
- */
+.form {
 
-.form-standard-container {
-    max-width: 350px !important;
-    width: 100%;
-}
+    // ANGULAR COMPONENT
+    &-standard-container {
+        max-width: 350px !important;
+        width: 100%;
+    }
 
-@media (min-width: $mobileXL-breakpoint) {
+    &-large-container {
+        max-width: 400px !important;
+        width: 100%;
+    }
 
-    .form-standard-container {
-        max-width: none;
-        min-width: 350px !important;
+    // NATIVE COMPONENT
+    &-native-container {
+        min-width: 80px;
+        max-width: 250px;
         width: 100%;
     }
 }
 
-.form-large-container {
-    max-width: 400px !important;
-    width: 100%;
-}
 
 @media (min-width: $mobileXL-breakpoint) {
 
-    .form-large-container {
-        max-width: none;
-        min-width: 400px !important;
-        width: 100%;
+    .form {
+
+        &-standard-container {
+            max-width: none;
+            min-width: 350px !important;
+            width: 100%;
+        }
+
+        &-large-container {
+            max-width: none;
+            min-width: 400px !important;
+            width: 100%;
+        }
+
+        &-native-container {
+            max-width: 350px;
+        }
     }
-}
 
-/*
- * ==================
- * NATIVE COMPONENT
- * ==================
- */
-
-.form-native-container {
-    min-width: 80px;
-    max-width: 250px;
-    width: 100%;
-}
-
-@media (min-width: $mobileXL-breakpoint) {
-
-    .form-native-container {
-        max-width: 350px;
-    }
 }

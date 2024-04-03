@@ -114,7 +114,7 @@
     <div class="flex-center-wrap standard-container">        
 
         <!-- Pulsante per annullare -->
-        <button mat-raised-button class="standard-btn label"
+        <button mat-raised-button class="btn-standard label"
         (click)="closeDialog()"
         matTooltip="Chiudi" matTooltipShowDelay="500" matTooltipHideDelay="200">
             Annulla
@@ -126,7 +126,7 @@
                 matTooltipDisabled="false" matTooltipShowDelay="500" 
                 matTooltipHideDelay="200">
                 <button mat-raised-button 
-                    class="standard-btn label margin-left"
+                    class="btn-standard label margin-left"
                     [ngClass]="{'gray-color-dark' : !isCreateBtnEnabled()}"
                     [disabled]="!isCreateBtnEnabled()"
                     (click)="addNewTeam()">
@@ -138,7 +138,7 @@
         <!-- Pulsante modifica -->
         <ng-container *ngIf="!isCreateMode">
             <button mat-raised-button
-                class="standard-btn label margin-left"
+                class="btn-standard label margin-left"
                 (click)="updateTeam()">
                 Salva
             </button>

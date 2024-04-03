@@ -5,7 +5,7 @@
     <div class="standard-container flex-center">
         <app-avatar></app-avatar>
 
-        <button mat-raised-button class="mini-btn margin-large-left">
+        <button mat-raised-button class="btn-mini margin-large-left">
             <mat-icon>save</mat-icon>
             Salva
         </button>
@@ -19,7 +19,7 @@
 
         <div class="column-gap">
             <!-- Pulsante aggiunta team -->
-            <button mat-raised-button class="standard-btn new-team-btn-position" (click)="openCreateNewTeamDialog()">
+            <button mat-raised-button class="btn-standard new-team-btn-position" (click)="openCreateNewTeamDialog()">
                 <mat-icon>add_circle</mat-icon>
                 <span class="label">Nuova squadra</span>
             </button>
@@ -39,7 +39,7 @@
                             <ng-container *ngFor="let team of getTeams(sport)">
 
                                 <!-- Team -->
-                                <mat-card class="margin small-card">
+                                <mat-card class="margin card-small">
 
                                     <mat-card-header class="no-padding">
                                         <div class="full-width primary-color-light">

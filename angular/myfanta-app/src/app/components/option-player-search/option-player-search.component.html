@@ -14,8 +14,8 @@
 
                 <div class="flex-container">
                     <ng-container *ngFor="let role of roles">
-                        <button mat-flat-button class="margin-right mini-btn"
-                            [ngClass]="isRoleSelected(role) ? 'custom-mini-btn-selected' : ['custom-mini-btn', 'mat-elevation-z3']"
+                        <button mat-flat-button class="margin-right btn-mini"
+                            [ngClass]="isRoleSelected(role) ? 'custom-btn-mini-selected' : ['custom-btn-mini', 'mat-elevation-z3']"
                             (click)="updateRolesSelectedList(role)">
                             {{ role.shortDescription }}
                         </button>
@@ -29,8 +29,8 @@
                 <label class="top-label">Presenze</label>
                 <div class="flex-container">
                     <ng-container *ngFor="let filter of standardMatchPlayedEnum.getValues()">
-                        <button mat-flat-button class="margin-right mini-btn"
-                            [ngClass]="isMatchFilterSelected(filter) ? 'custom-mini-btn-selected' : ['custom-mini-btn', 'mat-elevation-z3']"
+                        <button mat-flat-button class="margin-right btn-mini"
+                            [ngClass]="isMatchFilterSelected(filter) ? 'custom-btn-mini-selected' : ['custom-btn-mini', 'mat-elevation-z3']"
                             (click)="updateMatchFilterSelected(filter)">
                             {{ filter.label }}
                         </button>
@@ -67,7 +67,7 @@
 
             <!-- Ripulisce i filtri di ricerca-->
             <div class="flex-end cell-2of12">
-                <button mat-raised-button class="standard-btn label"
+                <button mat-raised-button class="btn-standard label"
                     (click)="clearSearchFilter()">
                     Clear
                 </button>
@@ -88,8 +88,8 @@
                 <!-- Versione estesa -->
                 <div class="flex-container" *ngIf="!isMobileBreakpointActive">
                     <ng-container *ngFor="let role of roles">
-                        <button mat-flat-button class="margin-right mini-btn"
-                            [ngClass]="isRoleSelected(role) ? 'custom-mini-btn-selected' : ['custom-mini-btn', 'mat-elevation-z3']"
+                        <button mat-flat-button class="margin-right btn-mini"
+                            [ngClass]="isRoleSelected(role) ? 'custom-btn-mini-selected' : ['custom-btn-mini', 'mat-elevation-z3']"
                             (click)="updateRolesSelectedList(role)">
                             {{ role.shortDescription }}
                         </button>
@@ -124,8 +124,8 @@
                 <!-- Versione estesa  -->
                 <div class="flex-start" *ngIf="!isMobileBreakpointActive">
                     <ng-container *ngFor="let filter of standardMatchPlayedEnum.getValues()">
-                        <button mat-flat-button class="margin-right mini-btn"
-                            [ngClass]="isMatchFilterSelected(filter) ? 'custom-mini-btn-selected' : ['custom-mini-btn', 'mat-elevation-z3']"
+                        <button mat-flat-button class="margin-right btn-mini"
+                            [ngClass]="isMatchFilterSelected(filter) ? 'custom-btn-mini-selected' : ['custom-btn-mini', 'mat-elevation-z3']"
                             (click)="updateMatchFilterSelected(filter)">
                             {{ filter.label }}
                         </button>
@@ -179,7 +179,7 @@
             <!-- Ripulisce i filtri di ricerca-->
             <div class="cell-2of12" [ngClass]="[isMobileBreakpointActive ? 'flex-center-wrap' : 'flex-end']">
                 <button mat-raised-button class="label"
-                    [ngClass]="[isMobileBreakpointActive ? 'small-btn' : 'standard-btn']"
+                    [ngClass]="[isMobileBreakpointActive ? 'btn-small' : 'btn-standard']"
                     (click)="clearSearchFilter()">
                     Clear
                 </button>

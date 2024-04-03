@@ -1,13 +1,16 @@
 
-.card-container {
-    align-self: center;
-    width: 80%;
-}
+.card {
 
-.small-card {
-    max-width: 320px;
-    min-width: 200px;
-    width: 100%;
+    &-container {
+        align-self: center;
+        width: 80%;
+    }
+    
+    &-small {
+        max-width: 320px;
+        min-width: 200px;
+        width: 100%;
+    }
 }
 
 mat-card-header {
