@@ -15,11 +15,9 @@
 
 
 <!-- Introduzione al sito -->
-<div class="flex-container container-standard">
+<div class="full-width container-standard">
 
-    <div class="cell-1of12"></div>
-
-    <div class="cell-10of12">
+    <div class="margin-xl">
         <p class="text">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
             et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
@@ -29,16 +27,8 @@
         </p>
     </div>
 
-    <div class="cell-1of12"></div>
-
-</div>
-
-<!-- Visualizzazione sport -->
-<div class="flex-container container-standard">
-
-    <div class="cell-1of12"></div>
-
-    <div class="cell-10of12">
+    <!-- Visualizzazione sport -->
+    <div class="margin-xl">
 
         <div
             [ngClass]="(breakpointsService.mobileOrMobileXLObservable| async) ? ['flex-direction-column','flex-center-wrap'] : ['flex-space-between','align-top']">
@@ -87,11 +77,8 @@
             </ng-container>
 
         </div>
-
-
-
     </div>
 
-    <div class="cell-1of12"></div>
+
 
 </div>
