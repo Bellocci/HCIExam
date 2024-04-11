@@ -1,4 +1,5 @@
 @import "src/styles/global/breakpoints";
+@import "src/styles/global/variables";
 
 /*
 ========
@@ -7,9 +8,29 @@ TOOLBAR
 */
 
 .toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;    
+    
+    & {
+        position: sticky;
+        top: 0;
+        z-index: 100;    
+    }
+
+    &-row {
+        padding: 0;
+        height: $toolbar-height-mobile;
+        min-height: $toolbar-height-mobile;
+    }
+}
+
+@media (min-width: $laptop-breakpoint) {
+
+    .toolbar {        
+
+        &-row {
+            height: $toolbar-height;
+            min-height: $toolbar-height;
+        }
+    }
 }
 
 .second-toolbar {
@@ -23,13 +44,16 @@ TOOLBAR
  * ========
  */
 
-.sidenav-container {
-    height: 100%;
-}
-
 .sidenav {
-    max-width: 300px;
-    width: 100%;
+
+    & {
+        max-width: 300px;
+        width: 100%;
+    }
+
+    &-container {
+        height: 100%;    
+    }
 }
 
 .second-sidenav {

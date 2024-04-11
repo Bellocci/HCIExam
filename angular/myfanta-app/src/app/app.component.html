@@ -1,1 +1,20 @@
 <app-toolbar></app-toolbar>
+
+<!-- Contenuto della pagina -->
+<router-outlet></router-outlet>
+
+<!-- FIXME -->
+<!-- Spinner visualizzato in attesa che i dati della pagina siano caricati
+<mat-progress-spinner class="spinner" *ngIf="getLoadingDataObservable() | async" mode="indeterminate"
+diameter="150">
+</mat-progress-spinner>
+
+<!-- Contenuto della pagina
+<div [ngClass]="{'opacity-page' : getLoadingDataObservable() | async}">
+<router-outlet></router-outlet>
+</div>
+
+<!-- Snack Bar message
+<div *ngIf="isSnackBarVisibleObservable() | async" class="snack-bar-position">
+<app-custom-snackbar></app-custom-snackbar>
+</div> -->

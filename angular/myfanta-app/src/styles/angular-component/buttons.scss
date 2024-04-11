@@ -70,6 +70,24 @@ button {
         border-color: $primary-color-dark;
     }
 
+    &-toolbar {
+        height: calc($toolbar-height-mobile * 0.6);
+        background-color: inherit !important;
+        width: min-content;
+    }
+    
+    &-toolbar:hover {
+        background-color: $primary-color !important;
+    }
+    
+    &-toolbar-link {
+        background-color: $primary-color !important;
+        border-style: solid;
+        border-width: 2px;
+        border-color: white;
+        border-radius: 10px;
+    }
+
     // RESPONSIVE
 
     &-responsive {
@@ -99,11 +117,25 @@ button {
             min-width: 150px;
         }
 
+        &-toolbar {
+            height: calc($toolbar-height-mobile * 0.6);
+        }
+
         &-responsive {
             height: 48px !important;
         }
     }
 
+}
+
+@media (min-width: $tablet-breakpoint) {
+
+    .btn {
+
+        &-toolbar {
+            height: calc($toolbar-height * 0.6);
+        }
+    }
 }
 
 

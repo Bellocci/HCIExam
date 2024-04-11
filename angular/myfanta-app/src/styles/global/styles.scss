@@ -490,6 +490,31 @@ MARGINI
 
 .margin {
 
+    &-small {
+        margin: 10px;
+        margin: 0.625rem;
+    }
+
+    &-small-bottom {
+        margin-bottom: 10px;
+        margin-bottom: 0.625rem;
+    }
+
+    &-small-top {
+        margin-top: 10px;
+        margin-top: 0.625rem;
+    }
+
+    &-small-left {
+        margin-left: 10px;
+        margin-left: 0.625rem;
+    }
+
+    &-small-right {
+        margin-right: 10px;
+        margin-right: 0.625rem;
+    }
+
     // 1 rem
     & {
         margin: 16px;

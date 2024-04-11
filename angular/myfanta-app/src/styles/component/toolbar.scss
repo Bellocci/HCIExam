@@ -1,64 +1,19 @@
 @use "src/styles/global/styles";
-@use "src/styles/angular-component/spinner";
 @use "src/styles/angular-component/buttons";
 @use "src/styles/angular-component/toolbar";
-@use "src/styles/angular-component/expansion-panel";
-@use "src/styles/component/snackbar";
 @import "src/styles/global/breakpoints";
 @import "src/styles/global/colors";
 @import "src/styles/global/variables";
 
 /*
-==============
-TOOLBAR STYLE
-==============
+========
+TOOLBAR
+========
 */
 
-/* Toolbar */
-
-.toolbar-row {
-    padding-left: 16px;
-}
-
-@media (min-width: $laptop-breakpoint) {
-
-    .toolbar-row {
-        padding-left: 0;
-    }
-}
-
-/* Buttons */
-
-.btn-menu {
-    height: calc($toolbar-height * 0.6);
-    background-color: inherit !important;
-    width: min-content;
-}
-
-.btn-menu:hover {
-    background-color: $primary-color !important;
-}
-
-.btn-menu-link {
-    background-color: $primary-color !important;
-    border-style: solid;
-    border-width: 2px;
-    border-color: white;
-    border-radius: 10px;
-}
-
-@media (max-width: $mobileXL-breakpoint) {
-
-    .btn-menu {
-        height: calc($toolbar-height-mobile * 0.6);
-    }
-}
-
-@media (max-width: $laptop-breakpoint) {
-
-    .btn-menu {
-        padding: 2px;
-    }
+.title-menu {
+    font-family: fantasy;
+    font-style: italic;
 }
 
 /* Menu user panel */
@@ -67,29 +22,3 @@ TOOLBAR STYLE
     min-width: 150px !important;
     width: 100%;
 }
-
-/*
- * ========
- * SIDENAV
- * ========
- */
-
-/* Expansion panel element */
-
-.expansion-panel-header-sport {
-    border-style: solid;
-    border-bottom: 2px !important;
-    border-width: 0.5px;
-}
-
-:host {
-
-    ::ng-deep {
-
-        .mat-expansion-panel-body {
-            padding: 0px;
-        }
-
-    }
-}
-

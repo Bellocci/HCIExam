@@ -1,6 +1,17 @@
 @import "src/styles/global/breakpoints";
 @import "src/styles/global/colors";
 
+:host {
+
+    ::ng-deep {
+
+        .mat-expansion-panel-body {
+            padding: 0px;
+        }
+
+    }
+}
+
 .expansion-panel {
     max-width: 300px;
     width: 100%;

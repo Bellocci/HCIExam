@@ -36,8 +36,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
   @ViewChild('toolbarFirstRow', { static : true}) toolbarFirstRowEl: any;
 
-  private _isMobileBreakpointActive:boolean = false;
-
+  private _isMobileBreakpointActive: boolean = false;
   private _userLogged: boolean = false;
   private _user!: UserEntity;
 
@@ -167,6 +166,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   public set sportSelected(value: number) {
     this._sportSelected = value;
+  }
+
+  public get isMobileBreakpointActive(): boolean {
+    return this._isMobileBreakpointActive;
+  }
+
+  private set isMobileBreakpointActive(value: boolean) {
+    this._isMobileBreakpointActive = value;
   }
 
   getSports(): SportEnum[] {
