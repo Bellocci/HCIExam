@@ -1,7 +1,6 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { InternalDataService } from '../service/internal-data.service';
-import { TeamDataService } from '../service/team-data.service';
 import { FilterDataService } from '../service/filter-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
@@ -10,7 +9,7 @@ import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { UserService } from '../service/user.service';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { UserEntity } from 'src/model/userEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
 import { SnackBarService } from '../service/snack-bar.service';
@@ -37,6 +36,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   @ViewChild('toolbarFirstRow', { static : true}) toolbarFirstRowEl: any;
 
   private _isMobileBreakpointActive: boolean = false;
+  private _isMobileOrTabletBreakpointActive: boolean = false;  
   private _userLogged: boolean = false;
   private _user!: UserEntity;
 
@@ -49,6 +49,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   private _subscriptionLeagueSelectedObservable: Subscription | undefined;
   private _subscriptionPlayerSelected: Subscription | undefined;
   private _subscriptionMobileBreakpoint:Subscription;
+  private _subscriptionToMobileOrTabletBreakpointObservable:Subscription;
 
   // Lista dei link navigabili
   linkEnum: typeof LinkEnum = LinkEnum;
@@ -61,22 +62,26 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   constructor(private filterDataService: FilterDataService,
     private internalDataService: InternalDataService,
-    private teamDataService: TeamDataService,
     public routerService: RouterService,
     private userService: UserService,
     private snackbarService: SnackBarService,
     private dialogService: DialogService,
     public breakpointsService: BreakpointsService) {
 
+    console.log("Construct the Toolbar component");
+
+    let windowWidth:number = window.innerWidth;
+    this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(windowWidth);
+    this.isMobileOrTabletBreakpointActive = BreakpointsService.isMobileOrTabletBreakpointActive(windowWidth);
+    
     this._subscriptionUserObservable = this.observeUserLogged();
     this._subscriptionLeagueSelectedObservable = this.observeLeagueSelected();
     this._subscriptionPlayerSelected = this.observePlayerSelected();
     this._subscriptionMobileBreakpoint = this.observeMobileBreakpoint();
+    this._subscriptionToMobileOrTabletBreakpointObservable = this.observeMobileOrTabletBreakpoint();
   }
 
-  ngOnInit(): void {
-    console.log("Construct the Toolbar component");
-  }
+  ngOnInit(): void { }
 
   ngOnDestroy(): void {
     console.log("Destroy the Toolbar component");
@@ -84,6 +89,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this._subscriptionLeagueSelectedObservable != undefined ? this._subscriptionLeagueSelectedObservable.unsubscribe() : undefined;
     this._subscriptionPlayerSelected != undefined ? this._subscriptionPlayerSelected.unsubscribe() : undefined;
     this._subscriptionMobileBreakpoint.unsubscribe();
+    this._subscriptionToMobileOrTabletBreakpointObservable.unsubscribe();
   }
 
   /*
@@ -125,6 +131,15 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     return this.breakpointsService.mobileObservable
         .subscribe(new ObserverStepBuilder<boolean>()
         .next((isMobile : boolean) => this._isMobileBreakpointActive = isMobile)
+        .error((error : any) => console.error("Error to get mobile breakpoint: " + error))
+        .complete( () => console.log("Mobile breakpoint observer completed"))
+        .build());
+  }
+
+  private observeMobileOrTabletBreakpoint() : Subscription {
+    return this.breakpointsService.mobileOrTabletObservable
+        .subscribe(new ObserverStepBuilder<boolean>()
+        .next((isActive : boolean) => this.isMobileOrTabletBreakpointActive = isActive)
         .error((error : any) => console.error("Error to get mobile breakpoint: " + error))
         .complete( () => console.log("Mobile breakpoint observer completed"))
         .build());
@@ -176,6 +191,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this._isMobileBreakpointActive = value;
   }
 
+  public get isMobileOrTabletBreakpointActive(): boolean {
+    return this._isMobileOrTabletBreakpointActive;
+  }
+  
+  private set isMobileOrTabletBreakpointActive(value: boolean) {
+    this._isMobileOrTabletBreakpointActive = value;
+  }
+
   getSports(): SportEnum[] {
     return SportEnum.getAllSport();
   }
@@ -186,15 +209,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   getLeagues(sport: SportEnum, championship: ChampionshipEnum): LeagueEntity[] {
     return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
-  }
-
-  getLoadingDataObservable() : Observable<boolean> {
-    return this.internalDataService.getLoadingDataObservable();
-  }
-
-  isSnackBarVisibleObservable() : Observable<boolean> {
-    return this.snackbarService.getSnackBarVisibleObservable();
-  }
+  }    
 
   /*
    * ===================

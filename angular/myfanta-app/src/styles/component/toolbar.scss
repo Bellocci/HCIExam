@@ -18,7 +18,20 @@ TOOLBAR
 
 /* Menu user panel */
 
+.user-btn-container {
+    height: calc($toolbar-height * 0.6);
+    padding: 8px;
+    padding: 0.5rem;
+}
+
+.user-btn-container:hover {
+    background-color: $primary-color;
+    border-radius: 10px;
+    border-radius: 0.625rem;
+    cursor: pointer;
+}
+
 .user-menu {
-    min-width: 150px !important;
+    min-width: 150px;
     width: 100%;
 }

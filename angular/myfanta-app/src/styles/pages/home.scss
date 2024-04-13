@@ -5,17 +5,20 @@
 
 
 .title-container {
-    height: 100%;
-    padding-top: $toolbar-height;
+    padding: 32px;
+    padding: 2rem;
+    
+    padding-bottom: 16px;
+    padding-bottom: 1rem;
 }
 
 .title-font {
     font-size: 30px;
-    font-weight: bold;
-    font-family: Tahoma, Geneva, Verdana, sans-serif;
+    font-family: fantasy;
+    font-style: italic;
 }
 
-@media (min-width: $mobileXL-breakpoint) {
+@media (min-width: $mobileXL-breakpoint) {    
 
     .title-font {
         font-size: 38px;
@@ -24,12 +27,22 @@
 
 @media (min-width: $tablet-breakpoint) {
 
+    .title-container {
+        padding-top: 64px;
+        padding-top: 4rem;
+    }
+
     .title-font {
         font-size: 46px;
     }
 }
 
 @media (min-width: $laptop-breakpoint) {
+
+    .title-container {
+        padding-top: 80px;
+        padding-top: 5rem;
+    }
 
     .title-font {
         font-size: 52px;

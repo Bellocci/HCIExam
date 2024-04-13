@@ -6,7 +6,7 @@
     </div>
 
     <div class="flex-center-wrap"
-        [ngClass]="(breakpointsService.mobileOrMobileXLObservable | async) ? 'margin' : 'margin-large'">
+        [ngClass]="isMobileOrMobileXLBreakpointActive ? ['small-container'] : ['padding-large-top']">
         <h2 class="bold title-animation txt-center">
             Crea la squadra che ti porterà alla vittoria
         </h2>
@@ -31,11 +31,11 @@
     <div class="margin-xl">
 
         <div
-            [ngClass]="(breakpointsService.mobileOrMobileXLObservable| async) ? ['flex-direction-column','flex-center-wrap'] : ['flex-space-between','align-top']">
+            [ngClass]="isMobileOrMobileXLBreakpointActive ? ['flex-direction-column','flex-center-wrap'] : ['flex-space-between','align-top']">
             <ng-container *ngFor="let sport of getSports()">
 
                 <mat-expansion-panel class="expansion-panel"
-                    [ngClass]="(breakpointsService.mobileOrMobileXLObservable| async) ? 'container-small' : 'margin'">
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'container-small' : 'margin'">
                     <mat-expansion-panel-header collapsedHeight="70px">
                         <mat-panel-title class="expansion-panel-header text">{{ sport.description }}</mat-panel-title>
                     </mat-expansion-panel-header>

@@ -13,7 +13,7 @@
       </div>
 
       <!-- Visibili solo su schermi largezza > 992px -->
-      <ng-container *ngIf="!(breakpointsService.mobileOrTabletObservable | async) && isLeagueSelected()">
+      <ng-container *ngIf="!isMobileOrTabletBreakpointActive && isLeagueSelected()">
 
         <!-- Link alla pagina Create team -->
         <div>
@@ -71,9 +71,13 @@
         <!-- Caso utente autenticato -->
         <ng-container *ngIf="userLogged">
 
-          <label [matMenuTriggerFor]="menuUser" class="cursor-pointer">
+          <div class="user-btn-container flex-center" [matMenuTriggerFor]="menuUser">
             <app-avatar [viewSmallAvatar]="true"></app-avatar>
-          </label>
+
+            <div class="margin-small-left">
+              <span class="label">{{ user.username }}</span>
+            </div>
+          </div>
 
           <!-- Menu -->
           <mat-menu #menuUser="matMenu" xPosition="before">
@@ -93,7 +97,7 @@
   </mat-toolbar-row>
 
   <!-- SECONDA RIGA -->
-  <mat-toolbar-row *ngIf="(breakpointsService.mobileOrTabletObservable | async) && isLeagueSelected()"
+  <mat-toolbar-row *ngIf="isMobileOrTabletBreakpointActive && isLeagueSelected()"
     class="toolbar-row" #toolbarSecondRow>
 
     <div class="full-width flex-center">

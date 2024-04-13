@@ -1,5 +1,6 @@
 @import "src/styles/global/breakpoints";
 @import "src/styles/global/variables";
+@import "src/styles/component/snackbar";
 
 /*
 ========
@@ -13,6 +14,7 @@ TOOLBAR
         position: sticky;
         top: 0;
         z-index: 100;    
+        min-height: $toolbar-height-mobile;
     }
 
     &-row {
@@ -22,9 +24,28 @@ TOOLBAR
     }
 }
 
+@media (min-width: $tablet-breakpoint) {
+
+    .toolbar {
+
+        & {
+            min-height: $toolbar-height-tablet;
+        }
+
+        &-row {
+            height: $toolbar-height-tablet;
+            min-height: $toolbar-height-tablet;
+        }
+    }
+}
+
 @media (min-width: $laptop-breakpoint) {
 
-    .toolbar {        
+    .toolbar {      
+        
+        & {
+            min-height: $toolbar-height;
+        }
 
         &-row {
             height: $toolbar-height;

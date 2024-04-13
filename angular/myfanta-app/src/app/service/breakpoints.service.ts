@@ -249,4 +249,42 @@ export class BreakpointsService implements OnDestroy {
   public get mobileOrMobileXLObservable() : Observable<boolean> {
     return this._mobileOrMobileXLObservable;
   }
+
+  /*
+   * ===============
+   * METODI STATICI 
+   * ===============
+   */
+
+  public static isMobileBreakpointActive(windowWidth:number) : boolean {
+    return this.MOBILE_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.MOBILE_BREAKPOINT.maxWidth!; 
+  }
+
+  public static isMobileXLBreakpointActive(windowWidth:number) : boolean {
+    return this.MOBILE_XL_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.MOBILE_XL_BREAKPOINT.maxWidth!; 
+  }
+
+  public static isTabletBreakpointActive(windowWidth:number) : boolean {
+    return this.TABLET_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.TABLET_BREAKPOINT.maxWidth!; 
+  }
+
+  public static isLaptopBreakpointActive(windowWidth:number) : boolean {
+    return this.LAPTOP_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.LAPTOP_BREAKPOINT.maxWidth!; 
+  }
+
+  public static isLargeDeviceBreakpointActive(windowWidth:number) : boolean {
+    return this.LARGE_DEVICE_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.LARGE_DEVICE_BREAKPOINT.maxWidth!; 
+  }
+  
+  public static isXLDeviceBreakpointActive(windowWidth:number) : boolean {
+    return this.XL_DEVICE_BREAKPOINT.minWidth <= windowWidth; 
+  }
+
+  public static isMobileOrMobileXLBreakpointActive(windowWidth:number) : boolean {
+    return this.MOBILE_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.MOBILE_XL_BREAKPOINT.maxWidth!; 
+  }
+  public static isMobileOrTabletBreakpointActive(windowWidth:number) : boolean {
+    return this.MOBILE_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.TABLET_BREAKPOINT.maxWidth!; 
+  }
+  
 }

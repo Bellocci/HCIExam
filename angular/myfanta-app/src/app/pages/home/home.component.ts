@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger, group } from '@angular/animations';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { FilterDataService } from '../../service/filter-data.service';
 import { InternalDataService } from '../../service/internal-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
@@ -10,6 +10,8 @@ import { TeamDataService } from '../../service/team-data.service';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
+import { Subscription } from 'rxjs';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 
 
 @Component({
@@ -42,7 +44,7 @@ import { BreakpointsService } from 'src/app/service/breakpoints.service';
     ])
   ]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   /**
    * ===================
@@ -50,15 +52,44 @@ export class HomeComponent implements OnInit {
    *  ==================
    */
 
+  private _isMobileOrMobileXLBreakpointActive: boolean = false;  
+  private _subscriptionToMobileOrMobileXLBreakpointObservable:Subscription;
+
   constructor(private routerService:RouterService,
     private filterDataService:FilterDataService,
     private internalDataService:InternalDataService,
     private userService:UserService,
     private teamDataService:TeamDataService,
-    public breakpointsService:BreakpointsService) { }
+    private breakpointsService:BreakpointsService) {
+
+      console.log("Construct Home page component");
+      this._isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
+      this._subscriptionToMobileOrMobileXLBreakpointObservable = this.observeMobileOrMobileXLBreakpoint();
+    }  
 
   ngOnInit(): void { 
     //this.internalDataService.setLoadingData(false);
+  }
+
+  ngOnDestroy(): void {
+    console.log("Destroy Home page component");
+
+    this._subscriptionToMobileOrMobileXLBreakpointObservable.unsubscribe();
+  }
+
+  /*
+   * =========
+   * OBSERVER 
+   * =========
+   */
+
+  private observeMobileOrMobileXLBreakpoint() : Subscription {
+    return this.breakpointsService.mobileOrMobileXLObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(isActive => this._isMobileOrMobileXLBreakpointActive = isActive)
+        .error(err => console.log("Error while retriving mobile or mobile XL breakpoint : " + err))
+        .build()
+    );
   }
 
   /*
@@ -66,6 +97,14 @@ export class HomeComponent implements OnInit {
    * GETTER & SETTER
    * ================
    */
+
+  public get isMobileOrMobileXLBreakpointActive(): boolean {
+    return this._isMobileOrMobileXLBreakpointActive;
+  }
+
+  private set isMobileOrMobileXLBreakpointActive(value: boolean) {
+    this._isMobileOrMobileXLBreakpointActive = value;
+  }
 
   getSports(): SportEnum[] {
     return SportEnum.getAllSport();
