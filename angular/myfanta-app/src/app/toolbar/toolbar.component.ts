@@ -209,7 +209,15 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   getLeagues(sport: SportEnum, championship: ChampionshipEnum): LeagueEntity[] {
     return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
-  }    
+  }
+
+  getUsername() : string {
+    if(this.isMobileOrTabletBreakpointActive) {
+      return this.user.username.length > 10 ? this.user.username.substring(0, 8) + "..." : this.user.username;        
+    } else {
+      return this.user.username.length > 20 ? this.user.username.substring(0, 18) + "..." : this.user.username; 
+    }
+  }
 
   /*
    * ===================

@@ -121,5 +121,6 @@ export class UserEntity {
 export const USER_DATA: UserEntity[] = [
     new UserEntity(1, "Francesco", "Bellocci", "scon", "scon"),
     new UserEntity(3, "Caterina", "Cocchiaro", "Catescon95", "Password1?"),
-    new UserEntity(4, "aaa", "aaa", "aaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    new UserEntity(4, "aaa", "aaa", "aaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
+    new UserEntity(5, "Francesco", "Bellocci", "FrancescoBellocciBeb96", "scon"),
 ]
