@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { InternalDataService } from '../../service/internal-data.service';
 import { FilterDataService } from '../../service/filter-data.service';
 import { StandardOption } from 'src/decorator/option/standard-option.model';
 import { TeamEntity } from 'src/model/teamEntity.model';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
+import { Subscription } from 'rxjs';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 
 /*
 Metodo da utilizzare soprattutto per lo scroll della pagina quando si genera la squadra
@@ -32,49 +34,108 @@ createTeam(): void {
   templateUrl: './option-filter.component.html',
   styleUrls: ['./option-filter.component.scss'],
 })
-export class OptionFilterComponent implements OnInit {
+export class OptionFilterComponent implements OnInit, OnDestroy {
     
-  private teamsList:TeamEntity[] = [];
+  /*
+   * ==========
+   * VARIABILI 
+   * ==========
+   */
 
-  option:StandardOption;
+  @Output() 
+  private optionToSend:EventEmitter<StandardOption> = new EventEmitter<StandardOption>();
 
-  @Output() private optionToSend:EventEmitter<StandardOption> = new EventEmitter<StandardOption>();
+  private _option!: StandardOption;  
+  private _isMobileOrMobileXLBreakpointActive: boolean = false;  
+  private _subscriptionToMobileOrMobileXLBreakpointObservable: Subscription;
+  private _subscriptionToLeagueSelectedObservable:Subscription | undefined;
+
+  /*
+   * ============================
+   * CONSTRUCT - INIT - DESTROYER 
+   * ============================
+   */
 
   constructor(private internalDataService:InternalDataService,
     private filterDataService:FilterDataService,
-    public breakpointsService:BreakpointsService) {
+    private breakpointsService:BreakpointsService) {
 
-    this.subscribeTeams();
+    console.log("Construct Option filter component");
+    
     this.option = new StandardOption();
-  }
+    this.isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
 
-  private subscribeTeams() {
-    this.internalDataService.getObservableLeagueSelected().subscribe(league => {
-      if(league != null) {
-        this.teamsList = this.filterDataService.filterTeamsByLeague(league);
-      } else {
-        this.teamsList = [];
-      }
-    })
-  }
+    this._subscriptionToMobileOrMobileXLBreakpointObservable = this.observeMobileOrMobileXLBreakpoint();
+  }  
   
   ngOnInit(): void {
     this.optionToSend.emit(this.option);
   }
 
-  /* GETTER */
+  ngOnDestroy(): void {
+    console.log("Destroy option filter component");
 
-  getTeams() : TeamEntity[] {
-    return this.teamsList;
+    this._subscriptionToMobileOrMobileXLBreakpointObservable.unsubscribe();
+    this._subscriptionToLeagueSelectedObservable != undefined ? this._subscriptionToLeagueSelectedObservable.unsubscribe() : null;
+  }  
+
+  /*
+   * ===========
+   * OBSERVABLE 
+   * ===========
+   */
+
+  private observeMobileOrMobileXLBreakpoint() : Subscription {
+    return this.breakpointsService.mobileOrMobileXLObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(isActive => this.isMobileOrMobileXLBreakpointActive = isActive)
+        .error(err => console.log("Error while retriving mobile or mobile xl breakpoint : " + err))
+        .build()
+    );
   }
 
-  /* Visibilità */
+  /*
+   * ================
+   * GETTER & SETTER  
+   * ================
+   */
+
+  public get option(): StandardOption {
+    return this._option;
+  }
+
+  public set option(value: StandardOption) {
+    this._option = value;
+  }
+
+  public get isMobileOrMobileXLBreakpointActive(): boolean {
+    return this._isMobileOrMobileXLBreakpointActive;
+  }
+
+  private set isMobileOrMobileXLBreakpointActive(value: boolean) {
+    this._isMobileOrMobileXLBreakpointActive = value;
+  }
+
+  /*
+   * ============
+   * VISIBILITA'  
+   * ============
+   */
 
   isTeamSelected(team:TeamEntity) : boolean {
     return this.option.selectedTeams.has(team);
   }
 
-  /* Funzionalità  */
+  isClearSelectedTeamsEnabled() : boolean {
+    // TODO: da implementare
+    return false;
+  }
+
+  /*
+   * =========
+   * LISTENER  
+   * =========
+   */
 
   changeSelectedList(team:TeamEntity) : void {    
     this.option.selectedTeams.has(team) ? this.option.selectedTeams.delete(team) : this.option.selectedTeams.add(team);
@@ -121,12 +182,7 @@ export class OptionFilterComponent implements OnInit {
   checkAdvancedFilterAreIncluded(included:boolean) : void {
     this.option.includeAdvancedFilter = included;
     this.optionToSend.emit(this.option);
-  }
-
-  isClearSelectedTeamsEnabled() : boolean {
-    // TODO: da implementare
-    return false;
-  }
+  }  
 
   updateSelectedTeamsList(team: TeamEntity): void {
     // TODO: da implementare

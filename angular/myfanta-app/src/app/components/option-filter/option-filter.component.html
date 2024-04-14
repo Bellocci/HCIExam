@@ -5,10 +5,11 @@
     </mat-expansion-panel-header>
 
     <!-- Sezione filtri di ricerca -->
-    <div class="padding-large">
+    <div [ngClass]="isMobileOrMobileXLBreakpointActive ? 'padding' : 'padding-large'">
 
         <!-- Verione standard -->
-        <div *ngIf="!(breakpointsService.mobileOrMobileXLObservable | async)">
+        <div *ngIf="!isMobileOrMobileXLBreakpointActive">
+            
             <!-- Prima riga -->
             <div class="flex-center">
     
@@ -102,7 +103,7 @@
         </div>
 
         <!-- Versione mobile -->
-        <div *ngIf="breakpointsService.mobileOrMobileXLObservable | async">
+        <div *ngIf="isMobileOrMobileXLBreakpointActive">
 
             <!-- Prima riga -->
             <div class="flex-center">
@@ -122,7 +123,6 @@
                         min="0" step="1"
                         [disabled]="option.includeAdvancedFilter">
                 </div>
-    
             </div>
 
             <!-- Seconda riga -->
