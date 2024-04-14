@@ -1,8 +1,8 @@
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="second-sidenav" fixedInViewport
-        [attr.role]="(breakpointsService.mobileOrTabletObservable| async) ? 'dialog' : 'dialog'"
-        [mode]="(breakpointsService.mobileOrTabletObservable| async) ? 'over' : 'side'"
-        [opened]="!(breakpointsService.mobileOrTabletObservable| async)">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport
+        [attr.role]="'dialog'"
+        [mode]="isMobileOrTabletBreakpointActive ? 'over' : 'side'"
+        [opened]="!isMobileOrTabletBreakpointActive">
 
         <!-- TODO: quando si preme su un link e siamo su quella pagina i filtri ed i giocatori visualizzati non devono essere resettati-->
 
@@ -73,20 +73,22 @@
     <mat-sidenav-content>
 
         <!-- Toolbar menu visibile solo in versione mobile o Tablet -->
-        <mat-toolbar class="toolbar-filter-option primary-color-light mat-elevation-z1 second-toolbar"
-            *ngIf="breakpointsService.mobileOrTabletObservable| async">
-            <button mat-flat-button aria-label="Toggle sidenav" class="label no-color no-padding"
-                (click)="drawer.toggle()">
-                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-                Liste giocatori
-            </button>
+        <mat-toolbar class="primary-color-light mat-elevation-z1 toolbar"
+            *ngIf="isMobileOrTabletBreakpointActive">
+
+            <mat-toolbar-row class="toolbar-row flex-center-wrap">
+                <button mat-flat-button aria-label="Toggle sidenav" class="btn-standard label no-color no-padding"
+                    (click)="drawer.toggle()">
+                    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                    Liste giocatori
+                </button>
+            </mat-toolbar-row>
         </mat-toolbar>
 
         <!-- Contenuto della pagina -->
         <div class="margin-large custom-page-container">
 
-            <div class="margin-bottom">
-
+            <div>
                 <!-- Opzioni di filtro visualizzati nella pagina 'myTeams' -->
                 <ng-container *ngIf="isOptionFilterRendered()">
                     <app-option-filter (optionToSend)="updateOption($event)"></app-option-filter>
@@ -99,7 +101,7 @@
             </div>
 
             <!-- Tabella giocatori -->
-            <div class="margin-xl-top margin-xl-bottom" id="tableContainer">
+            <div class="container-large" id="tableContainer">
                 <app-table [playersList]="getPlayersList()"></app-table>
             </div>
 

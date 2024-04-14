@@ -45,11 +45,13 @@ export class PlayerListComponent implements OnInit, OnDestroy {
   private leagueSelected: LeagueEntity | null = null;
   private _user!: UserEntity;
   private _userTeam!: UserTeamEntity;
+  private _isMobileOrTabletBreakpointActive: boolean = false;  
  
   private _subscriptionObserverToLeague: Subscription | undefined;
   private _subscriptionObserverToOption: Subscription | undefined;
   private _subscriptionObserverToUser: Subscription | undefined;
   private _subscriptionObserverToUserTeam: Subscription | undefined;
+  private _subscriptionToMobileOrTabletObservable: Subscription;
 
   private _playerSearchFilterObservable:ObservableHelper<PlayerSearchFilter> = new ObservableHelper<PlayerSearchFilter>(new PlayerSearchFilter());
   private _playerFilteredList:PlayerEntity[] = [];
@@ -65,14 +67,17 @@ export class PlayerListComponent implements OnInit, OnDestroy {
     public routerService: RouterService,
     private userService: UserService,
     private dialogService: DialogService,
-    public breakpointsService: BreakpointsService,
+    private breakpointsService: BreakpointsService,
     private playerSearchRequest:PlayerSearchRequestService) {
 
     console.log("Construct Player list component");
 
+    this._isMobileOrTabletBreakpointActive = BreakpointsService.isMobileOrTabletBreakpointActive(window.innerWidth);
+
     this._subscriptionObserverToLeague = this.addObserverToLeague();
     this._subscriptionObserverToOption = this.observeOptionTeam();
     this._subscriptionObserverToUser = this.observeUser();
+    this._subscriptionToMobileOrTabletObservable = this.observeMobileOrTabletBreakpoint();
     this.observePlayerSearchFilter();
 
     /*
@@ -89,10 +94,12 @@ export class PlayerListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     console.log("Destroy Player list component");
+
     this._subscriptionObserverToLeague != undefined ? this._subscriptionObserverToLeague.unsubscribe() : null;
     this._subscriptionObserverToOption != undefined ? this._subscriptionObserverToOption.unsubscribe() : null;
     this._subscriptionObserverToUser != undefined ? this._subscriptionObserverToUser.unsubscribe() : null;
     this._subscriptionObserverToUserTeam != undefined ? this._subscriptionObserverToUserTeam.unsubscribe() : null;
+    this._subscriptionToMobileOrTabletObservable.unsubscribe();
     this._playerSearchFilterObservable.complete();
   }
 
@@ -134,6 +141,15 @@ export class PlayerListComponent implements OnInit, OnDestroy {
         .build());
   }
 
+  private observeMobileOrTabletBreakpoint() : Subscription {
+    return this.breakpointsService.mobileOrTabletObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(isActive => this.isMobileOrTabletBreakpointActive = isActive)
+        .error(err => console.log("Error while retriving mobile or tablet breakpoint : " + err))
+        .build()
+    );
+  }
+
   /**
    * ================
    * GETTER & SETTER
@@ -162,6 +178,14 @@ export class PlayerListComponent implements OnInit, OnDestroy {
 
   private set simpleOption(value: StandardOption) {
     this._simpleOption = value;
+  }
+
+  public get isMobileOrTabletBreakpointActive(): boolean {
+    return this._isMobileOrTabletBreakpointActive;
+  }
+  
+  private set isMobileOrTabletBreakpointActive(value: boolean) {
+    this._isMobileOrTabletBreakpointActive = value;
   }
 
   getPlayersList() : PlayerEntity[] {

@@ -54,11 +54,6 @@ TOOLBAR
     }
 }
 
-.second-toolbar {
-    position: fixed;
-    z-index: 100;
-}
-
 /*
  * ========
  * SIDENAV
@@ -68,18 +63,13 @@ TOOLBAR
 .sidenav {
 
     & {
-        max-width: 300px;
+        max-width: 250px;
         width: 100%;
     }
 
     &-container {
         height: 100%;    
     }
-}
-
-.second-sidenav {
-    max-width: 220px;
-    width: 100%;
 }
 
 @media (max-width: $mobileXL-breakpoint) {

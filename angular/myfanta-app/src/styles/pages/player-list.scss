@@ -5,11 +5,28 @@
 
 
 .link-menu-container {
-    margin-top: calc($toolbar-height + 10px);
+    margin-top: calc($toolbar-height-mobile * 2 + 10px);
 }
 
-@media (max-width: $laptop-breakpoint){
+.second-toolbar {
+    position: sticky;
+    z-index: 100;
+}
+
+@media (min-width: $mobile-breakpoint){
     .link-menu-container {
-        margin-top: calc($toolbar-height * 2);
+        margin-top: calc($toolbar-height-mobile * 2 + 10px);
+    }
+}
+
+@media (max-width: $tablet-breakpoint){
+    .link-menu-container {
+        margin-top: calc($toolbar-height-tablet * 2 + 10px);
+    }
+}
+
+@media (min-width: $laptop-breakpoint){
+    .link-menu-container {
+        margin-top: calc($toolbar-height + 10px);
     }
 }
