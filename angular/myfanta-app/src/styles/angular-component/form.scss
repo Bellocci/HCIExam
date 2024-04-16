@@ -1,0 +1,46 @@
+@import "src/styles/global/breakpoints";
+
+.form {
+
+    // ANGULAR COMPONENT
+    &-container-standard {
+        max-width: 350px !important;
+        width: 100%;
+    }
+
+    &-container-large {
+        max-width: 400px !important;
+        width: 100%;
+    }
+
+    // NATIVE COMPONENT
+    &-native-container {
+        min-width: 80px;
+        max-width: 250px;
+        width: 100%;
+    }
+}
+
+
+@media (min-width: $mobileXL-breakpoint) {
+
+    .form {
+
+        &-container-standard {
+            max-width: none;
+            min-width: 350px !important;
+            width: 100%;
+        }
+
+        &-container-large {
+            max-width: none;
+            min-width: 400px !important;
+            width: 100%;
+        }
+
+        &-native-container {
+            max-width: 350px;
+        }
+    }
+
+}

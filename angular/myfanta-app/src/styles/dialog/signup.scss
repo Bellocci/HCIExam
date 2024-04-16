@@ -1,0 +1,29 @@
+@use "src/styles/global/styles";
+@use "src/styles/angular-component/buttons";
+@use "src/styles/angular-component/input";
+@use "src/styles/angular-component/form";
+@use "src/styles/dialog/dialog-standard";
+@import "src/styles/global/breakpoints";
+@import "src/styles/global/colors";
+
+.img-signup-container {
+    max-width: 420px;
+
+    .img-signup {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.message-container {
+    max-width: 500px;
+    width: 100%;
+}
+
+#inputPasswordContainer {
+
+    .mat-mdc-form-field-infix {
+        width: 140px;
+    }
+
+}

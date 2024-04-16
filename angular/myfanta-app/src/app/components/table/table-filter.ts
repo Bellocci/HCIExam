@@ -1,22 +1,22 @@
-import { RolePlayer } from "src/decorator/role-player.model";
-import { Team } from "src/decorator/team.model";
 import { SportEnum } from "src/enum/SportEnum.model";
-import { OptionFootballSoccerEnum } from "src/enum/optionEnum/OptionFootballSoccerEnum.model";
+import { StandardMatchPlayedEnum } from "src/enum/optionEnum/StandardMatchPlayedEnum";
+import { RolePlayerEntity } from "src/model/rolePlayerEntity.model";
+import { TeamEntity } from "src/model/teamEntity.model";
 
 export class TableFilterOption {
 
-    private static readonly ROLE_MAP_DEFAULT_VALUE:Map<number,RolePlayer> = new Map();
-    private static readonly MATCH_PLAYED_PERC_DEFAULT_VALUE:number = 0;
-    private static readonly TEAMS_MAP_DEFAULT_VALUE:Map<number, Team> = new Map();
+    private static readonly ROLE_MAP_DEFAULT_VALUE:Map<number,RolePlayerEntity> = new Map();
+    private static readonly MATCH_PLAYED_PERC_DEFAULT_VALUE:number = StandardMatchPlayedEnum.ALL_PLAYERS.value;
+    private static readonly TEAMS_MAP_DEFAULT_VALUE:Map<number, TeamEntity> = new Map();
     private static readonly PLAYER_NAME_DEFAULT_VALUE:string = "";
 
-    private roleMap:Map<number,RolePlayer>;
+    private roleMap:Map<number,RolePlayerEntity>;
     private matchPlayedPerc:number;
-    private teamsMap:Map<number,Team>;
+    private teamsMap:Map<number,TeamEntity>;
     private playerName:string;
 
     constructor(playerName?:string, matchPlayedPerc?:number, 
-        roleMap?:Map<number, RolePlayer>, teamsMap?:Map<number, Team>) {
+        roleMap?:Map<number, RolePlayerEntity>, teamsMap?:Map<number, TeamEntity>) {
 
         this.playerName = playerName != undefined ? playerName : TableFilterOption.PLAYER_NAME_DEFAULT_VALUE;
         this.matchPlayedPerc = matchPlayedPerc != undefined ? matchPlayedPerc : TableFilterOption.MATCH_PLAYED_PERC_DEFAULT_VALUE;
@@ -24,16 +24,16 @@ export class TableFilterOption {
         this.teamsMap = teamsMap != undefined ? teamsMap : TableFilterOption.TEAMS_MAP_DEFAULT_VALUE;
     }
 
-    getRoles() : RolePlayer[] {
+    getRoles() : RolePlayerEntity[] {
         return [... this.roleMap.values()];
     }
 
-    updateRoles(role:RolePlayer) : void {
-        this.roleMap.has(role.getId()) ? this.roleMap.delete(role.getId()) : this.roleMap.set(role.getId(), role);
+    updateRoles(role:RolePlayerEntity) : void {
+        this.roleMap.has(role.roleId) ? this.roleMap.delete(role.roleId) : this.roleMap.set(role.roleId, role);
     }
 
-    hasRole(role:RolePlayer) : boolean {
-        return this.roleMap.has(role.getId());
+    hasRole(role:RolePlayerEntity) : boolean {
+        return this.roleMap.has(role.roleId);
     }
 
     getMatchPlayedPerc() : number {
@@ -47,7 +47,7 @@ export class TableFilterOption {
     calculateMatchPlayedFilter(sport:SportEnum) : number {
         const totalMatch:number = SportEnum.visitAndReturn<number>(sport, {
             footballSoccer() {
-                return OptionFootballSoccerEnum.TOTAL_MATCH.value as number;
+                return 38;
             },
 
             volleyball() {
@@ -62,16 +62,16 @@ export class TableFilterOption {
         return Math.trunc((totalMatch * this.matchPlayedPerc) / 100);
     }
 
-    getTeams() : Team[] {
+    getTeams() : TeamEntity[] {
         return [... this.teamsMap.values()];
     }
 
-    hasTeams(team:Team) : boolean {
-        return this.teamsMap.has(team.getId());
+    hasTeams(team:TeamEntity) : boolean {
+        return this.teamsMap.has(team.teamId);
     }
 
-    updateTeams(team:Team) : void {
-        this.teamsMap.has(team.getId()) ? this.teamsMap.delete(team.getId()) : this.teamsMap.set(team.getId(), team);
+    updateTeams(team:TeamEntity) : void {
+        this.teamsMap.has(team.teamId) ? this.teamsMap.delete(team.teamId) : this.teamsMap.set(team.teamId, team);
     }
 
     getPlayerName() : string {
@@ -83,9 +83,9 @@ export class TableFilterOption {
     }
 
     clear() : void {
-        this.roleMap = TableFilterOption.ROLE_MAP_DEFAULT_VALUE;
+        this.roleMap.clear();
         this.matchPlayedPerc = TableFilterOption.MATCH_PLAYED_PERC_DEFAULT_VALUE;
-        this.teamsMap = TableFilterOption.TEAMS_MAP_DEFAULT_VALUE;
+        this.teamsMap.clear();
         this.playerName = TableFilterOption.PLAYER_NAME_DEFAULT_VALUE;
     }
 
@@ -99,16 +99,16 @@ export class TableFilterOption {
     }
 
     static fromJSON(json:any) : TableFilterOption {
-        let rolesMap:Map<number, RolePlayer> = new Map();
+        let rolesMap:Map<number, RolePlayerEntity> = new Map();
         for(let r of json.roles) {
-            let role:RolePlayer = RolePlayer.fromJSON(r);
-            rolesMap.set(role.getId(), role);
+            let role:RolePlayerEntity = RolePlayerEntity.fromJSON(r);
+            rolesMap.set(role.roleId, role);
         }
 
-        let teamsMap:Map<number, Team> = new Map();
+        let teamsMap:Map<number, TeamEntity> = new Map();
         for(let t of json.teams) {
-            let team:Team = Team.fromJSON(t);
-            teamsMap.set(team.getId(), team);
+            let team:TeamEntity = TeamEntity.fromJSON(t);
+            teamsMap.set(team.teamId, team);
         }
 
         return new TableFilterOption(json.playerName, json.matchPlayedPerc, rolesMap, teamsMap);

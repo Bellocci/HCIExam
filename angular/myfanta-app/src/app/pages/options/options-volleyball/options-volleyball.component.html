@@ -1,0 +1,153 @@
+<div class="full-width flex-direction-column flex-center">
+
+    <!-- Opzioni Squadre -->
+    <mat-card class="card-container margin-large" id="volleyballTeamsCard">
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>
+                <span>Squadre</span>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="container-standard full-width">
+
+                <!-- Prima riga : Squadre -->
+                <div class="flex-direction-column"
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'container-small' : 'container-standard'">
+
+                    <div class="full-width">
+                        <app-team-list-responsive [clearTeams]="true"
+                            (updateSelectedTeamEvent)="updateSelectedTeamsList($event)">
+                        </app-team-list-responsive>
+                    </div>
+                </div>
+
+                <!-- Seconda riga -->
+                <div class="flex-end full-width container-small">
+                    <button mat-raised-button class="btn-small label" (click)="clearTeams()">
+                        Clear
+                    </button>
+                </div>
+
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Divisione budget per Ruoli -->
+    <mat-card class="card-container margin-large" id="budgetForVolleyballRolesCard">
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>
+                <span>Budget per Ruoli</span>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="container-standard full-width">
+
+                <!-- Prima riga: Budget personalizzato -->
+                <div class="flex-center"
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'container-small' : 'container-standard'">
+
+                    <div class="cell-3of12 flex-direction-column margin-large-right">
+                        <label class="top-label no-bold">Budget disponibile</label>
+                        <div>
+                            <input matInput type="number" list="standardBudget"
+                                class="input-native-responsive label input-native-number hide-up-down-number">
+
+                            <datalist id="standardBudget">
+                                <option value="{{SMALL_BUDGET}}"></option>
+                                <option value="{{MIDDLE_BUDGET}}"></option>
+                                <option value="{{BIG_BUDGET}}"></option>
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <!-- Spazio vuoto -->
+                    <div class="cell-9of12" *ngIf="!isMobileOrMobileXLBreakpointActive"></div>
+
+                </div>
+
+                <!-- Seconda riga: Budget per ruoli -->
+                <div
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center container-standard'">
+                    <ng-container *ngFor="let role of roles">
+                        <div class="cell-4of12 flex-direction-column margin-large-right"
+                            [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
+                            <label class="top-label no-bold">{{ getRoleDescription(role) }}</label>
+                            <div>
+                                <input matInput type="number"
+                                    class="input-native-responsive input-native-number hide-up-down-number label">
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <div *ngIf="isMobileOrMobileXLBreakpointActive" class="cell-4of12 margin-large-right"></div>
+                </div>
+
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Filtro media statistiche -->
+    <mat-card class="card-container margin-large" id="volleyballTeamOptionCard">
+        <mat-card-header class="flex-center primary-color-light mat-elevation-z1">
+            <mat-card-title>
+                <span>Statistiche squadra (media)</span>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="container-standard full-width">
+
+                <!-- Prima riga -->
+                <div class="flex-center"
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'flex-space-between' : 'flex-center container-standard'">
+
+                    <!-- Media punti in attacco (PTI ATT)-->
+                    <div class="cell-4of12 flex-direction-column margin-large-right"
+                        [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
+                        <label class="top-label no-bold" *ngIf="!isMobileOrMobileXLBreakpointActive">Punti in attacco</label>
+                        <label class="top-label no-bold" *ngIf="isMobileOrMobileXLBreakpointActive">Pti Att.</label>
+                        <div>
+                            <input matInput type="number"
+                                class="input-native-responsive input-native-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                    <!-- Media muri realizzti (PTI M) -->
+                    <div class="cell-4of12 flex-direction-column margin-large-right"
+                        [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
+                        <label class="top-label no-bold" *ngIf="!isMobileOrMobileXLBreakpointActive">Muri realizzati</label>
+                        <label class="top-label no-bold" *ngIf="isMobileOrMobileXLBreakpointActive">Pti Muri</label>
+                        <div>
+                            <input matInput type="number"
+                                class="input-native-responsive input-native-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                    <!-- Media Ace realizzati (Ace) -->
+                    <div class="cell-4of12 flex-direction-column margin-large-right"
+                        [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
+                        <label class="top-label no-bold">Ace</label>
+                        <div>
+                            <input matInput type="number"
+                                class="input-native-responsive input-native-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                    <!-- Media ricezioni perfette realizzte (RPERF) -->
+                    <div class="cell-4of12 flex-direction-column margin-large-right"
+                        [ngClass]="{'container-small' : isMobileOrMobileXLBreakpointActive}">
+                        <label class="top-label no-bold" *ngIf="!isMobileOrMobileXLBreakpointActive">Ricezioni perfette</label>
+                        <label class="top-label no-bold" *ngIf="isMobileOrMobileXLBreakpointActive">Ric. Perf.</label>
+                        <div>
+                            <input matInput type="number"
+                                class="input-native-responsive input-native-number hide-up-down-number label">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,124 @@
+<div class="flex-container">
+
+    <!-- Pulsanti -->
+    <div class="cell-static-2of12 flex-container">
+        <!-- Avatar utente -->
+        <div class="margin-xl flex-direction-column flex-center">
+            <app-avatar></app-avatar>
+
+            <button mat-raised-button class="btn-standard margin-large-top">
+                <mat-icon>save</mat-icon>
+                Salva foto profilo
+            </button>
+        </div>
+
+        <mat-divider class="column-gap" style="height: 100%;" vertical="true">
+        </mat-divider>
+    </div>
+
+    <!-- Gestione profilo -->
+    <div class="cell-static-10of12">
+
+        <!-- Lista Teams utente -->
+        <div class="flex-direction-column full-width container-large">
+
+            <div [ngClass]="(isLargeDeviceBreakpointActive || isXLDeviceBreakpointActive) ? 'margin-xl' : 'margin-large'">
+                <h1 class="txt-center">Mie squadre</h1>
+            </div>
+
+            <div class="column-gap">
+                <!-- Pulsante aggiunta team -->
+                <button mat-raised-button class="btn-standard" (click)="openCreateNewTeamDialog()">
+                    <mat-icon>add_circle</mat-icon>
+                    <span class="label">Nuova squadra</span>
+                </button>
+            </div>
+
+            <ng-container *ngFor="let sport of getSports()">
+                <mat-expansion-panel class="margin" [expanded]="true">
+
+                    <mat-expansion-panel-header class="primary-color-light">
+                        <mat-panel-title class="text">{{ sport.description }}</mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <!-- Lazy rendering -->
+                    <ng-template matExpansionPanelContent>
+                        <div class="flex-start margin align-top">
+                            <ng-container *ngIf="hasTeam(sport)">
+                                <ng-container *ngFor="let team of getTeams(sport)">
+
+                                    <!-- Team -->
+                                    <mat-card class="margin card-small">
+
+                                        <mat-card-header class="no-padding">
+                                            <div class="full-width primary-color-light">
+                                                <div class="margin flex-center">
+                                                    <div class="cell-static-10of12">
+                                                        <mat-card-title>{{ team.nameTeam }}</mat-card-title>
+                                                    </div>
+                                                    <div class="cell-static-2of12">
+                                                        <button mat-icon-button (click)="openEditUserTeamDialog(team)">
+                                                            <mat-icon>edit</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-card-header>
+
+                                        <mat-card-content class="margin-top">
+
+                                            <div class="flex-space-between">
+                                                <p class="label">Campionato :</p>
+                                                <p class="label">{{ team.league.name }}</p>
+                                            </div>
+
+                                            <div class="flex-space-between">
+                                                <p class="label margin-top">Giocatori preferiti :</p>
+                                                <p class="label margin-top">{{ getNumberOfPlayerIntoFavoritList(team) }}</p>
+                                            </div>
+
+                                            <div class="flex-space-between">
+                                                <p class="label margin-top">Giocatori esclusi :</p>
+                                                <p class="label margin-top"> {{ getNumberOfPlayerIntoBlacklist(team) }}</p>
+                                            </div>
+
+
+                                            <!-- Sezione pulsanti -->
+                                            <div class="container-small flex-center-wrap">
+
+                                                <div class="cell-static-5of12">
+                                                    <button mat-raised-button class="btn-responsive" (click)="loadTeam(team)">
+                                                        <mat-icon>delete</mat-icon>
+                                                        Rimuovi
+                                                    </button>
+                                                </div>
+
+                                                <!-- Spazio pulsanti -->
+                                                <div class="cell-static-1of12"></div>
+
+                                                <div class="cell-static-5of12">
+                                                    <button mat-raised-button class="btn-responsive"
+                                                        (click)="loadTeam(team)">
+                                                        <mat-icon>rotate_left</mat-icon>
+                                                        Carica
+                                                    </button>
+                                                </div>
+
+                                            </div>
+
+                                        </mat-card-content>
+
+                                    </mat-card>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="!hasTeam(sport)">
+                                <p class="text">Nessun team presente per questo sport</p>
+                            </ng-container>
+                        </div>
+                    </ng-template>
+                </mat-expansion-panel>
+            </ng-container>
+
+        </div>
+    </div>
+</div>

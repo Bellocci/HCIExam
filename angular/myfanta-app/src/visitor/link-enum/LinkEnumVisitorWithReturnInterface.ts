@@ -1,4 +1,4 @@
-import { Player } from "src/decorator/player.model";
+import { PlayerEntity } from "src/model/playerEntity.model";
 
 
 export interface LinkEnumVisitorWithReturnInterface<I> {
@@ -19,5 +19,5 @@ export interface LinkEnumVisitorWithReturnInterface<I> {
 
     options() : I;
 
-    playerProfile(player:Player) : I;
+    playerProfile(player:PlayerEntity) : I;
 }

@@ -1,0 +1,40 @@
+
+/*
+ * STYLE GENERALE TABELLE
+ */
+
+.mat-mdc-table .mdc-data-table__header-row {
+  background-color: #b6e3ff;
+}
+
+/*
+ * ========
+ * COLONNE
+ * ========
+ */
+
+.mat-column-expand {
+  width: 14px;
+  padding: 0 4px;
+}
+
+/*
+ * ======
+ * RIGHE
+ * ======
+ */
+
+.empty-row {
+  height: 60px;
+}
+
+.row-with-expansion {
+
+  td {
+    border-bottom-width: 0;
+  }
+}
+
+.hidden-row {
+  height: 0;
+}

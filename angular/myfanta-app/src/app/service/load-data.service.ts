@@ -1,111 +1,54 @@
 import { Injectable } from '@angular/core';
 import { LeagueEntity, LEAGUE_DATA } from 'src/model/leagueEntity.model';
-import { League } from 'src/decorator/League.model';
 import { PLAYER_DATA_NBA, PLAYER_DATA_PREMIER_LEAGUE, PLAYER_DATA_SERIE_A, PlayerEntity } from 'src/model/playerEntity.model';
 import { PlayerDecoratorFactoryService } from 'src/decorator-factory/player-decorator-factory.service';
-import { Player } from 'src/decorator/player.model';
-import { LeagueDecoratorFactoryService } from 'src/decorator-factory/league-decorator-factory.service';
-import { Team } from 'src/decorator/team.model';
-import { TEAM_DATA } from 'src/model/teamEntity.model';
+import { TEAM_DATA, TeamEntity } from 'src/model/teamEntity.model';
 import { TeamDecoratorFactoryService } from 'src/decorator-factory/team-decorator-factory.service';
 import { MapHelper } from 'src/utility/map-helper';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoadDataService {
 
-  constructor(private leagueDecoratorFactory:LeagueDecoratorFactoryService,
-    private playerDecoratorFactory:PlayerDecoratorFactoryService,
+  constructor(private playerDecoratorFactory:PlayerDecoratorFactoryService,
     private teamDecoratorFactory:TeamDecoratorFactoryService) { }
 
-  private leaguesList!:League[];
-  private playersMap:MapHelper<number, Player[]> = new MapHelper<number, Player[]>(new Map());
-  private teamsMap:Map<number, Team[]> = new Map<number, Team[]>();
+  private leaguesList!:LeagueEntity[];
+  private playersMap:MapHelper<number, PlayerEntity[]> = new MapHelper<number, PlayerEntity[]>(new Map());
+  private teamsMap:Map<number, TeamEntity[]> = new Map<number, TeamEntity[]>();
 
   async loadAllLeagues() : Promise<void> {
     if(!this.leaguesList) {
-      // FIXME: Interazione con il db      
+      // TODO: Interazione con il db      
       let leagueEntities:LeagueEntity[] = LEAGUE_DATA;
-      this.leaguesList = this.leagueDecoratorFactory.decorateList(leagueEntities);
+      this.leaguesList = leagueEntities;
     }
   }
 
-  getLeaguesList():League[] {
+  getLeaguesList():LeagueEntity[] {
     this.loadAllLeagues();
     return this.leaguesList;
   }
 
-  loadLeagueById(leagueId:number) : League | null {
+  loadLeagueById(leagueId:number) : LeagueEntity | null {
     let result:LeagueEntity | undefined = undefined;
-    // FIXME: Interazione con il db
+    // TODO: Interazione con il db
     result = LEAGUE_DATA.find(entity => entity.leagueId == leagueId);
-    return result != undefined ? this.leagueDecoratorFactory.decorate(result) : null;
+    return result != undefined ? result : null;
   }
 
-  private loadAllTeams(league:League) : Team[] {   
-    let list:Team[] = [];
-    //FIXME: interazione con il db
-    list = this.teamDecoratorFactory.decorateList(TEAM_DATA.filter(team => team.league.equals(league)));
-    this.teamsMap.set(league.getLeagueId(), list);
-    return list;
+  private loadAllTeams(league:LeagueEntity) : void {   
+    let list:TeamEntity[] = [];
+    //TODO: interazione con il db
+    list = this.teamDecoratorFactory.decorateList(TEAM_DATA.filter(team => team.league.equals(league)));    
+    this.teamsMap.set(league.leagueId, list);
   }
 
-  getAllTeams(league:League) : Team[] {
-    if(this.teamsMap.has(league.getLeagueId())) {
-      return this.teamsMap.get(league.getLeagueId())!;
-    } else {
-      return this.loadAllTeams(league);
+  getAllTeams(league:LeagueEntity) : TeamEntity[] {
+    if(!this.teamsMap.has(league.leagueId)) {
+      this.loadAllTeams(league);
     }
-  }
-
-  private loadAllPlayers(league:League) : Player[] {
-    let list:Player[] = [];
-    // FIXME: Interazione con il db
-    league.getLeagueId() == 1 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_SERIE_A) :
-      league.getLeagueId() == 2 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_PREMIER_LEAGUE) :
-      league.getLeagueId() == 4 ? list = this.playerDecoratorFactory.decorateList(PLAYER_DATA_NBA) :
-      league.getLeagueId() == 5 ? list = [] : 
-      list = [];
-    
-    this.playersMap.addElementToMap(league.getLeagueId(), list);
-    return list;
-  }
-
-  getAllPlayers(league:League): Player[] {
-    if(this.playersMap.hasElement(league.getLeagueId())) {
-      return this.playersMap.getValue(league.getLeagueId())!;
-    } else {
-      return this.loadAllPlayers(league);
-    }
-  }
-
-  searchPlayer(playerName:string, league:League) : Player | undefined {
-    if(this.playersMap.hasElement(league.getLeagueId())) {
-      //FIXME: Interazione con il db
-      return this.playersMap.getValue(league.getLeagueId())?.find(player => player.getName() === playerName);
-    }
-    return undefined;
-  }
-
-  loadPlayerBydId(playerId:number) : Player | null {
-    // FIXME: Interazione con il db
-    let result:PlayerEntity[] = PLAYER_DATA_SERIE_A.filter(player => player.playerId == playerId);
-    if(result.length != 0) {
-      return new Player(result[0]);
-    }    
-
-    result = PLAYER_DATA_PREMIER_LEAGUE.filter(player => player.playerId == playerId);
-    if(result.length != 0) {
-      return new Player(result[0]);
-    }
-
-    result = PLAYER_DATA_NBA.filter(player => player.playerId == playerId);
-    if(result.length != 0) {
-      return new Player(result[0]);
-    }
-
-    return null;
-  } 
+    return this.teamsMap.get(league.leagueId)!;
+  }  
 }

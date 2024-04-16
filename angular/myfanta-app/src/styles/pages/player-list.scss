@@ -1,0 +1,28 @@
+@use "src/styles/global/styles";
+@use "src/styles/angular-component/toolbar";
+@use "src/styles/angular-component/buttons";
+@import "src/styles/global/breakpoints";
+@import "src/styles/global/variables";
+
+
+.link-menu-container {
+    margin-top: calc($toolbar-height-mobile * 2 + 10px);
+}
+
+@media (min-width: $mobile-breakpoint){
+    .link-menu-container {
+        margin-top: calc($toolbar-height-mobile * 2 + 10px);
+    }
+}
+
+@media (max-width: $tablet-breakpoint){
+    .link-menu-container {
+        margin-top: calc($toolbar-height-tablet * 2 + 10px);
+    }
+}
+
+@media (min-width: $laptop-breakpoint){
+    .link-menu-container {
+        margin-top: calc($toolbar-height + 10px);
+    }
+}

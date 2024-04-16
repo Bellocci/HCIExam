@@ -1,0 +1,89 @@
+@use "src/styles/global/styles";
+
+@import "src/styles/global/colors";
+@import "src/styles/global/breakpoints";
+
+.avatar-container {
+    position: relative;
+    width: fit-content;
+}
+
+.image-container {
+    height: 100px;
+    width: 100px;
+    z-index: 1;
+    border-radius: 50%;
+    background-color: #fff;
+    background-position: center;
+    background-size: cover;
+    box-shadow: 0 10px 15px 15px $gray-color-dark;
+}
+
+.xs-image-container {
+    @extend .image-container;
+
+    height: 30px !important;
+    width: 30px !important;
+    box-shadow: 0 0 0 0 transparent;
+}
+
+.icon-wrapper {
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    padding: 0.35rem;
+    background-color:$primary-color-light;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    top: 75%;
+    z-index: 2;
+    cursor: pointer;
+
+    &:hover {
+        transition: all .25s;
+        background-color: darken($primary-color, 15%);
+    }
+}
+
+.delete-icon-wrapper {
+    @extend .icon-wrapper;
+    left: 0;
+    top: 75%;
+}
+
+@media (min-width: $mobile-breakpoint) {
+
+    .image-container {
+        height: 100px;
+        width: 100px;
+    }
+}
+
+@media(min-width:$tablet-breakpoint) {
+
+    .image-container {
+        height: 120px;
+        width: 120px;
+    }
+
+    .icon-wrapper {
+        height: 30px;
+        width: 30px;
+    }
+}
+
+@media (min-width: $large-device-breakpoint) {
+    
+    .image-container {
+        height: 200px;
+        width: 200px;
+    }
+
+    .icon-wrapper {
+        height: 40px;
+        width: 40px;
+    }
+}

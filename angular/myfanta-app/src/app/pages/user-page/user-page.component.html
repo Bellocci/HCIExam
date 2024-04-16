@@ -1,100 +1,10 @@
-<div class="flex-container">
-    <div class="flex-container flex-direction-column profile-container">
-        <!-- Immagine profilo -->
-        <div id="img-user-container" class="alignCenter image-container">
-          <figure class="flex-container tooltip">
-            <img class="img-recovery-completed" src="assets/images/userProfile-removebg-preview.png" alt="Immagine del profilo">
-            <span class="tooltiptext">
-              <a href="https://www.freepik.com/free-vector/illustration-businessman_2606517.htm#page=3&query=user&position=19&from_view=search&track=sph#position=19&page=3&query=user" target="_blank">
-                Image by rawpixel.com</a> on Freepik
-            </span>
-          </figure>
-        </div>
 
-        <!-- Info utente -->
-        <div class="alignCenter">
-            <label class="text bold">{{ getUser()!.getUsername() }}</label>
-        </div>
-        
-        <!-- Sezione modifica colore -->
-        <label class="mt-30px label ml-10px mr-10px "> Modifica lo sfondo del tuo avatar:</label>
-        <div class="flex-container flex-start-content">
-          <ng-container *ngFor="let color of getColors()">
-            <div class="div-color" [style]="{'background-color' : color}"
-              (mouseenter)="setBorderColor($event)" (mouseleave)="removeBorderColor($event)"
-              (click)="changeBackgroundColorToAvatar($event)">
-            </div>
-          </ng-container>
-        </div>
-    </div>
-    
-    <mat-divider class="flex-container divider" vertical="true"></mat-divider>
-    
-    <!-- SEZIONE TEAM UTENTE -->
+<!-- Visualizzazione standard -->
+<ng-container *ngIf="!isMobileOrMobileXLBreakpointActive">
+  <app-user-profile-standard></app-user-profile-standard>
+</ng-container>
 
-    <div class="flex-container flex-direction-column team-container">
-        <span class="title-txt title-team">Lista Team</span>        
-        
-        <div class="mr-10px ml-10px">
-
-          <!-- Pulsante aggiunta team -->
-          <button mat-raised-button class="secondary-color secondary-color-light"
-            (click)="openCreateNewTeamDialog()">
-            <span class="label">Crea team</span>
-          </button>
-
-          <!-- Expansion panel sport -->
-          <ng-container *ngFor="let sport of getSports()">                        
-              
-              <mat-accordion multi>
-                <mat-expansion-panel class="mat-panel-container">
-                  
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>{{ sport.description }}</mat-panel-title>
-                  </mat-expansion-panel-header>
-
-                  <!-- Lazy rendering -->
-                  <ng-template matExpansionPanelContent>
-                    <div class="flex-container cards-container ml-30px mr-30px">
-                      <ng-container *ngIf="hasTeam(sport)">
-                        <ng-container *ngFor="let team of getTeams(sport)">    
-                          <!-- Visualizzazione singola card -->
-                          <mat-card class="card">
-                            <mat-card-header>
-                              <mat-card-title >{{ team.getNameTeam() }}</mat-card-title>
-                            </mat-card-header>
-                            <mat-card-content class="mt-30px">
-                              <p class="label">{{ team.getLeague().getChampionship().description }}</p>
-                              <p class="label">{{ team.getLeague().getName() }}</p>
-                              <p class="label">{{ getNumberOfPlayerIntoFavoritList(team) }} giocatori preferiti</p>
-                              <p class="label">{{ getNumberOfPlayerIntoBlacklist(team) }} giocatori esclusi</p>
-                            </mat-card-content>
-                            <mat-card-actions align="end">
-                              <button mat-flat-button class="secondary-color secondary-color-light mr-10px"
-                                (click)="loadTeam(team)">
-                                <mat-icon>rotate_left</mat-icon>
-                                  Carica
-                              </button>
-                              <button mat-flat-button class="secondary-color secondary-color-light"
-                                (click)="removeTeam(team)">
-                                <mat-icon>delete_outline</mat-icon>
-                                  Rimuovi
-                              </button>                              
-                            </mat-card-actions>
-                          </mat-card>
-                        </ng-container>
-                      </ng-container>
-                      <ng-container *ngIf="!hasTeam(sport)">
-                        <p class="text">Nessun team presente per questo sport</p>
-                      </ng-container>
-                    </div>
-                  </ng-template>
-                </mat-expansion-panel>
-              </mat-accordion>
-            
-          </ng-container>
-        </div>        
-    </div>
-</div>
-
-
+<!-- Visualizzazione mobile -->
+<ng-container *ngIf="isMobileOrMobileXLBreakpointActive">
+  <app-user-profile-mobile></app-user-profile-mobile>
+</ng-container>

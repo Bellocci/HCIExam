@@ -1,84 +1,167 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Observer, of } from 'rxjs';
-import { League } from 'src/decorator/League.model';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observable, Observer, Subscription, of } from 'rxjs';
 import { SessionStorageService } from './session-storage.service';
 import { LoadDataService } from './load-data.service';
-import { ObserverHelper } from 'src/utility/observer-helper';
+import { ObservableHelper } from 'src/utility/observable-helper';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
-import { Player } from 'src/decorator/player.model';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
+import { PlayerSearchRequestService } from './player-search-request.service';
 
+/**
+ * Servizio per la memorizzazione delle informazioni necessarie a livello di front-end
+ */
 @Injectable({
   providedIn: 'root'
 })
-export class InternalDataService {
+export class InternalDataService implements OnDestroy {
 
-  static readonly KEY_SESSION_LEAGUE_ID:string = "leagueId";
-  static readonly KEY_SESSION_PLAYER_ID:string = "playerId";
+  /*
+   * ==========
+   * VARIABILI
+   * ==========
+   */ 
 
-  private leagueSelected:ObserverHelper<League | null> = new ObserverHelper<League | null>(null);
-  private loadingData:ObserverHelper<boolean> = new ObserverHelper<boolean>(false);
-  private playerSelected:ObserverHelper<Player | null> = new ObserverHelper<Player | null>(null);
+  public static readonly KEY_SESSION_LEAGUE_ID:string = "leagueId";
+  public static readonly KEY_SESSION_PLAYER_ID:string = "playerId";
 
-  constructor(private sessionStorageLeague:SessionStorageService<number>,
-    private sessionStoragePlayer:SessionStorageService<number>,
-    private loadDataService:LoadDataService) {
+  private leagueSelected:ObservableHelper<LeagueEntity | null> = new ObservableHelper<LeagueEntity | null>(null);
+  private _subscriptionLeagueObservable : Subscription | undefined;
+  private playerSelected:ObservableHelper<PlayerEntity | null> = new ObservableHelper<PlayerEntity | null>(null);
+  private _subscriptionPlayerObservable : Subscription | undefined;
+  private loadingData:ObservableHelper<boolean> = new ObservableHelper<boolean>(false);
 
-    const leagueId:number | null = this.sessionStorageLeague.getData(InternalDataService.KEY_SESSION_LEAGUE_ID);
-    leagueId != null ? this.leagueSelected.setValue(this.loadDataService.loadLeagueById(leagueId)) : null;
-    this.updateSessionStorageLeague();
+  /*
+   * ========================
+   * CONSTRUCTOR & DESTROYER
+   * ========================
+   */
 
-    const playerId:number | null = this.sessionStoragePlayer.getData(InternalDataService.KEY_SESSION_PLAYER_ID);
-    playerId != null ? this.playerSelected.setValue(this.loadDataService.loadPlayerBydId(playerId)) : null;
-    this.updateSessionStoragePlayer();
+  constructor(private sessionStorage:SessionStorageService,
+    private loadDataService:LoadDataService,
+    private searchPlayersService:PlayerSearchRequestService) {
+
+    console.log("Construct the Internal data service");
+
+    const jsonLeagueId:string | null = this.sessionStorage.getData(InternalDataService.KEY_SESSION_LEAGUE_ID);
+    if(jsonLeagueId != null) {
+      const leagueId:number = JSON.parse(jsonLeagueId);
+      this.leagueSelected.setValue(this.loadDataService.loadLeagueById(leagueId));
+    }
+    this._subscriptionLeagueObservable = this.updateSessionStorageLeague();
+
+    const jsonPlayerId:string | null = this.sessionStorage.getData(InternalDataService.KEY_SESSION_PLAYER_ID);
+    if(jsonPlayerId != null) {
+      const playerId:number = JSON.parse(jsonPlayerId);
+      this.playerSelected.setValue(this.searchPlayersService.loadPlayerBydId(playerId));
+    }
+    this._subscriptionPlayerObservable = this.updateSessionStoragePlayer();
   }  
 
-  private updateSessionStorageLeague() : void {
-    this.leagueSelected.addObserver(new ObserverStepBuilder<League | null>()
+  ngOnDestroy(): void {
+    console.log("Destroy the Internal data service");
+    this.leagueSelected.destroy();
+    this.playerSelected.destroy();
+    this.loadingData.destroy();
+    this._subscriptionLeagueObservable != undefined ? this._subscriptionLeagueObservable?.unsubscribe() : null;
+    this._subscriptionPlayerObservable != undefined ? this._subscriptionPlayerObservable.unsubscribe() : null;
+  }
+
+  /*
+   * =================
+   * SESSION STORAGE
+   * =================
+   */ 
+
+  private updateSessionStorageLeague() : Subscription | undefined {
+    return this.leagueSelected.addObserver(new ObserverStepBuilder<LeagueEntity | null>()
       .next(league => {
-        league instanceof League ? this.sessionStorageLeague.saveData(InternalDataService.KEY_SESSION_LEAGUE_ID, league.getLeagueId()) :
-          this.sessionStorageLeague.saveData(InternalDataService.KEY_SESSION_LEAGUE_ID, null);
+        if(league != null) {
+          this.sessionStorage.saveData(InternalDataService.KEY_SESSION_LEAGUE_ID, league.leagueId.toString());
+        } else {
+          this.sessionStorage.removeData(InternalDataService.KEY_SESSION_LEAGUE_ID);
+        }        
       })
       .build()
     );
   }
 
-  private updateSessionStoragePlayer() : void {
-    this.playerSelected.addObserver(new ObserverStepBuilder<Player | null>()
+  private updateSessionStoragePlayer() : Subscription | undefined {
+    return this.playerSelected.addObserver(new ObserverStepBuilder<PlayerEntity | null>()
       .next(player => {
-        player instanceof Player ? this.sessionStoragePlayer.saveData(InternalDataService.KEY_SESSION_PLAYER_ID, player.getId()) :
-          this.sessionStoragePlayer.saveData(InternalDataService.KEY_SESSION_PLAYER_ID, null);
+        if(player != null) {
+          this.sessionStorage.saveData(InternalDataService.KEY_SESSION_PLAYER_ID, player.playerId.toString());
+        } else {
+          this.sessionStorage.removeData(InternalDataService.KEY_SESSION_PLAYER_ID);
+        }
       })
       .build()
     );
   }
+  
+  /*
+   * ==============================
+   * GESTIONE SELEZIONE CAMPIONATO
+   * ==============================
+   */
 
-  setLeagueSelected(league: League | null): void {
+  setLeagueSelected(league: LeagueEntity | null): void {
     this.leagueSelected.setValue(league);
   }  
 
-  addObserverToLeagueSelected(observer:Observer<League | null>) : void {
-    this.leagueSelected.addObserver(observer);
+  addObserverToLeagueSelected(observer:Observer<LeagueEntity | null>) : Subscription | undefined {
+    return this.leagueSelected.addObserver(observer);
   }
 
-  getLeagueSelected() : Observable<League | null> {
+  getObservableLeagueSelected() : Observable<LeagueEntity | null> {
     return this.leagueSelected.getObservable();
+  }  
+
+  getSelectedLeague() : LeagueEntity | null {
+    return this.leagueSelected.getValue();
   }
 
-  addObserverToLoadingData(observer: Observer<boolean>) : void {
-    this.loadingData.addObserver(observer);
+  /*
+   * ==============================
+   * GESTIONE GIOCATORE CAMPIONATO
+   * ==============================
+   */
+
+  addObserverToPlayerSelected(observer:Observer<PlayerEntity | null>) : Subscription | undefined {
+    return this.playerSelected.addObserver(observer);
+  }
+
+  getObservablePlayer() : Observable<PlayerEntity | null> {
+    return this.playerSelected.getObservable();
+  }
+
+  setPlayerSelected(player:PlayerEntity | null) : void {
+    this.playerSelected.setValue(player);
+  }
+
+  /*
+   * =================================
+   * GESTIONE ATTESA CARICAMENTO DATI
+   * =================================
+   */
+  
+  getLoadingDataObservable() : Observable<boolean> {
+    return this.loadingData.getObservable();
+  }
+
+  addObserverToLoadingData(observer: Observer<boolean>) : Subscription | undefined {
+    return this.loadingData.addObserver(observer);
   }
 
   setLoadingData(isLoading:boolean) : void {
     this.loadingData.setValue(isLoading);
   }
 
-  addObserverToPlayerSelected(observer:Observer<Player | null>) : void {
-    this.playerSelected.addObserver(observer);
-  }
-
-  setPlayerSelected(player:Player | null) : void {
-    this.playerSelected.setValue(player);
-  }
+  /*
+   * =================
+   * METODI GENERALI
+   * =================
+   */
 
   clearData() : void {
     this.leagueSelected.setValue(null);

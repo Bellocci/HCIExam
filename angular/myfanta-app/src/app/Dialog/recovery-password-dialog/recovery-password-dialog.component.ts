@@ -1,16 +1,26 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { DialogService } from 'src/app/service/dialog.service';
 import { UserService } from 'src/app/service/user.service';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
+import { DialogHelper } from '../dialogHelper.interface';
+import { Subscription } from 'rxjs';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 
 @Component({
   selector: 'app-recovery-password-dialog',
   templateUrl: './recovery-password-dialog.component.html',
-  styleUrls: ['./recovery-password-dialog.component.css'],
+  styleUrls: ['./recovery-password-dialog.component.scss'],
   encapsulation : ViewEncapsulation.None
 })
-export class RecoveryPasswordDialogComponent implements OnInit {
+export class RecoveryPasswordDialogComponent implements OnInit, OnDestroy {
+
+  /*
+   * ==========
+   * VARIABILI 
+   * ==========
+   */
 
   nameControl:FormControl<string | null> = new FormControl<string | null>('', {
     validators : [Validators.required]
@@ -24,28 +34,86 @@ export class RecoveryPasswordDialogComponent implements OnInit {
     validators : [Validators.required]
   });
 
-  private disableRecoveryPasswordBtn:boolean = true;
-  private password:string | undefined;
-  private showRecoveryPasswordError:boolean = false;
+  private _disableRecoveryPasswordBtn: boolean = true;  
+  private _password: string | undefined;  
+  private _showRecoveryPasswordError: boolean = false;  
+
+  private _isMobileBreakpointActive:boolean = false;
+  private _subscriptionMobileBreakpoint:Subscription;
+
+  /**
+   * =============================
+   * CONSTRUCTOR - INIT - DESTROY
+   * =============================
+   */
 
   constructor(private _userService:UserService,
-    private dialogService:DialogService) { }
+    private dialogService:DialogService, 
+    private breakpointsService:BreakpointsService) { 
+
+    console.log("Construct recovery password dialog component");
+
+    this._isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(window.innerWidth);
+    this._subscriptionMobileBreakpoint = this.observeMobileBreakpoint();
+  }  
 
   ngOnInit(): void { }
 
-  /* Getter */
-
-  getPassword() : string | undefined {
-    return this.password;
+  ngOnDestroy(): void {
+    console.log("Destroy recovery password dialog component");
+    this._subscriptionMobileBreakpoint.unsubscribe();
   }
 
-  /* Setter */
+  /**
+   * =========
+   * OBSERVER
+   * =========
+   */
 
-  disableRecoveryPassword() : void {
-    this.areInputsValid() ? this.disableRecoveryPasswordBtn = false : this.disableRecoveryPasswordBtn = true;
+  private observeMobileBreakpoint() : Subscription {
+    return this.breakpointsService.mobileObservable
+        .subscribe(new ObserverStepBuilder<boolean>()
+        .next((isMobile : boolean) => this._isMobileBreakpointActive = isMobile)
+        .error((error : any) => console.error("Error to get mobile breakpoint: " + error))
+        .complete( () => console.log("Mobile breakpoint observer completed"))
+        .build());
   }
 
-  /* Visibilità */
+  /**
+   * ================
+   * GETTER & SETTER
+   * ================
+   */
+
+  public get password(): string | undefined {
+    return this._password;
+  }
+
+  private set password(value: string | undefined) {
+    this._password = value;
+  }
+
+  public get showRecoveryPasswordError(): boolean {
+    return this._showRecoveryPasswordError;
+  }
+  
+  public set showRecoveryPasswordError(value: boolean) {
+    this._showRecoveryPasswordError = value;
+  }
+
+  public get disableRecoveryPasswordBtn(): boolean {
+    return this._disableRecoveryPasswordBtn;
+  }
+
+  public set disableRecoveryPasswordBtn(value: boolean) {
+    this._disableRecoveryPasswordBtn = value;
+  }
+
+  /*
+   * ===================
+   * METODI VISIBILITA' 
+   * ===================
+   */
 
   hasInputNameErrors() : boolean {
     return !this.nameControl.valid;
@@ -57,26 +125,26 @@ export class RecoveryPasswordDialogComponent implements OnInit {
 
   hasInputUsernameErrors() : boolean {
     return !this.usernameControl.valid;
-  }
-
-  private areInputsValid() : boolean {
-    return this.nameControl.valid && this.surnameControl.valid && this.usernameControl.valid;
-  }
-
-  isRecoveryPasswordBtnDisabled() : boolean {
-    return this.disableRecoveryPasswordBtn;
-  }
+  }  
 
   isRecoveryPasswordComplete() : boolean {
     return this.password != undefined;
   }
 
-  showRecoveryPasswordErrorMessage() : boolean {
-    return this.showRecoveryPasswordError;
+  /*
+   * =========
+   * LISTENER 
+   * =========
+   */
+
+  disableRecoveryPassword() : void {
+    this.disableRecoveryPasswordBtn = !this.areInputsValid();
   }
 
-  /* Metodi comunicazione con servizi */
-
+  /**
+   * Verifica se gli input sono validi e ricerca la password
+   * per i parametri inseriti
+   */
   recoveryPassword() : void {
     this.password = undefined;
     if(this.areInputsValid()) {
@@ -84,7 +152,7 @@ export class RecoveryPasswordDialogComponent implements OnInit {
       this.password = this._userService.recoveryPassword(
         this.nameControl.value!, this.surnameControl.value!, this.usernameControl.value!);
     }
-    !this.password ? this.showRecoveryPasswordError = true : this.showRecoveryPasswordError = false;
+    this.showRecoveryPasswordError = !this.password;
   } 
 
   /**
@@ -92,8 +160,13 @@ export class RecoveryPasswordDialogComponent implements OnInit {
    * apertura della LoginDialog
    */
   openLoginDialog() : void {
-    this.dialogService.getDialogHelper().closeDialog();
-    this.dialogService.getDialogHelper().openDialog(LoginDialogComponent);
+    let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
+    dialogHelper.closeDialog();
+    if(this._isMobileBreakpointActive) {     
+      dialogHelper.setWidth("100%");
+      dialogHelper.setHeight("100%");
+    } 
+    dialogHelper.openDialog(LoginDialogComponent);
   }
 
   /**
@@ -101,5 +174,15 @@ export class RecoveryPasswordDialogComponent implements OnInit {
    */
   closeDialog() : void {
     this.dialogService.getDialogHelper().closeDialog();
+  }
+
+  /*
+   * ===============
+   * METODI PRIVATI 
+   * ===============
+   */
+
+  private areInputsValid() : boolean {
+    return this.nameControl.valid && this.surnameControl.valid && this.usernameControl.valid;
   }
 }

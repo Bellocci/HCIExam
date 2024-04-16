@@ -1,227 +1,223 @@
-import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
-import { Option } from 'src/decorator/option/option.model';
-import { Player } from 'src/decorator/player.model';
-import { RolePlayer } from 'src/decorator/role-player.model';
-import { Team } from 'src/decorator/team.model';
-import { UserTeam } from 'src/decorator/userTeam.model';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observable, Observer, Subscription, of } from 'rxjs';
 import { MapHelper } from 'src/utility/map-helper';
-import { ObserverHelper } from 'src/utility/observer-helper';
+import { ObservableHelper } from 'src/utility/observable-helper';
 import { TableFilterOption } from '../components/table/table-filter';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
 import { RouterService } from './router.service';
 import { ValidationProblemBuilder } from 'src/utility/validation/ValidationProblemBuilder';
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
+import { RolePlayerEntity } from 'src/model/rolePlayerEntity.model';
+import { TeamEntity } from 'src/model/teamEntity.model';
+import { UserTeamEntity } from 'src/model/userTeamEntity.model';
+import { OptionEntity } from 'src/model/options/optionEntity.model';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
+import { LinkEnumIsCurrentPageVisitorWithReturn } from 'src/visitor/link-enum/LinkEnumIsCurrentPageVisitorWithReturn';
+import { LinkEnumObservablePlayersVisitorWithReturn } from 'src/visitor/link-enum/LinkEnumObservablePlayersVisitorWithReturn';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TeamDataService {
-
- /*
-  * Mappe per la gestione della Squadra, Giocatori Preferiti e Giocatori da escludere
-  */
-  private teamMap:MapHelper<number, Player> = new MapHelper<number, Player>(new Map());
-  private favoriteListMap:MapHelper<number, Player> = new MapHelper<number, Player>(new Map());
-  private blacklistMap:MapHelper<number, Player> = new MapHelper<number, Player>(new Map());  
+export class TeamDataService implements OnDestroy {
 
   /*
-   * Opzioni di ricerca per la creazione della squadra 
+   * ==========
+   * VARIABILI 
+   * ==========
    */
-  private option:ObserverHelper<Option | null> = new ObserverHelper<Option | null>(null);
+
+  // User Team selezionato
+  private selectedUserTeam:ObservableHelper<UserTeamEntity | undefined> = new ObservableHelper<UserTeamEntity | undefined>(undefined);
+
+  //  Opzioni di ricerca per la creazione della squadra 
+  private option:ObservableHelper<OptionEntity | null> = new ObservableHelper<OptionEntity | null>(null);
+
+  // Filtro dei giocatori presenti nella tabella 
+  private tableFilterOption:ObservableHelper<TableFilterOption> = new ObservableHelper(new TableFilterOption());
+
+  // Variabile che indica se sono presenti dei dati da salvare
+  private saveData:ObservableHelper<boolean> = new ObservableHelper<boolean>(false);
 
   /*
-   * Filtro dei giocatori presenti nella tabella 
+   * ========================
+   * CONSTRUCTOR & DESTROYER 
+   * ========================
    */
-  private tableFilterOption:ObserverHelper<TableFilterOption> = new ObserverHelper(new TableFilterOption());
 
-  constructor(private routerService:RouterService) { }
+  constructor(private routerService:RouterService) { 
+    console.log("Construct team data service");    
+  }
+  
+  ngOnDestroy(): void {
+    console.log("Destroy team data service");
+    this.selectedUserTeam.destroy();
+  }
 
-  /* METODI GENERICI */
+  /*
+   * =========
+   * OBSERVER 
+   * =========
+   */
+
+  setSelectedUserTeam(userTeam : UserTeamEntity | undefined) : void {
+    this.selectedUserTeam.setValue(userTeam);
+  }
+
+  addSelectedUserTeamObserver(observer:Observer<UserTeamEntity | undefined>) : Subscription | undefined {
+    return this.selectedUserTeam.addObserver(observer);
+  }
+
+  setSaveData(saveData : boolean) {
+    this.saveData.setValue(saveData);
+  }
+
+  addSaveDataObserver(observer:Observer<boolean>) : Subscription | undefined {
+    return this.saveData.addObserver(observer);
+  }
+
+  /*
+   * ======================================================
+   * METODI AGGIUNTA / RIMOZIONE GIOCATORI DALLA SQUADRA 
+   * ======================================================
+   */
 
   /**
-   * Dato il team, procede al popolamento delle liste dei giocatori
+   * Imposta il team selezionato
    * 
    * @param team 
    */
-  loadTeam(team:UserTeam) : void {
-    // Riporto alla situazione iniziale
-    this.clearAllList();
-    
-    // Aggiungo i giocatori del team  
-    team.getTeam().forEach(player => this.teamMap.addElementToMap(player.getId(), player));
-
-    // Aggiungo i giocatori preferiti
-    team.getFavoritList().forEach(player => this.favoriteListMap.addElementToMap(player.getId(), player));
-    
-    // Aggiungo i giocatori da escludere
-    team.getBlackList().forEach(player => this.blacklistMap.addElementToMap(player.getId(), player));
-
-    // Carico le opzioni
-    this.option.setValue(team.getOption());
+  loadTeam(userTeam:UserTeamEntity) : void {
+    this.setSelectedUserTeam(userTeam);
   }
 
   /**
-   * Svuota le liste del team, dei giocatori preferiti e dei giocatori esclusi
+   * Svuota la lista dei giocatori
    */
   clearAllList() : void {
-    // User Team
-    this.teamMap.clearMap();
-
-    // Favorite List
-    this.favoriteListMap.clearMap();
-
-    // Blacklist
-    this.blacklistMap.clearMap();
+    let userTeam:UserTeamEntity = this.selectedUserTeam.getValue()!;
+    
+    for(let userTeamPlayer of userTeam.userTeamPlayerList) {
+      userTeamPlayer.deleted = true;      
+    }    
   }
 
-  /* METODI SQUADRA UTENTE */
-
-  getUserTeamList() : Player[] {
-    return this.teamMap.getValues();
+  getObservableTeamsOfCurrentPage(page:LinkEnum) : Observable<PlayerEntity[]> {
+    return LinkEnum.visitAndReturn(page, new LinkEnumObservablePlayersVisitorWithReturn(this));
   }
 
-  addObserverToUserTeam(observer:Observer<Player[]>) {
-    this.teamMap.addObserver(observer);
-  }
-
-  getObservableOfUserTeam() : Observable<Player[]> {
-    return this.teamMap.getObservable();
-  }
-
-  addPlayerToMyTeam(player:Player) : ValidationProblem | null {
-    const added:boolean = this.teamMap.addElementToMap(player.getId(), player);      
-    if(!added) {
-      return new ValidationProblemBuilder()
-          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-          .withMessage("Errore durante l'inserimento del giocatore " + player.getName() + " nella lista della squadra")
-          .build();
+  getMyTeamList() : PlayerEntity[] {
+    let userTeam:UserTeamEntity | undefined = this.selectedUserTeam.getValue();
+    if(userTeam != undefined) {
+      return userTeam.userTeamPlayerList.filter(teamPlayer => !teamPlayer.deleted)
+          .filter(teamPlayer => teamPlayer.isIncludedInTeam)
+          .map(teamPlayer => teamPlayer.player);
     }
 
-    return null;
+    return [];
   }
 
-  userTeamHasPlayer(player:Player) : boolean {
-    return this.teamMap.hasElement(player.getId());
+  getObservableOfMyTeam() : Observable<PlayerEntity[]> {
+    return of(this.getMyTeamList());
+  }
+
+  addPlayerToMyTeam(player:PlayerEntity) : ValidationProblem | null {
+    // FIXME: invocazione API
+    return null
+  }
+
+  myTeamHasPlayer(player:PlayerEntity) : boolean {
+    return this.getMyTeamList().find(teamPlayer => teamPlayer.equals(player)) != undefined;
   }
 
   clearUserTeam() : void {
-    this.teamMap.clearMap();
+    // FIXME: invocazione API
   }
 
-  removePlayerFromUserTeam(player:Player) : ValidationProblem | null {
-    const removed:boolean = this.teamMap.removeElement(player.getId());
-    if(!removed) {
-      return new ValidationProblemBuilder()
-          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-          .withMessage("Errore durante la rimozione del giocatore " + player.getName() + " dalla lista della squadra")
-          .build()
-    }    
-    
+  removePlayerFromUserTeam(player:PlayerEntity) : ValidationProblem | null {
+    // FIXME: invocazione API
     return null;
   }
 
   /* METODI LISTA GIOCATORI PREFERITI */
 
-  getFavoritePlayersList() : Player[] {
-    return this.favoriteListMap.getValues();
+  getFavoritePlayersList() : PlayerEntity[] {
+     // FIXME: invocazione API
+    let userTeam:UserTeamEntity | undefined = this.selectedUserTeam.getValue();
+    if(userTeam != undefined) {
+      return userTeam.userTeamPlayerList.filter(teamPlayer => !teamPlayer.deleted)
+          .filter(teamPlayer => teamPlayer.isIncludedInFavoriteList)
+          .map(teamPlayer => teamPlayer.player);
+    }
+
+    return [];
   }
 
-  addObserverToFavoriteList(observer:Observer<Player[]>) {
-    this.favoriteListMap.addObserver(observer);
+  getObservableOfFavoriteList() : Observable<PlayerEntity[]> {
+    return of(this.getFavoritePlayersList());
   }
 
-  getObservableOfFavoriteList() : Observable<Player[]> {
-    return this.favoriteListMap.getObservable();
-  }
-
-  addPlayerToFavoriteList(player:Player) : ValidationProblem | null {
-    const added:boolean = this.favoriteListMap.addElementToMap(player.getId(), player);
-    if(!added) {
-      return new ValidationProblemBuilder()
-          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-          .withMessage("Errore durante l'inserimento del giocatore " + player.getName() + " nella lista dei preferiti")
-          .build();
-    } 
-    
+  addPlayerToFavoriteList(player:PlayerEntity) : ValidationProblem | null {
+     // FIXME: invocazione API    
     return null;
   }
 
-  favoriteListHasPlayer(player:Player) {
-    return this.favoriteListMap.hasElement(player.getId());
+  favoriteListHasPlayer(player:PlayerEntity) {
+    return this.getFavoritePlayersList().find(teamPlayer => teamPlayer.equals(player)) != undefined;
   }
 
   clearFavoritList() : void {
-    this.favoriteListMap.clearMap();
+    // FIXME: invocazione API    
   }
 
-  removePlayerFromFavoriteList(player:Player) : ValidationProblem | null {
-    const removed:boolean = this.favoriteListMap.removeElement(player.getId());
-    if(!removed) {
-      return new ValidationProblemBuilder()
-          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-          .withMessage("Errore durante la rimozione del giocatore " + player.getName() + " dalla lista dei preferiti")
-          .build();
-    }
-
+  removePlayerFromFavoriteList(player:PlayerEntity) : ValidationProblem | null {
+    // FIXME: invocazione API    
     return null;
   }
 
   /* METODI LISTA GIOCATORI ESCLUSI */
 
-  getBlacklistPlayers() : Player[] {
-    return this.blacklistMap.getValues();
+  getBlacklistPlayers() : PlayerEntity[] {
+     // FIXME: invocazione API
+     let userTeam:UserTeamEntity | undefined = this.selectedUserTeam.getValue();
+     if(userTeam != undefined) {
+       return userTeam.userTeamPlayerList.filter(teamPlayer => !teamPlayer.deleted)
+           .filter(teamPlayer => teamPlayer.isIncludedInBlacklist)
+           .map(teamPlayer => teamPlayer.player);
+     }
+ 
+     return [];
   }
 
-  addObserverToBlacklist(observer:Observer<Player[]>) {
-    this.blacklistMap.addObserver(observer);
+  getObservableOfBlacklist() : Observable<PlayerEntity[]> {
+    return of(this.getBlacklistPlayers());
   }
 
-  getObservableOfBlacklist() : Observable<Player[]> {
-    return this.blacklistMap.getObservable();
-  }
-
-  addPlayerToBlacklist(player:Player) : ValidationProblem | null {
-    const added:boolean = this.blacklistMap.addElementToMap(player.getId(), player);
-    if(!added) {
-      return new ValidationProblemBuilder()
-          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-          .withMessage("Errore durante l'inserimento del giocatore " + player.getName() + " nella lista dei giocatori da escludere")
-          .build();
-    }
-
+  addPlayerToBlacklist(player:PlayerEntity) : ValidationProblem | null {
+    // FIXME: invocazione API
     return null;
   }
 
-  blacklistHasPlayer(player:Player) {
-    return this.blacklistMap.hasElement(player.getId());
+  blacklistHasPlayer(player:PlayerEntity) {
+    return this.getBlacklistPlayers().find(teamPlayer => teamPlayer.equals(player)) != undefined;
   }
 
   clearBlacklist() : void {
-    this.blacklistMap.clearMap();
+    // FIXME: invocazione API
   }
 
-  removePlayerFromBlacklist(player:Player) : ValidationProblem | null {
-    let validationProblemList:ValidationProblem[] = [];
-    const removed:boolean = this.blacklistMap.removeElement(player.getId());
-    if(!removed) {
-      return new ValidationProblemBuilder()
-          .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-          .withMessage("Errore durante la rimozione del giocatore " + player.getName() + " dalla lista dei giocatori da escludere")
-          .build();
-    }
-
+  removePlayerFromBlacklist(player:PlayerEntity) : ValidationProblem | null {
+    // FIXME: invocazione API
     return null;
   }
 
   /* METODI OPZIONI DI RICERCA */
 
-  addObserverToOption(observer:Observer<Option | null>) : void {
-    this.option.addObserver(observer);
+  addObserverToOption(observer:Observer<OptionEntity | null>) : Subscription | undefined {
+    return this.option.addObserver(observer);
   }
 
-  setOption(option:Option | null) : void {
+  setOption(option:OptionEntity | null) : void {
     this.option.setValue(option);
   }
 
@@ -229,11 +225,11 @@ export class TeamDataService {
    * METODI FILTRAGGIO GIOCATORI NELLA TABELLA 
    */  
 
-  addObserverToTableFilterOption(observer:Observer<TableFilterOption>) : void {
-    this.tableFilterOption.addObserver(observer);
+  addObserverToTableFilterOption(observer:Observer<TableFilterOption>) : Subscription | undefined {
+    return this.tableFilterOption.addObserver(observer);
   }
 
-  filterPlayersByRole(role:RolePlayer) : void {
+  filterPlayersByRole(role:RolePlayerEntity) : void {
     let tableFilter:TableFilterOption = this.tableFilterOption.getValue();
     tableFilter.updateRoles(role);
     this.tableFilterOption.setValue(tableFilter);
@@ -245,7 +241,7 @@ export class TeamDataService {
     this.tableFilterOption.setValue(tableFilter);
   }
 
-  filterPlayersByTeams(team:Team) : void {
+  filterPlayersByTeams(team:TeamEntity) : void {
     let tableFilter:TableFilterOption = this.tableFilterOption.getValue();
     tableFilter.updateTeams(team);
     this.tableFilterOption.setValue(tableFilter);

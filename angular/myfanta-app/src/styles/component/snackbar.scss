@@ -1,0 +1,86 @@
+@use "src/styles/global/styles";
+@use "src/styles/angular-component/buttons";
+@import "src/styles/global/variables";
+@import "src/styles/global/breakpoints";
+@import "src/styles/global/colors";
+
+.snackbar {
+
+    &-position {
+        position: fixed;
+        top: calc($toolbar-height-mobile + 10px);
+        right: 10px;
+        z-index: 100;
+
+        &-double-top {
+            position: fixed;
+            top: calc($toolbar-height-mobile * 2 + 10px);
+            right: 10px;
+            z-index: 100;
+        }
+    }    
+
+    &-container {
+        width: 100%;    
+        border-radius: 8px;
+        max-width: 300px;    
+    }
+
+    &-info {
+        background-color: $primary-color-light;
+        color: black;
+    }
+
+    &-warning {
+        background-color: $secondary-color-light;
+        color: black;
+        opacity: 0.8 !important;
+    }
+
+    &-error {
+        background-color: $info-error-color;
+        color: #fff;
+    }
+}
+
+@media (min-width: $mobileXL-breakpoint) {
+
+    .snackbar {
+        
+        &-container {
+            max-width: none;
+        }
+    }
+}
+
+@media (min-width: $tablet-breakpoint) {
+
+    .snackbar {
+        
+        &-position {
+            top: calc($toolbar-height-tablet + 10px);
+            right: 30px;
+
+            &-double-top {
+                top: calc($toolbar-height-tablet * 2 + 10px);
+                right: 30px;
+            }
+        }
+    }
+}
+
+@media (min-width: $laptop-breakpoint) {
+
+    .snackbar {
+        
+        &-position {
+            top: calc($toolbar-height + 10px);
+            right: 30px;
+
+            &-double-top {
+                top: calc($toolbar-height * 2 + 10px);
+                right: 30px;
+            }
+        }
+    }
+}

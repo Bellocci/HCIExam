@@ -1,117 +1,84 @@
-<!-- Titolo -->
-<div class="primary-color flex-container flex-direction-column title-container">
-    <h1 class="title-font title-animation">FantasyTeam</h1>
-    <h2 class="subtitle-font">
-        Scegli lo sport e crea la squadra dei sogni che ti condurrà alla vittoria
-    </h2>
+<!-- Titolo e Sottotitolo-->
+<div class="primary-color margin-bottom title-container">
+
+    <div class="flex-center-wrap">
+        <h1 class="title-font title-animation">FantasyTeam</h1>
+    </div>
+
+    <div class="flex-center-wrap"
+        [ngClass]="isMobileOrMobileXLBreakpointActive ? ['small-container'] : ['padding-large-top']">
+        <h2 class="bold title-animation txt-center">
+            Crea la squadra che ti porterà alla vittoria
+        </h2>
+    </div>
 </div>
 
 
-<!-- Contenuto pagina home -->
-<div class="flex-container">
+<!-- Introduzione al sito -->
+<div class="full-width container-standard">
 
-    <!-- Margine sinistro -->
-    <div class="margin-page-container"></div>
-
-    <!-- Contenuto pagina -->
-    <div class="page-container">
-        
+    <div class="margin-xl">
         <p class="text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore 
-            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip 
-            ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
-            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+            ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
             mollit anim id est laborum.
         </p>
+    </div>
 
-        <h2 class="txt-title-paragraph txt-center">
-            Completa le scelte e inizia subito a creare la tua squadra
-        </h2>
+    <!-- Visualizzazione sport -->
+    <div class="margin-xl">
 
-        <div class="expansion-panel-container flex-container flex-wrap space-between">
+        <div
+            [ngClass]="isMobileOrMobileXLBreakpointActive ? ['flex-direction-column','flex-center-wrap'] : ['flex-space-between','align-top']">
             <ng-container *ngFor="let sport of getSports()">
 
-                <mat-accordion multi>
-                    
-                    <mat-expansion-panel class="expansion-panel secondary-color">
-                        <mat-expansion-panel-header collapsedHeight="80px">
-                            <mat-panel-title class="expansion-panel-header text">{{ sport.description }}</mat-panel-title>
-                        </mat-expansion-panel-header>
+                <mat-expansion-panel class="expansion-panel"
+                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'container-small' : 'margin'">
+                    <mat-expansion-panel-header collapsedHeight="70px">
+                        <mat-panel-title class="expansion-panel-header text">{{ sport.description }}</mat-panel-title>
+                    </mat-expansion-panel-header>
 
-                        <!-- Lazy rendering -->
-                        <ng-template matExpansionPanelContent>
-                            <!-- Championship expansion panel per uno specifico sport -->
-                            <ng-container *ngFor="let championship of getChampionships(sport); let indexChamp = index;">
-                                <mat-expansion-panel [expanded]="false">
-                                    <mat-expansion-panel-header>
-                                        <mat-panel-title>
-                                            <div class="label">
-                                                {{ championship.description }}
-                                            </div>
-                                        </mat-panel-title>
-                                    </mat-expansion-panel-header>
+                    <!-- Lazy rendering -->
+                    <ng-template matExpansionPanelContent>
+                        <!-- Championship expansion panel per uno specifico sport -->
+                        <ng-container *ngFor="let championship of getChampionships(sport); let indexChamp = index;">
+                            <mat-expansion-panel [expanded]="false">
+                                <mat-expansion-panel-header class="no-color">
+                                    <mat-panel-title>
+                                        <div class="label">
+                                            {{ championship.description }}
+                                        </div>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
 
-                                    <!-- Lazy rendering -->
-                                    <ng-template matExpansionPanelContent>
-                                        <!-- Elenco leghe per uno specifico sport e campionato -->
-                                        <ng-container *ngFor="let league of getLeagues(sport, championship)">
-                                            <mat-panel-description>
-                                                <ul>
-                                                    <li>
-                                                        <a mat-list-item
-                                                        class="link"
+                                <!-- Lazy rendering -->
+                                <ng-template matExpansionPanelContent>
+                                    <!-- Elenco leghe per uno specifico sport e campionato -->
+                                    <ng-container *ngFor="let league of getLeagues(sport, championship)">
+                                        <mat-panel-description>
+                                            <ul class="full-width">
+                                                <li class="full-width">
+                                                    <a mat-list-item class="link"
                                                         (click)="selectedLeagueListener(league);">
-                                                            <span class="text link"> {{ league.getName() }} </span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </mat-panel-description>
-                                        </ng-container>
-                                    </ng-template>
+                                                        <span class="text link"> {{ league.name }} </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </mat-panel-description>
+                                    </ng-container>
+                                </ng-template>
 
-                                </mat-expansion-panel>
-                            </ng-container>
-                        </ng-template>
-                    </mat-expansion-panel>
-                </mat-accordion>
-
+                            </mat-expansion-panel>
+                        </ng-container>
+                    </ng-template>
+                </mat-expansion-panel>
             </ng-container>
+
         </div>
     </div>
 
-    <!-- Margine destro -->
-    <div class="margin-page-container"></div>
+
 
 </div>
-
-
-<!--
-<div class="padding-home grid-expansion-panel">  
-    <div *ngFor="let sport of sportsList">
-        <button mat-raised-button
-        class="primary-color mat-elevation-z6 btn-color text btn-width text-interactive"
-        [ngClass]="!isActiveBtn(sport.sportName) ? 'btn-sport-close' : 'btn-sport-open'"
-        (click)="toggleSportBtn($event.target)">
-            <span class="txt-btn">{{sport.sportName}}</span>
-            <mat-icon class="icon-btn arrow-down-animation"
-            [ngClass]="isActiveBtn(sport.sportName) ? 'icon-open-btn' : 'icon-close-btn'"
-            (click)="toggleSportBtnFromIcon($event.target)">keyboard_arrow_down</mat-icon>
-        </button>
-        <div class="mat-elevation-z6 btn-width">
-            <div *ngFor="let champ of championshipsList">
-                <div class="color" 
-                [@champListAnimation]="isActiveBtn(sport.sportName) ? 'openList' : 'closeList'">
-                    <a mat-list-item class="txt-btn text-interactive link"
-                    [@champElement]="isActiveBtn(sport.sportName) ? 'show' : 'hide'"
-                    *ngIf="filterChampionship(champ, sport) && isActiveBtn(sport.sportName)"
-                    (click)="setActivePage('Create team')"
-                    routerLink="createTeam">
-                        <mat-icon class="icon-champ">arrow_right</mat-icon>
-                        {{ champ.championshipName }}
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
--->

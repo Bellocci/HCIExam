@@ -1,0 +1,80 @@
+@import "src/styles/global/breakpoints";
+@import "src/styles/global/variables";
+@import "src/styles/component/snackbar";
+
+/*
+========
+TOOLBAR 
+========
+*/
+
+.toolbar {
+    
+    & {
+        position: sticky;
+        top: 0;
+        z-index: 100;    
+        min-height: $toolbar-height-mobile;
+    }
+
+    &-row {
+        padding: 0;
+        height: $toolbar-height-mobile;
+        min-height: $toolbar-height-mobile;
+    }
+}
+
+@media (min-width: $tablet-breakpoint) {
+
+    .toolbar {
+
+        & {
+            min-height: $toolbar-height-tablet;
+        }
+
+        &-row {
+            height: $toolbar-height-tablet;
+            min-height: $toolbar-height-tablet;
+        }
+    }
+}
+
+@media (min-width: $laptop-breakpoint) {
+
+    .toolbar {      
+        
+        & {
+            min-height: $toolbar-height;
+        }
+
+        &-row {
+            height: $toolbar-height;
+            min-height: $toolbar-height;
+        }
+    }
+}
+
+/*
+ * ========
+ * SIDENAV
+ * ========
+ */
+
+.sidenav {
+
+    & {
+        max-width: 250px;
+        width: 100%;
+    }
+
+    &-container {
+        height: 100%;    
+    }
+}
+
+@media (max-width: $mobileXL-breakpoint) {
+
+    .sidenav {
+        width: calc(100% - 100px);
+    }
+}

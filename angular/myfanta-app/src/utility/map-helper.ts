@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Observer } from "rxjs";
+import { BehaviorSubject, Observable, Observer, Subscription } from "rxjs";
 
 export class MapHelper<K, T> {
 
@@ -6,14 +6,13 @@ export class MapHelper<K, T> {
 
     private map:Map<K,T> = new Map<K, T>(this.initialMapState);
     private values:BehaviorSubject<T[]> = new BehaviorSubject<T[]>([... this.map.values()]);
-    private observable:Observable<T[]> = this.values.asObservable();
 
-    addObserver(observer: Observer<T[]>) {
-        this.observable.subscribe(observer);
+    addObserver(observer: Observer<T[]>) : Subscription {
+        return this.values.subscribe(observer);
     }
 
     getObservable() : Observable<T[]> {
-        return this.observable;
+        return this.values.asObservable();
     }
 
     getValues() : T[] {
@@ -48,5 +47,15 @@ export class MapHelper<K, T> {
         let result:boolean = this.map.delete(key);
         this.values.next([... this.map.values()]);
         return result;
+    }
+
+    destroy() : void {
+        this.map.clear();
+        this.values.unsubscribe();
+    }
+
+    complete() : void {
+        this.map.clear();
+        this.values.complete();
     }
 }

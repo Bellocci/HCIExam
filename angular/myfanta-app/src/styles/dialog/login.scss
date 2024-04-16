@@ -1,0 +1,19 @@
+@use "src/styles/global/styles";
+@use "src/styles/angular-component/buttons";
+@use "src/styles/angular-component/input";
+@use "src/styles/angular-component/form";
+@use "src/styles/dialog/dialog-standard";
+@import "src/styles/global/breakpoints";
+@import "src/styles/global/colors";
+
+/* IMMAGINE */
+
+.img-login-container {
+    max-width: 120px;
+    max-height: 120px;
+
+    .img-login {
+        width: 100%;
+        height: 100%;
+    }
+}

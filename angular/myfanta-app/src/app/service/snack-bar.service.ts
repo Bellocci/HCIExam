@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
-import {MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { Injectable, OnDestroy } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
 import { ValidationProblem } from 'src/utility/validation/ValidationProblem';
-import { CustomSnackbarComponent } from '../components/custom-snackbar/custom-snackbar.component';
+import { ObservableHelper } from 'src/utility/observable-helper';
+import { Observable, Observer, Subscription } from 'rxjs';
 
 export interface SnackBarData {
-  type : SnackBarDataTypeEnum;
-  message : string;
+  type: SnackBarDataTypeEnum;
+  message: string;
 }
 
 class SnackBarDataImpl implements SnackBarData {
@@ -14,7 +15,7 @@ class SnackBarDataImpl implements SnackBarData {
   type: SnackBarDataTypeEnum;
   message: string;
 
-  constructor(private _type:SnackBarDataTypeEnum, private _message:string) {
+  constructor(private _type: SnackBarDataTypeEnum, private _message: string) {
     this.type = _type;
     this.message = _message;
   }
@@ -23,57 +24,141 @@ class SnackBarDataImpl implements SnackBarData {
 @Injectable({
   providedIn: 'root'
 })
-export class SnackBarService {
+export class SnackBarService implements OnDestroy {
 
-  constructor(private _snackBar:MatSnackBar) { }
-  
-  private _config:MatSnackBarConfig = {
-    duration : 5 * 1000,
-    horizontalPosition : 'right',
-    verticalPosition : 'top',
+  /*
+   * ==========
+   * VARIABILI 
+   * ==========
+   */
+
+  // Tempo default visibilità snackbar message
+  public static readonly SNACKBAR_TIME_MESSAGE_DEFAULT : number = 5000; // 5s
+
+  private _isSnackBarVisible: ObservableHelper<boolean> = new ObservableHelper<boolean>(false);
+  private _message: ObservableHelper<String> = new ObservableHelper<String>("");
+  private _type: ObservableHelper<SnackBarDataTypeEnum> = new ObservableHelper<SnackBarDataTypeEnum>(SnackBarDataTypeEnum.INFO_TYPE);
+
+  /*
+   * ==========================
+   * COSTRUTTORE E DISTRUTTORE
+   * ==========================
+   */
+
+  constructor(private _snackBar: MatSnackBar) {
+    console.log("Construct Snack Bar service");
   }
 
-  openSnackBar(message:ValidationProblem) : void {
+  ngOnDestroy(): void {
+    console.log("Destroy Snack Bar service");
+    this._isSnackBarVisible.destroy();
+    this._message.destroy();
+    this._type.destroy();
+  }
+
+  /*
+   * =========
+   * LISTENER 
+   * =========
+   */
+
+  addObserverToSnackBarVisible(observer: Observer<boolean>): Subscription | undefined {
+    return this._isSnackBarVisible.addObserver(observer);
+  }
+
+  getSnackBarVisibleObservable(): Observable<boolean> {
+    return this._isSnackBarVisible.getObservable();
+  }
+
+  isSnackBarVisible(): boolean {
+    return this._isSnackBarVisible.getValue();
+  }
+
+  setSnackBarVisible(isVisible: boolean): void {
+    console.log("Snackbar visible : " + isVisible);
+    this._isSnackBarVisible.setValue(isVisible);
+  }  
+
+  addObserverToMessage(observer: Observer<String>) : Subscription | undefined {
+    return this._message.addObserver(observer);
+  }
+
+  getMessageObservable() : Observable<String> {
+    return this._message.getObservable();
+  }
+
+  getMessage() : String {
+    return this._message.getValue();
+  }
+
+  setMessage(message:String) {
+    this._message.setValue(message);
+  }
+
+  addObserverToType(observer: Observer<SnackBarDataTypeEnum>) : Subscription | undefined {
+    return this._type.addObserver(observer);
+  }
+
+  getTypeObservable() : Observable<SnackBarDataTypeEnum> {
+    return this._type.getObservable();
+  }
+
+  getType() : SnackBarDataTypeEnum {
+    return this._type.getValue();
+  }
+
+  setType(type:SnackBarDataTypeEnum) {
+    this._type.setValue(type);
+  }
+
+  openSnackBar(message: ValidationProblem, snackbarMessageTime?:number): void {
+    let time:number = snackbarMessageTime != undefined ? snackbarMessageTime : SnackBarService.SNACKBAR_TIME_MESSAGE_DEFAULT;
+
     switch (message.getProblemType()) {
       case SnackBarDataTypeEnum.INFO_TYPE:
-        this.openInfoSnackBar(message.getMessage());
+        this.openInfoSnackBar(message.getMessage(), time);
         break;
-      
+
       case SnackBarDataTypeEnum.WARNING_TYPE:
-        this.openWarningSnackBar(message.getMessage());
+        this.openWarningSnackBar(message.getMessage(), time);
         break;
 
       case SnackBarDataTypeEnum.ERROR_TYPE:
-        this.openErrorSnackBar(message.getMessage());
+        this.openErrorSnackBar(message.getMessage(), time);
         break;
 
       default:
-        this.openInfoSnackBar(message.getMessage());
-    } 
+        this.openInfoSnackBar(message.getMessage(), time);
+    }
   }
 
-  openInfoSnackBar(textMessage:string) {
-    this._config.panelClass = ['snackbar', 'info-snackbar'];
-    this._config.data = new SnackBarDataImpl(SnackBarDataTypeEnum.INFO_TYPE, textMessage);
-    this._snackBar.openFromComponent(CustomSnackbarComponent, this._config);
+  openInfoSnackBar(textMessage: string, snackbarMessageTime?:number) {
+    let time:number = snackbarMessageTime != undefined ? 
+        snackbarMessageTime : 
+        SnackBarService.SNACKBAR_TIME_MESSAGE_DEFAULT;
+    this._message.setValue(textMessage);
+    this._type.setValue(SnackBarDataTypeEnum.INFO_TYPE);
+    this.setSnackBarVisible(true);
+    setTimeout(() => this.setSnackBarVisible(false), time);
   }
 
-  openInfoWithCustomDurationSnackBar(textMessage:string, duration:number) {
-    this._config.panelClass = ['snackbar', 'info-snackbar'];
-    this._config.duration = duration;
-    this._config.data = new SnackBarDataImpl(SnackBarDataTypeEnum.INFO_TYPE, textMessage);
-    this._snackBar.openFromComponent(CustomSnackbarComponent, this._config);
+  openWarningSnackBar(textMessage: string, snackbarMessageTime?:number): void {
+    let time:number = snackbarMessageTime != undefined ? 
+        snackbarMessageTime : 
+        SnackBarService.SNACKBAR_TIME_MESSAGE_DEFAULT;
+    this._message.setValue(textMessage);
+    this._type.setValue(SnackBarDataTypeEnum.WARNING_TYPE);
+    this.setSnackBarVisible(true);
+    setTimeout(() => this.setSnackBarVisible(false), time);
   }
 
-  openWarningSnackBar(textMessage:string) : void {
-    this._config.panelClass = ['snackbar', 'warning-snackbar'];
-    this._config.data = new SnackBarDataImpl(SnackBarDataTypeEnum.WARNING_TYPE, textMessage);
-    this._snackBar.openFromComponent(CustomSnackbarComponent, this._config);
-  }
-
-  openErrorSnackBar(textMessage:string) {
-    this._config.panelClass = ['snackbar', 'error-snackbar'];
-    this._config.data = new SnackBarDataImpl(SnackBarDataTypeEnum.ERROR_TYPE, textMessage);
-    this._snackBar.openFromComponent(CustomSnackbarComponent, this._config);
+  openErrorSnackBar(textMessage: string, snackbarMessageTime?:number) {
+    let time:number = snackbarMessageTime != undefined ? 
+        snackbarMessageTime : 
+        SnackBarService.SNACKBAR_TIME_MESSAGE_DEFAULT;
+    this._message.setValue(textMessage);
+    this._type.setValue(SnackBarDataTypeEnum.ERROR_TYPE);
+    this.setSnackBarVisible(true);
+    setTimeout(() => this.setSnackBarVisible(false), time);
   }
 }

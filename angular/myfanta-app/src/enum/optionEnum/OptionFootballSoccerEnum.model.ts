@@ -1,7 +1,19 @@
-import { StandardOptionEnum } from "./StandardOptionEnum.model";
+import { PlayerEntity } from "src/model/playerEntity.model";
+import { TeamEntity } from "src/model/teamEntity.model";
 
-export class OptionFootballSoccerEnum {
 
+
+export class OptionFootballSoccer {
+
+    private _teams:TeamEntity[] = [];
+    private _playersToInclude:PlayerEntity[] = [];
+    private _playerToExclude:PlayerEntity[] = [];
+
+    constructor() {
+
+    }
+
+    /*
     public static readonly TEAMS = new OptionFootballSoccerEnum("Selected Teams", StandardOptionEnum.ALL.value);
     public static readonly PLAYERS = new OptionFootballSoccerEnum("Selected Players",StandardOptionEnum.ALL.value);
     public static readonly MIN_AGE = new OptionFootballSoccerEnum("Eta minima", 18);
@@ -16,4 +28,5 @@ export class OptionFootballSoccerEnum {
     private constructor(public readonly label:string, 
         public readonly value: string | number, 
         public readonly shortName?:string) {}
+        */
 }

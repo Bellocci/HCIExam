@@ -1,0 +1,68 @@
+@use "src/styles/global/styles";
+@use "src/styles/angular-component/expansion-panel";
+@import "src/styles/global/variables";
+@import "src/styles/global/breakpoints";
+
+
+.title-container {
+    padding: 32px;
+    padding: 2rem;
+    
+    padding-bottom: 16px;
+    padding-bottom: 1rem;
+}
+
+.title-font {
+    font-size: 30px;
+    font-family: fantasy;
+    font-style: italic;
+}
+
+@media (min-width: $mobileXL-breakpoint) {    
+
+    .title-font {
+        font-size: 38px;
+    }
+}
+
+@media (min-width: $tablet-breakpoint) {
+
+    .title-container {
+        padding-top: 64px;
+        padding-top: 4rem;
+    }
+
+    .title-font {
+        font-size: 46px;
+    }
+}
+
+@media (min-width: $laptop-breakpoint) {
+
+    .title-container {
+        padding-top: 80px;
+        padding-top: 5rem;
+    }
+
+    .title-font {
+        font-size: 52px;
+    }
+}
+
+@media (min-width: $large-device-breakpoint) {
+
+    .title-font {
+        font-size: 60px;
+    }
+}
+
+.title-animation {
+    animation-name: show-title;
+    animation-duration: 1.5s;
+    animation-timing-function: linear;
+}
+
+@keyframes show-title {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}

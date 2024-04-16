@@ -1,120 +1,202 @@
 <!-- Filtro smart -->
 <mat-expansion-panel expanded="true">
     <mat-expansion-panel-header>
-        <mat-panel-title>Opzioni di ricerca</mat-panel-title>
-        <mat-panel-description>
-            Seleziona i parametri di ricerca dei giocatori
-        </mat-panel-description>
+        <mat-panel-title><span class="text">Opzioni di ricerca giocatori</span></mat-panel-title>
     </mat-expansion-panel-header>
-    
+
     <!-- Sezione filtri di ricerca -->
-    <div class="filter-container">
+    <div [ngClass]="isMobileOrMobileXLBreakpointActive ? 'padding' : 'padding-large'">
 
-        <!-- Prima riga -->
-        <mat-grid-list cols="6" rowHeight="80px">
-
-            <!-- Budget -->
-            <mat-grid-tile colspan="2" rowspan="1">                
-                <div class="flex-direction-column grid-container">
-                    <label class="label mb-10px">Budget</label>
-                    <input matInput type="number"                
-                        class="label input-container"
+        <!-- Verione standard -->
+        <div *ngIf="!isMobileOrMobileXLBreakpointActive">
+            
+            <!-- Prima riga -->
+            <div class="flex-center">
+    
+                <!-- Budget -->
+                <div class="cell-static-2of12 flex-direction-column margin">
+                    <label class="top-label">Budget</label>
+                    <input matInput type="number" class="input-native-responsive input-native-number hide-up-down-number label" 
                         min="0" step="1"
-                        [disabled]="option.includeAdvancedFilter"
-                        (blur)="checkBudgetValue()"
-                        [(ngModel)]="option.budget">
+                        [disabled]="option.includeAdvancedFilter" 
+                        (blur)="checkBudgetValue()">
                 </div>
-            </mat-grid-tile>
+    
+                <!-- Valutazione media squadra -->
+                <div class="cell-static-2of12 flex-direction-column margin">
+                    <label class="top-label">FMV</label>
+                    <input matInput type="number" class="input-native-responsive input-native-number hide-up-down-number label" 
+                        min="0" step="1"
+                        [disabled]="option.includeAdvancedFilter">
+                </div>
 
-            <!-- Età -->
-            <mat-grid-tile colspan="2" rowspan="1">
-                <div class="flex-direction-column grid-container">
-                    <label class="label mb-10px">Età</label>
-                    <div class="flex-container align-items-center">
-                        <label class="label">Da</label>
-                        <input matInput type="number"
-                            class="label ml-10px mr-10px small-input input-container"
-                            min="18" [max]="option.maxAge" step="1"
-                            [disabled]="option.includeAdvancedFilter"
-                            (blur)="checkMinAgeValue()"
-                            [(ngModel)]="option.minAge">
-                        <label class="label">A</label>
-                        <input matInput type="number"
-                            class="label ml-10px small-input input-container"
-                            [min]="option.minAge" max="99" step="1"
-                            [disabled]="option.includeAdvancedFilter"
-                            (blur)="checkMaxAgeValue()"
-                            [(ngModel)]="option.maxAge">
+                <!-- Spzio vuoto -->
+                <div class="cell-static-1of12"></div>
+    
+                <!-- Giocatori preferiti / escludere -->
+                <div class="cell-static-4of12 flex-center">
+    
+                    <div class="flex-direction-column">
+                        <label class="top-label">Giocatori</label>
+                        <div class="full-width flex-center">
+
+                            <div class="full-width flex-center">
+                                <label class="label" style="width: 80px;">Preferiti:</label>
+                                <mat-checkbox color="primary"
+                                    [disabled]="option.includeAdvancedFilter"
+                                    (change)="checkFavoritePlayersAreIncluded($event.checked)">                                    
+                                </mat-checkbox>
+                            </div>
+
+                            <div class="full-width flex-center margin-left">
+                                <label class="label" style="width: 80px;">Esclusi:</label>
+                                <mat-checkbox color="primary"
+                                    [disabled]="option.includeAdvancedFilter"
+                                    (change)="checkBlacklistPlayersAreIncluded($event.checked)">
+                                </mat-checkbox>
+                            </div>
+                            
+                        </div>
                     </div>
                 </div>
-            </mat-grid-tile>
-
-            <!-- Scelta lista giocatori -->
-            <mat-grid-tile colspan="2" rowspan="1">
-                <div class="flex-direction-column grid-container">
-                    <label class="label mb-10px">Giocatori</label>
-                    <div class="flex-container">
-                        <mat-checkbox class="mr-10px" color="primary" 
-                            labelPosition="before" [(ngModel)]="option.includeFavorite"
-                            [disabled]="option.includeAdvancedFilter"
-                            (change)="checkFavoritePlayersAreIncluded($event.checked)">
-                            <label class="label">Preferiti</label>
-                        </mat-checkbox>
-                        <mat-checkbox class="mr-10px" color="primary" 
-                        labelPosition="before" [(ngModel)]="option.includeBlacklist"
-                        [disabled]="option.includeAdvancedFilter"
-                        (change)="checkBlacklistPlayersAreIncluded($event.checked)">
-                            <label class="label">Esclusi</label>
-                        </mat-checkbox>
-                    </div>
-                </div>
-            </mat-grid-tile>
-
-        </mat-grid-list>       
-
-        <!-- Seconda Riga -->
-        <mat-grid-list cols="1" rowHeight="80px">
-            <mat-grid-tile colspan="1" rowspan="2">
-                <!-- Scelta team -->
-                <div class="flex-container flex-direction-column">
-                    <div class="mb-10px">
-                        <label class="label mb-10px">Squadre</label>        
-                        <mat-icon class="ml-10px icon-size"
+    
+            </div>
+    
+            <!-- Seconda riga -->
+            <div class="flex-center container-standard">
+    
+                <!-- Selezione squadre -->
+                <div class="cell-12of12 flex-direction-column margin">
+                    <div class="margin-bottom">
+                        <label class="top-label">Squadre</label>
+                        <mat-icon class="margin-left small-icon-size"
                             matTooltip="Se nessuna squadra è selezionata la ricerca verrà effettuata su tutte le squadre">
                             info
                         </mat-icon>
                     </div>
-                    <mat-chip-listbox #chipsTeamList multiple="true">
-                        <ng-container *ngFor="let team of getTeams()">
-                            <mat-chip-option 
-                            [disabled]="option.includeAdvancedFilter"
-                            [matTooltip]="team.getName()"
-                            (selectionChange)="changeSelectedList(team)">
-                                {{ team.getAbbreviation() }}
-                            </mat-chip-option>
-                        </ng-container>
-                    </mat-chip-listbox>
+                    <app-team-list-responsive [clearTeams]="isClearSelectedTeamsEnabled()"
+                        (updateSelectedTeamEvent)="updateSelectedTeamsList($event)">
+                    </app-team-list-responsive>
                 </div>
-            </mat-grid-tile>
-        </mat-grid-list>
-
-        <!-- Terza riga -->
-        <mat-grid-list cols="1" rowHeight="80px">
-
-            <!-- Opzioni di ricerca avanzate -->
-            <mat-grid-tile colspan="1" rowspan="1">
-                <div class="flex-container mt-10px grid-container">    
-                    <mat-slide-toggle [(ngModel)]="option.includeAdvancedFilter"
-                    labelPosition="before"
-                    color="primary" 
-                    matTooltip="Applica i filtri definiti nella pagina 'Opzioni di ricerca'"
-                    (change)="checkAdvancedFilterAreIncluded($event.checked)">
-                        <label class="label">Filtri di ricerca avanzata</label>
-                    </mat-slide-toggle>        
+    
+            </div>
+    
+            <!-- Terza riga -->
+            <div class="flex-center">
+    
+                <!-- Opzioni di ricerca avanzate -->
+                <div class="cell-6of12 container-standard margin">
+                    <mat-slide-toggle labelPosition="before" color="primary"
+                        matTooltip="Applica i filtri definiti nella pagina 'Opzioni di ricerca'"
+                        (change)="checkAdvancedFilterAreIncluded($event.checked)">
+                        <label class="label">Applica filtri di 'Opzioni di Ricerca'</label>
+                    </mat-slide-toggle>
                 </div>
-            </mat-grid-tile>         
+    
+                <!-- Pulsante creazione squadra -->
+                <div class="cell-6of12 flex-end margin">
+                    <button mat-raised-button class="btn-standard label">Cerca giocatori
+                    </button>
+                </div>
+    
+            </div>
+        </div>
 
-        </mat-grid-list>
+        <!-- Versione mobile -->
+        <div *ngIf="isMobileOrMobileXLBreakpointActive">
+
+            <!-- Prima riga -->
+            <div class="flex-center">
+    
+                <!-- Budget -->
+                <div class="cell-static-5of12 flex-direction-column">
+                    <label class="top-label">Budget</label>
+                    <input matInput type="number" class="input-native-responsive input-native-number hide-up-down-number label" 
+                        min="0" step="1"
+                        [disabled]="option.includeAdvancedFilter" (blur)="checkBudgetValue()">
+                </div>
+    
+                <!-- Valutazione media squadra -->
+                <div class="cell-static-5of12 flex-direction-column margin-large-left">
+                    <label class="top-label">FMV</label>
+                    <input matInput type="number" class="input-native-responsive input-native-number hide-up-down-number label" 
+                        min="0" step="1"
+                        [disabled]="option.includeAdvancedFilter">
+                </div>
+            </div>
+
+            <!-- Seconda riga -->
+            <div class="flex-center container-small">
+                <div class="flex-direction-column">
+                    <label class="label bold">Giocatori</label>
+                    <div class="full-width flex-center">
+
+                        <div class="full-width flex-center">
+                            <label class="label" style="width: 50px;">Preferiti:</label>
+                            <mat-checkbox color="primary"
+                                [disabled]="option.includeAdvancedFilter"
+                                (change)="checkFavoritePlayersAreIncluded($event.checked)">                                    
+                            </mat-checkbox>
+                        </div>
+
+                        <div class="full-width flex-center margin-left">
+                            <label class="label" style="width: 50px;">Esclusi:</label>
+                            <mat-checkbox color="primary"
+                                [disabled]="option.includeAdvancedFilter"
+                                (change)="checkBlacklistPlayersAreIncluded($event.checked)">
+                            </mat-checkbox>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terza riga -->
+            <div class="flex-center container-small">
+    
+                <!-- Selezione squadre -->
+                <div class="cell-12of12 flex-direction-column">
+                    <div class="margin-bottom">
+                        <label class="top-label">Squadre</label>
+                        <mat-icon class="margin-left icon-size"
+                            matTooltip="Se nessuna squadra è selezionata la ricerca verrà effettuata su tutte le squadre">
+                            info
+                        </mat-icon>
+                    </div>
+                    <app-team-list-responsive [clearTeams]="isClearSelectedTeamsEnabled()"
+                        (updateSelectedTeamEvent)="updateSelectedTeamsList($event)">
+                    </app-team-list-responsive>
+                </div>
+    
+            </div>            
+
+            <!-- Quarta riga -->
+            <div class="flex-center container-standard">
+
+                <!-- Opzioni di ricerca avanzate -->
+                <div class="cell-12of12 flex-center">
+                    <label class="label margin-right">Opzioni di ricerca</label>
+                    <mat-slide-toggle color="primary"
+                        matTooltip="Applica i filtri definiti nella pagina 'Opzioni di ricerca'"
+                        (change)="checkAdvancedFilterAreIncluded($event.checked)">                        
+                    </mat-slide-toggle>
+                </div>
+
+            </div>   
+    
+            <!-- Quarta riga -->
+            <div class="flex-center container-standard">                
+    
+                <!-- Pulsante creazione squadra -->
+                <div class="cell-12of12 flex-center-wrap">
+                    <button mat-raised-button class="btn-standard label">Cerca giocatori
+                    </button>
+                </div>
+    
+            </div>
+        </div>
+
+
     </div>
 
 </mat-expansion-panel>

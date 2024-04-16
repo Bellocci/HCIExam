@@ -1,0 +1,189 @@
+<mat-dialog-content class="full-width">
+
+  <!-- Pulsanti top dialog -->
+  <div class="flex-center full-width">
+
+    <!-- Bottone per tornare alla dialog di login -->
+    <div class="cell-6of12 flex-start">
+      <button mat-flat-button class="no-color" (click)="openLoginDialog()">
+        <mat-icon>reply</mat-icon>
+        <span class="label">Login</span>
+      </button>
+    </div>
+
+    <!-- Bottone per la chiusura della dialog -->
+    <div class="cell-6of12 flex-end">
+      <button mat-icon-button class="no-color" (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Form per la registrazione -->
+  <ng-container *ngIf="!createdNewUser">
+
+    <div class="margin-top margin-large-bottom">
+      <h1 class="txt-center">Registrazione</h1>
+    </div>
+
+    <form class="full-width">
+
+      <!-- Prima riga : Nome - Cognome -->
+      <div class="full-width" [ngClass]="{'flex-container' : !isMobileBreakpointActive}">
+
+        <!-- Input nome -->
+        <div class="flex-direction-column"
+          [ngClass]="{'cell-6of12 margin-right' : !isMobileBreakpointActive, 'full-width' : isMobileBreakpointActive}">
+
+          <label class="top-label">Nome</label>
+          <mat-form-field appearance="outline">
+
+            <input matInput type="text" placeholder="Campo obbligatorio*" [formControl]="nameFormControl"
+              (focus)="tooltipName.show()" (input)="disableRegistration();">
+
+            <div matSuffix class="margin-right margin-left"
+              [ngClass]="nameFormControl.valid ? 'material-icons color_green' : 'material-icons color_red'"
+              #tooltipName="matTooltip" [matTooltip]="getErrorNameMessage()">
+
+              <mat-icon *ngIf="!nameFormControl.valid">error</mat-icon>
+              <mat-icon *ngIf="nameFormControl.valid">check_circle</mat-icon>
+
+            </div>
+
+          </mat-form-field>
+        </div>
+
+        <!-- Input cognome -->
+        <div class="flex-direction-column"
+          [ngClass]="isMobileBreakpointActive ? 'full-width' : 'cell-6of12'">
+
+          <label class="top-label">Cognome</label>
+          <mat-form-field appearance="outline">
+
+            <input matInput type="text" placeholder="Campo obbligatorio*" [formControl]="surnameFormControl"
+              (focus)="tooltipSurname.show()" (input)="disableRegistration()">
+
+            <div matSuffix class="margin-right margin-left"
+              [ngClass]="surnameFormControl.valid ? 'material-icons color_green' : 'material-icons color_red'"
+              #tooltipSurname="matTooltip" [matTooltip]="getErrorSurnameMessage()">
+
+              <mat-icon *ngIf="!surnameFormControl.valid">error</mat-icon>
+              <mat-icon *ngIf="surnameFormControl.valid">check_circle</mat-icon>
+
+            </div>
+
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Seconda riga : Username -->
+
+      <!-- Input username -->
+      <div class="flex-direction-column full-width">
+
+        <label class="top-label">Username</label>
+        <mat-form-field appearance="outline">
+
+          <input matInput type="text" placeholder="Campo obbligatorio*" [formControl]="usernameFormControl"
+            (keydown.space)="$event.preventDefault()" (focus)="tooltipUsername.show()" (input)="disableRegistration()">
+
+          <div matSuffix class="margin-right margin-left"
+            [ngClass]="usernameFormControl.valid && !showErrorMessage ? 'material-icons color_green' : 'material-icons color_red'"
+            #tooltipUsername="matTooltip" [matTooltip]="getErrorUsernameMessage()">
+
+            <mat-icon *ngIf="!usernameFormControl.valid || showErrorMessage">error</mat-icon>
+            <mat-icon *ngIf="usernameFormControl.valid && !showErrorMessage">check_circle</mat-icon>
+
+          </div>
+
+        </mat-form-field>
+      </div>
+
+      <!-- Terza riga : Password -->
+
+      <!-- Input password -->
+      <div class="flex-direction-column full-width" id="inputPasswordContainer">
+
+        <label class="top-label">Password</label>
+        <mat-form-field appearance="outline">
+
+          <!-- Evitiamo l'inserimento di spazi vuoti-->
+          <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Campo obbligatorio*"
+            [formControl]="passwordFormControl" (keydown.space)="$event.preventDefault()"
+            (focus)="tooltipPassword.show()" (input)="disableRegistration()">
+
+          <button mat-icon-button matSuffix (click)="toggleShowPassword()">
+            <mat-icon>{{ showPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+
+          <div matSuffix class="margin-right"
+            [ngClass]="passwordFormControl.valid ? 'material-icons color_green' : 'material-icons color_red'"
+            #tooltipPassword="matTooltip" [matTooltip]="getErrorPasswordMessage()">
+
+            <mat-icon *ngIf="!passwordFormControl.valid">error</mat-icon>
+            <mat-icon *ngIf="passwordFormControl.valid">check_circle</mat-icon>
+
+          </div>
+
+        </mat-form-field>
+      </div>
+
+      <ng-container *ngIf="showErrorMessage">
+        <div class="full-width txt-center margin-large-bottom">
+          <span class="label error-color">Username già esistente!!</span>
+        </div>
+      </ng-container>
+
+      <div class="flex-center-wrap full-width margin-top margin-bottom">
+        <button mat-raised-button class="label btn-standard"
+          [ngClass]="{'secondary-color' : !signUpButtonDisabled}" [disabled]="signUpButtonDisabled"
+          (click)="registration()">
+          Registrati
+        </button>
+      </div>
+
+    </form>
+  </ng-container>
+
+  <!-- Registrazione completata -->
+  <div class="signup-complete-container" *ngIf="createdNewUser">
+
+    <!-- Immagine -->
+    <div class="flex-center-wrap full-width margin-bottom margin-top">
+
+      <figure class="img-signup-container no-margin tooltip">
+
+        <img class="img-signup" src="assets/images/welcome.jpg" alt="Benvenuto">
+        <span class="tooltiptext">
+          Image by <a
+            href="https://www.freepik.com/free-vector/flat-design-colorful-characters-welcoming_5403010.htm#page=2&query=welcome&position=37&from_view=search&track=sph&uuid=2b806aba-eaba-4b00-ada7-92f0d91697ed">
+            Freepik
+          </a>
+        </span>
+
+      </figure>
+
+    </div>
+
+    <!-- Testo -->
+    <div class="message-container margin-bottom margin-top margin-bottom">
+
+      <h1 class="bold">Registrazione completata!</h1>
+
+      <p class="text">
+        Grazie per esserti registrato al nostro sito.<br>
+        Ora puoi effettuare il login e iniziare ad utilizzare tutte le nostre funzionalità. Buon divertimento!!
+      </p>
+
+    </div>
+
+    <div class="flex-center-wrap margin-large-top margin-bottom">
+
+      <button mat-raised-button class="btn-standard label secondary-color" (click)="openLoginDialog()">
+        Torna al login
+      </button>
+
+    </div>
+
+  </div>
+</mat-dialog-content>

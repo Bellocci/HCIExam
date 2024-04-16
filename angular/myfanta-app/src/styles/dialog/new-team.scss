@@ -1,0 +1,19 @@
+@use "src/styles/global/styles";
+@use "src/styles/angular-component/buttons";
+@use "src/styles/angular-component/input";
+@use "src/styles/angular-component/form";
+@use "src/styles/dialog/dialog-standard";
+
+@import "src/styles/global/colors";
+
+.new-team-name-input-txt {
+    @extend .input-native-responsive;
+
+    font-size: 32px;
+    text-align: center;
+    border: 0;
+}
+
+.label-disabled {
+    opacity: 0.6;
+}

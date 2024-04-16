@@ -1,0 +1,62 @@
+@use "src/styles/global/styles";
+@use "src/styles/angular-component/toolbar";
+@use "src/styles/angular-component/buttons";
+@import "src/styles/global/breakpoints";
+@import "src/styles/global/variables";
+
+.option-menu-container {
+    margin-top: calc($toolbar-height-mobile * 2 + 10px);
+}
+
+@media (min-width: $mobile-breakpoint){
+    .option-menu-container {
+        margin-top: calc($toolbar-height-mobile * 2 + 10px);
+    }
+}
+
+@media (max-width: $tablet-breakpoint){
+    .option-menu-container {
+        margin-top: calc($toolbar-height-tablet * 2 + 10px);
+    }
+}
+
+@media (min-width: $laptop-breakpoint){
+    .option-menu-container {
+        margin-top: calc($toolbar-height + 10px);
+    }
+}
+  
+.card-container {
+    align-self: center;
+    width: 80%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.card-content-container {
+    padding: 24px;
+}
+
+mat-card-header {
+    padding: 16px;
+}
+
+.input-container {
+    height: 40px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    text-align: left;
+    padding: 0 10px;
+    min-width: 100px;
+}
+
+.slider {
+    width: 80%;
+}
+
+.icon-size {
+    font-size: 12px;
+    height: 14px;
+    width: 14px;
+}

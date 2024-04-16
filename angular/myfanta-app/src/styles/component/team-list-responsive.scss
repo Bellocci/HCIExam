@@ -1,0 +1,14 @@
+@use "src/styles/global/styles";
+@import "src/styles/global/colors";
+
+.custom-button {
+    width: 50px;
+    height: 32px;
+    border-radius: 15px;    
+}
+
+.custom-button-selected {
+    width: 100px;
+    height: 32px;
+    border-radius: 15px;
+}

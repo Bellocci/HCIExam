@@ -1,1 +1,69 @@
-<!-- Pagina Opzioni di filtro completa -->
+<!-- Pagina Opzioni di filtro -->
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport 
+    [attr.role]="'dialog'"
+    [mode]="isMobileOrTabletBreakpointActive ? 'over' : 'side'" 
+    [opened]="isMobileOrTabletBreakpointActive === false">
+
+    <mat-toolbar>Menu</mat-toolbar>
+
+    <!-- Sezione Filtri -->
+    <mat-nav-list>
+
+      <!-- Lista degli id specifici a seconda dello sport selezionato -->
+      <ng-container>
+        <div mat-subheader class="label bold">Filtri</div>
+
+        <ng-container *ngFor="let id of getIds()">
+          <a mat-list-item (click)="scrollToCard(id.id)">{{ id.description }}</a>
+        </ng-container>
+      </ng-container>      
+    </mat-nav-list>
+
+    <mat-divider></mat-divider>
+
+    <!-- Sezione operazioni -->
+    <div class="flex-direction-column">
+      <button mat-raised-button class="secondary-color">
+        Salva
+        <mat-icon>save</mat-icon>
+      </button>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="primary-color-light mat-elevation-z1 toolbar" 
+      *ngIf="isMobileOrTabletBreakpointActive">
+
+        <mat-toolbar-row class="toolbar-row flex-center-wrap">
+          <button mat-flat-button aria-label="Toggle sidenav" class="btn-standard label no-color no-padding"
+              (click)="drawer.toggle()">
+              <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+              Opzioni
+          </button>
+        </mat-toolbar-row>
+
+    </mat-toolbar>
+
+    <!-- Contenuto della pagina -->
+    <div class="full-width flex-direction-column">
+
+      <!-- FILTRI CALCIO -->
+      <ng-container *ngIf="isFootballOptionsRendered()">
+        <app-options-football></app-options-football>
+      </ng-container>
+
+      <!-- FILTRI PALLAVOLO -->
+      <ng-container *ngIf="isVolleyballOptionsRendered()">
+        <app-options-volleyball></app-options-volleyball>
+      </ng-container>
+
+      <!-- FILTRI BASKET -->
+      <ng-container *ngIf="isBasketballOptionsRendered()">
+        <app-options-basketball></app-options-basketball>
+      </ng-container>
+
+    </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

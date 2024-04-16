@@ -11,21 +11,23 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^16.0.4",
-    "@angular/cdk": "^16.0.2",
+    "@angular/cdk": "^16.2.10",
     "@angular/common": "^16.0.4",
     "@angular/compiler": "^16.0.4",
     "@angular/core": "^16.0.4",
     "@angular/forms": "^16.0.4",
-    "@angular/material": "^16.0.2",
+    "@angular/material": "^16.2.10",
     "@angular/platform-browser": "^16.0.4",
     "@angular/platform-browser-dynamic": "^16.0.4",
     "@angular/router": "^16.0.4",
+    "@nicky-lenaers/ngx-scroll-to": "^14.0.0",
     "rxjs": "~7.5.0",
+    "sass": "^1.69.5",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.0.4",
-    "@angular/cli": "^16.0.4",
+    "@angular-devkit/build-angular": "^16.2.8",
+    "@angular/cli": "^16.2.8",
     "@angular/compiler-cli": "^16.0.4",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
@@ -35,6 +37,8 @@
     "karma-coverage": "~2.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "sass-loader": "^13.3.2",
+    "schematics-scss-migrate": "^2.3.17",
     "tslib": "^2.5.2",
     "typescript": "~5.0.4"
   }

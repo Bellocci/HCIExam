@@ -7,8 +7,9 @@ import { OptionsComponent } from './pages/options/options.component';
 import { PlayerPageComponent } from './pages/player-page/player-page.component';
 
 const routes: Routes = [
+
   // Serve per reindirizzare la pagina alla HomePage
-  {path: "", redirectTo: '/fantasyteam/home', pathMatch: "full"},
+  {path: "fantasyteam", redirectTo: '/fantasyteam/home', pathMatch: "full"},
 
   // HomePage
   {

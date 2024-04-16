@@ -1,236 +1,244 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InternalDataService } from '../../service/internal-data.service';
 import { TeamDataService } from '../../service/team-data.service';
-import { RolePlayer } from 'src/decorator/role-player.model';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
-import { FilterDataService } from 'src/app/service/filter-data.service';
-import { League } from 'src/decorator/League.model';
-import { Team } from 'src/decorator/team.model';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { RouterService } from 'src/app/service/router.service';
-import { StandardOption } from 'src/decorator/option/standard-option.interface';
-import { Option } from 'src/decorator/option/option.model';
-import { ExternalService } from 'src/app/service/external.service';
-import { SnackBarService } from 'src/app/service/snack-bar.service';
+import { StandardOption } from 'src/decorator/option/standard-option.model';
 import { UserService } from 'src/app/service/user.service';
-import { User } from 'src/decorator/user.model';
-import { UserTeam } from 'src/decorator/userTeam.model';
-import { CreateNewTeamDataStructure } from 'src/app/Dialog/create-new-team-dialog/create-new-team-data-structure.interface';
 import { DialogService } from 'src/app/service/dialog.service';
-import { CreateNewTeamDialogComponent } from 'src/app/Dialog/create-new-team-dialog/create-new-team-dialog.component';
-import { ViewportScroller } from '@angular/common';
 
-interface ValueLabel {
-  label:string,
-  value:number | string
-}
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { UserEntity } from 'src/model/userEntity.model';
+import { UserTeamEntity } from 'src/model/userTeamEntity.model';
+import { OptionEntity } from 'src/model/options/optionEntity.model';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
+import { Subscription } from 'rxjs';
+import { DialogHelper } from 'src/app/Dialog/dialogHelper.interface';
+import { StandardMatchPlayedEnum } from 'src/enum/optionEnum/StandardMatchPlayedEnum';
+import { PlayerSearchFilter } from 'src/app/service/player-search-filter';
+import { PlayerSearchRequestService } from 'src/app/service/player-search-request.service';
+import { ObservableHelper } from 'src/utility/observable-helper';
+import { PlayerEntity } from 'src/model/playerEntity.model';
+import { DialogDataInterface } from 'src/app/Dialog/dialog-data.interface';
+import { UserTeamDialogDataBuilder } from 'src/app/Dialog/user-team-dialog/user-team-dialog-data-builder';
+import { UserTeamDialogComponent } from 'src/app/Dialog/user-team-dialog/user-team-dialog.component';
 
 @Component({
   selector: 'app-player-list',
   templateUrl: './player-list.component.html',
-  styleUrls: ['./player-list.component.css']
+  styleUrls: ['./player-list.component.scss']
 })
-export class PlayerListComponent implements OnInit {
+export class PlayerListComponent implements OnInit, OnDestroy {
 
-  private linksList:LinkEnum[] = [LinkEnum.MYTEAM, LinkEnum.FAVORIT_LIST, LinkEnum.BLACKLIST, LinkEnum.PLAYER_LIST];
-  private simpleOption!:StandardOption;
-  private option:Option | null = null;
+  /*
+   * ==========
+   * VARIABILI 
+   * ==========
+   */    
 
-  private roles:RolePlayer[] = [];
-  private rolesSelectedMap:Map<number, RolePlayer> = new Map();  
+  // Lista dei link navigabili
+  linkEnum: typeof LinkEnum = LinkEnum;  
 
-  private leagueSelected:League | null = null;
+  private _simpleOption!: StandardOption;
+  private option: OptionEntity | null = null;
+  private leagueSelected: LeagueEntity | null = null;
+  private _user!: UserEntity;
+  private _userTeam!: UserTeamEntity;
+  private _isMobileOrTabletBreakpointActive: boolean = false;  
+ 
+  private _subscriptionObserverToLeague: Subscription | undefined;
+  private _subscriptionObserverToOption: Subscription | undefined;
+  private _subscriptionObserverToUser: Subscription | undefined;
+  private _subscriptionObserverToUserTeam: Subscription | undefined;
+  private _subscriptionToMobileOrTabletObservable: Subscription;
 
-  private static readonly ALL_PLAYERS:ValueLabel = {
-    label: "Tutti",
-    value: 0
-  };
-  private static readonly FIRST_THRESHOLD:ValueLabel = {
-    label: ">75%",
-    value: 75
-  };
-  private static readonly SECOND_THRESHOLD:ValueLabel = {
-    label: ">50%",
-    value: 50
-  };
-  private static readonly THIRD_THRESHOLD:ValueLabel = {
-    label: ">25%",
-    value: 25
-  };
+  private _playerSearchFilterObservable:ObservableHelper<PlayerSearchFilter> = new ObservableHelper<PlayerSearchFilter>(new PlayerSearchFilter());
+  private _playerFilteredList:PlayerEntity[] = [];
 
-  private filterMatchValues:Map<ValueLabel, boolean> = new Map([
-    [PlayerListComponent.ALL_PLAYERS , true], [PlayerListComponent.FIRST_THRESHOLD , false], 
-    [PlayerListComponent.SECOND_THRESHOLD , false], [PlayerListComponent.THIRD_THRESHOLD , false]
-  ]);
-  private selectedMatchFilter:ValueLabel = PlayerListComponent.ALL_PLAYERS;
+  /*
+   * =============================
+   * CONSTRUCTOR & INIT & DESTROY
+   * =============================
+   */
 
-  private teams:Team[] = [];
-  private selectedTeams:Set<Team> = new Set();
+  constructor(private internalDataService: InternalDataService,
+    private teamDataService: TeamDataService,
+    public routerService: RouterService,
+    private userService: UserService,
+    private dialogService: DialogService,
+    private breakpointsService: BreakpointsService,
+    private playerSearchRequest:PlayerSearchRequestService) {
 
-  private user!:User;
-  private userTeam:UserTeam | undefined = undefined;
+    console.log("Construct Player list component");
 
-  constructor(private internalDataService:InternalDataService,
-    private filterDataService:FilterDataService,
-    private teamDataService:TeamDataService,
-    private routerService:RouterService,
-    private externalService:ExternalService,
-    private snackbarService:SnackBarService,
-    private userService:UserService,
-    private dialogService:DialogService,
-    private scroller: ViewportScroller) {
+    this._isMobileOrTabletBreakpointActive = BreakpointsService.isMobileOrTabletBreakpointActive(window.innerWidth);
 
-    this.addObserverToLeague();
-    this.observeOptionTeam();
-    this.observeUser();
-    this.observeUserTeam();
-  }  
+    this._subscriptionObserverToLeague = this.addObserverToLeague();
+    this._subscriptionObserverToOption = this.observeOptionTeam();
+    this._subscriptionObserverToUser = this.observeUser();
+    this._subscriptionToMobileOrTabletObservable = this.observeMobileOrTabletBreakpoint();
+    this.observePlayerSearchFilter();
 
-  ngOnInit(): void {
-    this.internalDataService.setLoadingData(false);
+    /*
+     * Inizializzazione filtro di ricerca
+     */
+    let playerSearchFilter = this._playerSearchFilterObservable.getValue();
+    playerSearchFilter.matchPlayedPerc = StandardMatchPlayedEnum.ALL_PLAYERS;
+    this._playerSearchFilterObservable.setValue(playerSearchFilter);
   }
 
-  /* OBSERVER */
+  ngOnInit(): void {
+    //this.internalDataService.setLoadingData(false);
+  }
 
-  addObserverToLeague() : void {
-    this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<League | null>()
-        .next(league => {
-          if(league != null) {
-            this.roles = this.filterDataService.filterRolesBySport(league.getSport());
-            this.teams = this.filterDataService.filterTeamsByLeague(league);
-          } else {
-            this.roles = [];
-            this.teams = [];
-          }          
+  ngOnDestroy(): void {
+    console.log("Destroy Player list component");
 
-          this.leagueSelected = league;
-        })
-        .build()
+    this._subscriptionObserverToLeague != undefined ? this._subscriptionObserverToLeague.unsubscribe() : null;
+    this._subscriptionObserverToOption != undefined ? this._subscriptionObserverToOption.unsubscribe() : null;
+    this._subscriptionObserverToUser != undefined ? this._subscriptionObserverToUser.unsubscribe() : null;
+    this._subscriptionObserverToUserTeam != undefined ? this._subscriptionObserverToUserTeam.unsubscribe() : null;
+    this._subscriptionToMobileOrTabletObservable.unsubscribe();
+    this._playerSearchFilterObservable.complete();
+  }
+
+  /**
+   * =========
+   * OBSERVER
+   * =========
+   */
+
+  private addObserverToLeague(): Subscription | undefined {
+    return this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<LeagueEntity | null>()
+      .next(league => this.leagueSelected = league)
+      .error(error => console.log("Error while retriving league: " + error))
+      .build()
     )
   }
 
-  private observeOptionTeam() : void {
-    this.teamDataService.addObserverToOption(
-      new ObserverStepBuilder<Option | null>().next(o => this.option = o).build());
+  private observeOptionTeam(): Subscription | undefined {
+    return this.teamDataService.addObserverToOption(new ObserverStepBuilder<OptionEntity | null>()
+      .next(o => this.option = o)
+      .error(error => console.log("Error while retriving option: " + error))
+      .build());
   }
 
-  private observeUser() : void {
-    this.userService.addObserverForUser(new ObserverStepBuilder<User>().next(user => this.user = user).build());
+  private observeUser(): Subscription | undefined {
+    return this.userService.addObserverForUser(new ObserverStepBuilder<UserEntity>()
+      .next(user => this.user = user)
+      .error(error => console.log("Error while retriving User: " + error))
+      .build());
   }
 
-  private observeUserTeam() : void {
-    this.userService.addSelectedTeamObserver(new ObserverStepBuilder<UserTeam | undefined>()
-        .next(team => this.userTeam = team).build());
+  private observePlayerSearchFilter() : Subscription | undefined {
+    return this._playerSearchFilterObservable.addObserver(new ObserverStepBuilder<PlayerSearchFilter>()
+        .next(filter => {
+          filter.league = this.leagueSelected!;
+          this._playerFilteredList = this.playerSearchRequest.byFilter(filter)
+        })
+        .error(error => console.log("Error while retriving Player search filter : " + error))
+        .build());
+  }
+
+  private observeMobileOrTabletBreakpoint() : Subscription {
+    return this.breakpointsService.mobileOrTabletObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(isActive => this.isMobileOrTabletBreakpointActive = isActive)
+        .error(err => console.log("Error while retriving mobile or tablet breakpoint : " + err))
+        .build()
+    );
+  }
+
+  /**
+   * ================
+   * GETTER & SETTER
+   * ================
+   */
+
+  public get user(): UserEntity {
+    return this._user;
+  }
+
+  private set user(value: UserEntity) {
+    this._user = value;
+  }
+
+  public get userTeam(): UserTeamEntity {
+    return this._userTeam;
+  }
+
+  private set userTeam(value: UserTeamEntity) {
+    this._userTeam = value;
+  }
+
+  public get simpleOption(): StandardOption {
+    return this._simpleOption;
+  }
+
+  private set simpleOption(value: StandardOption) {
+    this._simpleOption = value;
+  }
+
+  public get isMobileOrTabletBreakpointActive(): boolean {
+    return this._isMobileOrTabletBreakpointActive;
   }
   
-  /* GETTER */
-
-  getPlayerRoles() : RolePlayer[] {
-    return this.roles;
+  private set isMobileOrTabletBreakpointActive(value: boolean) {
+    this._isMobileOrTabletBreakpointActive = value;
   }
 
-  getMatchFilters() : ValueLabel[] {
-    return [... this.filterMatchValues.keys()];
+  getPlayersList() : PlayerEntity[] {
+    return this._playerFilteredList;
   }
 
-  getTeams() : Team[] {
-    return this.teams;
+  /*
+   * ============
+   * VISIBILITA'
+   * ============
+   */
+
+  isTableFilterRendered(): boolean {
+    return this.routerService.currentPageIsFavoritList() ||
+      this.routerService.currentPageIsBlacklist() ||
+      this.routerService.currentPageIsPlayerList();
   }
 
-  getLinksList() : LinkEnum[] {
-    return this.linksList;
+  isOptionFilterRendered(): boolean {
+    return this.routerService.currentPageIsMyTeam();
   }
 
-  /* VISIBLITA' */
-
-  isRoleSelected(role:RolePlayer) : boolean {
-    return this.rolesSelectedMap.has(role.getId());
-  }
-
-  isMatchFilterSelected(filter:ValueLabel) : boolean {
-    return this.selectedMatchFilter == filter;
-  }
-
-  isFilterTableRendered() : boolean {
-    return this.routerService.currentPageIsFavoritList(LinkEnum.FAVORIT_LIST) || 
-        this.routerService.currentPageIsBlacklist(LinkEnum.BLACKLIST) ||
-        this.routerService.currentPageIsPlayerList(LinkEnum.PLAYER_LIST);
-  }
-
-  isCurrentPageCreateTeam() : boolean {
-    return this.routerService.isLinkActivated(LinkEnum.CREATE_TEAM);
-  }
-
-  isCurrentPageMyTeam() : boolean {
-    return this.routerService.currentPageIsMyTeam(LinkEnum.MYTEAM);
-  }
-
-  isActionListRendered() : boolean {
-    return this.isSaveBtnRendered() || this.isSaveNewTeamBtnRendered();
-  }
-
-  isSaveBtnRendered() : boolean {
+  isSaveBtnRendered(): boolean {
     return this.user.isUserDefined() && this.userTeam != undefined;
   }
 
-  isSaveNewTeamBtnRendered() : boolean {
+  isSaveNewTeamBtnRendered(): boolean {
     return this.user.isUserDefined();
-  }
+  }  
 
-  /* LISTENER */
+  /*
+   * ========= 
+   * LISTENER
+   * =========
+   */
 
-  updateRolesSelectedList(role:RolePlayer) : void {
-    this.rolesSelectedMap.has(role.getId()) ? 
-        this.rolesSelectedMap.delete(role.getId()) : 
-        this.rolesSelectedMap.set(role.getId(), role);
-    
-    this.teamDataService.filterPlayersByRole(role);
-  }
-
-  updateMatchFilterSelected(filter:ValueLabel) : void {
-    this.selectedMatchFilter = this.selectedMatchFilter == filter ? PlayerListComponent.ALL_PLAYERS : filter;
-    this.teamDataService.filterPlayersByMatchPlayedPerc(filter.value as number);
-  }
-
-  changeSelectedTeamsList(team:Team) : void {
-    this.selectedTeams.has(team) ? this.selectedTeams.delete(team) : this.selectedTeams.add(team);
-    this.teamDataService.filterPlayersByTeams(team);
-  }
-
-  changeOption(option:StandardOption) : void {
+  updateOption(option: StandardOption): void {
     this.simpleOption = option;
   }
 
-  createTeam() : void {
-    if(!this.simpleOption.includeAdvancedFilter) {
-      this.externalService.createTeamWithSimpleOption(this.simpleOption);
-    } else if(this.option != null && this.leagueSelected != null) {
-      this.externalService.createTeamWithAdvancedOption(this.option, this.leagueSelected.getSport());
-    }
-    
-    // Effettua lo scroll della pagina fino alla tabella dei giocatori
-    const tableContainer = document.querySelector('#tableContainer');
-    tableContainer?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-      inline: "nearest"
-    });
-
-    // FIXME: Una volta terminato la creazione del team si visualizza un messaggio
-    this.snackbarService.openInfoSnackBar("Generazione del team terminata!");
+  saveTeam(): void {
+    this.userService.saveTeam();
   }
 
-  openCreateNewTeamDialog() : void {
-    if(this.leagueSelected != null) {
-      let dataStructure:CreateNewTeamDataStructure = {
-        sport : this.leagueSelected.getSport(),
-        championship : this.leagueSelected.getChampionship(),
-        league : this.leagueSelected,
-        teamName : '',
-        importPlayer : true
-      }
-      this.dialogService.getDialogHelper().setData(dataStructure);
-      this.dialogService.getDialogHelper().openDialog(CreateNewTeamDialogComponent);
+  openCreateNewTeamDialog(): void {
+    if (this.leagueSelected != null) {
+      let dialogData:DialogDataInterface = new UserTeamDialogDataBuilder()
+          .setCreateMode(true)
+          .setUserTeam(this.userTeam)
+          .build();
+      let dialogHelper: DialogHelper = this.dialogService.getDialogHelper();
+      dialogHelper.setData(dialogData);
+      dialogHelper.openDialog(UserTeamDialogComponent);
     }
   }
 }

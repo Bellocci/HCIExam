@@ -1,0 +1,148 @@
+
+<!-- Dialog per la creazione di un nuovo team -->
+<mat-dialog-content class="full-width">
+
+    <!-- Pulsante chiusura dialog -->
+    <div class="flex-end full-width">
+        <button mat-icon-button class="no-color" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+    <!-- Titolo -->
+    <div class="full-width txt-center margin-top">
+        <input type="text" class="new-team-name-input-txt txt-center"
+            [(ngModel)]="teamName" >
+    </div>
+
+    <!-- Selezione sport -->
+    <div class="flex-direction-column flex-center-wrap margin-large-top"> 
+        <h3 class="bold margin-bottom">Sport</h3>       
+        
+        <!-- Select abilitato -->
+        <ng-container *ngIf="isCreateMode">
+            <mat-form-field class="form-container-standard">
+                <mat-select [(ngModel)]="selectedSport"                
+                    disableOptionCentering 
+                    placeholder="-- Seleziona sport --">
+                        <mat-option (click)="resetChampionshipAndLeagueSelected()"></mat-option>
+                        <mat-option *ngFor="let sport of getSports()" [value]="sport" 
+                            class="text"
+                            (click)="updateChampsionshipsList()">
+                            {{ sport.description }}
+                        </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </ng-container>
+
+        <!-- Select disabilitato -->
+        <ng-container *ngIf="!isCreateMode">
+            <div class="full-width">
+                <app-output-text-responsive [value]="getSportDescription()"
+                    class="flex-center-wrap">
+                </app-output-text-responsive>
+            </div>
+        </ng-container>
+
+    </div>
+
+    <!-- Selezione campionato -->    
+    <div class="flex-direction-column flex-center-wrap" [ngClass]="{'container-standard' : !isCreateMode}">
+        <h3 class="bold margin-bottom" 
+            [ngClass]="{'label-disabled' : isSelectChampionshipDisabled()}">
+            Campionato
+        </h3>
+
+        <!-- Select abilitato -->
+        <ng-container *ngIf="isCreateMode">                
+            <mat-form-field class="form-container-standard">
+                <mat-select [(ngModel)]="selectedChampionship"                
+                disableOptionCentering 
+                [disabled]="isSelectChampionshipDisabled()"
+                placeholder="-- Seleziona campionato --">
+                    <mat-option [value]="undefined" (click)="resetLeagueSelected()"></mat-option>
+                    <mat-option *ngFor="let champ of getChampionships()" 
+                    [value]="champ" 
+                    (click)="updateLeaguesList()">
+                        {{ champ.description }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </ng-container>
+
+        <!-- Select disabilitato -->
+        <ng-container *ngIf="!isCreateMode">
+            <div class="full-width">
+                <app-output-text-responsive [value]="getChampionshipDescription()"
+                    class="flex-center-wrap">
+                </app-output-text-responsive>
+            </div>
+        </ng-container>
+        
+    </div>
+
+    <!-- Seleziona lega -->
+    <div class="flex-direction-column flex-center-wrap">
+        <h3 class="bold margin-bottom" [ngClass]="{'label-disabled' : isSelectLeagueDisabled()}">Lega</h3>
+
+         <!-- Select abilitato -->
+         <ng-container *ngIf="isCreateMode"> 
+            <mat-form-field class="form-container-standard">
+                <mat-select [(ngModel)]="selectedLeague"
+                [disabled]="isSelectLeagueDisabled()"
+                disableOptionCentering 
+                placeholder="-- Seleziona lega --">
+                    <mat-option [value]="undefined"></mat-option>
+                    <mat-option *ngFor="let league of getLeagues()" [value]="league">
+                        {{ league.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+         </ng-container>
+
+         <!-- Selezione disabilitata -->
+         <ng-container *ngIf="!isCreateMode">
+            <div class="full-width">
+                <app-output-text-responsive [value]="getLeagueDescription()" 
+                    class="flex-center-wrap">                    
+                </app-output-text-responsive>
+            </div>
+         </ng-container>
+    </div>
+    
+    <!-- Sezione pulsanti -->
+    <div class="flex-center-wrap container-standard">        
+
+        <!-- Pulsante per annullare -->
+        <button mat-raised-button class="btn-standard label"
+        (click)="closeDialog()"
+        matTooltip="Chiudi" matTooltipShowDelay="500" matTooltipHideDelay="200">
+            Annulla
+        </button>
+
+        <!-- Pulsante di creazione -->
+        <ng-container *ngIf="isCreateMode">
+            <div [matTooltip]="getAddTooltipMessage()" 
+                matTooltipDisabled="false" matTooltipShowDelay="500" 
+                matTooltipHideDelay="200">
+                <button mat-raised-button 
+                    class="btn-standard label margin-left"
+                    [ngClass]="{'gray-color-dark' : !isCreateBtnEnabled()}"
+                    [disabled]="!isCreateBtnEnabled()"
+                    (click)="addNewTeam()">
+                        Aggiungi
+                </button>
+            </div>
+        </ng-container>
+
+        <!-- Pulsante modifica -->
+        <ng-container *ngIf="!isCreateMode">
+            <button mat-raised-button
+                class="btn-standard label margin-left"
+                (click)="updateTeam()">
+                Salva
+            </button>
+        </ng-container>
+    </div>
+
+</mat-dialog-content>

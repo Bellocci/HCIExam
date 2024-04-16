@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { InternalDataService } from './internal-data.service';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
-import { Player } from 'src/decorator/player.model';
 import { SessionStorageService } from './session-storage.service';
 import { LinkEnumNavigateToPageVisitor } from 'src/visitor/link-enum/LinkEnumNavigateToPageVisitor';
 import { LinkEnumIsCurrentPageVisitorWithReturn } from 'src/visitor/link-enum/LinkEnumIsCurrentPageVisitorWithReturn';
+import { PlayerEntity } from 'src/model/playerEntity.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RouterService {
 
-  private static readonly KEY_SESSION_LAST_PAGE:string = "lastPage";
+  public static readonly KEY_SESSION_LAST_PAGE:string = "lastPage";
   private lastPage:string = "";
 
   private visitorNavigateToLink:LinkEnumNavigateToPageVisitor;
@@ -20,7 +20,7 @@ export class RouterService {
 
   constructor(private router: Router, 
     private internalDataService:InternalDataService,
-    private sessionStorageLastPage:SessionStorageService<string>) { 
+    private sessionStorageLastPage:SessionStorageService) { 
 
       this.lastPage = this.sessionStorageLastPage.getData(RouterService.KEY_SESSION_LAST_PAGE) != null ? 
         this.sessionStorageLastPage.getData(RouterService.KEY_SESSION_LAST_PAGE)! :
@@ -46,89 +46,89 @@ export class RouterService {
     return LinkEnum.visitAndReturn(linkEnum, this.visitorIsCurrentPage);
   }
 
-  // Metodo che renderizza alla pagina di Home
-  goToHomePage(link:LinkEnum) : void {
-    this.internalDataService.setLoadingData(true);    
-    this.currentPageIsHome(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+  // Metodo che renderizza alla pagina di Home 
+  goToHomePage() : void {
+    //this.internalDataService.setLoadingData(true); 
+    this.currentPageIsHome() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.HOME.path);
   }
 
   // Verifica se la pagina currente è 'home'
-  currentPageIsHome(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsHome() : boolean {
+    return this.router.url == LinkEnum.HOME.path;
   }
 
   // Metodo che renderizza alla pagina di Create Team
-  goToMyTeamPage(link:LinkEnum) : void {
-    this.internalDataService.setLoadingData(true);
-    this.currentPageIsMyTeam(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+  goToMyTeamPage() : void {
+    //this.internalDataService.setLoadingData(true);
+    this.currentPageIsMyTeam() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.MYTEAM.path);
   }
 
   // Verifica se la pagina corrente è 'myTeam'
-  currentPageIsMyTeam(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsMyTeam() : boolean {
+    return this.router.url == LinkEnum.MYTEAM.path;
   }
 
   // Metodo che renderizza alla pagina di Lista dei giocatori
-  goToPlayerListPage(link:LinkEnum) : void {
-    this.internalDataService.setLoadingData(true);
-    this.currentPageIsPlayerList(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+  goToPlayerListPage() : void {
+    //this.internalDataService.setLoadingData(true);
+    this.currentPageIsPlayerList() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.PLAYER_LIST.path);
   }
 
-  currentPageIsPlayerList(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsPlayerList() : boolean {
+    return this.router.url == LinkEnum.PLAYER_LIST.path;
   }
 
   // Metodo che renderizza alla pagina di Lista dei giocatori preferiti
-  goToFavoritListPage(link:LinkEnum) : void {
-    this.internalDataService.setLoadingData(true);
-    this.currentPageIsFavoritList(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+  goToFavoritListPage() : void {
+    //this.internalDataService.setLoadingData(true);
+    this.currentPageIsFavoritList() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.FAVORIT_LIST.path);
   }
 
   // Verifica se la pagina corrente è 'Favorit List'
-  currentPageIsFavoritList(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsFavoritList() : boolean {
+    return this.router.url == LinkEnum.FAVORIT_LIST.path;
   }
 
   // Metodo che renderizza alla pagina di lista dei giocatori esclusi
-  goToBlacklistPage(link:LinkEnum) : void {
-    this.internalDataService.setLoadingData(true);
-    this.currentPageIsBlacklist(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+  goToBlacklistPage() : void {
+    //this.internalDataService.setLoadingData(true);
+    this.currentPageIsBlacklist() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.BLACKLIST.path);
   }
 
   // Verifica se la pagina corrente è 'Blacklist'
-  currentPageIsBlacklist(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsBlacklist() : boolean {
+    return this.router.url == LinkEnum.BLACKLIST.path;
   }
 
   // Metodo che renderizza alla pagina di profilo
-  goToMyProfilePage(link:LinkEnum) : void {
-    this.internalDataService.setLoadingData(true);
-    this.currentPageIsMyProfile(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+  goToMyProfilePage() : void {
+    //this.internalDataService.setLoadingData(true);
+    this.currentPageIsMyProfile() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.USER_PROFILE.path);
   }
 
   // Verifica se la pagina corrente è myProfile
-  currentPageIsMyProfile(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsMyProfile() : boolean {
+    return this.router.url == LinkEnum.USER_PROFILE.path;
   }
 
   // Metodo che renderizza alla pagina di opzioni di filtraggio dei giocatori
-  goToOptionsPage(link:LinkEnum) : void {
-    this.internalDataService.setLoadingData(true);
-    this.currentPageIsOptions(link) ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, link.path);
+  goToOptionsPage() : void {
+    //this.internalDataService.setLoadingData(true);
+    this.currentPageIsOptions() ? this.reloadOrNavigate(true) : this.reloadOrNavigate(false, LinkEnum.OPTIONS.path);
   }
 
   // Verifica se la pagina corrente è myProfile
-  currentPageIsOptions(link:LinkEnum) : boolean {
-    return this.router.url == link.path;
+  currentPageIsOptions() : boolean {
+    return this.router.url == LinkEnum.OPTIONS.path;
   }
 
-  goToPlayerPage(player:Player) : void {
-    this.internalDataService.setLoadingData(true);
+  goToPlayerPage(player:PlayerEntity) : void {
+    //this.internalDataService.setLoadingData(true);
     const playerProfilePath:string = this.buildPlayerProfilePath(player);
     this.reloadOrNavigate(false, playerProfilePath);
   }
 
-  currentPageIsPlayerProfile(player:Player) : boolean {
+  currentPageIsPlayerProfile(player:PlayerEntity) : boolean {
     const playerProfilePath:string = this.buildPlayerProfilePath(player);
     return this.router.url == playerProfilePath;
   }  
@@ -152,10 +152,10 @@ export class RouterService {
     this.router.navigateByUrl('/',{skipLocationChange:true}).then(() => this.router.navigate([`/${url}`]) );
   }
 
-  private buildPlayerProfilePath(player:Player) : string {
-    const team:string = player.getTeam().getName().replace(/[^a-zA-Z]/g, "-");
-    const league:string = player.getTeam().getLeague().getName().replace(/[^a-zA-Z]/g, "-");
-    const playerName:string = player.getName().replace(/[^a-zA-Z]/g, "-");
-    return LinkEnum.PARENT_PATH + league + "/" + team + "/" + playerName + "/" + player.getId();
+  private buildPlayerProfilePath(player:PlayerEntity) : string {
+    const team:string = player.team.teamName.replace(/[^a-zA-Z]/g, "-");
+    const league:string = player.team.league.name.replace(/[^a-zA-Z]/g, "-");
+    const playerName:string = player.playerName.replace(/[^a-zA-Z]/g, "-");
+    return LinkEnum.PARENT_PATH + league + "/" + team + "/" + playerName + "/" + player.playerId;
   }
 }

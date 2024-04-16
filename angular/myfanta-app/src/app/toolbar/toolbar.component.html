@@ -1,91 +1,152 @@
-<mat-sidenav-container class="sidenav-container" (backdropClick)="closeSidenav()">
-    <mat-sidenav autoFocus="false" class="sidenav" mode="over">
+<mat-toolbar class="toolbar mat-elevation-z6 primary-color-dark">
 
-      <!-- Pulsante chiusura sidenav -->
-      <div class="secondary-color-no-hover">
-        <mat-toolbar>
-          <button mat-flat-button class="secondary-color" (click)="closeSidenav()">
-            <mat-icon>arrow_back</mat-icon>
-            <span class="text">Chiudi</span>
+  <!-- PRIMA RIGA (sempre visibile) -->
+  <mat-toolbar-row class="toolbar-row" #toolbarFirstRow>
+
+    <div class="full-width flex-center">
+
+      <!-- Link alla pagina di Home -->    
+      <div class="margin">
+        <button mat-flat-button (click)="routerService.goToHomePage()" class="btn-toolbar">
+          <h2 class="bold title-menu">FantasyTeam</h2>
+        </button>
+      </div>
+
+      <!-- Visibili solo su schermi largezza > 992px -->
+      <ng-container *ngIf="!isMobileOrTabletBreakpointActive && isLeagueSelected()">
+
+        <!-- Link alla pagina Create team -->
+        <div>
+          <button mat-flat-button class="btn-toolbar margin-small"
+            [ngClass]="isCreateTeamLinkSelected() ? 'btn-toolbar-link' : 'primary-color-dark'"
+            (click)="routerService.goToMyTeamPage()">
+            <span class="label" [ngClass]="{'bold' : routerService.currentPageIsMyTeam()}">
+              {{ linkEnum.CREATE_TEAM.description }}
+            </span>
           </button>
-        </mat-toolbar>
+        </div>
+
+        <!-- Link alla pagina Options -->
+        <div>
+          <button mat-flat-button class="btn-toolbar margin-small"
+            [ngClass]="routerService.currentPageIsOptions() ? 'btn-toolbar-link' : 'primary-color-dark'"
+            (click)="routerService.goToOptionsPage()">
+            <span class="label" [ngClass]="{'bold' : routerService.currentPageIsOptions()}">
+              {{ linkEnum.OPTIONS.description }}
+            </span>
+          </button>
+        </div>
+
+        <!-- link alla pagina Player list-->
+        <div>
+          <button mat-flat-button class="btn-toolbar margin-small"
+            [ngClass]="routerService.currentPageIsPlayerList() ? 'btn-toolbar-link' : 'primary-color-dark'"
+            (click)="routerService.goToPlayerListPage()">
+            <span class="label" [ngClass]="{'bold' : routerService.currentPageIsPlayerList()}">
+              {{ linkEnum.PLAYER_LIST.description }}
+            </span>
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- Pulsante Login -->
+      <div class="flex-cell flex-end margin-small">
+
+        <!-- Caso utente non autenticato -->
+        <ng-container *ngIf="!userLogged">
+
+          <!-- Visualizzazione standard -->
+          <button mat-flat-button class="btn-toolbar" *ngIf="!isMobileBreakpointActive" (click)="openLoginDialog()">
+            <mat-icon class="icon-size">account_circle</mat-icon>
+            <span class="label">Login</span>
+          </button>
+
+          <!-- Visualizzazione mobile -->
+          <button mat-icon-button *ngIf="isMobileBreakpointActive" (click)="openLoginDialog()">
+            <mat-icon class="icon-size">account_circle</mat-icon>
+          </button>
+
+        </ng-container>
+
+        <!-- Caso utente autenticato -->
+        <ng-container *ngIf="userLogged">
+
+          <div class="user-btn-container flex-center" [matMenuTriggerFor]="menuUser">
+            <app-avatar [viewSmallAvatar]="true"></app-avatar>
+
+            <div class="margin-small-left">
+              <span class="label">{{ getUsername() }}</span>
+            </div>
+          </div>
+
+          <!-- Menu -->
+          <mat-menu #menuUser="matMenu" xPosition="before">
+            <div class="user-menu">
+              <button mat-menu-item (click)="routerService.goToMyProfilePage()">
+                Mio profilo
+              </button>
+              <mat-divider></mat-divider>
+              <button mat-menu-item (click)="logout()">Logout</button>
+            </div>
+          </mat-menu>
+
+        </ng-container>
+
+      </div>
+    </div>
+  </mat-toolbar-row>
+
+  <!-- SECONDA RIGA -->
+  <mat-toolbar-row *ngIf="isMobileOrTabletBreakpointActive && isLeagueSelected()"
+    class="toolbar-row" #toolbarSecondRow>
+
+    <div class="full-width flex-center">
+
+      <!-- Link alla pagina Create team -->
+      <div class="flex-cell flex-center-wrap" [ngClass]="{'margin-small' : !isMobileBreakpointActive}">
+        <button mat-flat-button class="btn-toolbar "
+          [ngClass]="isCreateTeamLinkSelected() ? 'btn-toolbar-link' : 'primary-color-dark'"
+          (click)="routerService.goToMyTeamPage()">
+          <span *ngIf="!isMobileBreakpointActive" class="label" [ngClass]="{'bold' : routerService.currentPageIsMyTeam()}">
+            {{ linkEnum.CREATE_TEAM.description }}
+          </span>
+
+          <span *ngIf="isMobileBreakpointActive" class="label" [ngClass]="{'bold' : routerService.currentPageIsMyTeam()}">
+            {{ linkEnum.CREATE_TEAM.shortDescription }}
+          </span>
+        </button>
       </div>
 
-      <mat-nav-list>
+      <!-- Link alla pagina Options -->
+      <div class="flex-cell flex-center-wrap" [ngClass]="{'margin-small' : !isMobileBreakpointActive}">
+        <button mat-flat-button class="btn-toolbar "
+          [ngClass]="routerService.currentPageIsOptions() ? 'btn-toolbar-link' : 'primary-color-dark'"
+          (click)="routerService.goToOptionsPage()">
+          <span *ngIf="!isMobileBreakpointActive" class="label" [ngClass]="{'bold' : routerService.currentPageIsOptions()}">
+            {{ linkEnum.OPTIONS.description }}
+          </span>
 
-        <!-- Sport expansion panel -->
-        <mat-accordion>
-          <ng-container *ngFor="let sport of getSports(); let indexSport = index;" #panels>
-            <mat-expansion-panel              
-              [expanded]="isPanelSportOpen(indexSport)" 
-              (opened)="panelSportOpened(indexSport)" (closed)="panelSportClosed();">
-              <mat-expansion-panel-header 
-              class="expansion-panel-header-sport secondary-color mat-elevation-z3">
-                <mat-panel-title>
-                  <div class="text" [ngClass]="isPanelSportOpen(indexSport) ? 'bold' : ''">
-                    {{ sport.description }}
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-
-              <!-- Lazy rendering -->
-              <ng-template matExpansionPanelContent>
-                <!-- Championship expansion panel per uno specifico sport -->
-                <ng-container *ngFor="let championship of getChampionships(sport); let indexChamp = index;">
-                  <mat-expansion-panel [expanded]="false">
-                    <mat-expansion-panel-header>
-                      <mat-panel-title class="expansion-panel-title-championship">
-                        <div class="label championship-label">
-                          {{ championship.description }}
-                        </div>
-                      </mat-panel-title>
-                    </mat-expansion-panel-header>
-
-                    <!-- Lazy rendering -->
-                    <ng-template matExpansionPanelContent>
-                      <!-- Elenco leghe per uno specifico sport e campionato -->
-                      <ng-container *ngFor="let league of getLeagues(sport, championship)">
-                        <mat-panel-description>
-                          <ul class="list-ul">
-                            <li>
-                              <a mat-list-item
-                                (click)="selectedLeagueListener(league);">
-                                  <span class="text link"> {{ league.getName() }} </span>
-                              </a>
-                            </li>
-                          </ul>
-                        </mat-panel-description>
-                      </ng-container>
-                    </ng-template>
-                  </mat-expansion-panel>                                                  
-                </ng-container>
-              </ng-template>
-            </mat-expansion-panel>
-          </ng-container>
-        </mat-accordion>
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <app-toolbar-base 
-        *ngIf="!isMobileLayout()" 
-        (window:resize)="onResize($event)" 
-        (sidenav_emit)="openSidenav()">
-      </app-toolbar-base>
-      <app-toolbar-mobile 
-        *ngIf="isMobileLayout()" 
-        (window:resize)="onResize($event)"
-        (sidenav_emit)="openSidenav()">
-      </app-toolbar-mobile>
-
-      <!-- Spinner visualizzato in attesa che i dati della pagina siano caricati -->
-      <mat-progress-spinner class="spinner" 
-        *ngIf="loading()" 
-        mode="indeterminate"
-        diameter="150">
-      </mat-progress-spinner>
-      <div [ngClass]="{'opacity-page' : loading()}">
-        <router-outlet></router-outlet>
+          <span *ngIf="isMobileBreakpointActive" class="label" [ngClass]="{'bold' : routerService.currentPageIsOptions()}">
+            {{ linkEnum.OPTIONS.shortDescription }}
+          </span>
+        </button>
       </div>
-    </mat-sidenav-content>
-</mat-sidenav-container>
-  
+
+      <!-- link alla pagina Player list-->
+      <div class="flex-cell flex-center-wrap" [ngClass]="{'margin-small' : !isMobileBreakpointActive}">
+        <button mat-flat-button class="btn-toolbar "
+          [ngClass]="routerService.currentPageIsPlayerList() ? 'btn-toolbar-link' : 'primary-color-dark'"
+          (click)="routerService.goToPlayerListPage()">
+          <span *ngIf="!isMobileBreakpointActive" class="label" [ngClass]="{'bold' : routerService.currentPageIsPlayerList()}">
+            {{ linkEnum.PLAYER_LIST.description }}
+          </span>
+
+          <span *ngIf="isMobileBreakpointActive" class="label" [ngClass]="{'bold' : routerService.currentPageIsPlayerList()}">
+            {{ linkEnum.PLAYER_LIST.shortDescription }}
+          </span>
+        </button>
+      </div>
+
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

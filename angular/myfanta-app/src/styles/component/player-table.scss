@@ -1,0 +1,61 @@
+@use "src/styles/global/styles";
+@use "src/styles/angular-component/table";
+@use "src/styles/angular-component/input";
+@use "src/styles/angular-component/form";
+@use "src/styles/angular-component/buttons";
+
+@import "src/styles/global/breakpoints";
+
+.player-image-container {
+    min-width: 80px;
+    max-width: 100px;
+    border: 2px solid black;
+    height: 104px;
+
+    .figure-player-image {
+        margin: 4px;
+
+        .img-player-profile {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+}
+
+/*
+ * ================
+ * COLONNE TABELLA
+ * ================
+ */
+
+@media (max-width: $mobileXL-breakpoint) {
+
+    .mat-column-name {
+        width: 60%;
+        padding: 0 8px;
+    }
+
+    .mat-column-team {
+        width: 30%;
+        padding: 0 4px;
+    }
+
+    .mat-column-role {
+        width: 14px;
+        padding: 0 4px;
+    }
+}
+
+/*
+ * ==============
+ * RIGHE TABELLA
+ * ==============
+ */
+
+.player-expanded-row {
+
+    td {
+        padding: 0 8px;
+    }
+}

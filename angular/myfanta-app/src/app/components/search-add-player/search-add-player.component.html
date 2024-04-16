@@ -1,33 +1,44 @@
-<div class="flex-container">
-    <mat-form-field class="form-field mr-10px" appearance="fill">
-        <mat-label>Nome giocatore</mat-label>
-        <input matInput type='text'
+<div class="flex-center">
+    <form class="form-native-container margin-large-right">
+        <input type='search'
+            class="input-native-xl padding-left text"
             (keypress)="filterText($event)"
-            placeholder="Nome giocatore..."
-            matInput
+            placeholder="Cerca"
             [(ngModel)]="inputPlayerName"
             [matAutocomplete]="auto"
-            (input)="searchPlayer(inputPlayerName)">
-        <button mat-icon-button matSuffix aria-label="Clear"         
-        *ngIf="!isValueInputTextEmpty()"
-        (click)="inputPlayerName=''; searchPlayer('')">
-        <mat-icon>clear</mat-icon>
-        </button>
+            (input)="searchPlayer(inputPlayerName)">            
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <ng-container *ngFor="let player of players">
-                <mat-option [value]="player.getName()">
-                    {{player.getName()}}
+                <mat-option [value]="player.playerName">
+                    {{player.playerName}}
                 </mat-option>
             </ng-container>
         </mat-autocomplete>
-    </mat-form-field>
-    <div class="align-button-with-input">
-        <button mat-raised-button 
-        class="label secondary-color add-btn"
-        [matTooltip]="getAddBtnDescription()"
-        [disabled]="isValueInputTextEmpty()"
-        (click)="addPlayer(inputPlayerName)">
-            <span>Aggiungi</span>
-        </button>
-    </div>
+    </form>
+
+    <!-- Pulsante aggiunta giocatore alla lista: versione standard -->
+    <ng-container *ngIf="!isMobileBreakpointActive">
+        <div>
+            <button mat-raised-button 
+            class="btn-standard"
+            [matTooltip]="getAddBtnDescription()"
+            [disabled]="isValueInputTextEmpty()"
+            (click)="addPlayer(inputPlayerName)">
+                <span>Aggiungi</span>
+            </button>
+        </div>
+    </ng-container>
+
+    <!-- Pulsante aggiunta giocatore alla lista: versione mobile -->
+    <ng-container *ngIf="isMobileBreakpointActive">
+        <div>
+            <button mat-raised-button
+            class="btn-mini" 
+            [matTooltip]="getAddBtnDescription()"
+            [disabled]="isValueInputTextEmpty()"
+            (click)="addPlayer(inputPlayerName)">
+                <mat-icon class="no-margin">add</mat-icon>
+            </button>
+        </div>
+    </ng-container>
 </div>

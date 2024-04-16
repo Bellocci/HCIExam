@@ -1,2 +1,16 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<!-- Toolbar -->
 <app-toolbar></app-toolbar>
+
+<!-- Snack Bar message -->
+<div [ngClass]="isMobileOrTabletBreakpointActive && isLeagueSelected ? 'snackbar-position-double-top' : 'snackbar-position'">
+    <app-custom-snackbar></app-custom-snackbar>
+</div>
+
+<!-- Spinner visualizzato in attesa che i dati della pagina siano caricati -->
+<mat-progress-spinner class="spinner" *ngIf="getLoadingDataObservable() | async" mode="indeterminate" diameter="150">
+</mat-progress-spinner>
+
+<!-- Contenuto della pagina -->
+<div [ngClass]="{'opacity-page' : getLoadingDataObservable() | async}">
+    <router-outlet></router-outlet>
+</div>

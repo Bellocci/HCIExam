@@ -1,0 +1,955 @@
+/* You can add global styles to this file, and also import other style files */
+@import "breakpoints";
+@import "colors";
+@import "variables";
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: $font-family;
+
+}
+
+/*
+=======
+TESTO
+=======
+*/
+
+.bold {
+    font-weight: 500 !important;
+}
+
+.no-bold {
+    font-weight: normal !important;
+}
+
+.txt {
+
+    &-center {
+        text-align: center;
+        color: black !important;    
+    }
+
+    &-right {
+        text-align: right;
+    }
+}
+
+.label {
+    font-size: 12px;
+    word-break: break-word;
+    color: black !important;
+}
+
+.top-label {
+    font-size: 12px;
+    margin-bottom: 16px;
+    margin-bottom: 1rem;
+    text-align: left;
+    word-break: break-word;
+    color: black !important;
+    font-weight: 500;
+}
+
+.text {
+    font-size: 14px;
+    word-break: break-word;
+    color: black !important;
+}
+
+h1 {
+    font-size: 24px;
+    word-break: break-word;
+    color: black !important;
+}
+
+h2 {
+    font-size: 18px;
+    word-break: break-word;
+    color: black !important;
+}
+
+h3 {
+    font-size: 16px;
+    word-break: break-word;
+    color: black !important;
+}
+
+h4 {
+    font-size: 14px;
+    word-break: break-word;
+    color: black !important;
+}
+
+@media (min-width: $mobile-breakpoint) {
+
+    .label {
+        font-size: 12px;
+    }
+
+    .top-label {
+        font-size: 12px;
+    }
+
+    .text {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+
+    h4 {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: $tablet-breakpoint) {
+
+    .label {
+        font-size: 14px;
+    }
+
+    .top-label {
+        font-size: 14px;
+    }
+
+    .text {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: $laptop-breakpoint) {
+
+    .label {
+        font-size: 16px;
+    }
+
+    .top-label {
+        font-size: 16px;
+    }
+
+    .text {
+        font-size: 18px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    h2 {
+        font-size: 26px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    h4 {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: $large-device-breakpoint) {
+
+    .label {
+        font-size: 18px;
+    }
+
+    .top-label {
+        font-size: 18px;
+    }
+
+    .text {
+        font-size: 20px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+
+    h4 {
+        font-size: 20px;
+    }
+}
+
+/*  
+========
+COLORI 
+========
+*/
+
+.primary {
+
+    &-color {
+        background-color: $primary-color !important;    
+    }
+
+    &-color-light {
+        background-color: $primary-color-light !important;
+    }
+
+    &-color-dark {
+        background-color: $primary-color-dark !important;    
+    }
+}
+
+.secondary {
+
+    &-color {
+        background-color: $secondary-color !important;
+    }
+
+    &-color:hover {
+        background-color: $secondary-color-light !important;
+    }
+
+    &-color:focus {
+        background-color: $secondary-color-light !important;
+    }
+
+    &-color-no-hover {
+        background-color: $secondary-color !important;
+    }
+
+    &-color-light {
+        background-color: $secondary-color-light !important;
+    }
+}
+
+.gray {
+
+    &-color {
+        background-color: $gray-color !important;
+    }
+
+    &-color:hover {
+        background-color: $gray-color-dark !important;
+    }
+
+    &-color-light {
+        background-color: $gray-color;
+    }
+
+    &-color-light:hover {
+        background-color: $gray-color-light !important;
+    }
+
+    &-color-dark {
+        background-color: $gray-color-dark !important;
+    }
+}
+
+.no-color {
+    background-color: transparent !important;
+}
+
+.error-color {
+    color: $info-error-color !important;
+}
+
+/*
+======
+ICONE
+======
+*/
+
+/* Material angular icon colors */
+
+.material-icons.color_green {
+    color: $info-right-color;
+}
+
+.material-icons.color_red {
+    color: $info-error-color;
+}
+
+/* Dimensione */
+
+@media (min-width: $mobileXL-breakpoint) {
+
+    .icon-size {
+        transform: scale(1.5);
+    }
+}
+
+.small-icon-size {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+}
+
+/*
+===================================
+DIMENSIONI STANDARD WIDTH & HEIGHT
+===================================
+*/
+
+.full-width {
+    width: 100% !important;
+}
+
+.width-80 {
+    width: 80% !important;
+}
+
+.full-height {
+    height: 100% !important;
+}
+
+.height-80 {
+    height: 80% !important;
+}
+
+/*
+========
+PADDING
+========
+*/
+
+.no {
+
+    &-padding-bottom {
+        padding-bottom: 0;
+    }
+    
+    &-padding-top {
+        padding-top: 0;
+    }
+    
+    &-padding-left {
+        padding-left: 0;
+    }
+    
+    &-padding-right {
+        padding-right: 0;
+    }
+    
+    &-padding {
+        padding: 0;
+    }
+}
+
+/*
+Nota: la definizione in px serve per garantire il supporto per il browser Opera e le versioni precedenti di IE 
+che non supportano CSS3
+*/
+.padding {
+
+    // 0.5 Rem
+    &-xs-bottom {
+        padding-bottom: 8px;
+        padding-bottom: 0.5rem;
+    }
+    
+    &-xs-top {
+        padding-top: 8px;
+        padding-top: 0.5rem;
+    }
+    
+    &-xs-left {
+        padding-left: 8px;
+        padding-left: 0.5rem;
+    }
+    
+    &-xs-right {
+        padding-left: 8px;
+        padding-right: 0.5rem;
+    }
+    
+    &-xs {
+        padding: 8px;
+        padding: 0.5rem;
+    }
+
+    // 1 Rem    
+    &-bottom {
+        padding-bottom: 16px;
+        padding-bottom: 1rem;
+    }
+    
+    &-top {
+        padding-top: 16px;
+        padding-top: 1rem;
+    }
+    
+    &-left {
+        padding-left: 16px;
+        padding-left: 1rem;
+    }
+    
+    &-right {
+        padding-left: 16px;
+        padding-right: 1rem;
+    }
+    
+    &-standard {
+        padding: 16px;
+        padding: 1rem;
+    }
+
+    // 2 Rem    
+    &-large-bottom {
+        padding-bottom: 32px;
+        padding-bottom: 2rem;
+    }
+
+    &-large-top {
+        padding-top: 32px;
+        padding-top: 2rem;
+    }
+
+    &-large-left {
+        padding-left: 32px;
+        padding-left: 2rem;
+    }
+
+    &-large--right {
+        padding-left: 32px;
+        padding-right: 2rem;
+    }
+
+    &-large {
+        padding: 32px;
+        padding: 2rem;
+    }
+
+    // 3 Rem    
+    &-xl-bottom {
+        padding-bottom: 48px;
+        padding-bottom: 3rem;
+    }
+    
+    &-xl-top {
+        padding-top: 48px;
+        padding-top: 3rem;
+    }
+    
+    &-xl-left {
+        padding-left: 48px;
+        padding-left: 3rem;
+    }
+    
+    &-xl-right {
+        padding-left: 48px;
+        padding-right: 3rem;
+    }
+    
+    &-xl {
+        padding: 48px;
+        padding: 3rem;
+    }
+}
+
+/*
+========
+MARGINI 
+========
+*/
+
+.no-margin {
+    margin: 0;
+}
+
+.margin {
+
+    &-small {
+        margin: 10px;
+        margin: 0.625rem;
+    }
+
+    &-small-bottom {
+        margin-bottom: 10px;
+        margin-bottom: 0.625rem;
+    }
+
+    &-small-top {
+        margin-top: 10px;
+        margin-top: 0.625rem;
+    }
+
+    &-small-left {
+        margin-left: 10px;
+        margin-left: 0.625rem;
+    }
+
+    &-small-right {
+        margin-right: 10px;
+        margin-right: 0.625rem;
+    }
+
+    // 1 rem
+    & {
+        margin: 16px;
+        margin: 1rem;
+    }
+
+    &-bottom {
+        margin-bottom: 16px;
+        margin-bottom: 1rem;    
+    }
+
+    &-top {
+        margin-top: 16px;
+        margin-top: 1rem;
+    }
+    
+    &-left {
+        margin-left: 16px;
+        margin-left: 1rem;
+    }
+    
+    &-right {
+        margin-right: 16px;
+        margin-right: 1rem;
+    }    
+    
+    // 2 rem
+    &-large-bottom {
+        margin-bottom: 32px;
+        margin-bottom: 2rem;
+    }
+
+    &-large-top {
+        margin-top: 32px;
+        margin-top: 2rem;
+    }
+    
+    &-large-left {
+        margin-left: 32px;
+        margin-left: 2rem;
+    }
+
+    &-large-right {
+        margin-right: 32px;
+        margin-right: 2rem;
+    }
+    
+    &-large {
+        margin: 32px;
+        margin: 2rem;
+    }
+
+    // 3 Rem
+    &-xl-bottom {
+        margin-bottom: 48px;
+        margin-bottom: 3rem;
+    }
+
+    &-xl-top {
+        margin-top: 48px;
+        margin-top: 3rem;
+    }
+
+    &-xl-left {
+        margin-left: 48px;
+        margin-left: 3rem;
+    }
+
+    &-xl-right {
+        margin-right: 48px;
+        margin-right: 3rem;
+    }
+
+    &-xl {
+        margin: 48px;
+        margin: 3rem;
+    }
+}
+
+.column {
+
+    &-gap {
+        margin: 0 16px;
+        margin: 0 1rem;
+    }
+
+    &-large-gap {
+        margin: 0 32px;
+        margin: 0 2rem;
+    }
+
+    &-xl-gap {
+        margin: 0 48px;
+        margin: 0 3rem;
+    }
+}
+
+/*
+===========
+CONTAINER
+===========
+*/
+
+.container {
+
+    &-small {
+        margin: 16px 0;
+        margin: 1rem 0;
+    }
+
+    &-standard {
+        margin: 32px 0;
+        margin: 2rem 0;
+    }
+
+    &-full-standard {
+        margin: 32px;
+        margin: 2rem;
+    }
+
+    &-large {
+        margin: 48px 0;
+        margin: 3rem 0;    
+    }
+}
+
+/* 
+==================
+FLEXBOX CONTAINER 
+==================
+*/
+
+.flex {
+
+    &-container {
+        display: flex;
+    }
+
+    &-direction-column {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &-start {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    &-end {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    &-center {
+        display: flex;
+        align-items: center;
+    }
+
+    &-center-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    /* flex-grow: 0; flex-shrink: 0; flex-basis: auto; */
+    &-none {
+        flex: none;
+    }
+
+    /* flex-grow: 1; flex-shrink: 1; flex-basis: auto; */
+    &-auto {
+        flex: auto;
+    }
+
+    /* riempie automaticamente al contenuto: flex-basis: content; */
+    &-content {
+        flex: content;
+    }
+
+    /* indica all'elemento di crescere fino a occupare tutto lo spazio disponibile nel contenitore */
+    &-cell {
+        flex: 1;
+    }
+
+    &-space-between {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    /* Distribuisce lo spazio in modo equo tra gli oggetti */
+    &-space-evenly {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+    }
+}
+
+.align {
+
+    &-center {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;    
+    }
+
+    &-top {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    &-content-center {
+        display: flex;
+        align-content: center;
+        flex-wrap: wrap;
+    }
+
+    &-self-center {
+        display: flex;
+        align-self: center;
+        flex-wrap: wrap;
+    }
+}
+
+/* 
+    Una riga può essere divisa al massimo in 12 colonne 
+*/
+
+.cell {
+
+    // Dimensioni celle con occupazione dello spazio uniforme
+    &-12of12 {
+        flex: 1 1 100%;
+    }
+
+    &-11of12 {
+        flex: 1 1 91.666667%;
+    }
+    
+    &-10of12 {
+        flex: 1 1 83.333333%;
+    }
+    
+    &-9of12 {
+        flex: 1 1 75%;
+    }
+    
+    &-8of12 {
+        flex: 1 1 66.666667%;
+    }
+    
+    &-7of12 {
+        flex: 1 1 58.333333%;
+    }
+    
+    &-6of12 {
+        flex: 1 1 50%;
+    }
+    
+    &-5of12 {
+        flex: 1 1 41.666667%;
+    }
+    
+    &-4of12 {
+        flex: 1 1 33.333333%;
+    }
+    
+    &-3of12 {
+        flex: 1 1 25%;
+    }
+    
+    &-2of12 {
+        flex: 1 1 16.666667%;
+    }
+    
+    &-1of12 {
+        flex: 1 1 8.333333%;
+    }
+
+    // Occupano al massimo lo spazio dedicato
+    &-static-12of12 {
+        flex: 0 1 100%;
+    }
+    
+    &-static-11of12 {
+        flex: 0 1 91.666667%;
+    }
+    
+    &-static-10of12 {
+        flex: 0 1 83.333333%;
+    }
+    
+    &-static-9of12 {
+        flex: 0 1 75%;
+    }
+    
+    &-static-8of12 {
+        flex: 0 1 66.666667%;
+    }
+    
+    &-static-7of12 {
+        flex: 0 1 58.333333%;
+    }
+    
+    &-static-6of12 {
+        flex: 0 1 50%;
+    }
+    
+    &-static-5of12 {
+        flex: 0 1 41.666667%;
+    }
+    
+    &-static-4of12 {
+        flex: 0 1 33.333333%;
+    }
+    
+    &-static-3of12 {
+        flex: 0 1 25%;
+    }
+    
+    &-static-2of12 {
+        flex: 0 1 16.666667%;
+    }
+    
+    &-static-1of12 {
+        flex: 0 1 8.333333%;
+    }
+}
+
+/*
+========
+TOOLTIP
+========
+*/
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+
+    .tooltip-text {
+        border: 1px solid black;
+        visibility: hidden;
+        width: 120px;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        background-color: blanchedalmond;
+    }
+
+    .tooltiptext {
+        @extend .tooltip-text;
+
+        position: absolute;
+        z-index: 1;
+        bottom: 0px;
+        right: 0;
+    }   
+    
+    .tooltip-text-left {
+        @extend .tooltip-text;
+        
+        position: absolute;
+        z-index: 1;
+        bottom: 0px;
+        left: 0;
+    }
+}
+
+.tooltip:hover {
+
+    .tooltiptext {
+        visibility: visible;
+    }    
+
+    .tooltip-text-left {
+        visibility: visible;
+    }
+}
+
+.mat-tooltip {
+    font-size: 14px;
+}
+
+/*
+ * ================
+ * PUNTATORE MOUSE
+ * ================
+ */
+
+.cursor {
+
+    &-pointer {
+        cursor: pointer;
+    }
+
+    &-default {
+        cursor: default;
+    }
+}
+
+/* 
+===============
+STYLE GENERALI 
+===============
+*/
+
+.hidden-element {
+    display: none;
+}
+
+.link:hover {
+    cursor: pointer !important;
+    font-weight: 500;
+}
+
+.link {
+    color: $link-color !important;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.black-link:hover {
+    cursor: pointer !important;
+    font-weight: 500;
+}
+
+.black-link {
+    color: black;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}

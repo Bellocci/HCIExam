@@ -1,85 +1,110 @@
+<div class="full-width">
 
-<div class="table-player-container">
+  <div class="flex-container">
 
-    <div class="flex-container">
+    <!-- TODO: aggiungere l'aggiunta dei giocatori alla tabella -->
 
-      <!-- Filtro ricerca -->
-      <mat-form-field>
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-      </mat-form-field>
+    <!-- Filtro ricerca -->
+    <div class="cell-6of12 margin-bottom">
 
-      <!-- Pulsante pulizia tabella -->
-      <div class="full-flex-end-main-axis flex-and-align-items-center">
-        <button mat-raised-button
-          *ngIf="isClearTableRendered()"
-          [disabled]="isClearTableDisabled()"
-          matTooltip="Rimuovi i giocatori dalla tabella"
-          (click)="clearTable()">
-          <mat-icon>delete_forever</mat-icon>
-          Pulisci tabella
-        </button>
-      </div>
+      <!-- Filtro di ricerca giocatori (visibile per la lista di tutti i giocatori / preferiti / esclusi) -->
+      <ng-container *ngIf="isFilterPlayerRendered()">
+        <form class="form-native-container">
+          <div class="flex-container">
+            <input type="search" 
+              class="input-native-xl padding-left text"
+              [(ngModel)]="searchPlayerString" 
+              (keyup)="applyFilter($event)"
+              placeholder="Cerca" #input>
+          </div>
+        </form>
+      </ng-container>
+
+      <!-- Filtro aggiunta giocatori alla squadra (Visibile solo nella pagina 'Miei giocatori') -->
+      <ng-container *ngIf="!isFilterPlayerRendered()">
+        <div>
+          <app-search-add-player></app-search-add-player>
+        </div>
+      </ng-container>
+
     </div>
+  </div>
 
 
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z3">
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
 
     <!-- No elements -->
     <tr class="empty-row" *matNoDataRow>
       <td>
-        <span class="label ml-10px">Nessun giocatore trovato</span>
+        <span class="label margin-left">Nessun giocatore trovato</span>
       </td>
     </tr>
 
     <!-- Nome giocatore -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
-      <td mat-cell *matCellDef="let player"> 
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="label"> Nome </th>
+      <td mat-cell *matCellDef="let player">
         <a class="label black-link" (click)="goToPlayerPage(player)">
-          {{ player.getName() }}
+          {{ player.playerName }}
         </a>
       </td>
     </ng-container>
 
     <!-- Squadra -->
     <ng-container matColumnDef="team">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Squadra </th>
-      <td mat-cell *matCellDef="let player"> <span class="label"> {{player.getTeam().getName()}} </span> </td>
+      <ng-container *ngIf="!isMobileBreakpointActive">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef class="label">Squadra</th>
+        <td mat-cell *matCellDef="let player" class="label"> {{player.team.teamName}} </td>
+      </ng-container>
+      <ng-container *ngIf="isMobileBreakpointActive">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef class="label">Sq</th>
+        <td mat-cell *matCellDef="let player" class="label"> {{player.team.teamAbbreviation}} </td>
+      </ng-container>
     </ng-container>
 
     <!-- Ruolo -->
     <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Ruolo </th>
-      <td mat-cell *matCellDef="let player"> <span class="label"> {{player.getRole().getShortDescription()}} </span> </td>
+      <ng-container *ngIf="!isMobileBreakpointActive">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef class="label">Ruolo</th>
+      </ng-container>
+      <ng-container *ngIf="isMobileBreakpointActive">
+        <div class="txt-right">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef class="label">R</th>
+        </div>
+      </ng-container>
+      <td mat-cell *matCellDef="let player" class="label"> {{player.role.shortDescription}} </td>
     </ng-container>
 
     <!-- Costo -->
     <ng-container matColumnDef="cost">
-      <th mat-header-cell *matHeaderCellDef> Costo </th>
-      <td mat-cell *matCellDef="let player"> <span class="label"> {{player.getCost()}} </span> </td>
+      <th mat-header-cell *matHeaderCellDef class="label"> Costo </th>
+      <td mat-cell *matCellDef="let player" class="label"> {{player.cost}} </td>
+    </ng-container>
+
+    <!-- Fanta Media Voto -->
+    <ng-container matColumnDef="fmv">
+      <th mat-header-cell *matHeaderCellDef class="label">FMV</th>
+      <td mat-cell *matCellDef="let player" class="label"> {{player.fantaMarketValue}} </td>
     </ng-container>
 
     <!-- Preferito -->
     <ng-container matColumnDef="favorite">
-      <th mat-header-cell *matHeaderCellDef> Preferito </th>
-      <td mat-cell *matCellDef="let player" [matTooltip]="getFavoriteMessageTooltip(player)" [matTooltipShowDelay]="700">
-        <button mat-icon-button 
-        [disabled]="isFavoriteBtnDisabled(player)"
-        (click)="updateFavoriteList(player)">
-            <mat-icon *ngIf="!isFavoritePlayer(player)">favorite_border</mat-icon>
-            <mat-icon *ngIf="isFavoritePlayer(player)">favorite</mat-icon>
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let player">
+        <button mat-icon-button [matTooltip]="getFavoriteMessageTooltip(player)" [matTooltipShowDelay]="300"
+          [disabled]="isFavoriteBtnDisabled(player)" (click)="updateFavoriteList(player)">
+          <mat-icon *ngIf="!isFavoritePlayer(player)">favorite_border</mat-icon>
+          <mat-icon *ngIf="isFavoritePlayer(player)">favorite</mat-icon>
         </button>
       </td>
     </ng-container>
 
     <!-- Escluso -->
     <ng-container matColumnDef="blacklist">
-      <th mat-header-cell *matHeaderCellDef> Escludi </th>
-      <td mat-cell *matCellDef="let player" [matTooltip]="getBlacklistMessageTooltip(player)" [matTooltipShowDelay]="700">
-        <button mat-icon-button
-        [disabled]="isBlacklistBtnDisabled(player)"
-        (click)="updateBlacklist(player)">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let player">
+        <button mat-icon-button [matTooltip]="getBlacklistMessageTooltip(player)" [matTooltipShowDelay]="300"
+          [disabled]="isBlacklistBtnDisabled(player)" (click)="updateBlacklist(player)">
           <mat-icon *ngIf="!isPlayerIntoBlacklist(player)">remove_circle_outline</mat-icon>
           <mat-icon *ngIf="isPlayerIntoBlacklist(player)">remove_circle</mat-icon>
         </button>
@@ -88,25 +113,101 @@
 
     <!-- Rimozione giocatore dalla tabella -->
     <ng-container matColumnDef="remove">
-      <th mat-header-cell *matHeaderCellDef></th>
+      <th mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button (click)="clearTable()" matTooltip="Rimuovi tutti i giocatori">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+      </th>
       <td mat-cell *matCellDef="let player">
-        <button mat-icon-button
-        (click)="removePlayer(player)">
+        <button mat-icon-button (click)="removePlayer(player)">
           <mat-icon>delete_outline</mat-icon>
         </button>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="getColumns()"></tr>
-    <tr mat-row *matRowDef="let row; columns: getColumns()"></tr>    
+    <ng-container matColumnDef="expand" *ngIf="isMobileOrMobileXLBreakpointActive">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+        <button mat-icon-button *ngIf="isClearTableRendered()" (click)="clearTable()" matTooltip="Rimuovi tutti i giocatori">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+      </th>
+      <td mat-cell *matCellDef="let player">
+        <!-- Evitiamo la propagazione dello stesso evento sulle altre righe della tabella -->
+        <button mat-icon-button aria-label="expand row"
+          (click)="updateExpandedPlayer(player); $event.stopPropagation()">
+          <mat-icon *ngIf="expandedPlayer !== player">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedPlayer === player">keyboard_arrow_up</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Contenuto della riga quando è espansa -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let player" [attr.colspan]="displayedColumns.length">
+
+        <div [@detailExpand]="isRowExpanded(player) ? 'expanded' : 'collapsed'" class="flex-center">
+
+          <!-- Immagine giocatore -->
+          <div class="player-image-container margin">
+            <figure class="flex-container tooltip figure-player-image">
+              <img class="img-player-profile" src="assets/images/football-player.png" alt="Immagine giocatore">
+              <span class="tooltiptext">
+                <a href="https://www.flaticon.com/free-icons/football" title="football icons">Football icons created by
+                  Eucalyp - Flaticon</a>
+              </span>
+            </figure>
+          </div>
+
+          <!-- Blocco info giocatori -->
+          <div>
+
+            <div class="flex-start">
+              <div class="margin-right">
+                <span class="label">Costo: {{ player.cost }}</span>
+              </div>
+
+              <div class="margin-right">
+                <span class="label">FMV: {{ player.fantaMarketValue }}</span>
+              </div>
+            </div>
+
+            <div class="flex-start">
+              <!-- Pulsante aggiunta giocatore preferito -->
+              <div>
+                <button mat-icon-button [matTooltip]="getFavoriteMessageTooltip(player)" [matTooltipShowDelay]="300"
+                  [disabled]="isFavoriteBtnDisabled(player)" (click)="updateFavoriteList(player)">
+                  <mat-icon *ngIf="!isFavoritePlayer(player)">favorite_border</mat-icon>
+                  <mat-icon *ngIf="isFavoritePlayer(player)">favorite</mat-icon>
+                </button>
+              </div>
+              <!-- Pulsante aggiunta giocatore da escludere -->
+              <button mat-icon-button [matTooltip]="getBlacklistMessageTooltip(player)" [matTooltipShowDelay]="300"
+                [disabled]="isBlacklistBtnDisabled(player)" (click)="updateBlacklist(player)">
+                <mat-icon *ngIf="!isPlayerIntoBlacklist(player)">remove_circle_outline</mat-icon>
+                <mat-icon *ngIf="isPlayerIntoBlacklist(player)">remove_circle</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Aggiunta header dela tabella -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+    <!-- Visualizzazione righe "standard" -->
+    <tr mat-row *matRowDef="let player; columns: displayedColumns"
+      [ngClass]="{'row-with-expansion' : isMobileOrMobileXLBreakpointActive}"
+      (click)="updateExpandedPlayer(player)">
+    </tr>
+
+    <!-- Visualizzazione pulsante per espandere la riga (disponibile solo per mobile) -->
+    <ng-container *ngIf="isMobileOrMobileXLBreakpointActive">
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="hidden-row player-expanded-row">
+      </tr>
+    </ng-container>
   </table>
-  <mat-paginator
-      class="primary-color-light mat-elevation-z3"
-      (page)="handlePageEvent($event)"
-      [pageSize]="getPageSize()"
-      [pageIndex]="getPageIndex()"
-      [pageSizeOptions]="getPageSizeOptions()"
-      showFirstLastButtons
-      aria-label="Select page">
-    </mat-paginator>
+  <mat-paginator class="primary-color-light" (page)="handlePageEvent($event)" [pageSizeOptions]="pageSizeOptions"
+    [pageIndex]="pageIndex" aria-label="Select page">
+  </mat-paginator>
 </div>

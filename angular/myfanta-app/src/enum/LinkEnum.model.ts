@@ -9,17 +9,20 @@ export class LinkEnum {
 
     public static readonly PARENT_PATH:string = "/fantasyteam/";
 
-    public static readonly HOME = new LinkEnum("home", "Home", this.PARENT_PATH + "home");
-    public static readonly CREATE_TEAM = new LinkEnum("myTeam", "Crea squadra", this.PARENT_PATH + "myTeam");
-    public static readonly MYTEAM = new LinkEnum("myTeam", "Miei giocatori", this.PARENT_PATH + "myTeam");
-    public static readonly PLAYER_LIST = new LinkEnum("playerList", "Lista giocatori", this.PARENT_PATH + "playerList");
-    public static readonly FAVORIT_LIST = new LinkEnum("favoritList", "Giocatori preferiti", this.PARENT_PATH + "favoriteList");
-    public static readonly BLACKLIST = new LinkEnum("blacklist", "Giocatori esclusi", this.PARENT_PATH + "blacklist");
-    public static readonly USER_PROFILE = new LinkEnum("profile", "Mio Profilo", this.PARENT_PATH + "myProfile");
-    public static readonly OPTIONS = new LinkEnum("options", "Opzioni di ricerca", this.PARENT_PATH + "options");
-    public static readonly PLAYER_PROFILE = new LinkEnum("playerProfile", "Profilo giocatore");
+    public static readonly HOME = new LinkEnum("home", "Home", "Home", this.PARENT_PATH + "home");
+    public static readonly CREATE_TEAM = new LinkEnum("myTeam", "Squadra", "Squadra", this.PARENT_PATH + "myTeam");
+    public static readonly MYTEAM = new LinkEnum("myTeam", "Miei giocatori", "Miei giocatori", this.PARENT_PATH + "myTeam");
+    public static readonly PLAYER_LIST = new LinkEnum("playerList", "Giocatori", "Giocatori", this.PARENT_PATH + "playerList");
+    public static readonly FAVORIT_LIST = new LinkEnum("favoritList", "Giocatori preferiti", "Giocatori preferiti", this.PARENT_PATH + "favoriteList");
+    public static readonly BLACKLIST = new LinkEnum("blacklist", "Giocatori esclusi", "Giocatori esclusi", this.PARENT_PATH + "blacklist");
+    public static readonly USER_PROFILE = new LinkEnum("profile", "Mio Profilo", "Mio Profilo", this.PARENT_PATH + "myProfile");
+    public static readonly OPTIONS = new LinkEnum("options", "Opzioni di ricerca", "Opz. Ricerca", this.PARENT_PATH + "options");
+    public static readonly PLAYER_PROFILE = new LinkEnum("playerProfile", "Profilo giocatore", "Profilo giocatore");
 
-    private constructor(public readonly label: string, public readonly description: string, public readonly path?:string) {}
+    private constructor(public readonly label: string, 
+        public readonly description: string,
+        public readonly shortDescription: string,
+        public readonly path?:string) {}
 
     static visit(linkEnum:LinkEnum, visitor:LinkEnumVisitorInterface) : void {
         if(LinkEnum.HOME == linkEnum) {

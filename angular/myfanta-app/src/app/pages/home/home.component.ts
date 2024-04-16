@@ -1,20 +1,23 @@
 import { animate, state, style, transition, trigger, group } from '@angular/animations';
-import { Component, OnInit, AfterViewInit} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { FilterDataService } from '../../service/filter-data.service';
 import { InternalDataService } from '../../service/internal-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
-import { League } from 'src/decorator/League.model';
 import { RouterService } from '../../service/router.service';
 import { UserService } from '../../service/user.service';
 import { TeamDataService } from '../../service/team-data.service';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { BreakpointsService } from 'src/app/service/breakpoints.service';
+import { Subscription } from 'rxjs';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.scss'],
   animations: [
     trigger('champListAnimation', [
       state('openList', style({ height: '*', opacity: 1 })),
@@ -41,23 +44,67 @@ import { LinkEnum } from 'src/enum/LinkEnum.model';
     ])
   ]
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit, OnDestroy {
+
+  /**
+   * ===================
+   * CONSTRUCTOR & INIT
+   *  ==================
+   */
+
+  private _isMobileOrMobileXLBreakpointActive: boolean = false;  
+  private _subscriptionToMobileOrMobileXLBreakpointObservable:Subscription;
 
   constructor(private routerService:RouterService,
     private filterDataService:FilterDataService,
     private internalDataService:InternalDataService,
     private userService:UserService,
-    private teamDataService:TeamDataService) { }
+    private teamDataService:TeamDataService,
+    private breakpointsService:BreakpointsService) {
+
+      console.log("Construct Home page component");
+      this._isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
+      this._subscriptionToMobileOrMobileXLBreakpointObservable = this.observeMobileOrMobileXLBreakpoint();
+    }  
 
   ngOnInit(): void { 
-    this.internalDataService.setLoadingData(false);
+    //this.internalDataService.setLoadingData(false);
   }
 
-  ngAfterViewInit(): void { }
+  ngOnDestroy(): void {
+    console.log("Destroy Home page component");
 
-  ngOnDestroy(): void {}
+    this._subscriptionToMobileOrMobileXLBreakpointObservable.unsubscribe();
+  }
 
-  // GETTER
+  /*
+   * =========
+   * OBSERVER 
+   * =========
+   */
+
+  private observeMobileOrMobileXLBreakpoint() : Subscription {
+    return this.breakpointsService.mobileOrMobileXLObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(isActive => this._isMobileOrMobileXLBreakpointActive = isActive)
+        .error(err => console.log("Error while retriving mobile or mobile XL breakpoint : " + err))
+        .build()
+    );
+  }
+
+  /*
+   * ================
+   * GETTER & SETTER
+   * ================
+   */
+
+  public get isMobileOrMobileXLBreakpointActive(): boolean {
+    return this._isMobileOrMobileXLBreakpointActive;
+  }
+
+  private set isMobileOrMobileXLBreakpointActive(value: boolean) {
+    this._isMobileOrMobileXLBreakpointActive = value;
+  }
 
   getSports(): SportEnum[] {
     return SportEnum.getAllSport();
@@ -67,27 +114,29 @@ export class HomeComponent implements OnInit, AfterViewInit {
     return this.filterDataService.filterChampionshipsBySport(sport);
   }
 
-  getLeagues(sport:SportEnum, championship:ChampionshipEnum) : League[] {
+  getLeagues(sport:SportEnum, championship:ChampionshipEnum) : LeagueEntity[] {
     return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
   }
-
-  // SETTER
-
-  private setLeagueSelected(league:League) : void {
-    this.internalDataService.setLeagueSelected(league);
-  }
   
-  /* LISTENER */
+  /**
+   * ================
+   * METODI LISTENER
+   * ================
+   */
 
-  selectedLeagueListener(league:League) : void {
-    this.clearData();
-    this.internalDataService.setLoadingData(true);
+  selectedLeagueListener(league:LeagueEntity) : void {
+    //this.internalDataService.setLoadingData(true);
     this.setLeagueSelected(league);
-    this.routerService.goToMyTeamPage(LinkEnum.MYTEAM);
+    this.routerService.goToMyTeamPage();
   }
 
-  private clearData() : void {
-    this.userService.setSelectedTeam(undefined);
-    this.teamDataService.clearAllList();
+  /*
+   * =============== 
+   * METODI PRIVATI
+   * ===============
+   */
+
+  private setLeagueSelected(league:LeagueEntity) : void {
+    this.internalDataService.setLeagueSelected(league);
   }
 }

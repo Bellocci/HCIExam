@@ -1,0 +1,33 @@
+@use "src/styles/global/styles";
+@use "src/styles/angular-component/buttons";
+@use "src/styles/angular-component/input";
+@use "src/styles/angular-component/form";
+@import "src/styles/global/colors";
+@import "src/styles/global/breakpoints";
+
+
+.custom-btn-mini {
+    background-color: transparent;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.custom-btn-mini:hover {
+    background-color: $primary-color-light;
+}
+
+.custom-btn-mini-selected {
+    background-color: $primary-color-light;
+    border-width: 2px;
+    border-style: solid;
+}
+
+.custom-btn-mini-selected:hover {
+    background-color: $primary-color;
+}
+
+.icon-size {
+    font-size: 12px;
+    height: 14px;
+    width: 14px;
+}

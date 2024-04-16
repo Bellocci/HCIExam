@@ -1,0 +1,69 @@
+@import "src/styles/global/breakpoints";
+
+.input {
+
+    // NATIVE INPUT STYLE
+    &-native-border {
+        border: solid;
+        border-width: 1px;
+        border-radius: 5px;
+    }
+
+    &-native-xl {
+        @extend .input-native-border;
+        width: 100%;    
+        height: 40px;    
+    }
+    
+    &-native-xl:disabled {
+        opacity: 0.5;
+    }
+
+    &-native {
+        @extend .input-native-border;
+        max-width: 200px;
+        min-width: 60px;
+        width: 100%;
+        height: 30px;
+    }
+    
+    &-native:disabled {
+        opacity: 0.5;
+    }
+
+    &-native-small {
+        @extend .input-native-border;
+        max-width: 80px;
+        min-width: 60px;
+        width: 100%;
+        height: 30px;
+    }
+
+    &-native-number {
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    // INPUT RESPONSIVE
+    &-native-responsive {
+        @extend .input-native;
+        max-width: 350px;
+        min-width: 40px;
+    }
+    
+    &-native-responsive:disabled {
+        opacity: 0.5;
+    }
+}
+
+/* 
+Nasconde i pulsanti per incrementare e diminuire il valore nell'input text 
+[type=number] (Firefox) , -webkit-outer-spin-button & -webkit-inner-spin-button (Chrome, Safari, Edge, Opera)
+*/
+.hide-up-down-number[type=number],
+.hide-up-down-number::-webkit-outer-spin-button,
+.hide-up-down-number::-webkit-inner-spin-button {
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    margin: 0;
+}
