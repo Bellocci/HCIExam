@@ -29,12 +29,11 @@
     <form class="full-width">
 
       <!-- Prima riga : Nome - Cognome -->
-      <div class="full-width" [ngClass]="{'flex-container' : !(breakpointsService.mobileObservable | async)}">
+      <div class="full-width" [ngClass]="{'flex-container' : !isMobileBreakpointActive}">
 
         <!-- Input nome -->
         <div class="flex-direction-column"
-          [ngClass]="{'cell-6of12 margin-right' : !(breakpointsService.mobileObservable | async),
-             'full-width' : (breakpointsService.mobileObservable | async)}">
+          [ngClass]="{'cell-6of12 margin-right' : !isMobileBreakpointActive, 'full-width' : isMobileBreakpointActive}">
 
           <label class="top-label">Nome</label>
           <mat-form-field appearance="outline">
@@ -56,7 +55,7 @@
 
         <!-- Input cognome -->
         <div class="flex-direction-column"
-          [ngClass]="(breakpointsService.mobileObservable | async) ? 'full-width' : 'cell-6of12'">
+          [ngClass]="isMobileBreakpointActive ? 'full-width' : 'cell-6of12'">
 
           <label class="top-label">Cognome</label>
           <mat-form-field appearance="outline">

@@ -57,7 +57,10 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
     private breakpointsService: BreakpointsService) {
       
     console.log("Construct login dialog");
+
     this.firstLogin = true;
+    this._isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(window.innerWidth);
+
     this._subscriptionUserObservable = this.observeUser();
     this._subscriptionMobileBreakpoint = this.observeMobileBreakpoint();
   }
@@ -66,6 +69,7 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     console.log("Destroy login dialog");
+    
     this._subscriptionUserObservable != undefined ? this._subscriptionUserObservable?.unsubscribe() : null;
     this._subscriptionMobileBreakpoint.unsubscribe();
   }

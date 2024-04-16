@@ -1,6 +1,4 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { InternalDataService } from '../../service/internal-data.service';
-import { FilterDataService } from '../../service/filter-data.service';
 import { StandardOption } from 'src/decorator/option/standard-option.model';
 import { TeamEntity } from 'src/model/teamEntity.model';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
@@ -48,7 +46,6 @@ export class OptionFilterComponent implements OnInit, OnDestroy {
   private _option!: StandardOption;  
   private _isMobileOrMobileXLBreakpointActive: boolean = false;  
   private _subscriptionToMobileOrMobileXLBreakpointObservable: Subscription;
-  private _subscriptionToLeagueSelectedObservable:Subscription | undefined;
 
   /*
    * ============================
@@ -56,9 +53,7 @@ export class OptionFilterComponent implements OnInit, OnDestroy {
    * ============================
    */
 
-  constructor(private internalDataService:InternalDataService,
-    private filterDataService:FilterDataService,
-    private breakpointsService:BreakpointsService) {
+  constructor(private breakpointsService:BreakpointsService) {
 
     console.log("Construct Option filter component");
     
@@ -76,7 +71,6 @@ export class OptionFilterComponent implements OnInit, OnDestroy {
     console.log("Destroy option filter component");
 
     this._subscriptionToMobileOrMobileXLBreakpointObservable.unsubscribe();
-    this._subscriptionToLeagueSelectedObservable != undefined ? this._subscriptionToLeagueSelectedObservable.unsubscribe() : null;
   }  
 
   /*

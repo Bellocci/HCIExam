@@ -35,8 +35,10 @@ export class OptionPlayerSearchComponent implements OnDestroy {
   private _playerSearchFilterObservable:ObservableHelper<PlayerSearchFilter> = new ObservableHelper<PlayerSearchFilter>(new PlayerSearchFilter());
   private _roles: RolePlayerEntity[] = [];
   private _teams: TeamEntity[] = [];
-
+  private _isMobileOrMobileXLBreakpointActive: boolean = false;    
   private _isMobileBreakpointActive: boolean = false;   
+
+  private _subscriptionToMobileOrMobileXLBreakpointObservable: Subscription;
   private _subscriptionToMobileBreakpointObservable : Subscription;
   private _subscriptionObserverToLeague: Subscription | undefined;
 
@@ -51,13 +53,21 @@ export class OptionPlayerSearchComponent implements OnDestroy {
     private filterDataService:FilterDataService) {
 
     console.log("Construct option player search component");
+    
+    let windowWidth:number = window.innerWidth;
+    this.isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(windowWidth);
+    this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(windowWidth);
+
+    this._subscriptionToMobileOrMobileXLBreakpointObservable = this.observeMobileOrMobileXLBreakpoint();
     this._subscriptionToMobileBreakpointObservable = this.observeMobileBreakpoint();
     this._subscriptionObserverToLeague = this.addObserverToLeague();
   }
   
   ngOnDestroy(): void {
     console.log("Destroy option player search component");
+    
     this._subscriptionToMobileBreakpointObservable.unsubscribe();
+    this._subscriptionToMobileOrMobileXLBreakpointObservable.unsubscribe();
     this._subscriptionObserverToLeague != undefined ? this._subscriptionObserverToLeague.unsubscribe() : null;
   }
 
@@ -72,6 +82,15 @@ export class OptionPlayerSearchComponent implements OnDestroy {
         .next(isMobile => this.isMobileBreakpointActive = isMobile)
         .error(error => console.log("Error while retriving mobile breakpoint: " + error))
         .build())
+  }
+
+  private observeMobileOrMobileXLBreakpoint() : Subscription {
+    return this.breakpointsService.mobileOrMobileXLObservable.subscribe(
+      new ObserverStepBuilder<boolean>()
+        .next(isActive => this.isMobileOrMobileXLBreakpointActive = isActive)
+        .error(err => console.log("Error while retriving mobile or mobile xl breakpoint : " + err))
+        .build()
+    );
   }
 
   private addObserverToLeague(): Subscription | undefined {
@@ -100,8 +119,16 @@ export class OptionPlayerSearchComponent implements OnDestroy {
     return this._isMobileBreakpointActive;
   }
 
-  public set isMobileBreakpointActive(value: boolean) {
+  private set isMobileBreakpointActive(value: boolean) {
     this._isMobileBreakpointActive = value;
+  }
+
+  public get isMobileOrMobileXLBreakpointActive(): boolean {
+    return this._isMobileOrMobileXLBreakpointActive;
+  }
+
+  private set isMobileOrMobileXLBreakpointActive(value: boolean) {
+    this._isMobileOrMobileXLBreakpointActive = value;
   }
 
   public get roles(): RolePlayerEntity[] {

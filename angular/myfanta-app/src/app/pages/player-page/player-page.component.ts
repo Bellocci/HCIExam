@@ -32,6 +32,7 @@ export class PlayerPageComponent implements OnInit, OnDestroy {
     private breakpointsService:BreakpointsService) {
 
     console.log("Construct Player page component");
+    this._isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(window.innerWidth);
     this._subscriptionMobileBreakpointObservable = this.observeMobileBreakpoint();
     this._subscriptionPlayerSelectedObservable = this.observePlayerSelected();
   }  

@@ -52,11 +52,11 @@
 
     <!-- Squadra -->
     <ng-container matColumnDef="team">
-      <ng-container *ngIf="!(breakpointsService.mobileObservable | async)">
+      <ng-container *ngIf="!isMobileBreakpointActive">
         <th mat-header-cell mat-sort-header *matHeaderCellDef class="label">Squadra</th>
         <td mat-cell *matCellDef="let player" class="label"> {{player.team.teamName}} </td>
       </ng-container>
-      <ng-container *ngIf="breakpointsService.mobileObservable | async">
+      <ng-container *ngIf="isMobileBreakpointActive">
         <th mat-header-cell mat-sort-header *matHeaderCellDef class="label">Sq</th>
         <td mat-cell *matCellDef="let player" class="label"> {{player.team.teamAbbreviation}} </td>
       </ng-container>
@@ -64,10 +64,10 @@
 
     <!-- Ruolo -->
     <ng-container matColumnDef="role">
-      <ng-container *ngIf="!(breakpointsService.mobileObservable | async)">
+      <ng-container *ngIf="!isMobileBreakpointActive">
         <th mat-header-cell mat-sort-header *matHeaderCellDef class="label">Ruolo</th>
       </ng-container>
-      <ng-container *ngIf="breakpointsService.mobileObservable | async">
+      <ng-container *ngIf="isMobileBreakpointActive">
         <div class="txt-right">
           <th mat-header-cell mat-sort-header *matHeaderCellDef class="label">R</th>
         </div>
@@ -125,7 +125,7 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="expand" *ngIf="breakpointsService.mobileOrMobileXLObservable | async">
+    <ng-container matColumnDef="expand" *ngIf="isMobileOrMobileXLBreakpointActive">
       <th mat-header-cell *matHeaderCellDef aria-label="row actions">
         <button mat-icon-button *ngIf="isClearTableRendered()" (click)="clearTable()" matTooltip="Rimuovi tutti i giocatori">
           <mat-icon>delete_forever</mat-icon>
@@ -197,12 +197,12 @@
 
     <!-- Visualizzazione righe "standard" -->
     <tr mat-row *matRowDef="let player; columns: displayedColumns"
-      [ngClass]="{'row-with-expansion' : (breakpointsService.mobileOrMobileXLObservable | async)}"
+      [ngClass]="{'row-with-expansion' : isMobileOrMobileXLBreakpointActive}"
       (click)="updateExpandedPlayer(player)">
     </tr>
 
     <!-- Visualizzazione pulsante per espandere la riga (disponibile solo per mobile) -->
-    <ng-container *ngIf="breakpointsService.mobileOrMobileXLObservable | async">
+    <ng-container *ngIf="isMobileOrMobileXLBreakpointActive">
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="hidden-row player-expanded-row">
       </tr>
     </ng-container>

@@ -57,13 +57,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
   public searchPlayerString:string = "";
   private _expandedPlayer: PlayerEntity | null = null;
   private _displayedColumns: string[] = [];  
-  private _isMobileBreakpointActive:boolean = false;
+  private _isMobileBreakpointActive: boolean = false;
+  private _isMobileOrMobileXLBreakpointActive: boolean = false;  
 
   private _filtersOption:ObservableHelper<string> = new ObservableHelper("");
 
   private _subscriptionToLeagueObservable:Subscription | undefined;
   private _subscriptionToTableFilterOptionObservable: Subscription | undefined;
   private _subscriptionToMobileObservable: Subscription;
+  private _subscriptionToMobileOrMobileXLObservable: Subscription;
 
   /*
    * ===================================
@@ -76,15 +78,23 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
     public routerService:RouterService,
     private playerSearchRequest:PlayerSearchRequestService,
     private snackbarService:SnackBarService,
-    public breakpointsService:BreakpointsService) { 
+    private breakpointsService:BreakpointsService) { 
 
-      console.log("Construct table component");
+      console.log("Construct table component");      
 
-      this._tableHelper = new TableHelper(teamDataService, routerService, playerSearchRequest);       
+      let windowWidth:number = window.innerWidth;    
+      this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(windowWidth);
+      this.isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(windowWidth);
+
+      this._tableHelper = new TableHelper(teamDataService, routerService, playerSearchRequest);
+      this.displayedColumns = this._tableHelper.getDisplayedColumns(this.isMobileBreakpointActive);
+      this._expandedPlayer = this.isMobileBreakpointActive ? this._expandedPlayer : null;
+      this.dataSource = new MatTableDataSource<PlayerEntity>();
+
       this._subscriptionToLeagueObservable = this.observeLeagueSelected();
       this._subscriptionToTableFilterOptionObservable = this.observeTableFilterOption();
       this._subscriptionToMobileObservable = this.addObserverToMobileObservable();
-      this.dataSource = new MatTableDataSource<PlayerEntity>();
+      this._subscriptionToMobileOrMobileXLObservable = this.observeMobileOrMobileXLBreakpoint();
   }  
 
   ngOnInit(): void {
@@ -108,6 +118,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
     this._subscriptionToLeagueObservable != undefined ? this._subscriptionToLeagueObservable?.unsubscribe() : null;
     this._subscriptionToTableFilterOptionObservable != undefined ? this._subscriptionToTableFilterOptionObservable.unsubscribe() : null;
     this._subscriptionToMobileObservable.unsubscribe();
+    this._subscriptionToMobileOrMobileXLObservable.unsubscribe();
     this._filtersOption.complete();
   }
 
@@ -149,6 +160,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
           this._isMobileBreakpointActive = isMobile;
           this._expandedPlayer = isMobile ? this._expandedPlayer : null;
         })
+        .error(error => console.log("Error while retriving mobile breakpoint : " + error))
+        .build());
+  }
+
+  private observeMobileOrMobileXLBreakpoint() : Subscription {
+    return this.breakpointsService.mobileOrMobileXLObservable.subscribe(new ObserverStepBuilder<boolean>()
+        .next(isActive => this.isMobileOrMobileXLBreakpointActive = isActive)
         .error(error => console.log("Error while retriving mobile or mobile XL breakpoint : " + error))
         .build());
   }
@@ -205,6 +223,22 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
 
   public set displayedColumns(value: string[]) {
     this._displayedColumns = value;
+  }
+
+  public get isMobileBreakpointActive(): boolean {
+    return this._isMobileBreakpointActive;
+  }
+  
+  private set isMobileBreakpointActive(value: boolean) {
+    this._isMobileBreakpointActive = value;
+  }
+
+  public get isMobileOrMobileXLBreakpointActive(): boolean {
+    return this._isMobileOrMobileXLBreakpointActive;
+  }
+  
+  private set isMobileOrMobileXLBreakpointActive(value: boolean) {
+    this._isMobileOrMobileXLBreakpointActive = value;
   }
 
   getFavoriteMessageTooltip(player:PlayerEntity) : string {

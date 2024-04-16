@@ -54,7 +54,7 @@ export class TeamListResponsiveComponent implements OnInit, OnDestroy, OnChanges
   
   private _selectedTeams: Set<TeamEntity> = new Set();  
   private _teams: TeamEntity[] = [];  
-  private _isMobile:boolean = false;
+  private _isMobileBreakpointActive: boolean = false;  
 
   private _subscriptionToLeagueObservable: Subscription | undefined;
   private _subscriptionMobileObservable!:Subscription;
@@ -71,6 +71,9 @@ export class TeamListResponsiveComponent implements OnInit, OnDestroy, OnChanges
     public breakpointsService: BreakpointsService) {
 
     console.log("Construct Custom chip listbox component");
+
+    this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(window.innerWidth);
+
     this._subscriptionToLeagueObservable = this.addObserverToLeague();
     this._subscriptionMobileObservable = this.addObserverToMobileBreakpoints();
   }  
@@ -108,7 +111,7 @@ export class TeamListResponsiveComponent implements OnInit, OnDestroy, OnChanges
 
   private addObserverToMobileBreakpoints() : Subscription {
     return this.breakpointsService.mobileObservable.subscribe(new ObserverStepBuilder<boolean>()
-        .next(isMobileBreakpointActive => this._isMobile = isMobileBreakpointActive)
+        .next(isMobileBreakpointActive => this.isMobileBreakpointActive = isMobileBreakpointActive)
         .error(error => console.log("Error while retriving mobile breakpoints :" + error))
         .build());
   }
@@ -133,6 +136,14 @@ export class TeamListResponsiveComponent implements OnInit, OnDestroy, OnChanges
 
   private set selectedTeams(value: Set<TeamEntity>) {
     this._selectedTeams = value;
+  }
+
+  public get isMobileBreakpointActive(): boolean {
+    return this._isMobileBreakpointActive;
+  }
+  
+  private set isMobileBreakpointActive(value: boolean) {
+    this._isMobileBreakpointActive = value;
   }
 
   getSelectedTeams() : TeamEntity[] {
@@ -167,7 +178,7 @@ export class TeamListResponsiveComponent implements OnInit, OnDestroy, OnChanges
    */
 
   private clearSelectedTeams() : void {  
-    if(this._isMobile) {
+    if(this.isMobileBreakpointActive) {
       /*
        * Deseleziono tutti gli elementi dal select 
        */ 

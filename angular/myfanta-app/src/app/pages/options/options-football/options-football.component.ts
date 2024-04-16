@@ -74,14 +74,20 @@ export class OptionsFootballComponent extends OptionsAbstract implements OnInit,
    * ============================
    */
 
-  constructor(private userService: UserService, public breakpointsService:BreakpointsService,
+  constructor(private userService: UserService, 
+    private breakpointsService:BreakpointsService,
     private rolePlayerSearchRequest:RolePlayerSearchRequestService) { 
       
     console.log("Construct Option Football component");
     
-    super();
+    super();    
     this._option = new OptionFootballSoccerEntity();
     this._roles = rolePlayerSearchRequest.bySport(SportEnum.FOOTBALL_SOCCER);
+
+    let windowWidth:number = window.innerWidth;
+    this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(windowWidth);
+    this.isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(windowWidth);
+    
     this._subscriptionMobileOrMobileXLBreakpointObservable = this.observeMobileOrMobileXLBreakpoint();
     this._subscriptionMobileBreakpointObservable = this.observeMobileBreakpoint();
   }  

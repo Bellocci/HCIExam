@@ -1,9 +1,9 @@
 <!-- Pagina Opzioni di filtro -->
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport 
-    [attr.role]="(breakpointsService.mobileOrTabletObservable| async) ? 'dialog' : 'dialog'"
-    [mode]="(breakpointsService.mobileOrTabletObservable | async) ? 'over' : 'side'" 
-    [opened]="(breakpointsService.mobileOrTabletObservable | async) === false">
+    [attr.role]="'dialog'"
+    [mode]="isMobileOrTabletBreakpointActive ? 'over' : 'side'" 
+    [opened]="isMobileOrTabletBreakpointActive === false">
 
     <mat-toolbar>Menu</mat-toolbar>
 
@@ -30,12 +30,19 @@
       </button>
     </div>
   </mat-sidenav>
+
   <mat-sidenav-content>
-    <mat-toolbar class="toolbar-filter-option">
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
-        *ngIf="breakpointsService.mobileOrTabletObservable | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
+    <mat-toolbar class="primary-color-light mat-elevation-z1 toolbar" 
+      *ngIf="isMobileOrTabletBreakpointActive">
+
+        <mat-toolbar-row class="toolbar-row flex-center-wrap">
+          <button mat-flat-button aria-label="Toggle sidenav" class="btn-standard label no-color no-padding"
+              (click)="drawer.toggle()">
+              <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+              Opzioni
+          </button>
+        </mat-toolbar-row>
+
     </mat-toolbar>
 
     <!-- Contenuto della pagina -->

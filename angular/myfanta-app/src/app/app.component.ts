@@ -40,8 +40,8 @@ export class AppComponent implements OnDestroy {
 
     console.log("Construct FantasyTeam app component");
     
-    this._subscriptionLeagueSelectedObservable = this.observeLeagueSelected();
     this.isMobileOrTabletBreakpointActive = BreakpointsService.isMobileOrTabletBreakpointActive(window.innerWidth);
+    this._subscriptionLeagueSelectedObservable = this.observeLeagueSelected();
     this._subscriptionToMobileOrTabletBreakpointObservable = this.observeMobileOrTabletBreakpoint();
   }
 

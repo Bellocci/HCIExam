@@ -17,7 +17,7 @@
     </form>
 
     <!-- Pulsante aggiunta giocatore alla lista: versione standard -->
-    <ng-container *ngIf="!(breakpointsService.mobileObservable | async)">
+    <ng-container *ngIf="!isMobileBreakpointActive">
         <div>
             <button mat-raised-button 
             class="btn-standard"
@@ -30,7 +30,7 @@
     </ng-container>
 
     <!-- Pulsante aggiunta giocatore alla lista: versione mobile -->
-    <ng-container *ngIf="breakpointsService.mobileObservable | async">
+    <ng-container *ngIf="isMobileBreakpointActive">
         <div>
             <button mat-raised-button
             class="btn-mini" 

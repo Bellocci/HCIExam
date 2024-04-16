@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { debounceTime, distinctUntilChanged, Subject, switchMap} from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { debounceTime, distinctUntilChanged, Subject, Subscription, switchMap} from 'rxjs';
 import { InternalDataService } from '../../service/internal-data.service';
 import { TeamDataService } from '../../service/team-data.service';
 import { RouterService } from '../../service/router.service';
@@ -13,13 +13,14 @@ import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
 import { PlayerSearchRequestService } from 'src/app/service/player-search-request.service';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
+import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 
 @Component({
   selector: 'app-search-add-player',
   templateUrl: './search-add-player.component.html',
   styleUrls: ['./search-add-player.component.scss']
 })
-export class SearchAddPlayerComponent implements OnInit {
+export class SearchAddPlayerComponent implements OnInit, OnDestroy {
 
   /*
    * ==========
@@ -31,11 +32,16 @@ export class SearchAddPlayerComponent implements OnInit {
   players: PlayerEntity[] = []; // Lista dei giocatori restituiti dall'autocomplete
   private playerResultList:Subject<string> = new Subject<string>();
   private leagueSelected:LeagueEntity | null = null;
+  private _isMobileBreakpointActive: boolean = false;  
+
+  private _subscriptionToMobileObservable: Subscription;
+  private _subscriptionToLeagueSelectedObservable: Subscription | undefined;
+  private _subscriptionToSearchPlayersObservable: Subscription;
 
   /*
-   * =================
-   * CONSTRUCT & INIT 
-   * =================
+   * ===========================
+   * CONSTRUCT - INIT - DESTROY 
+   * ===========================
    */
 
   constructor(
@@ -45,13 +51,49 @@ export class SearchAddPlayerComponent implements OnInit {
     private playerSearchRequest:PlayerSearchRequestService,
     private snackBarService:SnackBarService,
     private searchAddPlayerValidator:SearchAddPlayerValidatorService,
-    public breakpointsService:BreakpointsService) { }
+    private breakpointsService:BreakpointsService) { 
 
-  ngOnInit(): void {
+      console.log("Construct Search add player component");
 
-    this.subscribeLeagueSelected();
+      this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(window.innerWidth);
 
-    this.playerResultList.pipe(
+      this._subscriptionToMobileObservable = this.observeMobileOrMobileXLBreakpoint(); 
+      this._subscriptionToSearchPlayersObservable = this.observeSearchPlayers();
+      this._subscriptionToLeagueSelectedObservable = this.observeLeagueSelected();
+  }  
+
+  ngOnInit(): void { }
+
+  ngOnDestroy(): void {
+    console.log("Destroy Search add player component");
+    
+    this._subscriptionToMobileObservable.unsubscribe();
+    this._subscriptionToSearchPlayersObservable.unsubscribe();
+    this._subscriptionToLeagueSelectedObservable != undefined ? this._subscriptionToLeagueSelectedObservable.unsubscribe() : null;
+  }
+
+  /*
+   * =========
+   * OBSERVER 
+   * =========
+   */
+
+  private observeLeagueSelected() : Subscription | undefined {
+    return this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<LeagueEntity | null>()
+      .next(league => this.leagueSelected = league)
+      .error(err => console.log("Error while retriving league selected : " + err))
+      .build());
+  }
+
+  private observeMobileOrMobileXLBreakpoint() : Subscription {
+    return this.breakpointsService.mobileOrMobileXLObservable.subscribe(new ObserverStepBuilder<boolean>()
+        .next(isActive => this.isMobileBreakpointActive = isActive)
+        .error(error => console.log("Error while retriving mobile breakpoint : " + error))
+        .build());
+  }
+
+  private observeSearchPlayers() : Subscription {
+    return this.playerResultList.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
 
@@ -67,22 +109,18 @@ export class SearchAddPlayerComponent implements OnInit {
   }
 
   /*
-   * =========
-   * OBSERVER 
-   * =========
-   */
-
-  private subscribeLeagueSelected() : void {
-    this.internalDataService.getObservableLeagueSelected().subscribe(league => {
-      this.leagueSelected = league;
-    })
-  }
-
-  /*
    * ========
    * GETTER 
    * ========
    */
+
+  public get isMobileBreakpointActive(): boolean {
+    return this._isMobileBreakpointActive;
+  }
+  
+  private set isMobileBreakpointActive(value: boolean) {
+    this._isMobileBreakpointActive = value;
+  }
 
   getAddBtnDescription() : string {
     const value = this.routerService.currentPageIsMyTeam() ? 'Aggiungi giocatore al Team' :

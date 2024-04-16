@@ -57,9 +57,16 @@ export class UserPageComponent implements OnInit, OnDestroy {
     private routerService:RouterService,
     private internalDataService:InternalDataService,
     private dialogService:DialogService,
-    public breakpointsService:BreakpointsService) { 
+    private breakpointsService:BreakpointsService) { 
 
     console.log("Construct User profile page");
+    
+    let windowWidth:number = window.innerWidth;
+    this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(windowWidth);
+    this.isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(windowWidth);
+    this.isLargeDeviceBreakpointActive = BreakpointsService.isLargeDeviceBreakpointActive(windowWidth);
+    this.isXLDeviceBreakpointActive = BreakpointsService.isXLDeviceBreakpointActive(windowWidth);
+
     this._subscriptionToMobileObservable = this.observeMobileBreakpoints();
     this._subscriptionToMobileOrMobileXLObservable = this.observeMobileOrMobileXLBreakpoints();
     this._subscriptionToLargeDeviceBreakpointObservable = this.observeLargeDeviceBreakpoints();

@@ -71,12 +71,17 @@ export class OptionsBasketballComponent extends OptionsAbstract implements OnIni
    * ============================
    */
 
-  constructor(public breakpointsService:BreakpointsService,
+  constructor(private breakpointsService:BreakpointsService,
     private rolePlayerSearchRequest:RolePlayerSearchRequestService) { 
     console.log("Construct Advanced Option Basketball component");
 
     super();
     this.roles = this.rolePlayerSearchRequest.bySport(SportEnum.BASKETBALL);
+    
+    let windowWidth:number = window.innerWidth;
+    this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(windowWidth);
+    this.isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(windowWidth);
+
     this._subscriptionMobileOrMobileXLBreakpointObservable = this.observeMobileOrMobileXLBreakpoint();
     this._subscriptionMobileBreakpointObservable = this.observeMobileBreakpoint();
   }  

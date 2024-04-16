@@ -47,8 +47,13 @@ export class RecoveryPasswordDialogComponent implements OnInit, OnDestroy {
    * =============================
    */
 
-  constructor(private _userService:UserService,private dialogService:DialogService, private breakpointsService:BreakpointsService) { 
+  constructor(private _userService:UserService,
+    private dialogService:DialogService, 
+    private breakpointsService:BreakpointsService) { 
+
     console.log("Construct recovery password dialog component");
+
+    this._isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(window.innerWidth);
     this._subscriptionMobileBreakpoint = this.observeMobileBreakpoint();
   }  
 

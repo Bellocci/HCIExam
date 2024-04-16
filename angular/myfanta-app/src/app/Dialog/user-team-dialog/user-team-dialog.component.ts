@@ -51,7 +51,8 @@ export class UserTeamDialogComponent implements OnInit, OnDestroy {
    * ===============================
    */
 
-  constructor(private dialogService:DialogService, public breakpointsService:BreakpointsService,
+  constructor(private dialogService:DialogService, 
+    private breakpointsService:BreakpointsService,
     private filterDataService:FilterDataService,
     private userService:UserService,
     private userTeamDecoratorFactory:UserTeamDecoratorFactoryService,
@@ -62,6 +63,7 @@ export class UserTeamDialogComponent implements OnInit, OnDestroy {
       console.log("Construct New Team dialog component");
 
       this._teamName = UserTeamDialogComponent.TEAM_NAME_DEFAULT;
+      this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(window.innerWidth);
       this._subscriptionToMobileBreakpointObservable = this.observeMobileBreakpoint();
 
       this.isCreateMode = this.dialogData.isCreateMode != undefined ? 

@@ -1,16 +1,12 @@
 @use "src/styles/global/styles";
 @use "src/styles/angular-component/toolbar";
+@use "src/styles/angular-component/buttons";
 @import "src/styles/global/breakpoints";
 @import "src/styles/global/variables";
 
 
 .link-menu-container {
     margin-top: calc($toolbar-height-mobile * 2 + 10px);
-}
-
-.second-toolbar {
-    position: sticky;
-    z-index: 100;
 }
 
 @media (min-width: $mobile-breakpoint){

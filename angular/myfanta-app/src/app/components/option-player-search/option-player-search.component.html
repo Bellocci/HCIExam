@@ -4,7 +4,7 @@
     </mat-expansion-panel-header>
 
     <!-- Visualizzazione standard -->
-    <ng-container *ngIf="!(breakpointsService.mobileOrMobileXLObservable | async)">
+    <ng-container *ngIf="!breakpointsService.mobileOrMobileXLObservable">
         <!-- Riga : Ruoli / Presenze -->
         <div class="flex-container container-small margin-large-right margin-large-left">
 
@@ -77,7 +77,7 @@
     </ng-container>
 
     <!-- Visualizzazione mobile -->
-    <ng-container *ngIf="breakpointsService.mobileOrMobileXLObservable | async">
+    <ng-container *ngIf="isMobileOrMobileXLBreakpointActive">
         <!-- Riga 1 -->
         <div class="flex-container container-small margin-large-right margin-large-left">
 
@@ -118,7 +118,7 @@
 
             <!-- Presenze -->
             <div class="cell-12of12 flex-direction-column"
-                *ngIf="(breakpointsService.mobileOrMobileXLObservable | async)">
+                *ngIf="isMobileOrMobileXLBreakpointActive">
                 <label class="top-label">Presenze</label>
 
                 <!-- Versione estesa  -->

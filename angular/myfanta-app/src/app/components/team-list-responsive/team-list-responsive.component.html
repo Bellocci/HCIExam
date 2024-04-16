@@ -3,7 +3,7 @@
 <div class="full-width flex-start">
 
     <!-- Visualizzazione standard -->
-    <ng-container *ngIf="!(breakpointsService.mobileObservable | async)">
+    <ng-container *ngIf="!isMobileBreakpointActive">
         <ng-container *ngFor="let team of teams">
 
             <div class="margin-right margin-top">
@@ -20,7 +20,7 @@
     </ng-container>
 
     <!-- Visualizzazione mobile -->
-    <ng-container *ngIf="(breakpointsService.mobileObservable | async)">
+    <ng-container *ngIf="isMobileBreakpointActive">
         <mat-form-field class="full-width">
             <mat-label>Seleziona una squadra</mat-label>
             <mat-select [value]="getSelectedTeams()" multiple #teamSelect>

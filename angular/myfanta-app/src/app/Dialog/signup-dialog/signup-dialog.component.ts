@@ -61,7 +61,7 @@ export class SignupDialogComponent implements OnInit, OnDestroy {
   private _showPassword: boolean = false;  
   private _createdNewUser: boolean = false;  
 
-  private _isMobileBreakpointActive:boolean = false;
+  private _isMobileBreakpointActive: boolean = false;  
   private _subscriptionMobileBreakpoint:Subscription;
   
   /* FORM CONTROL */
@@ -101,6 +101,8 @@ export class SignupDialogComponent implements OnInit, OnDestroy {
   constructor(private _userService:UserService, private dialogService:DialogService, 
     public breakpointsService:BreakpointsService) {
       console.log("Construct Signup dialog component");
+
+      this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(window.innerWidth);
       this._subscriptionMobileBreakpoint = this.observeMobileBreakpoint();
   }  
 
@@ -119,7 +121,7 @@ export class SignupDialogComponent implements OnInit, OnDestroy {
   private observeMobileBreakpoint() : Subscription {
     return this.breakpointsService.mobileObservable
         .subscribe(new ObserverStepBuilder<boolean>()
-        .next((isMobile : boolean) => this._isMobileBreakpointActive = isMobile)
+        .next((isMobile : boolean) => this.isMobileBreakpointActive = isMobile)
         .error((error : any) => console.error("Error to get mobile breakpoint: " + error))
         .complete( () => console.log("Mobile breakpoint observer completed"))
         .build());
@@ -161,6 +163,14 @@ export class SignupDialogComponent implements OnInit, OnDestroy {
   
   public set createdNewUser(value: boolean) {
     this._createdNewUser = value;
+  }
+
+  public get isMobileBreakpointActive(): boolean {
+    return this._isMobileBreakpointActive;
+  }
+  
+  private set isMobileBreakpointActive(value: boolean) {
+    this._isMobileBreakpointActive = value;
   }
 
   getErrorNameMessage() : string {

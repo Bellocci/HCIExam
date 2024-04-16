@@ -22,8 +22,12 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy {
    * VARIABILI 
    * ==========
    */
+
   private _sportSelected: SportEnum | null = null;
-  private _subscribeToLeagueObservable : Subscription | undefined;
+  private _isMobileOrTabletBreakpointActive: boolean = false;  
+
+  private _subscribeToLeagueObservable: Subscription | undefined;
+  private _subscriptionToMobileOrTabletBreakpointObservable: Subscription;
 
   /*
    * ============================
@@ -31,10 +35,13 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy {
    * ============================
    */
   constructor(private internalDataService: InternalDataService,
-    public breakpointsService:BreakpointsService) { 
+    private breakpointsService:BreakpointsService) { 
 
       console.log("Construct Option component");
+
+      this.isMobileOrTabletBreakpointActive = BreakpointsService.isMobileOrTabletBreakpointActive(window.innerWidth); 
       this._subscribeToLeagueObservable = this.observeLeagueSelected();
+      this._subscriptionToMobileOrTabletBreakpointObservable = this.observeMobileOrTabletBreakpoint();
   }
 
   ngOnInit(): void { }
@@ -46,6 +53,7 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     console.log("Destroy option component");
 
+    this._subscriptionToMobileOrTabletBreakpointObservable.unsubscribe();
     this._subscribeToLeagueObservable != undefined ? this._subscribeToLeagueObservable.unsubscribe() : null;
   }
 
@@ -63,11 +71,26 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy {
           .build());
   }
 
+  private observeMobileOrTabletBreakpoint() : Subscription {
+    return this.breakpointsService.mobileOrTabletObservable.subscribe(new ObserverStepBuilder<boolean>()
+      .next(isActive => this.isMobileOrTabletBreakpointActive = isActive)
+      .error(err => console.log("Error while retriving mobile or tablet breakpoint : " + err))
+      .build());
+  }
+
   /*
    * ================
    * GETTER & SETTER 
    * ================
    */
+
+  public get isMobileOrTabletBreakpointActive(): boolean {
+    return this._isMobileOrTabletBreakpointActive;
+  }
+
+  private set isMobileOrTabletBreakpointActive(value: boolean) {
+    this._isMobileOrTabletBreakpointActive = value;
+  }
 
   getIds() : IdMatCard[] {
     if(this.isFootballOptionsRendered()) {
