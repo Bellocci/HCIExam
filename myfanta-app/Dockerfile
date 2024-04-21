@@ -1,26 +1,22 @@
 ### Stage 1: Compile and build angular codebase ###
 
-# Utilizza 17-alpine come immmagine officiale per l'immagine base del container
-FROM node:17-alpine as builder
+# Si utilizza l'immagine ufficiale node:17-alpine come immagine base
+FROM node:17-alpine as build
 # Imposto la working directory
-WORKDIR /usr/local/app/myfanta-app
+WORKDIR /usr/local/myfanta-app
 # Aggiungo il codice sorgente nella cartella
-COPY ./ /usr/local/app/myfanta-app/
+COPY ./ /usr/local/myfanta-app/
 # Installo tutte le dipendenze.
 RUN npm install
 # Genero la build dell'applicazione
 RUN npm run build
-# Output directory
 
 
 ### Stage 2: Distribuire l'applicazione con server nginx
 
-# Utilizza  
-
-# Copy app files.
-COPY . /app
-
-EXPOSE 4200
-
-# Run app
-CMD ["npm", "start", "--prefix", "myfanta-app"]
+# Si utilizza l'ultima versione ufficiale stable come immagine base
+FROM nginx:latest
+# Copia l'output ottenuto dalla build in modo da sostituire il contenuto default di nginx
+COPY --from=build /usr/local/myfanta-app/dist/myfanta-app /usr/share/nginx/html
+# Espone la porta 80
+EXPOSE 80

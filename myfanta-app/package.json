@@ -20,7 +20,6 @@
     "@angular/platform-browser": "^16.0.4",
     "@angular/platform-browser-dynamic": "^16.0.4",
     "@angular/router": "^16.0.4",
-    "@nicky-lenaers/ngx-scroll-to": "^14.0.0",
     "rxjs": "~7.5.0",
     "sass": "^1.69.5",
     "zone.js": "~0.13.0"
