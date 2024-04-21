@@ -1,5 +1,5 @@
 *.bak
 db.sqlite3
 __pycache__/
-./fantasydream-env
-./fantasyteam-env
+fantasydream-env/
+fantasyteam-env/
