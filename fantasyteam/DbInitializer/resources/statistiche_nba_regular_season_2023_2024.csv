@@ -1,0 +1,19 @@
+Nome,Cognome,Nazionalità,R,Squadra,Quotazioni,Anno di nascita,Mv,Fm,Partite giocate,Partite iniziate,Punti,Rimbalzi,Assist,Percentuale tiri dal campo,Percentuale tiri da 3,Palle rubate,Stoppate,Falli
+Luka,Doncic,SLOVENIA,G,Dallas Mavericks,23,28/02/1999,"51,4","51,4",70,70,3601,646,686,"48,7","38,2",99,38,149
+Kyrie,Irving,"AUSTRALIA,UNITED_STATES",G,Dallas Mavericks,"16,6",23/03/1992,"32,8","32,8",58,58,1902,290,299,"49,7","41,7",74,28,112
+Shai,Gilgeous-Alexander,CANADA,G,Oklahoma City Thunder,"18,6",12/07/1998,"38,8","38,8",75,75,2254,414,466,"53,5","35,3",151,67,184
+Tyrese,Haliburton,UNITED_STATES,G,Indiana Pacers,"17,3",29/02/2000,"38,5","38,5",69,68,1389,270,751,"47,8","36,5",83,48,75
+Trae,Young,UNITED_STATES,G,Atlanta Hawks,"16,3",19/09/1998,"35,8","35,8",54,54,1389,149,583,43,"37,2",72,11,109
+Donovan,Mitchell,UNITED_STATES,G,Cleveland Cavaliers,"15,4",07/09/1996,"33,9","33,9",55,55,1463,280,333,"47,6","35,4",101,30,118
+Giannis,Antetokounmpo,GREECE,A,Milwaukee Bucks,"23,3",06/12/1994,"46,1","46,1",73,73,2222,843,475,"61,1","27,4",85,79,210
+Lebron,James,UNITED_STATES,A,Los Angeles Lakers,"19,5",30/12/1984,"38,6","38,6",71,71,1822,518,588,54,41,89,38,78
+Jayson,Tatum,UNITED_STATES,A,Boston Celtics,17,03/03/1998,"35,7","35,7",74,74,1987,602,364,"47,2","37,6",75,43,145
+Victor,Wembanyama,FRANCE,A,San Antonio Spurs,"19,9",04/01/2004,"35,7","35,7",71,71,1522,755,274,"46,5","32,5",87,255,153
+Kevin,Durant,UNITED_STATES,A,Phoenix Suns,"15,7",29/09/1988,"33,7","33,7",75,75,2032,493,378,"52,3","41,3",69,91,133
+Scottie,Barnes,UNITED_STATES,A,Toronto Raptors,"14,1",01/08/2001,"33,1","33,1",60,60,1191,494,364,"47,5","34,1",75,88,118
+Nikola,Jokic,SERBIA,C,Denver Nuggets,"26,3",19/02/1995,"51,8","51,8",79,79,2085,977,708,"58,3","35,9",106,68,194
+Joel,Embiid,"CAMEROON,FRANCE,UNITED_STATES",C,Philadelphia 76ers,"21,6",16/03/1994,"48,6","48,6",39,39,1353,429,219,"52,9","38,8",46,66,112
+Domantas,Sabonis,"LITHUANIA,UNITED_STATES",C,Sacramento Kings,"21,7",03/05/1996,"44,8","44,8",82,82,1593,1120,673,"59,4","37,9",74,48,250
+Anthony,Davis,UNITED_STATES,C,Los Angeles Lakers,"21,1",11/03/1993,"43,1","43,1",76,76,1876,961,267,"55,6","27,1",92,178,177
+Alperen,Sengun,TURKEY,C,Houston Rockets,"14,2",25/07/2002,"32,5","32,5",63,63,1331,590,312,"53,7","29,7",75,46,211
+Rudy,Gobert,FRANCE,C,Minnesota Timberwolves,"16,6",26/06/1992,"32,4","32,4",76,76,1061,978,102,"66,3",0,52,162,238
