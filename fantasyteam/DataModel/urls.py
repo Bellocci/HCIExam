@@ -3,5 +3,5 @@ from django.conf.urls import include
 from DataModel import views
 
 urlpatterns=[
-    re_path(r"^/user/", include('DataModel.models.UserModel.urls')),
+    re_path(r"^user/", include('DataModel.models.UserModel.urls')),
 ]

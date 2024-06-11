@@ -8,7 +8,6 @@ class UserModelSerializer(serializers.ModelSerializer):
     profile_photo = UserProfilePhotoModelSerializer(required=False) 
 
     class Meta:
-        db_table = 'user'
         model = UserModel
         fields = ['user_id', 'name', 'surname', 'username', 'password', 'profile_photo']
         # Imposta write_only=True per il campo password in modo che non venga incluso nelle risposte API

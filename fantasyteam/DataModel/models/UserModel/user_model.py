@@ -6,10 +6,10 @@ class UserModel(models.Model):
     # Modello dati
     #
     user_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255, error_messages="Name is mandatory")
-    surname = models.CharField(max_length=255, error_messages="Surname is mandatory")
-    username = models.CharField(max_length=100, error_messages="Username is mandatory", unique=True)
-    password = models.CharField(max_length=100, error_messages="Password is mandatory")
+    name = models.CharField(max_length=255)
+    surname = models.CharField(max_length=255)
+    username = models.CharField(max_length=100, unique=True)
+    password = models.CharField(max_length=100)
     
     #
     # Attributi aggiuntivi
