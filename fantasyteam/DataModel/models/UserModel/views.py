@@ -1,6 +1,3 @@
-from base64 import b64decode
-
-from django.core.files.storage import default_storage
 from django.http import HttpRequest
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -11,7 +8,6 @@ from rest_framework.decorators import api_view
 
 from DataModel.models.UserModel.user_model import UserModel
 from DataModel.models.UserModel.user_model_serializer import UserModelSerializer
-from DataModel.models.UserModel.user_model_validator import UserModelVaidator
 
 @csrf_exempt
 @api_view(['POST'])
@@ -54,26 +50,15 @@ def create_new_user(request: HttpRequest) -> JsonResponse:
         request_data = parser.parse(request)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)        
-    
-    new_user = UserModel()
-    new_user.name = request_data.get('name')
-    new_user.surname = request_data.get('surname')
-    new_user.username = request_data.get('username')
-    new_user.password = request_data.get('password')
-
-    validator = UserModelVaidator()
-    validation_result = validator.validate(new_user)
-    if(validation_result):
-        # Sono presenti degli errori di validazione
-        return JsonResponse(validation_result, status=status.HTTP_400_BAD_REQUEST)
 
     user_serializer:UserModelSerializer = UserModelSerializer(data=request_data)
     if(user_serializer.is_valid()):
         user_serializer.save()
-        print("Created new user: ", new_user)
+        print("Created new user: ", user_serializer.data['name'], " ", user_serializer.data['surname'])
         return JsonResponse(user_serializer.data, status=status.HTTP_200_OK)
     else:        
-        return JsonResponse({'error' : 'Failed to create new user: ' + user_serializer.error_messages}, status=status.HTTP_409_CONFLICT)
+        print('Failed to create new user: ', user_serializer.errors)
+        return JsonResponse(user_serializer.errors, status=status.HTTP_409_CONFLICT)
     
 
 @csrf_exempt
@@ -107,7 +92,8 @@ def retrieve_password(request: HttpRequest) -> JsonResponse:
         user = UserModel.objects.get(name=name, surname=surname, username=username)
         print("Recovered password for user: ", user)
         user_serializer = UserModelSerializer(user)
-        # Si aggiunge manualmente la password siccome il serializer, per come è stato definito, non lo inserisce tra i parametri
+        # Si aggiunge manualmente la password nell'oggetto user serializzato siccome il
+        # serializer, per come è definito, non lo definisce tra i parametri
         data = user_serializer.data
         data['password'] = user.password
         return JsonResponse(data, status=status.HTTP_200_OK)
