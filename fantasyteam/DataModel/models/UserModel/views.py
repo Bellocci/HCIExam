@@ -24,10 +24,10 @@ def find_user(request: HttpRequest) -> JsonResponse:
 
     validation = {}
     if(username is None or len(username) == 0):
-        validation['error_username'] = 'Username is mandatory'
+        validation['username'] = 'Username is mandatory'
     
     if(password is None or len(password) == 0):
-        validation['error_password'] = 'Password is mandatory'
+        validation['password'] = 'Password is mandatory'
 
     if(validation):
         return JsonResponse(validation, status=status.HTTP_400_BAD_REQUEST)
@@ -77,13 +77,13 @@ def retrieve_password(request: HttpRequest) -> JsonResponse:
 
     validation = {}
     if(name is None or len(name) == 0):
-        validation['error_name'] = "Name is mandatory"
+        validation['name'] = "Name is mandatory"
     
     if(surname is None or len(surname) == 0):
-        validation['error_surname'] = "Surname is mandatory"
+        validation['surname'] = "Surname is mandatory"
     
     if(username is None or len(username) == 0):
-        validation['error_username'] = "Username is mandatory"
+        validation['username'] = "Username is mandatory"
 
     if(validation):
         return JsonResponse(validation, status=status.HTTP_400_BAD_REQUEST)
