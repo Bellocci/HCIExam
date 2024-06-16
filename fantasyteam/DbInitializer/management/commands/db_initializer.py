@@ -13,7 +13,7 @@ from DataModel.models.PlayerAdditionalInfoModel.BasketballPlayerAdditionalInfoMo
 from DataModel.models.PlayerAdditionalInfoModel.SoccerPlayerAdditionalInfoModel.soccer_player_additional_info_model import SoccerPlayerAdditionalInfoModel
 from DataModel.models.PlayerAdditionalInfoModel.VolleyballPlayerAdditionalInfoModel.volleyball_player_additional_info_model import VolleyballPlayerAdditionalInfoModel
 from DataModel.models.PlayerModel.player_model import PlayerModel
-from DataModel.models.PlayerRoleModel.role_player_model import PlayerRoleModel
+from DataModel.models.RolePlayerModel.role_player_model import RolePlayerModel
 from DataModel.models.TeamModel.team_model import TeamModel
 from DataModel.models.UserModel.user_model import UserModel
 
@@ -116,7 +116,7 @@ class Command(BaseCommand):
         #
 
         # Portiere
-        goalkeeper = PlayerRoleModel()
+        goalkeeper = RolePlayerModel()
         goalkeeper.description = "Portiere"
         goalkeeper.short_description = "POR"
         goalkeeper.sport = SportEnum.SOCCER.name
@@ -124,7 +124,7 @@ class Command(BaseCommand):
         print("Created new role: ", goalkeeper)
 
         # Difensore
-        defender = PlayerRoleModel()
+        defender = RolePlayerModel()
         defender.description = "Difensore"
         defender.short_description = "DIF"
         defender.sport = SportEnum.SOCCER.name
@@ -132,7 +132,7 @@ class Command(BaseCommand):
         print("Created new role: ", defender)
 
         # Centrocampista
-        midfielder = PlayerRoleModel()
+        midfielder = RolePlayerModel()
         midfielder.description = "Centrocampista"
         midfielder.short_description = "CEN"
         midfielder.sport = SportEnum.SOCCER.name
@@ -140,7 +140,7 @@ class Command(BaseCommand):
         print("Created new role: ", midfielder)
 
         # Attaccante
-        straiker = PlayerRoleModel()
+        straiker = RolePlayerModel()
         straiker.description = "Attaccante"
         straiker.short_description = "ATT"
         straiker.sport = SportEnum.SOCCER.name
@@ -152,7 +152,7 @@ class Command(BaseCommand):
         #
 
         # Palleggiatore
-        setter = PlayerRoleModel()
+        setter = RolePlayerModel()
         setter.description = "Palleggiatore"
         setter.short_description = "PAL"
         setter.sport = SportEnum.VOLLEYBALL.name
@@ -160,7 +160,7 @@ class Command(BaseCommand):
         print("Created new role: ", setter)
 
         # Schiacciatore
-        left_side_hitter = PlayerRoleModel()
+        left_side_hitter = RolePlayerModel()
         left_side_hitter.description = "Schiacciatore"
         left_side_hitter.short_description = "SCH"
         left_side_hitter.sport = SportEnum.VOLLEYBALL.name
@@ -168,7 +168,7 @@ class Command(BaseCommand):
         print("Created new role: ", left_side_hitter)
 
         # Opposto
-        opposite_hitter = PlayerRoleModel()
+        opposite_hitter = RolePlayerModel()
         opposite_hitter.description = "Opposto"
         opposite_hitter.short_description = "OPP"
         opposite_hitter.sport = SportEnum.VOLLEYBALL.name
@@ -176,7 +176,7 @@ class Command(BaseCommand):
         print("Created new role: ", opposite_hitter)
 
         # Centrale
-        midde_blocker = PlayerRoleModel()
+        midde_blocker = RolePlayerModel()
         midde_blocker.description = "Centrale"
         midde_blocker.short_description = "CEN"
         midde_blocker.sport = SportEnum.VOLLEYBALL.name
@@ -184,7 +184,7 @@ class Command(BaseCommand):
         print("Created new role: ", midde_blocker)
 
         # Libero
-        libero = PlayerRoleModel()
+        libero = RolePlayerModel()
         libero.description = "Libero"
         libero.short_description = "LIB"
         libero.sport = SportEnum.VOLLEYBALL.name
@@ -196,7 +196,7 @@ class Command(BaseCommand):
         #
 
         # Guardia
-        shooting_guard = PlayerRoleModel()
+        shooting_guard = RolePlayerModel()
         shooting_guard.description = "Guardia"
         shooting_guard.short_description = "G"
         shooting_guard.sport = SportEnum.BASKETBALL.name
@@ -204,7 +204,7 @@ class Command(BaseCommand):
         print("Created new role: ", shooting_guard)
 
         # Ala
-        forward = PlayerRoleModel()
+        forward = RolePlayerModel()
         forward.description = "Ala"
         forward.short_description = "A"
         forward.sport = SportEnum.BASKETBALL.name
@@ -212,7 +212,7 @@ class Command(BaseCommand):
         print("Created new role: ", forward)
 
         # Centro
-        center = PlayerRoleModel()
+        center = RolePlayerModel()
         center.description = "Centro"
         center.short_description = "C"
         center.sport = SportEnum.BASKETBALL.name
@@ -253,7 +253,7 @@ class Command(BaseCommand):
             role_player = soccer_players.iloc[index, 3]
             role = role_dictionary.get(role_player)
             if(role is None):
-                role = PlayerRoleModel.objects.get(short_description = role_player, sport = SportEnum.SOCCER.name)
+                role = RolePlayerModel.objects.get(short_description = role_player, sport = SportEnum.SOCCER.name)
                 role_dictionary[role_player] = role
             new_player.role = role
 
@@ -330,7 +330,7 @@ class Command(BaseCommand):
             role_player = basket_players.iloc[index, 3]
             role = role_dictionary.get(role_player)
             if(role is None):
-                role = PlayerRoleModel.objects.get(short_description = role_player, sport = SportEnum.BASKETBALL.name)
+                role = RolePlayerModel.objects.get(short_description = role_player, sport = SportEnum.BASKETBALL.name)
                 role_dictionary[role_player] = role
             new_player.role = role
 
@@ -408,7 +408,7 @@ class Command(BaseCommand):
             role_player = volleyball_players.iloc[index, 3]
             role = role_dictionary.get(role_player)
             if(role is None):
-                role = PlayerRoleModel.objects.get(short_description = role_player, sport = SportEnum.VOLLEYBALL.name)
+                role = RolePlayerModel.objects.get(short_description = role_player, sport = SportEnum.VOLLEYBALL.name)
                 role_dictionary[role_player] = role
             new_player.role = role
 

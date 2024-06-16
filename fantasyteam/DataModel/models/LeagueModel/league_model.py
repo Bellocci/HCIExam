@@ -5,7 +5,7 @@ from DataModel.enum.country_enum import CountryEnum
 
 class LeagueModel(models.Model):
     league_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     sport = models.CharField(max_length=100,choices=SportEnum.choices())
     country = models.CharField(max_length=100,choices=CountryEnum.choices())
 

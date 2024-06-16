@@ -2,7 +2,7 @@ from django.db import models
 
 from DataModel.enum.sport_enum import SportEnum
 
-class PlayerRoleModel(models.Model):
+class RolePlayerModel(models.Model):
     role_id = models.AutoField(primary_key=True)
     description = models.CharField(max_length=100)
     short_description = models.CharField(max_length=25)

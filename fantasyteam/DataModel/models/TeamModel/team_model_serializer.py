@@ -3,7 +3,7 @@ from rest_framework import serializers
 from DataModel.models.LeagueModel.league_model_serializer import LeagueModelSerializer
 from DataModel.models.TeamModel.team_model import TeamModel
 
-class TeamModelSerializer(serializers.Serializer):
+class TeamModelSerializer(serializers.ModelSerializer):
     league = LeagueModelSerializer(read_only=True)
 
     class Meta:

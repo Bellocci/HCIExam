@@ -2,12 +2,12 @@ from rest_framework import serializers
 
 from DataModel.enum.sport_enum import SportEnum
 from DataModel.models.PlayerModel.player_model import PlayerModel
-from DataModel.models.PlayerRoleModel.role_player_model_serializer import PlayerRoleModelSerializer
+from DataModel.models.RolePlayerModel.role_player_model_serializer import RolePlayerModelSerializer
 from DataModel.models.TeamModel.team_model_serializer import TeamModelSerializer
 
 class PlayerModelSerializer(serializers.Serializer):
     # impostiamo read-only a True per non consentire al serializer di modificare l'attributo Role
-    role = PlayerRoleModelSerializer(read_only=True)
+    role = RolePlayerModelSerializer(read_only=True)
     sport = serializers.SerializerMethodField(read_only=True)
     team = TeamModelSerializer(read_only=True)
 
