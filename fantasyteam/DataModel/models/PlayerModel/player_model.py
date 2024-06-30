@@ -19,6 +19,9 @@ class PlayerModel(models.Model):
 
     class Meta:
         db_table = 'players'
+        # Ordinamento default : quotazione del giocatore in ordine decrescente e in caso di più
+        # giocatori con lo stesso prezzo vengono ordinati per cognome
+        ordering = ['-fantasy_price', 'last_name']
 
     def __str__(self) -> str:
         return f"{self.last_name}"
