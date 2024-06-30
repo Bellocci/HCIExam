@@ -11,11 +11,18 @@ from DataModel.models.RolePlayerModel.role_player_model_serializer import RolePl
 
 @csrf_exempt
 @api_view(['GET'])
-def get_roles(request: HttpRequest, league_id: int) -> JsonResponse:
+def get_roles(request: HttpRequest) -> JsonResponse:
 
+    league_id = request.query_params.get('league_id', None)
     if(league_id is None):
         print('Error while retriving player roles. League id is None')
         return JsonResponse({'error' : 'League is mandatory to search all roles'}, status=status.HTTP_400_BAD_REQUEST)
+    else:    
+        try:
+            league_id = int(league_id)
+        except ValueError:
+            print('Error while retriving league with id : ', league_id)
+            return JsonResponse({'error' : 'League is mandatory to search players'}, status=status.HTTP_400_BAD_REQUEST)
     
     try:
         league = LeagueModel.objects.get(league_id=league_id)

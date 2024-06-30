@@ -10,11 +10,18 @@ from DataModel.models.TeamModel.team_model_serializer import TeamModelSerializer
 
 @csrf_exempt
 @api_view(['GET'])
-def get_teams(request: HttpRequest, league_id: int) -> JsonResponse:
+def get_teams(request: HttpRequest) -> JsonResponse:
 
+    league_id = request.query_params.get('league_id', None)
     if(league_id is None):
         print('Error while retriving teams : league id is None')
         return JsonResponse({'error' : 'League is mandatory to search all teams'}, status=status.HTTP_400_BAD_REQUEST)
+    else:    
+        try:
+            league_id = int(league_id)
+        except ValueError:
+            print('Error while retriving league with id : ', league_id)
+            return JsonResponse({'error' : 'League is mandatory to search players'}, status=status.HTTP_400_BAD_REQUEST)
     
     team_queryset = TeamModel.objects.filter(league=league_id)
     if(not team_queryset.exists()):
