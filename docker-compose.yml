@@ -1,35 +1,43 @@
-version: "3"
+version: '3.8'
 
 services:
-  db:
-    container_name: postgres
-    image: postgres:14.1
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-   
-  dj:
-    container_name: dj
-    build: django
-    command: python manage.py runserver 0.0.0.0:80
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    command: >
+      sh -c "      
+      cd ./fantasyteam &&
+      echo 'Verifico se sono presenti aggiornamenti al database' &&
+      python manage.py migrate &&
+      echo 'Avvio app' &&
+      python manage.py runserver 0.0.0.0:8000
+      "
     volumes:
-      - ./django:/code
+      - backend_data:/myfantasyteam-app
     ports:
-      - "80:80"
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
     depends_on:
-      - db
-  
-  adminer:
-    container_name: adminer
-    image: adminer:4.8.1
-    restart: always
-    ports:
-      - 8080:8080
-      
-  ng:
-    container_name: ng
-    build: angular
+      - backend
+    volumes:
+      - frontend_data:/myfantasyteam-app
+    command: >
+      sh -c "
+      pwd &&
+      ls -la &&      
+      echo 'Lista dipendenze' &&
+      npm list &&
+      echo 'Avvio angular app' &&
+      npm run start
+      "
     ports:
       - "4200:4200"
-    depends_on:
-      - dj
+
+volumes:
+  backend_data:
+  frontend_data:
