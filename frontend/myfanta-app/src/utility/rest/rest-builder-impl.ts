@@ -1,8 +1,8 @@
 import { Observable } from "rxjs";
-import { RestAPIDeleteRequestBuilder, RestAPIGetRequestBuilder, RestAPIHelper, RestAPIPostRequestBuilder, RestAPIPutRequestOptionalStepBuilder, RestAPIPutRequestStepBodyParam, RestAPIStepCreateRequest, RestAPIStepHttpClient, RestAPIStepUrl } from "./rest-builder";
+import { RestAPIDeleteRequestBuilder, RestAPIGetRequestBuilder, RestAPIHelperInterface, RestAPIPostRequestBuilder, RestAPIPutRequestOptionalStepBuilder, RestAPIPutRequestStepBodyParam, RestAPIStepCreateRequest, RestAPIStepHttpClient, RestAPIStepUrl } from "./rest-builder";
 import { HttpClient, HttpParams } from "@angular/common/http";
 
-export class RestAPIHelperImpl<T> implements RestAPIHelper<T>, RestAPIStepHttpClient<T>, RestAPIStepUrl<T>, RestAPIStepCreateRequest<T> {        
+export class RestAPIHelper<T> implements RestAPIHelperInterface<T>, RestAPIStepHttpClient<T>, RestAPIStepUrl<T>, RestAPIStepCreateRequest<T> {        
     
     private http_client!:HttpClient;
     private api_url:string = "";    
@@ -54,11 +54,11 @@ export class RestAPIGetRequestBuilderImpl<T> implements RestAPIGetRequestBuilder
         return this;
     }
 
-    invoke(): Observable<T[]> {
+    invoke(): Observable<T> {
         let params = new HttpParams();
         this.query_params.forEach((key,value) => params.set(key,value));
 
-        return this.http_client.get<T[]>(this.api_url, {params});
+        return this.http_client.get<T>(this.api_url, {params});
     }
 }
 
@@ -66,7 +66,7 @@ export class RestAPIPostRequestBuilderImpl<T> implements RestAPIPostRequestBuild
 
     private http_client:HttpClient;
     private api_url:string = "";
-    private body_params:Map<string,string> = new Map<string,string>();
+    private body_params:{ [key: string]: string } = {};
 
     constructor(http_client:HttpClient, api_url:string) {
         this.http_client = http_client;
@@ -74,12 +74,12 @@ export class RestAPIPostRequestBuilderImpl<T> implements RestAPIPostRequestBuild
     }
 
     addBodyParam(key: string, value: string): this {
-        this.body_params.set(key,value);
+        this.body_params[key] = value;
         return this;
     }
 
-    invoke(): Observable<T[]> {
-        return this.http_client.post<T[]>(this.api_url, this.body_params);
+    invoke(): Observable<T> {
+        return this.http_client.post<T>(this.api_url, this.body_params);
     }
 }
 
@@ -87,7 +87,7 @@ export class RestAPIPutRequestBuilderImpl<T> implements RestAPIPutRequestStepBod
     
     private http_client:HttpClient;
     private api_url:string = "";
-    private body_params:Map<string,string> = new Map<string,string>();
+    private body_params:{ [key: string]: string } = {};
 
     constructor(http_client:HttpClient, api_url:string) {
         this.http_client = http_client;
@@ -95,17 +95,17 @@ export class RestAPIPutRequestBuilderImpl<T> implements RestAPIPutRequestStepBod
     }
 
     setBodyParam(key: string, value: string): RestAPIPutRequestOptionalStepBuilder<T> {
-        this.body_params.set(key,value);
+        this.body_params[key] = value;
         return this;
     }    
     
     addBodyParam(key: string, value: string): this {
-        this.body_params.set(key,value);
+        this.body_params[key] = value;
         return this;
     }
 
-    invoke(): Observable<T[]> {
-        return this.http_client.put<T[]>(this.api_url, this.body_params);
+    invoke(): Observable<T> {
+        return this.http_client.put<T>(this.api_url, this.body_params);
     }
 }
 
@@ -125,10 +125,10 @@ export class RestAPIDeleteRequestBuilderImpl<T> implements RestAPIDeleteRequestB
         return this;
     }
 
-    invoke(): Observable<T[]> {
+    invoke(): Observable<T> {
         let params = new HttpParams();
         this.query_params.forEach((key,value) => params.set(key,value));
 
-        return this.http_client.delete<T[]>(this.api_url, {params})
+        return this.http_client.delete<T>(this.api_url, {params})
     }
 }

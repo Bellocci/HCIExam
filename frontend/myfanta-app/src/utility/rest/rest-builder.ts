@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
-export interface RestAPIHelper<T> {
+export interface RestAPIHelperInterface<T> {
     Builder():RestAPIStepHttpClient<T>;
 }
 
@@ -41,7 +41,7 @@ export interface RestAPIStepCreateRequest<T> {
  */
 export interface RestAPIGetRequestBuilder<T> {
     addQueryParam(key:string, value:string):this;
-    invoke():Observable<T[]>;
+    invoke():Observable<T>;
 }
 
 /*
@@ -55,7 +55,7 @@ export interface RestAPIGetRequestBuilder<T> {
  */
 export interface RestAPIPostRequestBuilder<T> {
     addBodyParam(key:string, value:string):this;
-    invoke():Observable<T[]>;
+    invoke():Observable<T>;
 }
 
 /*
@@ -76,7 +76,7 @@ export interface RestAPIPutRequestStepBodyParam<T> {
  */
 export interface RestAPIPutRequestOptionalStepBuilder<T> {
     addBodyParam(key:string, value:string):this;
-    invoke():Observable<T[]>;
+    invoke():Observable<T>;
 }
 
 /*
@@ -90,5 +90,5 @@ export interface RestAPIPutRequestOptionalStepBuilder<T> {
  */
 export interface RestAPIDeleteRequestBuilder<T> {
     addQueryParam(key:string, value:string):this;
-    invoke():Observable<T[]>;
+    invoke():Observable<T>;
 }
