@@ -9,6 +9,7 @@ import { UserEntity } from 'src/model/userEntity.model';
 import { Subscription } from 'rxjs';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
 import { DialogHelper } from '../dialogHelper.interface';
+import { User } from 'src/decorator/user';
 
 @Component({
   selector: 'app-login-dialog',
@@ -81,11 +82,11 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
    */
 
   private observeUser(): Subscription | undefined {
-    return this.userService.addObserverForUser(new ObserverStepBuilder<UserEntity>()
+    return this.userService.addObserverForUser(new ObserverStepBuilder<User>()
       .next(user => {
         if (user.isUserDefined()) {
           this.setLoginErrorMessageVisibility(false)
-          this.dialogService.getDialogHelper().closeDialog();
+          this.closeAllDialog();
         } else {
           this.setLoginErrorMessageVisibility(true)
         }
@@ -188,6 +189,7 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
   }
 
   closeAllDialog(): void {
+    console.log("Chiusura dialog");
     this.dialogService.getDialogHelper().closeDialog();
   }
 }

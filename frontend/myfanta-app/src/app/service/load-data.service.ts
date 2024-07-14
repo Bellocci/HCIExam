@@ -5,6 +5,8 @@ import { PlayerDecoratorFactoryService } from 'src/decorator-factory/player-deco
 import { TEAM_DATA, TeamEntity } from 'src/model/teamEntity.model';
 import { TeamDecoratorFactoryService } from 'src/decorator-factory/team-decorator-factory.service';
 import { MapHelper } from 'src/utility/map-helper';
+import { ModelRestClientService } from './model-rest-client.service';
+import { Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,23 +14,26 @@ import { MapHelper } from 'src/utility/map-helper';
 export class LoadDataService {
 
   constructor(private playerDecoratorFactory:PlayerDecoratorFactoryService,
-    private teamDecoratorFactory:TeamDecoratorFactoryService) { }
+    private teamDecoratorFactory:TeamDecoratorFactoryService,
+    private modelRestClient:ModelRestClientService) { }
 
-  private leaguesList!:LeagueEntity[];
+  private leagues:LeagueEntity[] | null = null;
   private playersMap:MapHelper<number, PlayerEntity[]> = new MapHelper<number, PlayerEntity[]>(new Map());
   private teamsMap:Map<number, TeamEntity[]> = new Map<number, TeamEntity[]>();
 
-  async loadAllLeagues() : Promise<void> {
-    if(!this.leaguesList) {
-      // TODO: Interazione con il db      
-      let leagueEntities:LeagueEntity[] = LEAGUE_DATA;
-      this.leaguesList = leagueEntities;
-    }
+  private initLeagues() : Observable<LeagueEntity[]> {
+      return this.modelRestClient.getLeagues()
+        .pipe(
+          // Permette di memorizzare i risultati ottenuti nella cache
+          tap((leagues) => this.leagues = leagues)
+        );
   }
 
-  getLeaguesList():LeagueEntity[] {
-    this.loadAllLeagues();
-    return this.leaguesList;
+  getLeagues():Observable<LeagueEntity[]> {
+    if(this.leagues != null) {
+      return of(this.leagues);
+    }
+    return this.initLeagues();
   }
 
   loadLeagueById(leagueId:number) : LeagueEntity | null {

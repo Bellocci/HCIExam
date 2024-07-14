@@ -3,15 +3,15 @@ import { Component, OnDestroy, OnInit} from '@angular/core';
 import { FilterDataService } from '../../service/filter-data.service';
 import { InternalDataService } from '../../service/internal-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
-import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 import { RouterService } from '../../service/router.service';
 import { UserService } from '../../service/user.service';
 import { TeamDataService } from '../../service/team-data.service';
-import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
 import { Subscription } from 'rxjs';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { LoadDataService } from 'src/app/service/load-data.service';
+import { CountryEnum } from 'src/enum/CountryEnum.model';
 
 
 @Component({
@@ -19,7 +19,7 @@ import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   animations: [
-    trigger('champListAnimation', [
+    trigger('ListAnimation', [
       state('openList', style({ height: '*', opacity: 1 })),
       state('closeList', style({ height: '0', opacity: 0 })),
       transition('closeList => openList', [
@@ -35,7 +35,7 @@ import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
         ])
       ]),
     ]),
-    trigger('champElement', [
+    trigger('element', [
       state('show', style({ display: 'block' })),
       state('hide', style({ display: 'none' })),
       transition('* => *', [
@@ -46,34 +46,47 @@ import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  /**
-   * ===================
-   * CONSTRUCTOR & INIT
-   *  ==================
+  /*
+   * ==========
+   * VARIABILI 
+   * ==========
    */
 
   private _isMobileOrMobileXLBreakpointActive: boolean = false;  
   private _subscriptionToMobileOrMobileXLBreakpointObservable:Subscription;
+
+  private _leagues: LeagueEntity[] = [];
+  private _subscriptionLeaguesObservable:Subscription;
+
+  /*
+   * ==============================
+   * CONSTRUCTOR - INIT - DESTROY
+   *  =============================
+   */  
 
   constructor(private routerService:RouterService,
     private filterDataService:FilterDataService,
     private internalDataService:InternalDataService,
     private userService:UserService,
     private teamDataService:TeamDataService,
-    private breakpointsService:BreakpointsService) {
+    private breakpointsService:BreakpointsService,
+    private loadData:LoadDataService) {
 
       console.log("Construct Home page component");
-      this._isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
-      this._subscriptionToMobileOrMobileXLBreakpointObservable = this.observeMobileOrMobileXLBreakpoint();
-    }  
+      this._subscriptionLeaguesObservable = loadData.getLeagues().subscribe(result => this.leagues = result);      
 
-  ngOnInit(): void { 
+      this._isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
+      this._subscriptionToMobileOrMobileXLBreakpointObservable = this.observeMobileOrMobileXLBreakpoint();      
+    }    
+
+  ngOnInit(): void {     
     //this.internalDataService.setLoadingData(false);
   }
 
   ngOnDestroy(): void {
     console.log("Destroy Home page component");
 
+    this._subscriptionLeaguesObservable.unsubscribe();
     this._subscriptionToMobileOrMobileXLBreakpointObservable.unsubscribe();
   }
 
@@ -98,6 +111,14 @@ export class HomeComponent implements OnInit, OnDestroy {
    * ================
    */
 
+  public get leagues(): LeagueEntity[] {
+    return this._leagues;
+  }
+
+  private set leagues(value: LeagueEntity[]) {
+    this._leagues = value;
+  }
+
   public get isMobileOrMobileXLBreakpointActive(): boolean {
     return this._isMobileOrMobileXLBreakpointActive;
   }
@@ -107,15 +128,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getSports(): SportEnum[] {
-    return SportEnum.getAllSport();
+    return this.leagues.map(league => league.sport);
   }
 
-  getChampionships(sport:SportEnum) : ChampionshipEnum[] {
-    return this.filterDataService.filterChampionshipsBySport(sport);
+  getCountries(sport:SportEnum):CountryEnum[] {
+    return this.leagues
+        .filter(league => league.sport.description == sport.description)
+        .map(league => league.country);
   }
 
-  getLeagues(sport:SportEnum, championship:ChampionshipEnum) : LeagueEntity[] {
-    return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
+  getLeagues(sport:SportEnum, country:CountryEnum) : LeagueEntity[] {
+    return this.leagues
+      .filter(league => league.sport.description == sport.description && league.country.value == country.value)
   }
   
   /**

@@ -1,9 +1,10 @@
-import { USER_DATA, UserEntity } from "./userEntity.model";
+import { UserEntity } from "./userEntity.model";
 import { LEAGUE_DATA, LeagueEntity } from "./leagueEntity.model";
 import { PlayerEntity } from "./playerEntity.model";
 import { OptionEntity } from "./options/optionEntity.model";
 import { OptionFootballSoccerEntity } from "./options/optionFootballSoccerEntity.model";
 import { UserTeamPlayerEntity } from "./userTeamPlayerEntity.model";
+import { User } from "src/decorator/user";
 
 export class UserTeamEntity {
 
@@ -263,7 +264,7 @@ export class UserTeamEntity {
 
     toString() : string {
         return "Nome: " + this.nameTeam + ", Sport: " + this.league.sport + ", " + 
-            this.league.championship + ", Lega: " + this.league.name;
+            this.league.country + ", Lega: " + this.league.name;
     }
 
     equals(other: any) : boolean {
@@ -275,15 +276,15 @@ export class UserTeamEntity {
             return false;
         }
 
-        return this.userTeamId == other.userTeamId && this.user.equals(other.user) && this.nameTeam == other.nameTeam &&
+        return this.userTeamId == other.userTeamId && this.nameTeam == other.nameTeam &&
             this.league.equals(other.league)
     }
 }
 
 export const CUSTOMS_TEAM_DATA: UserTeamEntity[] = [
-    new UserTeamEntity(1, USER_DATA[0], "SerieA Football", LEAGUE_DATA[0], new OptionFootballSoccerEntity()),     
-    new UserTeamEntity(3, USER_DATA[0], "Nba - squadra 1", LEAGUE_DATA[3], new OptionFootballSoccerEntity()),
-    new UserTeamEntity(4, USER_DATA[0], "Serie A - squadra 2", LEAGUE_DATA[0], new OptionFootballSoccerEntity()),
-    new UserTeamEntity(5, USER_DATA[0], "Premier League - squadra 1", LEAGUE_DATA[1], new OptionFootballSoccerEntity()),
-    new UserTeamEntity(6, USER_DATA[0], "SerieA - 2", LEAGUE_DATA[0], new OptionFootballSoccerEntity()),
+    new UserTeamEntity(1, new User().entity, "SerieA Football", LEAGUE_DATA[0], new OptionFootballSoccerEntity()),     
+    new UserTeamEntity(3, new User().entity, "Nba - squadra 1", LEAGUE_DATA[3], new OptionFootballSoccerEntity()),
+    new UserTeamEntity(4, new User().entity, "Serie A - squadra 2", LEAGUE_DATA[0], new OptionFootballSoccerEntity()),
+    new UserTeamEntity(5, new User().entity, "Premier League - squadra 1", LEAGUE_DATA[1], new OptionFootballSoccerEntity()),
+    new UserTeamEntity(6, new User().entity, "SerieA - 2", LEAGUE_DATA[0], new OptionFootballSoccerEntity()),
 ]

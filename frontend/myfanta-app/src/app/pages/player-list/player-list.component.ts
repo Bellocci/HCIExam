@@ -23,6 +23,7 @@ import { PlayerEntity } from 'src/model/playerEntity.model';
 import { DialogDataInterface } from 'src/app/Dialog/dialog-data.interface';
 import { UserTeamDialogDataBuilder } from 'src/app/Dialog/user-team-dialog/user-team-dialog-data-builder';
 import { UserTeamDialogComponent } from 'src/app/Dialog/user-team-dialog/user-team-dialog.component';
+import { User } from 'src/decorator/user';
 
 @Component({
   selector: 'app-player-list',
@@ -43,7 +44,7 @@ export class PlayerListComponent implements OnInit, OnDestroy {
   private _simpleOption!: StandardOption;
   private option: OptionEntity | null = null;
   private leagueSelected: LeagueEntity | null = null;
-  private _user!: UserEntity;
+  private _user!: User;
   private _userTeam!: UserTeamEntity;
   private _isMobileOrTabletBreakpointActive: boolean = false;  
  
@@ -125,7 +126,7 @@ export class PlayerListComponent implements OnInit, OnDestroy {
   }
 
   private observeUser(): Subscription | undefined {
-    return this.userService.addObserverForUser(new ObserverStepBuilder<UserEntity>()
+    return this.userService.addObserverForUser(new ObserverStepBuilder<User>()
       .next(user => this.user = user)
       .error(error => console.log("Error while retriving User: " + error))
       .build());
@@ -156,11 +157,11 @@ export class PlayerListComponent implements OnInit, OnDestroy {
    * ================
    */
 
-  public get user(): UserEntity {
+  public get user(): User {
     return this._user;
   }
 
-  private set user(value: UserEntity) {
+  private set user(value: User) {
     this._user = value;
   }
 

@@ -15,6 +15,7 @@ import { BreakpointsService } from 'src/app/service/breakpoints.service';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { UserTeamDialogData } from './user-team-dialog-data';
 import { FilterUtility } from 'src/utility/filter-utility';
+import { CountryEnum } from 'src/enum/CountryEnum.model';
 
 @Component({
   selector: 'app-user-team-dialog',
@@ -34,7 +35,7 @@ export class UserTeamDialogComponent implements OnInit, OnDestroy {
   private _isCreateMode!: boolean;
   private _teamName: string;  
   private _selectedSport!: SportEnum | undefined;  
-  private _selectedChampionship: ChampionshipEnum | undefined;
+  private _selectedCountry: CountryEnum | undefined;
   private _selectedLeague: LeagueEntity | undefined;
   
   private importPlayer:boolean = false;
@@ -73,7 +74,7 @@ export class UserTeamDialogComponent implements OnInit, OnDestroy {
       if(this.dialogData.isCreateMode && this.dialogData.userTeam != undefined) {
           this.teamName = this.dialogData.userTeam.nameTeam;
           this.selectedSport = this.dialogData.userTeam.league.sport
-          this.selectedChampionship = this.dialogData.userTeam.league.championship;
+          this.selectedCountry = this.dialogData.userTeam.league.country;
           this.selectedLeague = this.dialogData.userTeam.league;               
       } 
       else if(!this.dialogData.isCreateMode) {
@@ -83,7 +84,7 @@ export class UserTeamDialogComponent implements OnInit, OnDestroy {
   
         this.teamName = this.dialogData.userTeam.nameTeam;
         this.selectedSport = this.dialogData.userTeam.league.sport
-        this.selectedChampionship = this.dialogData.userTeam.league.championship;
+        this.selectedCountry = this.dialogData.userTeam.league.country;
         this.selectedLeague = this.dialogData.userTeam.league;
       }
   }    
@@ -140,12 +141,12 @@ export class UserTeamDialogComponent implements OnInit, OnDestroy {
     this._selectedSport = value;
   }
 
-  public get selectedChampionship(): ChampionshipEnum | undefined {
-    return this._selectedChampionship;
+  public get selectedCountry(): CountryEnum | undefined {
+    return this._selectedCountry;
   }
 
-  public set selectedChampionship(value: ChampionshipEnum | undefined) {
-    this._selectedChampionship = value;
+  public set selectedCountry(value: CountryEnum | undefined) {
+    this._selectedCountry = value;
   }
 
   public get selectedLeague(): LeagueEntity | undefined {
@@ -181,7 +182,7 @@ export class UserTeamDialogComponent implements OnInit, OnDestroy {
   }
 
   getChampionshipDescription() : string {
-    return this.selectedChampionship != undefined ? this.selectedChampionship.description : '';
+    return this.selectedCountry != undefined ? this.selectedCountry.description : '';
   }
 
   getLeagueDescription() : string {
@@ -217,7 +218,7 @@ export class UserTeamDialogComponent implements OnInit, OnDestroy {
   }
 
   private isChampionshipSelected() : boolean {
-    return this.selectedChampionship instanceof ChampionshipEnum;
+    return this.selectedCountry instanceof ChampionshipEnum;
   }
 
   private isLeagueSelected() : boolean {
@@ -259,8 +260,8 @@ export class UserTeamDialogComponent implements OnInit, OnDestroy {
   }
 
   updateLeaguesList() : void {
-    if(this.selectedSport != undefined && this.selectedChampionship != undefined) {
-      this.leaguesList = this.filterDataService.filterLeaguesByChampionshipAndSport(this.selectedSport, this.selectedChampionship);
+    if(this.selectedSport != undefined && this.selectedCountry != undefined) {
+      this.leaguesList = this.filterDataService.filterLeaguesByCountryAndSport(this.selectedSport, this.selectedCountry);
     }
   }
 
@@ -271,11 +272,11 @@ export class UserTeamDialogComponent implements OnInit, OnDestroy {
   addNewTeam() : void {
     let newTeam:UserTeamEntity;
     if(this.importPlayer) {
-      newTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUser(), 
+      newTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUser().entity, 
         this.teamName, this.selectedLeague!, this.teamDataService.getMyTeamList(), 
         this.teamDataService.getFavoritePlayersList(), this.teamDataService.getBlacklistPlayers());
     } else {
-      newTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUser(), 
+      newTeam = this.userTeamDecoratorFactory.createNewUserTeam(this.userService.getUser().entity, 
         this.teamName, this.selectedLeague!);
     }
     this.userService.addNewTeam(newTeam);

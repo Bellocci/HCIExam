@@ -8,6 +8,7 @@ import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
 import { TeamEntity } from 'src/model/teamEntity.model';
 import { FilterUtility } from 'src/utility/filter-utility';
+import { CountryEnum } from 'src/enum/CountryEnum.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,17 +31,8 @@ export class FilterDataService {
    * @returns ChampionshipEnum[]
    */
   filterChampionshipsBySport(sport:SportEnum) : ChampionshipEnum[] {
-    if(!this.championshipMap.get(sport)) {
-      this.championshipMap.set(sport, new Set<ChampionshipEnum>());
-      this.loadDataService
-        .getLeaguesList()
-        .filter(league => league.sport == sport)
-        .forEach(league => {
-          this.championshipMap.get(sport)?.add(league.championship);
-        });
-    }   
-
-    return Array.from(this.championshipMap.get(sport)!.values());
+    // FIXME: RIMUOVERE
+    return []
   }
 
   /*
@@ -53,14 +45,13 @@ export class FilterDataService {
    * Metodo che filtra tutte le leghe per campionato e sport
    * 
    * @param sport 
-   * @param championship 
+   * @param country
    * @returns LeagueEntity[]
    */
-  filterLeaguesByChampionshipAndSport(sport:SportEnum, championship:ChampionshipEnum) : LeagueEntity[] {
-    return this.loadDataService.getLeaguesList()
-        .filter(league => league.championship == championship && 
-          league.sport == sport);
+  filterLeaguesByCountryAndSport(sport:SportEnum, country:CountryEnum) : LeagueEntity[] {
+    return []
   }
+  
 
   /*
    * ===============

@@ -36,7 +36,10 @@ def find_user(request: HttpRequest) -> JsonResponse:
         user = UserModel.objects.get(username=username, password=password)
         print("User found: ", user)
         user_serializer:UserModelSerializer = UserModelSerializer(user)
-        return JsonResponse(user_serializer.data, status=status.HTTP_200_OK)    
+        return JsonResponse({
+            'status' : '200',
+            'result' : user_serializer.data
+        }, status=status.HTTP_200_OK)    
     except UserModel.DoesNotExist: 
         return JsonResponse({'error' : 'User not found'}, status=status.HTTP_404_NOT_FOUND)
     

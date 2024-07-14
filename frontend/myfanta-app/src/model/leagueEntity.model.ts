@@ -1,21 +1,22 @@
 import { SportEnum } from "src/enum/SportEnum.model";
 import { ChampionshipEnum } from "../enum/ChampionshipEnum.model";
 import { TeamEntity } from "./teamEntity.model";
+import { CountryEnum } from "src/enum/CountryEnum.model";
 
 export class LeagueEntity {
 
     private _leagueId: number;
     private _name: string;
     private _sport: SportEnum;
-    private _championship: ChampionshipEnum;
+    private _country: CountryEnum;    
     private _teamsList: TeamEntity[] = [];
 
-    constructor(leagueId: number, name: string, sport: SportEnum, championship: ChampionshipEnum) {
+    constructor(leagueId: number, name: string, sport: SportEnum, country:CountryEnum) {
 
         this._leagueId = leagueId
         this._name = name
         this._sport = sport
-        this._championship = championship
+        this._country = country
     }
 
     public get leagueId(): number {
@@ -42,12 +43,12 @@ export class LeagueEntity {
         this._sport = value;
     }
 
-    public get championship(): ChampionshipEnum {
-        return this._championship;
+    public get country(): CountryEnum {
+        return this._country;
     }
 
-    private set championship(value: ChampionshipEnum) {
-        this._championship = value;
+    private set country(value: CountryEnum) {
+        this._country = value;
     }
 
     public get teamsList(): TeamEntity[] {
@@ -59,7 +60,7 @@ export class LeagueEntity {
     }
 
     toString() : string {
-        return "Id:" + this.leagueId + ", Nome: " + this.name + ", Campionato: " + this.championship +
+        return "Id:" + this.leagueId + ", Nome: " + this.name + ", Campionato: " + this.country +
             ", Sport: " + this.sport;
     }
 
@@ -73,7 +74,7 @@ export class LeagueEntity {
         }
 
         return this.leagueId == other.leagueId && this.name == other.name &&
-            this.sport == other.sport && this.championship == other.championship;
+            this.sport == other.sport && this.country == other.country;
     }
 
     toJSON() : any {
@@ -81,19 +82,32 @@ export class LeagueEntity {
             leagueId : this.leagueId,
             sport : this.sport.toJSON(),
             name : this.name,
-            championship : this.championship.toJSON(),
+            championship : this.country.toJSON(),
         }
     }
 
     static fromJSON(json:any) : LeagueEntity {
         return new LeagueEntity(
-            json.leagueId, json.name, SportEnum.fromJSON(json.sport), ChampionshipEnum.fromJSON(json.championship));
+            json.leagueId, json.name, SportEnum.fromJSON(json.sport), CountryEnum.fromJSON(json.country));
     } 
+
+    static fromJSONArray(json:any[]) : LeagueEntity[] {
+        let result:LeagueEntity[] = []
+        console.log("Inizio deserializzazione lista");
+        json.forEach((value) => {
+            console.log(value);
+            let newLeague = new LeagueEntity(
+                value.leagueId, value.name, SportEnum.fromJSON(value.sport), CountryEnum.fromJSON(value.country));
+            result.push(newLeague);
+        })
+
+        return result;
+    }
 }
 
 export const LEAGUE_DATA: LeagueEntity[] = [
-    new LeagueEntity(1, 'Serie A', SportEnum.FOOTBALL_SOCCER, ChampionshipEnum.ITA_CHAMP),
-    new LeagueEntity(2,'Premier League', SportEnum.FOOTBALL_SOCCER, ChampionshipEnum.ENG_CHAMP),
-    new LeagueEntity(3,'NBA', SportEnum.BASKETBALL, ChampionshipEnum.USA_CHAMP),
-    new LeagueEntity(4, 'Serie A1', SportEnum.VOLLEYBALL, ChampionshipEnum.ITA_CHAMP)
+    new LeagueEntity(1, 'Serie A', SportEnum.FOOTBALL_SOCCER, CountryEnum.ITALY),
+    new LeagueEntity(2,'Premier League', SportEnum.FOOTBALL_SOCCER, CountryEnum.ENGLAND),
+    new LeagueEntity(3,'NBA', SportEnum.BASKETBALL, CountryEnum.UNITED_STATES),
+    new LeagueEntity(4, 'Serie A1', SportEnum.VOLLEYBALL, CountryEnum.ITALY)
 ]

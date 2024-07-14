@@ -13,4 +13,7 @@ from DataModel.models.LeagueModel.league_model_serializer import LeagueModelSeri
 def get_leagues(request: HttpRequest) -> JsonResponse:
     leagues = LeagueModel.objects.all()
     league_serializer = LeagueModelSerializer(leagues, many=True)
-    return JsonResponse({'ok' : league_serializer.data}, status=status.HTTP_200_OK)
+    return JsonResponse({
+        'status' : '200',
+        'result' : league_serializer.data
+    }, status=status.HTTP_200_OK)

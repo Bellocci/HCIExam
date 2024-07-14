@@ -17,6 +17,7 @@ import { DialogService } from '../service/dialog.service';
 import { BreakpointsService } from '../service/breakpoints.service';
 import { LoginDialogComponent } from '../Dialog/login-dialog/login-dialog.component';
 import { DialogHelper } from '../Dialog/dialogHelper.interface';
+import { User } from 'src/decorator/user';
 
 @Component({
   selector: 'app-toolbar',
@@ -99,9 +100,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
    */
 
   private observeUserLogged() : Subscription | undefined {    
-    return this.userService.addObserverForUser(new ObserverStepBuilder<UserEntity>()
-      .next((user : UserEntity) => {
-        this._user = user;
+    return this.userService.addObserverForUser(new ObserverStepBuilder<User>()
+      .next((user : User) => {
+        this._user = user.entity;
         this._userLogged = user.isUserDefined();
       })
       .error((error : any) => console.error("Error to get user: " + error))
@@ -205,10 +206,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   getChampionships(sport: SportEnum): ChampionshipEnum[] {
     return this.filterDataService.filterChampionshipsBySport(sport);
-  }
-
-  getLeagues(sport: SportEnum, championship: ChampionshipEnum): LeagueEntity[] {
-    return this.filterDataService.filterLeaguesByChampionshipAndSport(sport, championship);
   }
 
   getUsername() : string {

@@ -1,11 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, Observer, Subscription } from 'rxjs';
-import { USER_DATA, UserEntity } from 'src/model/userEntity.model';
+import { catchError, Observable, Observer, of, Subscription } from 'rxjs';
+import { UserEntity } from 'src/model/userEntity.model';
 import { CUSTOMS_TEAM_DATA, UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { SessionStorageService } from './session-storage.service';
 import { ObservableHelper } from 'src/utility/observable-helper';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { UserDecoratorFactoryService } from 'src/decorator-factory/user-decorator-factory.service';
+import { ModelRestClientService } from './model-rest-client.service';
+import { User } from 'src/decorator/user';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,7 @@ export class UserService implements OnDestroy {
   static readonly USERNAME_KEY_SESSION:string = "username";
   static readonly PASSWORD_KEY_SESSION:string = "password";
 
-  private user:ObservableHelper<UserEntity> = new ObservableHelper<UserEntity>(new UserEntity());
+  private user:ObservableHelper<User> = new ObservableHelper<User>(new User());
 
   private sportTeamMap:Map<SportEnum, UserTeamEntity[]> | undefined = undefined;  
 
@@ -31,7 +33,8 @@ export class UserService implements OnDestroy {
    */
 
   constructor(private sessionStorage:SessionStorageService,
-    private userDecoratorFactory:UserDecoratorFactoryService) {
+    private userDecoratorFactory:UserDecoratorFactoryService,
+    private modelRestClient:ModelRestClientService) {
 
     console.log("Construct the User service");
 
@@ -60,19 +63,19 @@ export class UserService implements OnDestroy {
    * =========
    */
 
-  addObserverForUser(observer:Observer<UserEntity>) : Subscription | undefined {
+  addObserverForUser(observer:Observer<User>) : Subscription | undefined {
     return this.user.addObserver(observer);
   }
   
-  getObservableUser() : Observable<UserEntity> {
+  getObservableUser() : Observable<User> {
     return this.user.getObservable();
   }
 
-  getUser(): UserEntity {
+  getUser(): User {
     return this.user.getValue();
   }
 
-  private setUser(user:UserEntity) {
+  private setUser(user:User) {
     this.user.setValue(user);
   }  
 
@@ -90,18 +93,22 @@ export class UserService implements OnDestroy {
    * @param password 
    */
   login(username:string, password:string) : void {
-    // Query su db
-    let result:UserEntity | undefined = USER_DATA.find(user => user.username == username && user.password == password);
-    if(result != undefined) {
-      console.log("User: " + result.toString());
-      this.sessionStorage.saveData(UserService.USERNAME_KEY_SESSION, result.username);
-      this.sessionStorage.saveData(UserService.PASSWORD_KEY_SESSION, result.password);
-      this.setUser(result);
-    } else {
-      this.setUser(this.userDecoratorFactory.createFakeUser());
-      this.sessionStorage.removeData(UserService.USERNAME_KEY_SESSION);
-      this.sessionStorage.removeData(UserService.PASSWORD_KEY_SESSION);
-    }
+    this.modelRestClient.login(username, password).pipe(      
+      catchError((err) => of(undefined))
+    )
+    .subscribe((user) => {
+      if(user != undefined) {        
+        this.sessionStorage.saveData(UserService.USERNAME_KEY_SESSION, username);
+        this.sessionStorage.saveData(UserService.PASSWORD_KEY_SESSION, password);
+        let userLogged = new User();
+        userLogged.entity = user;
+        this.setUser(userLogged);
+      } else {
+        this.setUser(this.userDecoratorFactory.createFakeUser());
+        this.sessionStorage.removeData(UserService.USERNAME_KEY_SESSION);
+        this.sessionStorage.removeData(UserService.PASSWORD_KEY_SESSION);
+      }
+    });
   }
 
   /**
@@ -128,16 +135,16 @@ export class UserService implements OnDestroy {
    */
   createNewUser(name:string, surname:string, username:string, password:string) : UserEntity | undefined {
     // TODO: Chiamata al db
-    const result:UserEntity[] = USER_DATA.filter(user => user.username == username);
-    if(result.length == 0) {
-      // TODO: Salvataggio su db
+    // const result:UserEntity[] = USER_DATA.filter(user => user.username == username);
+    // if(result.length == 0) {
+    //   // TODO: Salvataggio su db
 
-      // TODO: Chiamata al db per caricare il nuovo utente
-      let entity:UserEntity = new UserEntity(USER_DATA.length, name, surname, username, password);
-      // Salvataggio su db
-      USER_DATA.push(entity)
-      return entity;
-    }
+    //   // TODO: Chiamata al db per caricare il nuovo utente
+    //   let entity:UserEntity = new UserEntity(USER_DATA.length, name, surname, username, password);
+    //   // Salvataggio su db
+    //   USER_DATA.push(entity)
+    //   return entity;
+    // }
     return undefined;
   }
 
@@ -153,10 +160,11 @@ export class UserService implements OnDestroy {
    */
   recoveryPassword(name:string, surname:string, username:string) : string | undefined {
     // Chiamata al db
-    const result:UserEntity[] = USER_DATA.filter(user => 
-      user.name == name && user.surname == surname && user.username == username);
+    // const result:UserEntity[] = USER_DATA.filter(user => 
+    //   user.name == name && user.surname == surname && user.username == username);
     
-    return result.length == 1 ? result[0].password : undefined;
+    // return result.length == 1 ? result[0].password : undefined;
+    return undefined;
   }
 
   /*
@@ -181,9 +189,9 @@ export class UserService implements OnDestroy {
   
       if(!this.sportTeamMap.has(sport)) {
         // FIXME: Caricamento da db
-        myTeams = CUSTOMS_TEAM_DATA.filter(team => team.user.equals(this.user.getValue()) && 
-            team.league.sport.code == sport.code);   
-        this.sportTeamMap.set(sport, myTeams);
+        // myTeams = CUSTOMS_TEAM_DATA.filter(team => team.user.equals(this.user.getValue()) && 
+        //     team.league.sport.code == sport.code);   
+        // this.sportTeamMap.set(sport, myTeams);
       }
 
       return this.sportTeamMap.get(sport)!;

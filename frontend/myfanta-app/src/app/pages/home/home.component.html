@@ -42,21 +42,21 @@
 
                     <!-- Lazy rendering -->
                     <ng-template matExpansionPanelContent>
-                        <!-- Championship expansion panel per uno specifico sport -->
-                        <ng-container *ngFor="let championship of getChampionships(sport); let indexChamp = index;">
+                        <!-- Country expansion panel per uno specifico sport -->
+                        <ng-container *ngFor="let country of getCountries(sport); let indexChamp = index;">
                             <mat-expansion-panel [expanded]="false">
                                 <mat-expansion-panel-header class="no-color">
                                     <mat-panel-title>
                                         <div class="label">
-                                            {{ championship.description }}
+                                            {{ country.description }}
                                         </div>
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
 
                                 <!-- Lazy rendering -->
                                 <ng-template matExpansionPanelContent>
-                                    <!-- Elenco leghe per uno specifico sport e campionato -->
-                                    <ng-container *ngFor="let league of getLeagues(sport, championship)">
+                                    <!-- Elenco campionati per uno specifico sport e paese -->
+                                    <ng-container *ngFor="let league of getLeagues(sport, country)">
                                         <mat-panel-description>
                                             <ul class="full-width">
                                                 <li class="full-width">
@@ -78,7 +78,5 @@
 
         </div>
     </div>
-
-
 
 </div>

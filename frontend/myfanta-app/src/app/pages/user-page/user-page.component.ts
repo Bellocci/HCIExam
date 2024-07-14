@@ -168,7 +168,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
 
   getUser() : UserEntity {
-    return this.userService.getUser();
+    return this.userService.getUser().entity;
   }
 
   getTeams(sport:SportEnum) : UserTeamEntity[] {
