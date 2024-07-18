@@ -71,6 +71,21 @@ export class ModelRestClientService {
       );
   }
 
+  recoverPassword(name:string, surname:string, username:string) : Observable<UserEntity> {
+    return new RestAPIHelper<ApiResponse>().Builder()
+        .setHttpClient(this.httpClient)
+        .setUrl(this.apiUrl + "/user/recover_password")
+        .createPostRequest()
+        .addBodyParam("name", name)
+        .addBodyParam("surname", surname)
+        .addBodyParam("username", username)
+        .invoke()
+        .pipe(
+          map((response) => response.result),
+          catchError(this.handleError)
+        );
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // Errore client-side o di rete

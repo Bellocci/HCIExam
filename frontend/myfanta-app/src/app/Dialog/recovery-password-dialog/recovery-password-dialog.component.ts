@@ -149,10 +149,13 @@ export class RecoveryPasswordDialogComponent implements OnInit, OnDestroy {
     this.password = undefined;
     if(this.areInputsValid()) {
       // Siamo sicuri che siano presenti valori dal controllo precedente
-      this.password = this._userService.recoveryPassword(
-        this.nameControl.value!, this.surnameControl.value!, this.usernameControl.value!);
-    }
-    this.showRecoveryPasswordError = !this.password;
+      this._userService.recoveryPassword(
+        this.nameControl.value!, this.surnameControl.value!, this.usernameControl.value!)
+      .subscribe((psw) => {
+          this.password = psw;
+          this.showRecoveryPasswordError = !psw;
+      });
+    }    
   } 
 
   /**

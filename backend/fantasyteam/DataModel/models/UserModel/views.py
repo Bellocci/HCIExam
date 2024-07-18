@@ -58,10 +58,13 @@ def create_new_user(request: HttpRequest) -> JsonResponse:
     if(user_serializer.is_valid()):
         user_serializer.save()
         print("Created new user: ", user_serializer.data['name'], " ", user_serializer.data['surname'])
-        return JsonResponse(user_serializer.data, status=status.HTTP_200_OK)
+        return JsonResponse({
+            'status' : '200',
+            'result' : user_serializer.data
+        }, status=status.HTTP_200_OK)
     else:        
         print('Failed to create new user: ', user_serializer.errors)
-        return JsonResponse(user_serializer.errors, status=status.HTTP_409_CONFLICT)
+        return JsonResponse({'error' : user_serializer.errors}, status=status.HTTP_409_CONFLICT)
     
 
 @csrf_exempt
@@ -99,7 +102,10 @@ def retrieve_password(request: HttpRequest) -> JsonResponse:
         # serializer, per come è definito, non lo definisce tra i parametri
         data = user_serializer.data
         data['password'] = user.password
-        return JsonResponse(data, status=status.HTTP_200_OK)
+        return JsonResponse({
+            'status' : '200',
+            'result' : data
+        }, status=status.HTTP_200_OK)
     
     except UserModel.DoesNotExist:
         error_message = "Failed to retrieve user " + name + " " + surname + " with username '" + username + "'"

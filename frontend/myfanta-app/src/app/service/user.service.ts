@@ -156,13 +156,12 @@ export class UserService implements OnDestroy {
    * @param username 
    * @returns la password oppure undefined se non è stata trovata alcuna corrispondenza
    */
-  recoveryPassword(name:string, surname:string, username:string) : string | undefined {
-    // Chiamata al db
-    // const result:UserEntity[] = USER_DATA.filter(user => 
-    //   user.name == name && user.surname == surname && user.username == username);
-    
-    // return result.length == 1 ? result[0].password : undefined;
-    return undefined;
+  recoveryPassword(name:string, surname:string, username:string) : Observable<string | undefined> {
+    return this.modelRestClient.recoverPassword(name, surname, username)
+        .pipe(
+          map((user) => user.password),
+          catchError((err) => of(undefined))          
+        );
   }
 
   /*
