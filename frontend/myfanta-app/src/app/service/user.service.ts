@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { catchError, Observable, Observer, of, Subscription } from 'rxjs';
+import { catchError, map, Observable, Observer, of, Subscription } from 'rxjs';
 import { UserEntity } from 'src/model/userEntity.model';
 import { CUSTOMS_TEAM_DATA, UserTeamEntity } from 'src/model/userTeamEntity.model';
 import { SessionStorageService } from './session-storage.service';
@@ -133,19 +133,17 @@ export class UserService implements OnDestroy {
    * @param password 
    * @returns lo User creato, undefined se esiste già un utente con lo stesso username
    */
-  createNewUser(name:string, surname:string, username:string, password:string) : UserEntity | undefined {
-    // TODO: Chiamata al db
-    // const result:UserEntity[] = USER_DATA.filter(user => user.username == username);
-    // if(result.length == 0) {
-    //   // TODO: Salvataggio su db
-
-    //   // TODO: Chiamata al db per caricare il nuovo utente
-    //   let entity:UserEntity = new UserEntity(USER_DATA.length, name, surname, username, password);
-    //   // Salvataggio su db
-    //   USER_DATA.push(entity)
-    //   return entity;
-    // }
-    return undefined;
+  createNewUser(name:string, surname:string, username:string, password:string) : Observable<User | undefined> {
+    return this.modelRestClient.signup(name, surname, username, password)
+      .pipe(      
+        map((entity) => {
+            console.log("UTENTE CREATO : " + entity);
+            let user = new User();
+            user.entity = entity;
+            return user;
+        }),
+        catchError((err) => of(undefined))
+      );
   }
 
   // RECUPERO PASSWORD

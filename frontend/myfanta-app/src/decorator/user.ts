@@ -76,11 +76,11 @@ export class User {
     // Metodi di utilità
 
     isUserDefined() : boolean {
-        return this.userId != null;
+        return this.entity != undefined && this.entity.user_id != null;
     }
 
     isFakeUser() : boolean {
-        return this.userId == null;
+        return this.entity == undefined || this._entity.user_id == null;
     }
 
     getShortUsername() : string {

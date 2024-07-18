@@ -88,7 +88,8 @@
             (keydown.space)="$event.preventDefault()" (focus)="tooltipUsername.show()" (input)="disableRegistration()">
 
           <div matSuffix class="margin-right margin-left"
-            [ngClass]="usernameFormControl.valid && !showErrorMessage ? 'material-icons color_green' : 'material-icons color_red'"
+            [ngClass]="usernameFormControl.valid && !showErrorMessage ? 
+                'material-icons color_green' : 'material-icons color_red'"
             #tooltipUsername="matTooltip" [matTooltip]="getErrorUsernameMessage()">
 
             <mat-icon *ngIf="!usernameFormControl.valid || showErrorMessage">error</mat-icon>

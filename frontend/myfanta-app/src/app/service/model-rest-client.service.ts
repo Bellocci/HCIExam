@@ -55,6 +55,22 @@ export class ModelRestClientService {
         );
   }
 
+  signup(name:string, surname:string, username:string, password:string) : Observable<UserEntity> {
+    return new RestAPIHelper<ApiResponse>().Builder()
+      .setHttpClient(this.httpClient)
+      .setUrl(this.apiUrl + "/user/subscription")
+      .createPostRequest()
+      .addBodyParam("name", name)
+      .addBodyParam("surname", surname)
+      .addBodyParam("username", username)
+      .addBodyParam("password", password)
+      .invoke()
+      .pipe(
+        map((response) => response.result),
+        catchError(this.handleError)
+      );
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // Errore client-side o di rete

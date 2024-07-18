@@ -4,11 +4,11 @@ import { AbstractControl, FormControl, UntypedFormControl, ValidationErrors, Val
 import { DialogService } from 'src/app/service/dialog.service';
 import { UserService } from 'src/app/service/user.service';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
-import { UserEntity } from 'src/model/userEntity.model';
 import { DialogHelper } from '../dialogHelper.interface';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
 import { Subscription } from 'rxjs';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { User } from 'src/decorator/user';
 
 @Component({
   selector: 'app-signup-dialog',
@@ -56,7 +56,7 @@ export class SignupDialogComponent implements OnInit, OnDestroy {
   private maxLengthPassword:number = 64;
 
   // Attributi visibilità
-  private _showErrorMessage: boolean = false;    
+  private _showErrorMessage: boolean = false;  
   private _signUpButtonDisabled: boolean = true;    
   private _showPassword: boolean = false;  
   private _createdNewUser: boolean = false;  
@@ -136,9 +136,17 @@ export class SignupDialogComponent implements OnInit, OnDestroy {
   public get showErrorMessage(): boolean {
     return this._showErrorMessage;
   }
-
+  
   public set showErrorMessage(value: boolean) {
     this._showErrorMessage = value;
+  }
+
+  public get createdNewUser(): boolean {
+    return this._createdNewUser;
+  }
+  
+  public set createdNewUser(value: boolean) {
+    this._createdNewUser = value;
   }
 
   public get signUpButtonDisabled(): boolean {
@@ -155,14 +163,6 @@ export class SignupDialogComponent implements OnInit, OnDestroy {
 
   public set showPassword(value: boolean) {
     this._showPassword = value;
-  }
-
-  public get createdNewUser(): boolean {
-    return this._createdNewUser;
-  }
-  
-  public set createdNewUser(value: boolean) {
-    this._createdNewUser = value;
   }
 
   public get isMobileBreakpointActive(): boolean {
@@ -241,19 +241,15 @@ export class SignupDialogComponent implements OnInit, OnDestroy {
   }
 
   registration() : void {
-    let user:UserEntity | undefined = undefined;    
+    let user:User | undefined = undefined;    
     if(this.canCompleteRegistration()) {
       // Siamo sicuri che contengono valori dal controllo precedente
-      user = this._userService.createNewUser(
-        this.nameFormControl.value!, this.surnameFormControl.value!, this.usernameFormControl.value!, this.passwordFormControl.value!);
-    }
-    
-    if(!user) {
-      this.showErrorMessage = true;
-      this.createdNewUser = false;
-    } else {
-      this.showErrorMessage = false;
-      this.createdNewUser = true;
+      this._userService.createNewUser(this.nameFormControl.value!, this.surnameFormControl.value!, 
+        this.usernameFormControl.value!, this.passwordFormControl.value!)
+        .subscribe((user) => {
+          this.showErrorMessage = user == undefined;
+          this.createdNewUser = user != undefined;
+        });
     }
   }
 
