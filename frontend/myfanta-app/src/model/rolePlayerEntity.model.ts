@@ -1,24 +1,24 @@
 import { SportEnum } from "src/enum/SportEnum.model";
 export class RolePlayerEntity {
 
-    private _roleId: number; 
+    private _role_id: number; 
     private _description: string;    
-    private _shortDescription: string;
+    private _short_description: string;
     private _sport: SportEnum;    
 
-    constructor(roleId:number, description:string, shortDescription:string, sport:SportEnum) {
-        this._roleId = roleId;
+    constructor(role_id:number, description:string, short_description:string, sport:SportEnum) {
+        this._role_id = role_id;
         this._description = description;
-        this._shortDescription = shortDescription;
+        this._short_description = short_description;
         this._sport = sport;
     }
 
-    public get roleId(): number {
-        return this._roleId;
+    public get role_id(): number {
+        return this._role_id;
     }
 
-    private set roleId(value: number) {
-        this._roleId = value;
+    private set role_id(value: number) {
+        this._role_id = value;
     }
 
     public get description(): string {
@@ -29,12 +29,12 @@ export class RolePlayerEntity {
         this._description = value;
     }
 
-    public get shortDescription(): string {
-        return this._shortDescription;
+    public get short_description(): string {
+        return this._short_description;
     }
 
-    private set shortDescription(value: string) {
-        this._shortDescription = value;
+    private set short_description(value: string) {
+        this._short_description = value;
     }
 
     public get sport(): SportEnum {
@@ -47,9 +47,9 @@ export class RolePlayerEntity {
 
     toJSON() : any {
         return {
-            roleId : this.roleId,
+            role_id : this.role_id,
             description : this.description,
-            shortDescription : this.shortDescription,
+            short_description : this.short_description,
             sport : this.sport.toJSON(),
         }
     }
@@ -68,7 +68,7 @@ export class RolePlayerEntity {
             return false;
         }
 
-        return this.roleId == other.roleId && this.description == other.description && this.sport.code == other.sport.code;
+        return this.role_id == other.role_id && this.description == other.description && this.sport.code == other.sport.code;
     }
 }
 

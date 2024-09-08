@@ -110,11 +110,11 @@ export class SearchAddPlayerValidatorService {
      */
     private commonValidation(player:PlayerEntity, checkListfunction:(player:PlayerEntity) => boolean) : ValidationProblem | null {  
       // Verifico l'esistenza del giocatore
-      let result:PlayerEntity | null = this.playerSearchRequest.loadPlayerBydId(player.playerId);
+      let result:PlayerEntity | null = this.playerSearchRequest.loadPlayerBydId(player.player_id);
       if(result == null) {
         return new ValidationProblemBuilder()
             .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-            .withMessage("Nessun giocatore trovato con il nome: " + player.playerName)
+            .withMessage("Nessun giocatore trovato con il nome: " + player.name)
             .build();
       }
   

@@ -31,14 +31,14 @@
                     <!-- Nome -->
                     <div>
                         <label class="text">
-                            <span class="bold">Nome</span> : {{ playerSelected?.playerName }}
+                            <span class="bold">Nome</span> : {{ playerSelected?.name }}
                         </label> 
                     </div>
                     
                     <!-- Squadra -->
                     <div class="margin-top">
                         <label class="text">
-                            <span class="bold">Squadra</span> : {{ playerSelected?.team?.teamName }}
+                            <span class="bold">Squadra</span> : {{ playerSelected?.team?.name }}
                         </label> 
                     </div>
     
@@ -52,7 +52,7 @@
                     <!-- Eta -->
                     <div class="margin-top">
                         <label class="text">
-                            <span class="bold">Età</span> : {{ playerSelected?.age}}
+                            <span class="bold">Età</span> : {{ playerSelected?.date_of_birth}}
                         </label> 
                     </div>
                 </div>
@@ -66,14 +66,14 @@
                 <!-- Nome -->
                 <div class="column-gap">
                     <h3>
-                        <span class="bold">Nome</span> : {{ playerSelected?.playerName }}
+                        <span class="bold">Nome</span> : {{ playerSelected?.name }}
                     </h3> 
                 </div>
 
                 <!-- Squadra -->
                 <div class="column-gap">
                     <h3>
-                        <span class="bold">Squadra</span> : {{ playerSelected?.team?.teamName }}
+                        <span class="bold">Squadra</span> : {{ playerSelected?.team?.name }}
                     </h3> 
                 </div>
 
@@ -87,7 +87,7 @@
                 <!-- Età -->
                 <div class="column-gap">
                     <h3>
-                        <span class="bold">Età</span> : {{ playerSelected?.age}}
+                        <span class="bold">Età</span> : {{ playerSelected?.date_of_birth}}
                     </h3> 
                 </div>
 
@@ -99,7 +99,7 @@
 
             <h2>Descrizione</h2>
             <div [ngClass]="isMobileBreakpointActive ? 'margin-top' : 'margin-large-top'">
-                <span class="text"> {{ playerSelected?.description}} </span>
+                <span class="text"> TODO </span>
             </div>
 
         </div>

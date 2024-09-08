@@ -5,26 +5,26 @@ import { CountryEnum } from "src/enum/CountryEnum.model";
 
 export class LeagueEntity {
 
-    private _leagueId: number;
+    private _league_id: number;
     private _name: string;
     private _sport: SportEnum;
     private _country: CountryEnum;    
     private _teamsList: TeamEntity[] = [];
 
-    constructor(leagueId: number, name: string, sport: SportEnum, country:CountryEnum) {
+    constructor(_league_id: number, name: string, sport: SportEnum, country:CountryEnum) {
 
-        this._leagueId = leagueId
+        this._league_id = _league_id
         this._name = name
         this._sport = sport
         this._country = country
     }
 
-    public get leagueId(): number {
-        return this._leagueId;
+    public get league_id(): number {
+        return this._league_id;
     }
 
-    private set leagueId(value: number) {
-        this._leagueId = value;
+    private set league_id(value: number) {
+        this._league_id = value;
     }
 
     public get name(): string {
@@ -59,11 +59,6 @@ export class LeagueEntity {
         this._teamsList = value;
     }
 
-    toString() : string {
-        return "Id:" + this.leagueId + ", Nome: " + this.name + ", Campionato: " + this.country +
-            ", Sport: " + this.sport;
-    }
-
     equals(other: any) : boolean {
         if(other == null) {
             return false;
@@ -73,13 +68,13 @@ export class LeagueEntity {
             return false;
         }
 
-        return this.leagueId == other.leagueId && this.name == other.name &&
+        return this.league_id == other.league_id && this.name == other.name &&
             this.sport == other.sport && this.country == other.country;
     }
 
     toJSON() : any {
         return {
-            leagueId : this.leagueId,
+            leagueId : this.league_id,
             sport : this.sport.toJSON(),
             name : this.name,
             championship : this.country.toJSON(),

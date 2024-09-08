@@ -1,59 +1,84 @@
 import { Injectable } from '@angular/core';
-import { LeagueEntity, LEAGUE_DATA } from 'src/model/leagueEntity.model';
-import { PLAYER_DATA_NBA, PLAYER_DATA_PREMIER_LEAGUE, PLAYER_DATA_SERIE_A, PlayerEntity } from 'src/model/playerEntity.model';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
 import { PlayerDecoratorFactoryService } from 'src/decorator-factory/player-decorator-factory.service';
-import { TEAM_DATA, TeamEntity } from 'src/model/teamEntity.model';
+import { TeamEntity } from 'src/model/teamEntity.model';
 import { TeamDecoratorFactoryService } from 'src/decorator-factory/team-decorator-factory.service';
-import { MapHelper } from 'src/utility/map-helper';
 import { ModelRestClientService } from './model-rest-client.service';
-import { Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoadDataService {
 
+  /*
+   * ==========
+   * VARIABILI
+   * ==========
+   */  
+  private cachedLeagues = new BehaviorSubject<LeagueEntity[]>([]);
+  private cachedTeams: Map<number, BehaviorSubject<TeamEntity[]>> = new Map();
+  private cachedPlayers: Map<number, BehaviorSubject<PlayerEntity[]>> = new Map();
+
+  /*
+   * ===========
+   * CONSTRUCT
+   * ===========
+   */
+
   constructor(private playerDecoratorFactory:PlayerDecoratorFactoryService,
     private teamDecoratorFactory:TeamDecoratorFactoryService,
-    private modelRestClient:ModelRestClientService) { }
+    private modelRestClient:ModelRestClientService) { }    
 
-  private leagues:LeagueEntity[] | null = null;
-  private playersMap:MapHelper<number, PlayerEntity[]> = new MapHelper<number, PlayerEntity[]>(new Map());
-  private teamsMap:Map<number, TeamEntity[]> = new Map<number, TeamEntity[]>();
+  /*
+   * ==============
+   * METODI PUBLIC 
+   * ==============
+   */
 
-  private initLeagues() : Observable<LeagueEntity[]> {
-      return this.modelRestClient.getLeagues()
-        .pipe(
-          // Permette di memorizzare i risultati ottenuti nella cache
-          tap((leagues) => this.leagues = leagues)
-        );
-  }
+  // ***** LEAGUE ****** 
 
   getLeagues():Observable<LeagueEntity[]> {
-    if(this.leagues != null) {
-      return of(this.leagues);
+    if(this.cachedLeagues.getValue().length == 0) {
+      this.modelRestClient.getLeagues()
+        .pipe(
+          tap((leagues) => this.cachedLeagues.next(leagues)),
+          catchError((error) => {
+            console.log("Error on getLeagues method: ", error)
+            return of([])
+          })
+        )
+        .subscribe();
     }
-    return this.initLeagues();
+
+    return this.cachedLeagues.asObservable();
   }
 
-  loadLeagueById(leagueId:number) : LeagueEntity | null {
-    let result:LeagueEntity | undefined = undefined;
-    // TODO: Interazione con il db
-    result = LEAGUE_DATA.find(entity => entity.leagueId == leagueId);
-    return result != undefined ? result : null;
+  loadLeagueById(leagueId:number) : Observable<LeagueEntity> {    
+    return this.modelRestClient.loadLeague(leagueId.toString())
   }
 
-  private loadAllTeams(league:LeagueEntity) : void {   
-    let list:TeamEntity[] = [];
-    //TODO: interazione con il db
-    list = this.teamDecoratorFactory.decorateList(TEAM_DATA.filter(team => team.league.equals(league)));    
-    this.teamsMap.set(league.leagueId, list);
-  }
+  // ***** TEAM ******
 
-  getAllTeams(league:LeagueEntity) : TeamEntity[] {
-    if(!this.teamsMap.has(league.leagueId)) {
-      this.loadAllTeams(league);
+  getTeams(league:LeagueEntity) : Observable<TeamEntity[]> {
+    if (!this.cachedTeams.has(league.league_id)) {      
+      let subject = new BehaviorSubject<TeamEntity[]>([]);
+      this.cachedTeams.set(league.league_id, subject)
+
+      this.modelRestClient.getTeams(league)
+          .pipe(
+            tap((teams) => subject.next(teams)),
+            catchError((error) => {
+              subject.error(error);
+              return of([]);
+            })
+          )
+          .subscribe();  
     }
-    return this.teamsMap.get(league.leagueId)!;
-  }  
+
+    return this.cachedTeams.get(league.league_id)!;
+  }
+
+  // ***** PLAYER ******
 }

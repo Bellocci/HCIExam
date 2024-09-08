@@ -150,17 +150,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   selectedLeagueListener(league:LeagueEntity) : void {
     //this.internalDataService.setLoadingData(true);
-    this.setLeagueSelected(league);
-    this.routerService.goToMyTeamPage();
-  }
-
-  /*
-   * =============== 
-   * METODI PRIVATI
-   * ===============
-   */
-
-  private setLeagueSelected(league:LeagueEntity) : void {
     this.internalDataService.setLeagueSelected(league);
+    this.routerService.goToMyTeamPage();
   }
 }

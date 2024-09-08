@@ -40,7 +40,7 @@ export interface RestAPIStepCreateRequest<T> {
  * Step aggiunta parametri opzionali + invocazione API
  */
 export interface RestAPIGetRequestBuilder<T> {
-    addQueryParam(key:string, value:string):this;
+    addQueryParam(key:string, value:string | number | boolean):this;
     invoke():Observable<T>;
 }
 

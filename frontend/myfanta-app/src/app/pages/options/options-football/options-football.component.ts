@@ -169,7 +169,7 @@ export class OptionsFootballComponent extends OptionsAbstract implements OnInit,
   }
 
   public getRoleDescription(role:RolePlayerEntity) : String {
-    return this.isMobileOrMobileXLBreakpointActive ? role.shortDescription : role.description;
+    return this.isMobileOrMobileXLBreakpointActive ? role.short_description : role.description;
   }
 
   /*

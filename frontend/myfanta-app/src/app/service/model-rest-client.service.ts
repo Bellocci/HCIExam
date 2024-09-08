@@ -1,9 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { HttpStatusEnum } from 'src/enum/HttpStatusEnum';
 import { environment } from 'src/environments/environment';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
+import { TeamEntity } from 'src/model/teamEntity.model';
 import { UserEntity } from 'src/model/userEntity.model';
 import { ApiResponse } from 'src/utility/rest/api-response';
 import { RestAPIHelper } from 'src/utility/rest/rest-builder-impl';
@@ -31,8 +33,68 @@ export class ModelRestClientService {
         .invoke()
         .pipe(
           map((response) => response.result),
+          // Permette di memorizzare i risultati ottenuti nella cache
+          tap(response => console.log("Received Response:", response)),
           catchError(this.handleError)
         );
+  }
+
+  loadLeague(leagueId:string) : Observable<LeagueEntity> {
+    if(leagueId == null) {
+      return throwError(() => new Error('League id is mandatory'));
+    }
+
+    console.log("Starting invokin REST to load league with id: ", leagueId)
+    return new RestAPIHelper<ApiResponse>().Builder()
+        .setHttpClient(this.httpClient)
+        .setUrl(this.apiUrl + "/league/loadleague")
+        .createGetRequest()
+        .addQueryParam("league_id", leagueId)
+        .invoke()
+        .pipe(
+          map((response) => response.result),
+          // Permette di memorizzare i risultati ottenuti nella cache
+          tap(response => console.log("Teams recovered:", response)),
+          catchError(this.handleError)
+        )
+  }
+
+  getTeams(league:LeagueEntity) : Observable<TeamEntity[]> {
+    if(league == null) {
+      return throwError(() => new Error('Cannot search teams! League is mandatory : ' + league));
+    }
+    console.log("Starting invokin REST to recovery teams with league: " + league.name)
+    return new RestAPIHelper<ApiResponse>().Builder()
+        .setHttpClient(this.httpClient)
+        .setUrl(this.apiUrl + "/team/")
+        .createGetRequest()
+        .addQueryParam("league_id", league.league_id.toString())
+        .invoke()
+        .pipe(
+          map((response) => response.result),
+          // Permette di memorizzare i risultati ottenuti nella cache
+          tap(response => console.log("Teams recovered:", response)),
+          catchError(this.handleError)
+        )
+  }
+
+  getAllPlayers(league:LeagueEntity) : Observable<PlayerEntity[]> {
+    if(league == null) {
+      return throwError(() => new Error('Cannot search teams! League is mandatory : ' + league));
+    }
+
+    return new RestAPIHelper<ApiResponse>().Builder()
+        .setHttpClient(this.httpClient)
+        .setUrl(this.apiUrl + "/player/searchAll")
+        .createGetRequest()
+        .addQueryParam("league_id", league.league_id.toString())
+        .invoke()
+        .pipe(
+          map((response) => response.result),
+          // Permette di memorizzare i risultati ottenuti nella cache
+          tap(response => console.log("Teams recovered:", response)),
+          catchError(this.handleError)
+        )
   }
 
   /*

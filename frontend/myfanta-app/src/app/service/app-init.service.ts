@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SessionStorageService } from './session-storage.service';
 import { RouterService } from './router.service';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
+import { ModelRestClientService } from './model-rest-client.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,8 @@ import { LinkEnum } from 'src/enum/LinkEnum.model';
 export class AppInitService {
 
   constructor(private sessionService:SessionStorageService,
-    private routerService:RouterService) {
+    private routerService:RouterService,
+    private modelRestClient:ModelRestClientService) {
   }
   
   Init() {

@@ -179,7 +179,7 @@ export class SearchAddPlayerComponent implements OnInit, OnDestroy {
    */
 
   private loadPlayer(playerName:string) : PlayerEntity | undefined {
-    let playerSelected:PlayerEntity | undefined = this.players.find(player => player.playerName.toLowerCase() === playerName.toLocaleLowerCase());
+    let playerSelected:PlayerEntity | undefined = this.players.find(player => player.name.toLowerCase() === playerName.toLocaleLowerCase());
     if(playerSelected == undefined && this.leagueSelected != null) {
       playerSelected = this.playerSearchRequest.byNameAndLeague(playerName, this.leagueSelected)[0];
     }

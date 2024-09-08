@@ -29,11 +29,11 @@ export class TableFilterOption {
     }
 
     updateRoles(role:RolePlayerEntity) : void {
-        this.roleMap.has(role.roleId) ? this.roleMap.delete(role.roleId) : this.roleMap.set(role.roleId, role);
+        this.roleMap.has(role.role_id) ? this.roleMap.delete(role.role_id) : this.roleMap.set(role.role_id, role);
     }
 
     hasRole(role:RolePlayerEntity) : boolean {
-        return this.roleMap.has(role.roleId);
+        return this.roleMap.has(role.role_id);
     }
 
     getMatchPlayedPerc() : number {
@@ -67,11 +67,11 @@ export class TableFilterOption {
     }
 
     hasTeams(team:TeamEntity) : boolean {
-        return this.teamsMap.has(team.teamId);
+        return this.teamsMap.has(team.team_id);
     }
 
     updateTeams(team:TeamEntity) : void {
-        this.teamsMap.has(team.teamId) ? this.teamsMap.delete(team.teamId) : this.teamsMap.set(team.teamId, team);
+        this.teamsMap.has(team.team_id) ? this.teamsMap.delete(team.team_id) : this.teamsMap.set(team.team_id, team);
     }
 
     getPlayerName() : string {
@@ -102,13 +102,13 @@ export class TableFilterOption {
         let rolesMap:Map<number, RolePlayerEntity> = new Map();
         for(let r of json.roles) {
             let role:RolePlayerEntity = RolePlayerEntity.fromJSON(r);
-            rolesMap.set(role.roleId, role);
+            rolesMap.set(role.role_id, role);
         }
 
         let teamsMap:Map<number, TeamEntity> = new Map();
         for(let t of json.teams) {
             let team:TeamEntity = TeamEntity.fromJSON(t);
-            teamsMap.set(team.teamId, team);
+            teamsMap.set(team.team_id, team);
         }
 
         return new TableFilterOption(json.playerName, json.matchPlayedPerc, rolesMap, teamsMap);

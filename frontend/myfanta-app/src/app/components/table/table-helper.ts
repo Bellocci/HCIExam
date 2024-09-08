@@ -54,7 +54,7 @@ export class TableHelper {
             this.routerService.currentPageIsBlacklist() ? this.teamDataService.removePlayerFromBlacklist(player) : 
             new ValidationProblemBuilder()
                 .withValidationType(SnackBarDataTypeEnum.ERROR_TYPE)
-                .withMessage("Impossibile rimuovere il giocatore " + player.playerName + " dalla lista")
+                .withMessage("Impossibile rimuovere il giocatore " + player.name + " dalla lista")
                 .build();
     }
 

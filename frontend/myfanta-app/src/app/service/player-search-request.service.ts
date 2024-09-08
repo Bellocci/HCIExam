@@ -1,10 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
-import { PLAYER_DATA_NBA, PLAYER_DATA_PREMIER_LEAGUE, PLAYER_DATA_SERIE_A, PlayerEntity } from 'src/model/playerEntity.model';
+import { PlayerEntity } from 'src/model/playerEntity.model';
 import { MapHelper } from 'src/utility/map-helper';
 import { PlayerSearchFilter } from './player-search-filter';
 import { SportEnum } from 'src/enum/SportEnum.model';
+import { LoadDataService } from './load-data.service';
+import { ModelRestClientService } from './model-rest-client.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +29,7 @@ export class PlayerSearchRequestService implements OnDestroy {
    * ========================
    */
 
-  constructor() { 
+  constructor(private modelRestClient:ModelRestClientService) { 
     console.log("Construct the Player search service");
   }
 
@@ -43,26 +45,21 @@ export class PlayerSearchRequestService implements OnDestroy {
    */
 
   private loadAllPlayers(league:LeagueEntity) : PlayerEntity[] {
-    if(this.playersMap.hasElement(league.leagueId)) {
-      return this.playersMap.getValue(league.leagueId)!;
+    if(this.playersMap.hasElement(league.league_id)) {
+      return this.playersMap.getValue(league.league_id)!;
     }
 
     this.playersMap.clearMap();
     let list:PlayerEntity[] = [];
     // TODO: Interazione con il db
-    league.leagueId == 1 ? list = PLAYER_DATA_SERIE_A :
-      league.leagueId == 2 ? list = PLAYER_DATA_PREMIER_LEAGUE :
-      league.leagueId == 4 ? list = PLAYER_DATA_NBA :
-      league.leagueId == 5 ? list = [] : 
-      list = [];
     
-    this.playersMap.addElementToMap(league.leagueId, list);
+    this.playersMap.addElementToMap(league.league_id, list);
     return list;
   }
 
   getAllPlayers(league:LeagueEntity): PlayerEntity[] {
-    if(this.playersMap.hasElement(league.leagueId)) {
-      return this.playersMap.getValue(league.leagueId)!;
+    if(this.playersMap.hasElement(league.league_id)) {
+      return this.playersMap.getValue(league.league_id)!;
     } else {
       return this.loadAllPlayers(league);
     }
@@ -70,20 +67,7 @@ export class PlayerSearchRequestService implements OnDestroy {
 
   loadPlayerBydId(playerId:number) : PlayerEntity | null {
     // TODO: Interazione con il db
-    let result:PlayerEntity[] = PLAYER_DATA_SERIE_A.filter(player => player.playerId == playerId);
-    if(result.length != 0) {
-      return result[0];
-    }    
-
-    result = PLAYER_DATA_PREMIER_LEAGUE.filter(player => player.playerId == playerId);
-    if(result.length != 0) {
-      return result[0];
-    }
-
-    result = PLAYER_DATA_NBA.filter(player => player.playerId == playerId);
-    if(result.length != 0) {
-      return result[0];
-    }
+    
 
     return null;
   } 
@@ -114,10 +98,10 @@ export class PlayerSearchRequestService implements OnDestroy {
      */
     this.loadAllPlayers(league);
     let resultList:PlayerEntity[] = [];
-    for(let player of this.playersMap.getValue(league.leagueId)!) {
-      if(player.playerName.toLowerCase().includes(playerName.toLowerCase())) {
-        resultList.push(player);
-      }
+    for(let player of this.playersMap.getValue(league.league_id)!) {
+      // if(player.playerName.toLowerCase().includes(playerName.toLowerCase())) {
+      //   resultList.push(player);
+      // }
     }
 
     return resultList;
@@ -130,12 +114,12 @@ export class PlayerSearchRequestService implements OnDestroy {
     }
 
     this.loadAllPlayers(searchFilter.league);
-    let filteredPlayerList:PlayerEntity[] = this.playersMap.getValue(searchFilter.league.leagueId)!;
+    let filteredPlayerList:PlayerEntity[] = this.playersMap.getValue(searchFilter.league.league_id)!;
 
     let searchFilterString:string = "";
     if(searchFilter.name.trim().length != 0) {      
       searchFilterString += "Name: " + searchFilter.name.trim();
-      filteredPlayerList = filteredPlayerList.filter(player => player.playerName.trim().toLowerCase().includes(searchFilter.name));
+      filteredPlayerList = filteredPlayerList.filter(player => player.name.trim().toLowerCase().includes(searchFilter.name));
     }
 
     if(searchFilter.rolesList.length != 0) {
@@ -147,25 +131,25 @@ export class PlayerSearchRequestService implements OnDestroy {
 
     if(searchFilter.matchPlayed != -1) {
       searchFilterString += " MatchPlayed: " + searchFilter.matchPlayed;
-      filteredPlayerList = filteredPlayerList.filter(player => player.matchPlayed == searchFilter.matchPlayed)
+      // filteredPlayerList = filteredPlayerList.filter(player => player == searchFilter.matchPlayed)
     }
 
     if(searchFilter.matchPlayedPerc != undefined) {
       searchFilterString += " MatchPlayedPercentage: " + searchFilter.matchPlayedPerc.value;
       let match:number = this.calculateMatchPlayedFilter(searchFilter.league.sport, searchFilter.matchPlayedPerc.value);
-      filteredPlayerList = filteredPlayerList.filter(player => player.matchPlayed >= match);
+      // filteredPlayerList = filteredPlayerList.filter(player => player.matchPlayed >= match);
     }
 
     if(searchFilter.teamsList.length != 0) {
       searchFilterString += " Team: [";
-      searchFilter.teamsList.forEach(team => searchFilterString += team.teamAbbreviation + " ");
+      searchFilter.teamsList.forEach(team => searchFilterString += team.short_name + " ");
       searchFilterString += "]";
       filteredPlayerList = filteredPlayerList.filter(player => searchFilter.teamsList.includes(player.team));
     }
 
-    console.log("Filter : " + searchFilterString);
-    console.log("Result: " + filteredPlayerList.length);
-    filteredPlayerList.forEach(player => console.log(player.toString()));
+    // console.log("Filter : " + searchFilterString);
+    // console.log("Result: " + filteredPlayerList.length);
+    // filteredPlayerList.forEach(player => console.log(player.toString()));
 
     return filteredPlayerList;
   }

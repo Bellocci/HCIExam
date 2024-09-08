@@ -10,9 +10,9 @@
                 <button mat-raised-button [@teamSelect]="isTeamSelected(team) ? 'selected' : 'unselected'"
                     class="mat-elevation-z3"
                     [ngClass]="isTeamSelected(team) ? ['custom-button-selected', 'primary-color-light'] : ['custom-button']"
-                    [matTooltip]="team.teamName" (click)="updateSelectedTeams(team)">
+                    [matTooltip]="team.name" (click)="updateSelectedTeams(team)">
                     <mat-icon>done</mat-icon>
-                    {{ team.teamAbbreviation }}
+                    {{ team.short_name }}
                 </button>
             </div>
 
@@ -26,7 +26,7 @@
             <mat-select [value]="getSelectedTeams()" multiple #teamSelect>
                 <mat-option *ngFor="let team of teams" 
                     [value]="team" (click)="updateSelectedTeams(team)">
-                    {{ team.teamName }}
+                    {{ team.name }}
                 </mat-option>
             </mat-select>
         </mat-form-field>

@@ -153,9 +153,9 @@ export class RouterService {
   }
 
   private buildPlayerProfilePath(player:PlayerEntity) : string {
-    const team:string = player.team.teamName.replace(/[^a-zA-Z]/g, "-");
+    const team:string = player.team.name.replace(/[^a-zA-Z]/g, "-");
     const league:string = player.team.league.name.replace(/[^a-zA-Z]/g, "-");
-    const playerName:string = player.playerName.replace(/[^a-zA-Z]/g, "-");
-    return LinkEnum.PARENT_PATH + league + "/" + team + "/" + playerName + "/" + player.playerId;
+    const playerName:string = player.name.replace(/[^a-zA-Z]/g, "-");
+    return LinkEnum.PARENT_PATH + league + "/" + team + "/" + playerName + "/" + player.player_id;
   }
 }

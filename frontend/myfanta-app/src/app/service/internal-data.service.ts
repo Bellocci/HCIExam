@@ -7,6 +7,8 @@ import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
 import { PlayerSearchRequestService } from './player-search-request.service';
+import { ModelRestClientService } from './model-rest-client.service';
+import { TeamEntity } from 'src/model/teamEntity.model';
 
 /**
  * Servizio per la memorizzazione delle informazioni necessarie a livello di front-end
@@ -43,10 +45,13 @@ export class InternalDataService implements OnDestroy {
 
     console.log("Construct the Internal data service");
 
-    const jsonLeagueId:string | null = this.sessionStorage.getData(InternalDataService.KEY_SESSION_LEAGUE_ID);
-    if(jsonLeagueId != null) {
+    const jsonLeagueId:any | null = this.sessionStorage.getData(InternalDataService.KEY_SESSION_LEAGUE_ID);
+    console.log("JsonLeagueId " + jsonLeagueId);
+    if(jsonLeagueId != null && jsonLeagueId != undefined) {
       const leagueId:number = JSON.parse(jsonLeagueId);
-      this.leagueSelected.setValue(this.loadDataService.loadLeagueById(leagueId));
+      this.loadDataService
+          .loadLeagueById(leagueId)
+          .subscribe((result) => this.setLeagueSelected(result));
     }
     this._subscriptionLeagueObservable = this.updateSessionStorageLeague();
 
@@ -76,8 +81,9 @@ export class InternalDataService implements OnDestroy {
   private updateSessionStorageLeague() : Subscription | undefined {
     return this.leagueSelected.addObserver(new ObserverStepBuilder<LeagueEntity | null>()
       .next(league => {
+        console.log("Update session: ", league != undefined ? league : "undefined")
         if(league != null) {
-          this.sessionStorage.saveData(InternalDataService.KEY_SESSION_LEAGUE_ID, league.leagueId.toString());
+          this.sessionStorage.saveData(InternalDataService.KEY_SESSION_LEAGUE_ID, league.league_id.toString());
         } else {
           this.sessionStorage.removeData(InternalDataService.KEY_SESSION_LEAGUE_ID);
         }        
@@ -90,7 +96,7 @@ export class InternalDataService implements OnDestroy {
     return this.playerSelected.addObserver(new ObserverStepBuilder<PlayerEntity | null>()
       .next(player => {
         if(player != null) {
-          this.sessionStorage.saveData(InternalDataService.KEY_SESSION_PLAYER_ID, player.playerId.toString());
+          this.sessionStorage.saveData(InternalDataService.KEY_SESSION_PLAYER_ID, player.player_id.toString());
         } else {
           this.sessionStorage.removeData(InternalDataService.KEY_SESSION_PLAYER_ID);
         }
@@ -106,6 +112,8 @@ export class InternalDataService implements OnDestroy {
    */
 
   setLeagueSelected(league: LeagueEntity | null): void {
+    let leagueSelected = league != undefined ? league : null;
+    console.log("League selected: ", league != null ? league?.name : "null");    
     this.leagueSelected.setValue(league);
   }  
 

@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
 import { FilterDataService } from 'src/app/service/filter-data.service';
 import { InternalDataService } from 'src/app/service/internal-data.service';
+import { LoadDataService } from 'src/app/service/load-data.service';
+import { ModelRestClientService } from 'src/app/service/model-rest-client.service';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { TeamEntity } from 'src/model/teamEntity.model';
 import { ObservableHelper } from 'src/utility/observable-helper';
@@ -52,11 +54,12 @@ export class TeamListResponsiveComponent implements OnInit, OnDestroy, OnChanges
   @ViewChild("teamSelect") 
   teamSelect!:MatSelect;
   
+  private _league:LeagueEntity | null = null;
   private _selectedTeams: Set<TeamEntity> = new Set();  
   private _teams: TeamEntity[] = [];  
   private _isMobileBreakpointActive: boolean = false;  
 
-  private _subscriptionToLeagueObservable: Subscription | undefined;
+  private _subscriptionTeamsObservable: Subscription | undefined;
   private _subscriptionMobileObservable!:Subscription;
 
   private _observableSelectedTeams:ObservableHelper<TeamEntity[]> = new ObservableHelper<TeamEntity[]>([]);
@@ -68,17 +71,22 @@ export class TeamListResponsiveComponent implements OnInit, OnDestroy, OnChanges
    */
   constructor(private internalDataService: InternalDataService, 
     private filterDataService: FilterDataService,
-    public breakpointsService: BreakpointsService) {
+    public breakpointsService: BreakpointsService,
+    private loadData:LoadDataService) {
 
     console.log("Construct Custom chip listbox component");
 
     this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(window.innerWidth);
-
-    this._subscriptionToLeagueObservable = this.addObserverToLeague();
+    let leagueSelected:LeagueEntity|null = internalDataService.getSelectedLeague();
+    if(leagueSelected != null) {
+      this._subscriptionTeamsObservable = loadData.getTeams(leagueSelected).subscribe(result => this.teams = result);
+    }
     this._subscriptionMobileObservable = this.addObserverToMobileBreakpoints();
   }  
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    //this._subscriptionTeamsObservable = this.addObserverToTeams();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['clearTeams'].currentValue) {
@@ -89,7 +97,7 @@ export class TeamListResponsiveComponent implements OnInit, OnDestroy, OnChanges
 
   ngOnDestroy(): void {
     console.log("Destroy Custom Chip Listbox component");
-    this._subscriptionToLeagueObservable != undefined ? this._subscriptionToLeagueObservable.unsubscribe() : null;
+    this._subscriptionTeamsObservable != undefined ? this._subscriptionTeamsObservable.unsubscribe() : null;
     this._subscriptionMobileObservable.unsubscribe();
     this._observableSelectedTeams.complete();
   }
@@ -99,15 +107,6 @@ export class TeamListResponsiveComponent implements OnInit, OnDestroy, OnChanges
    * OBSERVER
    * =========
    */
-  private addObserverToLeague(): Subscription | undefined {
-    return this.internalDataService.addObserverToLeagueSelected(new ObserverStepBuilder<LeagueEntity | null>()
-      .next(league => {
-        this.teams = league != null ? this.filterDataService.filterTeamsByLeague(league) : [];
-      })
-      .error(error => console.log("Error while retriving league: " + error))
-      .build()
-    )
-  }
 
   private addObserverToMobileBreakpoints() : Subscription {
     return this.breakpointsService.mobileObservable.subscribe(new ObserverStepBuilder<boolean>()

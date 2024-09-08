@@ -66,7 +66,8 @@ export class FilterDataService {
    * @returns TeamEntity[] 
    */
   filterTeamsByLeague(league:LeagueEntity):TeamEntity[] {
-    return this.loadDataService.getAllTeams(league);
+    //return this.loadDataService.getTeams(league);
+    return []
   }
 
   /*

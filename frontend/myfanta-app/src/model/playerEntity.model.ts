@@ -1,64 +1,77 @@
 import { TEAM_DATA, TeamEntity } from "./teamEntity.model";
 import { ROLE_PLAYER_DATA, RolePlayerEntity } from "./rolePlayerEntity.model";
+import { CountryEnum } from "src/enum/CountryEnum.model";
+import { SportEnum } from "src/enum/SportEnum.model";
 
 export class PlayerEntity {
 
-    private _playerId: number;
-    private _playerName: string;
-    private _team: TeamEntity;    
-    private _cost: number;    
+    private _player_id: number;
+    private _name: string;
+    private _last_name: string;
+    private _nationality: CountryEnum;   
+    private _sport: SportEnum;     
     private _role: RolePlayerEntity;    
-    private _age: number;
-    private _matchPlayed: number;    
-    private _description: string;
-    private _averageRating: number;    
-    private _fantaMarketValue: number;    
+    private _team: TeamEntity;    
+    private _fantasy_price: number;        
+    private _date_of_birth: Date;    
+    private _average_rating: number;    
+    private _fanta_average_rating: number;        
 
-    constructor(playerId: number, playerName: string, team: TeamEntity, cost: number, role: RolePlayerEntity,
-        age: number,matchPlayed: number, description: string) {
+    constructor(_player_id: number, name: string, last_name:string, nationality:CountryEnum, 
+        sport:SportEnum, role: RolePlayerEntity, team: TeamEntity, _fantasy_price: number,
+        date_of_birth:Date, average_rating:number, fanta_average_rating:number) {
         
-        this._playerId = playerId
-        this._playerName = playerName
-        this._team = team
-        this._cost = cost
-        this._role = role
-        this._age = age
-        this._matchPlayed = matchPlayed
-        this._description = description
-        this._averageRating = 0;
-        this._fantaMarketValue = 0;
+        this._player_id = _player_id;
+        this._name = name;
+        this._last_name = last_name;
+        this._nationality = nationality;
+        this._sport = sport;
+        this._role = role;
+        this._team = team;
+        this._fantasy_price = _fantasy_price;
+        this._date_of_birth = date_of_birth;
+        this._average_rating = average_rating;
+        this._fanta_average_rating = fanta_average_rating;
     }
 
-    public get playerId(): number {
-        return this._playerId;
+    public get player_id(): number {
+        return this._player_id;
     }
 
-    private set playerId(value: number) {
-        this._playerId = value;
+    private set player_id(value: number) {
+        this._player_id = value;
     }
 
-    public get playerName(): string {
-        return this._playerName;
+    public get name(): string {
+        return this._name;
     }
 
-    private set playerName(value: string) {
-        this._playerName = value;
+    private set name(value: string) {
+        this._name = value;
     }
 
-    public get team(): TeamEntity {
-        return this._team;
+    public get last_name(): string {
+        return this._last_name;
     }
 
-    private set team(value: TeamEntity) {
-        this._team = value;
+    public set last_name(value: string) {
+        this._last_name = value;
     }
 
-    public get cost(): number {
-        return this._cost;
+    public get nationality(): CountryEnum {
+        return this._nationality;
+    }
+    
+    public set nationality(value: CountryEnum) {
+        this._nationality = value;
     }
 
-    private set cost(value: number) {
-        this._cost = value;
+    public get sport(): SportEnum {
+        return this._sport;
+    }
+    
+    public set sport(value: SportEnum) {
+        this._sport = value;
     }
 
     public get role(): RolePlayerEntity {
@@ -69,48 +82,48 @@ export class PlayerEntity {
         this._role = value;
     }
 
-    public get age(): number {
-        return this._age;
+    public get team(): TeamEntity {
+        return this._team;
     }
 
-    private set age(value: number) {
-        this._age = value;
+    private set team(value: TeamEntity) {
+        this._team = value;
     }
 
-    public get matchPlayed(): number {
-        return this._matchPlayed;
+    public get fantasy_price(): number {
+        return this._fantasy_price;
+    }
+    
+    public set fantasy_price(value: number) {
+        this._fantasy_price = value;
+    }    
+
+    public get date_of_birth(): Date {
+        return this._date_of_birth;
+    }
+    
+    public set date_of_birth(value: Date) {
+        this._date_of_birth = value;
     }
 
-    private set matchPlayed(value: number) {
-        this._matchPlayed = value;
+    public get average_rating(): number {
+        return this._average_rating;
     }
 
-    public get description(): string {
-        return this._description;
+    public set average_rating(value: number) {
+        this._average_rating = value;
     }
 
-    private set description(value: string) {
-        this._description = value;
+    public get fanta_average_rating(): number {
+        return this._fanta_average_rating;
     }
-
-    public get fantaMarketValue(): number {
-        return this._fantaMarketValue;
-    }
-
-    public set fantaMarketValue(value: number) {
-        this._fantaMarketValue = value;
-    }
-
-    public get averageRating(): number {
-        return this._averageRating;
-    }
-
-    public set averageRating(value: number) {
-        this._averageRating = value;
+    
+    public set fanta_average_rating(value: number) {
+        this._fanta_average_rating = value;
     }
 
     toString() : string {
-        return "Name: " + this.playerName + " Team: " + this.team.teamName + " Role: " + this.role.description;
+        return "Name: " + this.name + " Team: " + this.team.name + " Role: " + this.role.description;
     }
 
     equals(other:any) {
@@ -122,63 +135,9 @@ export class PlayerEntity {
             return false;
         }
 
-        return this.playerId == other.playerId &&
-            this.playerName == other.playerName && this.role == other.role &&
-            this.age == other.age && this.cost == other.cost && 
-            this.matchPlayed == other.matchPlayed;
-    }
-
-    toJSON() : any {
-        return {
-            playerId: this.playerId,
-            playerName : this.playerName,
-            team : this.team.toJSON(),
-            cost : this.cost,
-            role : this.role.toJSON(),
-            age : this.age,
-            matchPlayed : this.matchPlayed,
-            description : this.description,
-        }
-    }
-
-    static fromJSON(json:any) : PlayerEntity {
-        return new PlayerEntity(json.playerId, json.playerName, TeamEntity.fromJSON(json.team),
-            json.cost, RolePlayerEntity.fromJSON(json.role), json.age, json.matchPlayed, 
-            json.description);
+        return this.player_id == other.player_id &&
+            this.name == other.name && this.role == other.role &&
+            this.nationality == other.nationality &&
+            this.sport == other.sport;
     }
 }
-
-const description: string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-
-export const PLAYER_DATA_SERIE_A: PlayerEntity[] = [
-    new PlayerEntity(1, "Musso", TEAM_DATA[0], 12, ROLE_PLAYER_DATA[0], 27, 34, description),
-    new PlayerEntity(2, "Toloi", TEAM_DATA[0], 8, ROLE_PLAYER_DATA[1], 31, 16, description),
-    new PlayerEntity(3, "Malinovskyi", TEAM_DATA[0], 22, ROLE_PLAYER_DATA[2], 28, 22, description),
-    new PlayerEntity(4, "Pasalic", TEAM_DATA[0], 28, ROLE_PLAYER_DATA[2], 27, 24, description),
-    new PlayerEntity(5, "Arnautovic", TEAM_DATA[1], 24, ROLE_PLAYER_DATA[3], 32, 23, description),
-    new PlayerEntity(6, "De Silvestri", TEAM_DATA[1], 14, ROLE_PLAYER_DATA[1], 33, 23, description),
-    new PlayerEntity(7, "Soriano", TEAM_DATA[1], 10, ROLE_PLAYER_DATA[2], 31, 25, description),
-    new PlayerEntity(8, "Skorupski", TEAM_DATA[1], 10, ROLE_PLAYER_DATA[0], 30, 27, description),
-    new PlayerEntity(9, "Theate", TEAM_DATA[1], 12, ROLE_PLAYER_DATA[1], 21, 22, description),
-    new PlayerEntity(10, "Orsolini", TEAM_DATA[1], 18, ROLE_PLAYER_DATA[2], 25, 18, description),
-    new PlayerEntity(11, "Muriel", TEAM_DATA[0], 23, ROLE_PLAYER_DATA[3], 30, 16, description),
-    new PlayerEntity(12, "Zapata", TEAM_DATA[0], 34, ROLE_PLAYER_DATA[3], 30, 17, description),
-    new PlayerEntity(13, "Zappacosta", TEAM_DATA[0], 13, ROLE_PLAYER_DATA[1], 29, 21, description),
-    new PlayerEntity(14, "De Roon", TEAM_DATA[0], 8, ROLE_PLAYER_DATA[2], 30, 21, description),
-    new PlayerEntity(15, "Boga", TEAM_DATA[0], 8, ROLE_PLAYER_DATA[3], 25, 16, description),    
-]
-
-export const PLAYER_DATA_PREMIER_LEAGUE: PlayerEntity[] = [
-    new PlayerEntity(16, "Ramsdale", TEAM_DATA[2], 17, ROLE_PLAYER_DATA[0], 24, 19, description),
-    new PlayerEntity(17, "Gabriel", TEAM_DATA[2], 14, ROLE_PLAYER_DATA[1], 25, 19, description),
-    new PlayerEntity(18, "Thomas", TEAM_DATA[2], 14, ROLE_PLAYER_DATA[2], 29, 17, description),
-    new PlayerEntity(19, "Watkins", TEAM_DATA[3], 15, ROLE_PLAYER_DATA[3], 27, 20, description),
-    new PlayerEntity(20, "Traorè", TEAM_DATA[3], 3, ROLE_PLAYER_DATA[3], 27, 2, description),    
-]
-
-export const PLAYER_DATA_NBA: PlayerEntity[] = [
-    new PlayerEntity(26, "Lebron", TEAM_DATA[5], 15, ROLE_PLAYER_DATA[13], 29, 20, description),
-    new PlayerEntity(27, "Russell", TEAM_DATA[5], 19.5, ROLE_PLAYER_DATA[10], 32, 16, description),
-    new PlayerEntity(28, "Talen", TEAM_DATA[5], 8.5, ROLE_PLAYER_DATA[10], 22, 7, description),
-    new PlayerEntity(29, "Carmelo", TEAM_DATA[5], 8.0, ROLE_PLAYER_DATA[11], 38, 15, description)
-]

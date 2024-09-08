@@ -11,7 +11,7 @@ from DataModel.models.TeamModel.team_model_serializer import TeamModelSerializer
 @csrf_exempt
 @api_view(['GET'])
 def get_teams(request: HttpRequest) -> JsonResponse:
-
+    print("Invoked REST teams")
     league_id = request.query_params.get('league_id', None)
     if(league_id is None):
         print('Error while retriving teams : league id is None')
@@ -28,7 +28,9 @@ def get_teams(request: HttpRequest) -> JsonResponse:
         print('Not teams found related to league id: ', league_id)
         return JsonResponse({'error' : 'Teams not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    print("RESULT: ", team_queryset.all())
     team_serializer = TeamModelSerializer(team_queryset.all(), many=True)
     print("DATA: ", team_serializer.data)
-    return JsonResponse({'ok' : team_serializer.data}, status=status.HTTP_200_OK)
+    return JsonResponse({
+        'status' : '200',
+        'result' : team_serializer.data
+    }, status=status.HTTP_200_OK)

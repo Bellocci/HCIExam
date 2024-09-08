@@ -2,40 +2,40 @@ import { LEAGUE_DATA, LeagueEntity } from "./leagueEntity.model";
 
 export class TeamEntity {
 
-    private _teamId: number;
-    private _teamName: string;
-    private _teamAbbreviation: string;
+    private _team_id: number;    
+    private _name: string;    
+    private _short_name: string;    
     private _league: LeagueEntity;
 
-    constructor(teamId: number, teamName: string, teamAbbreviation: string, league: LeagueEntity) {
-        this._teamId = teamId;
-        this._teamName = teamName;
-        this._teamAbbreviation = teamAbbreviation;
+    constructor(team_id: number, name: string, short_name: string, league: LeagueEntity) {
+        this._team_id = team_id;
+        this._name = name;
+        this._short_name = short_name;
         this._league = league;
     }
 
-    public get teamId(): number {
-        return this._teamId;
+    public get team_id(): number {
+        return this._team_id;
+    }
+    
+    public set team_id(value: number) {
+        this._team_id = value;
     }
 
-    private set teamId(value: number) {
-        this._teamId = value;
+    public get name(): string {
+        return this._name;
     }
 
-    public get teamName(): string {
-        return this._teamName;
+    public get short_name(): string {
+        return this._short_name;
     }
 
-    private set teamName(value: string) {
-        this._teamName = value;
+    public set short_name(value: string) {
+        this._short_name = value;
     }
 
-    public get teamAbbreviation(): string {
-        return this._teamAbbreviation;
-    }
-
-    private set teamAbbreviation(value: string) {
-        this._teamAbbreviation = value;
+    public set name(value: string) {
+        this._name = value;
     }
 
     public get league(): LeagueEntity {
@@ -44,12 +44,6 @@ export class TeamEntity {
 
     private set league(value: LeagueEntity) {
         this._league = value;
-    }
-
-    toString(): string {
-        return "Id:" + this.teamId + " name:" + this.teamName +
-            " abbreviation:" + this.teamAbbreviation +
-            " league: " + this.league.name;
     }
 
     equals(other: any): boolean {
@@ -61,15 +55,15 @@ export class TeamEntity {
             return false;
         }
 
-        return this.teamId == other.teamId && this.teamAbbreviation == other.teamAbbreviation &&
-            this.teamName === other.teamName && this.league.equals(other.league);
+        return this.team_id == other.team_id && this.short_name == other.short_name &&
+            this.name === other.name && this.league.equals(other.league);
     }
 
     toJSON(): any {
         return {
-            teamId: this.teamId,
-            name: this.teamName,
-            abbreviation: this.teamAbbreviation,
+            teamId: this.team_id,
+            name: this.name,
+            abbreviation: this.short_name,
             league: this.league.toJSON(),
         }
     }

@@ -328,27 +328,27 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
       const tableFilters:TableFilterOption = TableFilterOption.fromJSON(JSON.parse(filter));
 
       // Filtro nome
-      if(player.playerName.trim().toLowerCase().includes(tableFilters.getPlayerName().trim().toLowerCase())) {
+      if(player.name.trim().toLowerCase().includes(tableFilters.getPlayerName().trim().toLowerCase())) {
 
         // Filtro partite giocate
-        if(player.matchPlayed >= tableFilters.calculateMatchPlayedFilter(player.team.league.sport)) {
+        // if(player.matchPlayed >= tableFilters.calculateMatchPlayedFilter(player.team.league.sport)) {
 
           // Filtro ruoli
           if(tableFilters.getRoles().length > 0) {
-            if(tableFilters.getRoles().filter(role => player.role.roleId == role.roleId).length == 0) {
+            if(tableFilters.getRoles().filter(role => player.role.role_id == role.role_id).length == 0) {
               return false;
             }
           }
 
           // Filtro team
           if(tableFilters.getTeams().length > 0) {
-            if(tableFilters.getTeams().filter(team => player.team.teamId == team.teamId).length == 0) {
+            if(tableFilters.getTeams().filter(team => player.team.team_id == team.team_id).length == 0) {
               return false;
             }
           }
 
           return true;
-        }
+        // }
       }
 
       return false;
@@ -372,16 +372,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
         let comparatorResult = 0;
         switch (sort.active) {
           case 'name':
-            comparatorResult = playerA.playerName.localeCompare(playerB.playerName);
+            comparatorResult = playerA.name.localeCompare(playerB.name);
             break;
           case 'team':
-            comparatorResult = playerA.team.teamName.localeCompare(playerB.team.teamName);
+            comparatorResult = playerA.team.name.localeCompare(playerB.team.name);
             break;
           case 'role':
-            comparatorResult = playerA.role.shortDescription.localeCompare(playerB.role.shortDescription);
+            comparatorResult = playerA.role.short_description.localeCompare(playerB.role.short_description);
             break;
           default:
-            comparatorResult = playerA.playerName.localeCompare(playerB.playerName);
+            comparatorResult = playerA.name.localeCompare(playerB.name);
             break;
         } 
 

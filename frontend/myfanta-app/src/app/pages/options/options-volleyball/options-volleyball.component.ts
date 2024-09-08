@@ -163,7 +163,7 @@ export class OptionsVolleyballComponent extends OptionsAbstract implements OnIni
   }
 
   public getRoleDescription(role:RolePlayerEntity) : String {
-    return this.isMobileOrMobileXLBreakpointActive ? role.shortDescription : role.description;
+    return this.isMobileOrMobileXLBreakpointActive ? role.short_description : role.description;
   }
 
   /*

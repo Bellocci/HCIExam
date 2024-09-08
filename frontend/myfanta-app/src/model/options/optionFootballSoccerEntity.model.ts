@@ -125,13 +125,10 @@ export class OptionFootballSoccerEntity extends OptionEntity {
 
     override toJSON(): any {
         let jsonTeamList: any[] = [];
-        this.teamsList.forEach(t => jsonTeamList.push(t.toJSON()));
 
         let jsonIncludePlayerList: any[] = [];
-        this.playersToInclude.forEach(p => jsonIncludePlayerList.push(p.toJSON()));
 
         let jsonExcludePlayerList: any[] = [];
-        this.playersToExclude.forEach(p => jsonExcludePlayerList.push(p.toJSON()));
 
         return {
             optionId: this.optionId,
@@ -170,9 +167,6 @@ export class OptionFootballSoccerEntity extends OptionEntity {
         entity.averageMatchPlayed = json.averageMatchPlayed;
         entity.averageYellowCard = json.averageYellowCard;
         entity.averageRedCard = json._averageRedCard;
-        json.teamsList.forEach((t: TeamEntity) => entity.teamsList.push(PlayerEntity.fromJSON(t)));
-        json.playersToInclude.forEach((p: PlayerEntity) => entity.playersToInclude.push(PlayerEntity.fromJSON(p)));
-        json.playersToExclude.forEach((p: PlayerEntity) => entity.playersToInclude.push(PlayerEntity.fromJSON(p)));
 
         return entity;
     }    

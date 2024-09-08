@@ -42,23 +42,40 @@ export class RestAPIGetRequestBuilderImpl<T> implements RestAPIGetRequestBuilder
 
     private http_client:HttpClient;
     private api_url:string = "";
-    private query_params:Map<string,string> = new Map<string,string>();
+    private query_params:Map<string,string | number | boolean> = new Map<string, string | number | boolean>();
 
     constructor(http_client:HttpClient, api_url:string) {
         this.http_client = http_client;
         this.api_url = api_url;
     }
     
-    addQueryParam(key: string, value: string): this {
+    addQueryParam(key: string, value: string | number | boolean): this {        
         this.query_params.set(key,value);
         return this;
     }
 
     invoke(): Observable<T> {
-        let params = new HttpParams();
-        this.query_params.forEach((key,value) => params.set(key,value));
+        let httpParams: HttpParams = new HttpParams();
+        this.query_params.forEach((value, key) => {            
+            httpParams = httpParams.append(key, value.toString());
+        });
 
-        return this.http_client.get<T>(this.api_url, {params});
+        console.log("Connect to ", this.buildUrlWithParams(this.api_url, httpParams))
+        return this.http_client.get<T>(this.api_url, 
+            {
+                params: httpParams,
+                responseType : 'json'
+            },
+        );
+        // result.subscribe((response) => {
+        //     console.log(response)
+        // })
+        // return result;
+    }
+
+    private buildUrlWithParams(url: string, params: HttpParams): string {
+        const paramString = params.toString();
+        return paramString ? `${url}?${paramString}` : url;
     }
 }
 
