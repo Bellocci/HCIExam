@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material-module';
+import { PrimeNgModule } from './primeng-module';
 
 import { AppInitService } from './service/app-init.service';
 
@@ -81,6 +82,7 @@ export function initializeApp(appInitService: AppInitService) {
     FormsModule,
     HttpClientModule,
     MaterialModule,
+    PrimeNgModule,
     ReactiveFormsModule,
     MatToolbarModule,
     MatButtonModule,

@@ -592,6 +592,32 @@ MARGINI
         margin: 48px;
         margin: 3rem;
     }
+
+    // 4 Rem
+    &-4rem-bottom {
+        margin-bottom: 64px;
+        margin-bottom: 4rem;
+    }
+
+    &-4rem-top {
+        margin-top: 64px;
+        margin-top: 4rem;
+    }
+
+    &-4rem-left {
+        margin-left: 64px;
+        margin-left: 4rem;
+    }
+
+    &-4rem-right {
+        margin-right: 64px;
+        margin-right: 4rem;
+    }
+
+    &-4rem {
+        margin: 64px;
+        margin: 4rem;
+    }
 }
 
 .column {
@@ -610,6 +636,21 @@ MARGINI
         margin: 0 48px;
         margin: 0 3rem;
     }
+
+    &-4rem-gap {
+        margin: 0 64px;
+        margin: 0 4rem;
+    }
+}
+
+/*
+=======
+BORDER
+=======
+*/
+
+.no-border {
+    border: 0px !important;
 }
 
 /*
