@@ -1,5 +1,5 @@
-import { animate, state, style, transition, trigger, group } from '@angular/animations';
-import { Component, OnDestroy, OnInit} from '@angular/core';
+import { animate, state, style, transition, trigger, group, keyframes } from '@angular/animations';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import { FilterDataService } from '../../service/filter-data.service';
 import { InternalDataService } from '../../service/internal-data.service';
 import { SportEnum } from 'src/enum/SportEnum.model';
@@ -19,6 +19,16 @@ import { CountryEnum } from 'src/enum/CountryEnum.model';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   animations: [
+    trigger('elevationAnimation', [
+      transition('* => *', [
+        animate('3s infinite', keyframes([
+          style({ offset: 0, 'box-shadow': '0px 2px 4px rgba(0,0,0,0.2)' }),  // z4
+          style({ offset: 0.5, 'box-shadow': '0px 6px 8px rgba(0,0,0,0.3)' }), // z6
+          style({ offset: 1, 'box-shadow': '0px 2px 4px rgba(0,0,0,0.2)' })  // ritorno a z4
+        ]))
+      ])
+    ]),
+
     trigger('ListAnimation', [
       state('openList', style({ height: '*', opacity: 1 })),
       state('closeList', style({ height: '0', opacity: 0 })),
@@ -44,7 +54,7 @@ import { CountryEnum } from 'src/enum/CountryEnum.model';
     ])
   ]
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /*
    * ==========
@@ -58,10 +68,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _leagues: LeagueEntity[] = [];
   private _subscriptionLeaguesObservable:Subscription;
 
+  @ViewChildren('tutorialImage') tutorialImages!: QueryList<ElementRef>;
+
   /*
-   * ==============================
-   * CONSTRUCTOR - INIT - DESTROY
-   *  =============================
+   * ================================================
+   * CONSTRUCTOR - INIT - DESTROY -  AFTER VIEW INIT
+   *  ===============================================
    */  
 
   constructor(private routerService:RouterService,
@@ -77,7 +89,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       this._isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
       this._subscriptionToMobileOrMobileXLBreakpointObservable = this.observeMobileOrMobileXLBreakpoint();      
-    }    
+    }      
 
   ngOnInit(): void {     
     //this.internalDataService.setLoadingData(false);
@@ -88,6 +100,21 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this._subscriptionLeaguesObservable.unsubscribe();
     this._subscriptionToMobileOrMobileXLBreakpointObservable.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-left-animation');  // Cambia lo stato di animazione
+          observer.unobserve(entry.target);  // Disabilita l'osservatore per l'elemento
+        }
+      });
+    });
+
+    this.tutorialImages.forEach((img) => {
+      observer.observe(img.nativeElement);
+    });
   }
 
   /*
