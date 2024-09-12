@@ -1,0 +1,68 @@
+/*
+ * ============
+ * ANIMAZIONI
+ * ============
+ */
+
+@keyframes wiggle {
+    0%, 7% {
+        transform: rotateZ(0);
+      }
+      15% {
+        transform: rotateZ(-8deg);
+      }
+      20% {
+        transform: rotateZ(6deg);
+      }
+      25% {
+        transform: rotateZ(-6deg);
+      }
+      30% {
+        transform: rotateZ(4deg);
+      }
+      35% {
+        transform: rotateZ(-2deg);
+      }
+      40%, 100% {
+        transform: rotateZ(0);
+      }
+}
+
+.wiggle-animation {
+    animation: wiggle;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+
+@keyframes fade-in-right {
+    from {
+        opacity: 0;
+        transform: translateX(300px);
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in-right-animation {
+    animation: fade-in-right;
+    animation-duration: 2s;
+    animation-iteration-count: ease-in-out;
+}
+
+@keyframes fade-in-left {
+    from {
+        opacity: 0;
+        transform: translateX(-300px);
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in-left-animation {
+    animation: fade-in-left;
+    animation-duration: 2s;
+    animation-iteration-count: ease-in-out;
+}
