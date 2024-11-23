@@ -112,6 +112,14 @@ export class UserService implements OnDestroy {
   }
 
   /**
+   * 
+   * @returns true se l'utente è autenticato, false altrimenti
+   */
+  isUserAuthenticated() : boolean {
+    return this.user.getValue().isUserDefined();
+  }
+
+  /**
    * Metodo che permette la disconnessione dal proprio account e setta
    * come valore corrente uno User vuoto.
    */

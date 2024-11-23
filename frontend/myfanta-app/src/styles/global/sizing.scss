@@ -1,0 +1,379 @@
+@import "breakpoints";
+
+/*
+======
+WIDTH
+======
+*/
+
+$width: (
+    "full": 100%,
+    "screen": 100vw,
+    "auto": auto,
+    "min": min-content,
+    "max": max-content,
+    "1": 8.3333%,
+    "2": 16.6667%,
+    "3": 25%,
+    "4": 33.3333%,
+    "5": 41.6667%,
+    "6": 50%,
+    "7": 58.3333%,
+    "8": 66.6667%,
+    "9": 75%,
+    "10": 83.3333%,
+    "11": 91.6667%,
+    "12": 100%,
+    "1rem": 1rem,
+    "2rem": 2rem,
+    "3rem": 3rem,
+    "4rem": 4rem,
+    "5rem": 5rem,
+    "6rem": 6rem,
+    "7rem": 7rem,
+    "8rem": 8rem,
+    "9rem": 9rem,
+    "10rem": 10rem,
+    "11rem": 11rem,
+    "12rem": 12rem,
+    "13rem": 13rem,
+    "14rem": 14rem,
+    "15rem": 15rem,
+    "16rem": 16rem,
+    "17rem": 17rem,
+    "18rem": 18rem,
+    "19rem": 19rem,
+    "20rem": 20rem,
+    "21rem": 21rem,
+    "22rem": 22rem,
+    "23rem": 23rem,
+    "24rem": 24rem,
+    "25rem": 25rem,
+    "26rem": 26rem,
+    "27rem": 27rem,
+    "28rem": 28rem,
+    "29rem": 29rem,
+    "30rem": 30rem,  
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $width {
+    .width-#{$name} {
+        width: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $width-name, $width-value in $width {
+            .#{$breakpoint-name}-width-#{$width-name} {
+                width: $width-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $width-name, $width-value in $width {
+            .from-#{$breakpoint-name}-width-#{$width-name} {
+                width: $width-value;
+            }
+        }
+    }
+}
+
+/*
+==========
+MIN-WIDTH
+==========
+*/
+
+$min-width: (
+    "0": 0px,
+    "full": 100%,
+    "screen": 100vw,
+    "min": min-content,
+    "max": max-content
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $min-width {
+    .min-width-#{$name} {
+        min-width: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $min-width-name, $min-width-value in $min-width {
+            .#{$breakpoint-name}-min-width-#{$min-width-name} {
+                min-width: $min-width-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $min-width-name, $min-width-value in $min-width {
+            .from-#{$breakpoint-name}-min-width-#{$min-width-name} {
+                min-width: $min-width-value;
+            }
+        }
+    }
+}
+
+/*
+==========
+MAX-WIDTH
+==========
+*/
+
+$max-width: (
+    "0": 0px,
+    "full": 100%,
+    "screen": 100vw,
+    "min": min-content,
+    "max": max-content,
+    "1rem": 1rem,
+    "2rem": 2rem,
+    "3rem": 3rem,
+    "4rem": 4rem,
+    "5rem": 5rem,
+    "6rem": 6rem,
+    "7rem": 7rem,
+    "8rem": 8rem,
+    "9rem": 9rem,
+    "10rem": 10rem,
+    "11rem": 11rem,
+    "12rem": 12rem,
+    "13rem": 13rem,
+    "14rem": 14rem,
+    "15rem": 15rem,
+    "16rem": 16rem,
+    "17rem": 17rem,
+    "18rem": 18rem,
+    "19rem": 19rem,
+    "20rem": 20rem,
+    "21rem": 21rem,
+    "22rem": 22rem,
+    "23rem": 23rem,
+    "24rem": 24rem,
+    "25rem": 25rem,
+    "26rem": 26rem,
+    "27rem": 27rem,
+    "28rem": 28rem,
+    "29rem": 29rem,
+    "30rem": 30rem,    
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $max-width {
+    .max-width-#{$name} {
+        max-width: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $max-width-name, $max-width-value in $max-width {
+            .#{$breakpoint-name}-max-width-#{$max-width-name} {
+                max-width: $max-width-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $max-width-name, $max-width-value in $max-width {
+            .from-#{$breakpoint-name}-max-width-#{$max-width-name} {
+                max-width: $max-width-value;
+            }
+        }
+    }
+}
+
+/*
+=======
+HEIGHT
+=======
+*/
+
+$height: (
+    "full": 100%,
+    "screen": 100vw,
+    "auto": auto,
+    "1rem": 1rem,
+    "2rem": 2rem,
+    "3rem": 3rem,
+    "4rem": 4rem,
+    "5rem": 5rem,
+    "6rem": 6rem,
+    "7rem": 7rem,
+    "8rem": 8rem,
+    "9rem": 9rem,
+    "10rem": 10rem,
+    "11rem": 11rem,
+    "12rem": 12rem,
+    "13rem": 13rem,
+    "14rem": 14rem,
+    "15rem": 15rem,
+    "16rem": 16rem,
+    "17rem": 17rem,
+    "18rem": 18rem,
+    "19rem": 19rem,
+    "20rem": 20rem,
+    "21rem": 21rem,
+    "22rem": 22rem,
+    "23rem": 23rem,
+    "24rem": 24rem,
+    "25rem": 25rem,
+    "26rem": 26rem,
+    "27rem": 27rem,
+    "28rem": 28rem,
+    "29rem": 29rem,
+    "30rem": 30rem,  
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $height {
+    .height-#{$name} {
+        height: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $height-name, $height-value in $height {
+            .#{$breakpoint-name}-height-#{height-name} {
+                height: $height-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $height-name, $height-value in $height {
+            .from-#{$breakpoint-name}-height-#{height-name} {
+                height: $height-value;
+            }
+        }
+    }
+}
+
+/*
+===========
+MIN HEIGHT
+===========
+*/
+
+$min-height: (
+    "0": 0px,
+    "full": 100%,
+    "screen": 100vh 
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $min-height {
+    .min-height-#{$name} {
+        min-height: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $min-height-name, $min-height-value in $min-height {
+            .#{$breakpoint-name}-min-height-#{min-height-name} {
+                min-height: $min-height-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $min-height-name, $min-height-value in $min-height {
+            .from-#{$breakpoint-name}-min-height-#{min-height-name} {
+                min-height: $min-height-value;
+            }
+        }
+    }
+}
+
+/*
+===========
+MAX HEIGHT
+===========
+*/
+
+$max-height: (
+    "0": 0px,
+    "full": 100%,
+    "screen": 100vh,
+    "1rem": 1rem,
+    "2rem": 2rem,
+    "3rem": 3rem,
+    "4rem": 4rem,
+    "5rem": 5rem,
+    "6rem": 6rem,
+    "7rem": 7rem,
+    "8rem": 8rem,
+    "9rem": 9rem,
+    "10rem": 10rem,
+    "11rem": 11rem,
+    "12rem": 12rem,
+    "13rem": 13rem,
+    "14rem": 14rem,
+    "15rem": 15rem,
+    "16rem": 16rem,
+    "17rem": 17rem,
+    "18rem": 18rem,
+    "19rem": 19rem,
+    "20rem": 20rem,
+    "21rem": 21rem,
+    "22rem": 22rem,
+    "23rem": 23rem,
+    "24rem": 24rem,
+    "25rem": 25rem,
+    "26rem": 26rem,
+    "27rem": 27rem,
+    "28rem": 28rem,
+    "29rem": 29rem,
+    "30rem": 30rem,  
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $max-height {
+    .max-height-#{$name} {
+        max-height: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $max-height-name, $max-height-value in $max-height {
+            .#{$breakpoint-name}-max-height-#{max-height-name} {
+                max-height: $max-height-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $max-height-name, $max-height-value in $max-height {
+            .from-#{$breakpoint-name}-max-height-#{max-height-name} {
+                max-height: $max-height-value;
+            }
+        }
+    }
+}

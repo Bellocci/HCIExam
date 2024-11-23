@@ -184,7 +184,7 @@ export class OptionVolleyballEntity extends OptionEntity {
 
         return {
             optionId: this.optionId,
-            sport: SportEnum.FOOTBALL_SOCCER.toJSON(),
+            sport: SportEnum.VOLLEYBALL.toJSON(),
             budget: this.budget,
             minAge: this.minAge,
             maxAge: this.maxAge,

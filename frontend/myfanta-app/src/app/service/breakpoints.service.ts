@@ -23,12 +23,12 @@ export class BreakpointsService implements OnDestroy {
    * =============
    */
 
-  private static readonly MOBILE_BREAKPOINT: Breakpoint = { minWidth: 320, maxWidth: 599.98}
-  private static readonly MOBILE_XL_BREAKPOINT : Breakpoint = {minWidth: 600, maxWidth : 767.98}
-  private static readonly TABLET_BREAKPOINT: Breakpoint = { minWidth: 768, maxWidth: 991.98 }
-  private static readonly LAPTOP_BREAKPOINT: Breakpoint = { minWidth: 992, maxWidth: 1199.98 }
-  private static readonly LARGE_DEVICE_BREAKPOINT: Breakpoint = { minWidth: 1200, maxWidth: 1399.98}
-  private static readonly XL_DEVICE_BREAKPOINT: Breakpoint = {minWidth: 1400}
+  public static readonly MOBILE_BREAKPOINT: Breakpoint = { minWidth: 320, maxWidth: 599.98}
+  public static readonly MOBILE_XL_BREAKPOINT : Breakpoint = {minWidth: 600, maxWidth : 767.98}
+  public static readonly TABLET_BREAKPOINT: Breakpoint = { minWidth: 768, maxWidth: 991.98 }
+  public static readonly LAPTOP_BREAKPOINT: Breakpoint = { minWidth: 992, maxWidth: 1199.98 }
+  public static readonly LARGE_DEVICE_BREAKPOINT: Breakpoint = { minWidth: 1200, maxWidth: 1399.98}
+  public static readonly XL_DEVICE_BREAKPOINT: Breakpoint = {minWidth: 1400}
 
   /*
    * ======================= 
@@ -256,35 +256,92 @@ export class BreakpointsService implements OnDestroy {
    * ===============
    */
 
+  /**
+   * @param windowWidth 
+   * @returns true se 320px <= width <= 599.98px, false altrimenti
+   */
   public static isMobileBreakpointActive(windowWidth:number) : boolean {
     return this.MOBILE_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.MOBILE_BREAKPOINT.maxWidth!; 
   }
 
+  /**
+   * @param windowWidth 
+   * @returns true se 600px <= width <= 767.98px, false altrimenti
+   */
   public static isMobileXLBreakpointActive(windowWidth:number) : boolean {
     return this.MOBILE_XL_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.MOBILE_XL_BREAKPOINT.maxWidth!; 
   }
 
+  /**
+   * @param windowWidth 
+   * @returns true se 768px <= width <= 991.98px, false altrimenti
+   */
   public static isTabletBreakpointActive(windowWidth:number) : boolean {
     return this.TABLET_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.TABLET_BREAKPOINT.maxWidth!; 
   }
 
+  /**
+   * @param windowWidth 
+   * @returns true se 992px <= width <= 1199.98px, false altrimenti
+   */
   public static isLaptopBreakpointActive(windowWidth:number) : boolean {
     return this.LAPTOP_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.LAPTOP_BREAKPOINT.maxWidth!; 
   }
 
+  /**
+   * @param windowWidth 
+   * @returns true se 1200px <= width <= 1399.98px, false altrimenti
+   */
   public static isLargeDeviceBreakpointActive(windowWidth:number) : boolean {
     return this.LARGE_DEVICE_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.LARGE_DEVICE_BREAKPOINT.maxWidth!; 
   }
   
+  /**
+   * @param windowWidth 
+   * @returns true se 1400px <= width, false altrimenti
+   */
   public static isXLDeviceBreakpointActive(windowWidth:number) : boolean {
     return this.XL_DEVICE_BREAKPOINT.minWidth <= windowWidth; 
   }
 
+  /**
+   * @param windowWidth 
+   * @returns true se 320px <= width <= 767.98px, false altrimenti
+   */
   public static isMobileOrMobileXLBreakpointActive(windowWidth:number) : boolean {
     return this.MOBILE_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.MOBILE_XL_BREAKPOINT.maxWidth!; 
   }
+
+  /**
+   * @param windowWidth 
+   * @returns true se 320px <= width <= 767.98px, false altrimenti
+   */
   public static isMobileOrTabletBreakpointActive(windowWidth:number) : boolean {
     return this.MOBILE_BREAKPOINT.minWidth <= windowWidth && windowWidth <= this.TABLET_BREAKPOINT.maxWidth!; 
+  }
+
+  /**
+   * @param windowWidth 
+   * @returns true se width >= 768px, false altrimenti
+   */
+  public static isEqualOrGreaterThanTabletBreakpoint(windowWidth:number) : boolean {
+    return windowWidth >= this.TABLET_BREAKPOINT.minWidth; 
+  }
+
+  /**
+   * @param windowWidth 
+   * @returns true se width >= 992px, false altrimenti
+   */
+  public static isEqualOrGreaterThanLaptopBreakpoint(windowWidth:number) : boolean {
+    return windowWidth >= this.LAPTOP_BREAKPOINT.minWidth; 
+  }
+
+  /**
+   * @param windowWidth 
+   * @returns true se width >= 1200px, false altrimenti
+   */
+  public static isEqualOrGreaterThanLargeDeviceBreakpoint(windowWidth:number) : boolean {
+    return windowWidth >= this.LARGE_DEVICE_BREAKPOINT.minWidth; 
   }
   
 }

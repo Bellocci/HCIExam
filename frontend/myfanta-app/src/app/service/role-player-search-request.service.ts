@@ -10,6 +10,6 @@ export class RolePlayerSearchRequestService {
   constructor() { }
 
   bySport(sport:SportEnum) : RolePlayerEntity[] {
-    return ROLE_PLAYER_DATA.filter(role => role.sport.code == sport.code);
+    return ROLE_PLAYER_DATA.filter(role => role.sport.name == sport.name);
   }
 }

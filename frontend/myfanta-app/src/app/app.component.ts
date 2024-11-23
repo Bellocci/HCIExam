@@ -6,11 +6,13 @@ import { SnackBarService } from './service/snack-bar.service';
 import { BreakpointsService } from './service/breakpoints.service';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [MessageService]
 })
 export class AppComponent implements OnDestroy {
   title = 'myfanta-app';
@@ -34,6 +36,7 @@ export class AppComponent implements OnDestroy {
    */
 
   constructor(private sessionService: SessionStorageService,
+    public messageService : MessageService,
     private internalDataService: InternalDataService,
     private snackbarService: SnackBarService,
     private breakpointsService: BreakpointsService) {

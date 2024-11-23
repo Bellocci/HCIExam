@@ -82,7 +82,7 @@ export class OptionsFootballComponent extends OptionsAbstract implements OnInit,
     
     super();    
     this._option = new OptionFootballSoccerEntity();
-    this._roles = rolePlayerSearchRequest.bySport(SportEnum.FOOTBALL_SOCCER);
+    this._roles = rolePlayerSearchRequest.bySport(SportEnum.SOCCER);
 
     let windowWidth:number = window.innerWidth;
     this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(windowWidth);

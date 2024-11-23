@@ -1,0 +1,199 @@
+@import "breakpoints";
+
+/*
+========
+DISPLAY
+========
+*/
+
+$display: (
+    "hidden" : none,
+    "block" : block,
+    "inline" : inline,
+    "inline-block" : inline-block,
+    "flex" : flex,
+    "inline-flex" : inline-flex
+);
+
+@each $name, $value in $display {
+    .#{$name} {
+        display: $value;
+    }
+}
+
+// Ciclo per la generazione delle classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $display-name, $display-value in $display {
+            .#{$breakpoint-name}-#{$display-name} {
+                display: $display-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $display-name, $display-value in $display {
+            .from-#{$breakpoint-name}-#{$display-name} {
+                display: $display-value;
+            }
+        }
+    }
+}
+
+/*
+=========
+POSITION
+=========
+*/
+
+$position: (
+    "static" : static,
+    "fixed" : fixed,
+    "relative" : relative,
+    "absolute" : absolute,
+    "sticky" : sticky
+);
+
+@each $name, $value in $position {
+    .#{$name} {
+        position: $value;
+    }
+}
+
+// Ciclo per la generazione delle classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $position-name, $position-value in $position {
+            .#{$breakpoint-name}-#{$position-name} {
+                position: $position-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $position-name, $position-value in $position {
+            .from-#{$position-name}-#{$position-name} {
+                position: $position-value;
+            }
+        }
+    }
+}
+
+/*
+==========
+PLACEMENT
+==========
+*/
+
+$top: (
+    "auto" : auto,
+    "0" : 0,
+    "50" : 50,
+    "100" : 100
+);
+
+$right: (
+    "auto" : auto,
+    "0" : 0,
+    "50" : 50,
+    "100" : 100
+);
+
+$bottom: (
+    "auto" : auto,
+    "0" : 0,
+    "50" : 50,
+    "100" : 100
+);
+
+$left: (
+    "auto" : auto,
+    "0" : 0,
+    "50" : 50,
+    "100" : 100
+);
+
+@each $name, $value in $top {
+    .top-#{$name} {
+        top: $value
+    }
+}
+
+@each $name, $value in $right {
+    .right-#{$name} {
+        right: $value
+    }
+}
+
+@each $name, $value in $bottom {
+    .bottom-#{$name} {
+        bottom: $value
+    }
+}
+
+@each $name, $value in $left {
+    .left-#{$name} {
+        left: $value
+    }
+}
+
+// Ciclo per la generazione delle classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $top-name, $top-value in $top {
+            .#{$breakpoint-name}-#{$top-name} {
+                top: $top-value;
+            }
+        }
+
+        @each $right-name, $right-value in $right {
+            .#{$breakpoint-name}-#{$right-name} {
+                right: $right-value;
+            }
+        }
+
+        @each $bottom-name, $bottom-value in $bottom {
+            .#{$breakpoint-name}-#{$bottom-name} {
+                bottom: $bottom-value;
+            }
+        }
+
+        @each $left-name, $left-value in $left {
+            .#{$breakpoint-name}-#{$left-name} {
+                left: $left-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $top-name, $top-value in $top {
+            .from-#{$breakpoint-name}-#{$top-name} {
+                top: $top-value;
+            }
+        }
+
+        @each $right-name, $right-value in $right {
+            .from-#{$breakpoint-name}-#{$right-name} {
+                right: $right-value;
+            }
+        }
+
+        @each $bottom-name, $bottom-value in $bottom {
+            .from-#{$breakpoint-name}-#{$bottom-name} {
+                bottom: $bottom-value;
+            }
+        }
+
+        @each $left-name, $left-value in $left {
+            .from-#{$breakpoint-name}-#{$left-name} {
+                left: $left-value;
+            }
+        }
+    }
+}

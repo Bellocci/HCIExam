@@ -5,32 +5,51 @@ import { SportEnumVisitor } from "src/visitor/sport-enum/SportEnumVisitor";
 import { SportEnumVisitorWithReturn } from "src/visitor/sport-enum/SportEnumVisitorWithReturn";
 
 export class SportEnum {
-    public static readonly FOOTBALL_SOCCER = new SportEnum("1" , "FOOTBALL_SOCCER", "Calcio");
-    public static readonly VOLLEYBALL = new SportEnum("2", "VOLLEYBALL", "Pallavolo");
-    public static readonly BASKETBALL = new SportEnum("3", "BASKETBALL", "Basket");
+    public static readonly SOCCER = new SportEnum("SOCCER", "Calcio", "assets/images/football icon.jpeg");
+    public static readonly VOLLEYBALL = new SportEnum("VOLLEYBALL", "Pallavolo", "assets/images/volleyball icon.jpeg");
+    public static readonly BASKETBALL = new SportEnum("BASKETBALL", "Basket", "assets/images/basketball icon.jpeg");
 
     // Lista per ridurre il tempo di computazione quando dobbiamo restituire tutti gli sport
     private static readonly sportList:SportEnum[] = [
-        this.FOOTBALL_SOCCER,
+        this.SOCCER,
         this.VOLLEYBALL,
         this.BASKETBALL
     ]
 
-    private constructor(public readonly code:string, 
-        public readonly label: string, 
-        public readonly description: string) {}
+    // Mappa statica che associa il nome dello Sport al suo enumerato
+    private static readonly sportMap:Map<string, SportEnum> = new Map<string, SportEnum>([
+        [SportEnum.SOCCER.name, SportEnum.SOCCER],
+        [SportEnum.VOLLEYBALL.name, SportEnum.VOLLEYBALL],
+        [SportEnum.BASKETBALL.name, SportEnum.BASKETBALL]
+    ]);
+
+    private constructor(public readonly name: string, 
+        public readonly description: string,
+        public readonly icon:string) {}
 
     static getAllSport() : SportEnum[] {
         return [...SportEnum.sportList]
     }
 
+    static getSport(name:string) : SportEnum | undefined {
+        return this.sportMap.get(name);
+    }
+
+    static getIcon(name:string):string {
+        let sport:SportEnum | undefined = this.getSport(name);
+        if(sport != undefined) {
+            return sport.icon;
+        }
+        return "";
+    }
+
     static equals(sport1:SportEnum, sport2:SportEnum) : boolean {
-        return sport1.code == sport2.code && sport1.description == sport2.description &&
-            sport1.label == sport2.label;
+        return sport1.description == sport2.description &&
+            sport1.name == sport2.name;
     }
 
     static visit(sport:SportEnum, visitor:SportEnumVisitor) : void {
-        if(sport.description == SportEnum.FOOTBALL_SOCCER.description) {
+        if(sport.description == SportEnum.SOCCER.description) {
             visitor.footballSoccer();
         } else if(sport.description == SportEnum.VOLLEYBALL.description) {
             visitor.volleyball();
@@ -42,7 +61,7 @@ export class SportEnum {
     }
 
     static visitAndReturn<I>(sport:SportEnum, visitor:SportEnumVisitorWithReturn<I>) : I {
-        if(sport.description == SportEnum.FOOTBALL_SOCCER.description) {
+        if(sport.description == SportEnum.SOCCER.description) {
             return visitor.footballSoccer();
         } else if(sport.description == SportEnum.VOLLEYBALL.description) {
             return visitor.volleyball();
@@ -55,13 +74,12 @@ export class SportEnum {
 
     toJSON() : any {
         return {
-            code : this.code,
-            label : this.label,
+            name : this.name,
             description : this.description,
         }
     }
 
     static fromJSON(json : any) : SportEnum {
-        return new SportEnum(json.code, json.label, json.description);
+        return new SportEnum(json.name, json.description, "");
     }
 }

@@ -1,223 +1,172 @@
 <!-- Titolo e Sottotitolo-->
-<div class="primary-color margin-bottom title-container">
+<div class="primary-color title-container 
+    from-xs-padding-top-14 from-xs-padding-bottom-3 
+    from-lg-padding-top-16 from-lg-padding-bottom-10">
 
     <div class="flex-center-wrap">
         <h1 class="title-font title-animation">FantasyTeam</h1>
     </div>
 
-    <div class="flex-center-wrap"
-        [ngClass]="isMobileOrMobileXLBreakpointActive ? ['small-container'] : ['padding-large-top']">
-        <h2 class="bold title-animation txt-center">
+    <div class="flex-center-wrap from-xs-margin-top-0 md-margin-top-4 from-lg-margin-top-9">
+        <h2 class="title-animation txt-align-center weight-medium">
             Crea la squadra che ti porterà alla vittoria
         </h2>
     </div>
 </div>
 
-<div class="full-width container-standard flex-center">
+<div class="margin-y-9 align-items-start 
+    xs-flex-none sm-flex-none from-xs-margin-x-7 from-xs-width-11
+    from-md-grid from-md-margin-x-14
+    from-lg-margin-x-23">
 
     <!-- Prima colonna -->
-    <div class="cell-6of12">
+    <div class="xs-width-full sm-width-full from-md-column-6">
 
-        <div class="margin-4rem-left">
-            <h2 class="bold">Il miglior simulatore per creare la tua squadra ideale</h2>
-            <p class="text">
+        <div class="xs-margin-bottom-10 sm-margin-bottom-10">
+            <h2>Il miglior simulatore per creare la tua squadra ideale</h2>
+            <p class="line-height-3 from-xs-txt-sm from-md-txt-lg">
                 FantasyTeam è un simulatore per creare la miglior squadra da utilizzare
                 nei giochi di fantasport. <br>
                 E' possibile personalizzare filtri di ricerca, scegliere i giocatori da volere
                 in squadra ed escludere quelli che invece non si vogliono considerare.
             </p>
 
-            <div class="full-width flex-center container-small">
+            <div class="width-full flex flex-wrap margin-y-6 
+                from-xs-justify-content-center from-md-justify-content-start">
 
                 <!-- Pulsante avvio creazione squadra -->
                 <div class="wiggle-animation">
-                    <p-button label="Inizia subito" size="large"
-                        styleClass="p-button-raised secondary-color label no-border" icon="pi pi-arrow-right"
-                        iconPos="right" />
-                </div>
-
-                <div class="margin-small">
-                    <p-button label="Tutorial" size="large"
-                        styleClass="p-button-raised secondary-color label no-border" />
+                    <p-button label="Inizia subito" styleClass="p-button-raised secondary-color label no-border"
+                        icon="pi pi-arrow-right" iconPos="right" (click)="openLeagueDialog()" />
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Seconda colonna -->
-    <div class="cell-6of12">
-        <div class="margin-xl flex-center-wrap fade-in-right-animation">
-            <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" 
-                alt="Image" height="300" styleClass="full-width" [preview]="true" />
+    <div class="flex justify-content-center xs-width-full sm-width-full from-md-column-6">
+        <div class="margin-3 flex-center-wrap fade-in-right-animation max-width-25rem">
+            <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" alt="Image"
+                imageClass="width-full height-full" [preview]="true" />
         </div>
     </div>
 
 </div>
 
 <!-- Tutorial -->
-<div class="column-4rem-gap">
+<div class="from-xs-margin-x-7 from-md-margin-x-23">
+    <p-panel>
+        <ng-template pTemplate="header">
+            <h2 class="bold">Tutorial</h2>
+        </ng-template>
 
-    <div class="flex-center-wrap container-small">
-        <h1 class="bold">Tutorial</h1>
-    </div>
+        <div class="from-md-grid from-md-margin-y-7">
 
-    <div class="flex-center container-small">
-        <!-- Passo 1: Selezione del campionato -->
-        <div class="cell-5of12 container-small">
-            <h3 class="bold">Passo 1: scelta del campionato</h3>
-            <div class="container-small">
-                <p class="text">
-                    Il primo passo per iniziare a creare la tua squadra ideale consiste nel selezionare
-                    lo sport ed il campionato per il quale vogliamo cercare i giocatori.
-                </p>
-            </div>
-            <div class="container-small flex-center">
-
-                <div #tutorialImage>
-                    <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" alt="Image"
-                        height="200" [preview]="true" styleClass="full-width" />
+            <!-- Passo 1: Selezione del campionato -->
+            <div class="xs-width-full xs-margin-top-2 sm-width-full sm-margin-top-2
+                from-md-column-6">
+                <h3 class="bold">Passo 1: scelta del campionato</h3>
+                <div class="margin-y-7">
+                    <p class="from-xs-txt-sm from-md-txt-lg">
+                        Il primo passo per iniziare a creare la tua squadra ideale consiste nel selezionare
+                        lo sport ed il campionato per il quale vogliamo cercare i giocatori.
+                    </p>
                 </div>
+                <div class="flex-center">
 
-                <div class="column-gap" #tutorialImage>
-                    <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" alt="Image"
-                        height="200" [preview]="true" styleClass="full-width" />
+                    <div #tutorialImage class="flex-center-wrap max-width-15rem max-height-15rem">
+                        <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" 
+                            alt="Image" imageClass="width-full height-full" [preview]="true" />
+                    </div>
+
+                    <div #tutorialImage class="flex-center-wrap max-width-15rem max-height-15rem margin-left-7">
+                        <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" 
+                            alt="Image" imageClass="width-full height-full" [preview]="true" />
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Passo 2: Selezione filtri di ricerca -->
-        <div class="cell-5of12 container-small">
-            <div class="container-small">
+            <!-- Passo 2: Selezione filtri di ricerca -->
+            <div class="xs-width-full xs-margin-top-4 sm-width-full sm-margin-top-4
+                from-md-column-6">
                 <h3 class="bold">Passo 2: opzioni di ricerca</h3>
-            </div>
-            <div class="container-small">
-                <p class="text">
-                    Seleziona i filtri di ricerca che preferisci per costruire al meglio la tua squadra.
-                    Puoi selezionare uno o più opzioni in modo da costruire la squadra che
-                    più ti rappresenta.
-                </p>
-            </div>
-            <div class="container-small flex-center">
-                <div #tutorialImage>
-                    <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" alt="Image"
-                        height="200" [preview]="true" styleClass="full-width p-image-preview" />
+                <div class="margin-y-7">
+                    <p class="from-xs-txt-sm from-md-txt-lg">
+                        Seleziona i filtri di ricerca che preferisci per costruire al meglio la tua squadra.
+                        Puoi selezionare uno o più opzioni in modo da costruire la squadra che
+                        più ti rappresenta.
+                    </p>
                 </div>
+                <div class="flex-center">
+                    <div #tutorialImage>
+                        <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" 
+                            alt="Image" class="flex-center-wrap max-w-15rem max-h-15rem" 
+                            imageClass="width-full height-full" [preview]="true" />
+                    </div>
 
-                <div class="column-gap" #tutorialImage>
-                    <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" alt="Image"
-                        height="200" [preview]="true" styleClass="full-width p-image-preview" />
+                    <div class="column-gap" #tutorialImage>
+                        <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" 
+                            alt="Image" class="flex-center-wrap max-width-15rem max-height-15rem" 
+                            [preview]="true" imageClass="width-full height-full" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="flex-center container-small">
-        <!-- Passo 3: generazione squadra -->
-        <div class="cell-5of12 container-small">
-            <div class="container-small">
+        <div class="from-md-grid from-md-margin-y-7">
+
+            <!-- Passo 3: generazione squadra -->
+            <div class="xs-width-full xs-margin-top-4 sm-width-full sm-margin-top-4
+                from-md-column-6">
                 <h3 class="bold">Passo 3: crea la squadra</h3>
-            </div>
-            <div class="container-small">
-                <p class="text">
-                    Premi il pulsante 'Cerca giocatori' e vedrai comparire la squadra che ti
-                    porterà alla vittoria.
-                </p>
-            </div>
-            <div class="container-small flex-center">
-                <div #tutorialImage>
-                    <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" alt="Image"
-                        height="200" [preview]="true" styleClass="full-width p-image-preview" />
+                <div class="margin-y-7">
+                    <p class="from-xs-txt-sm from-md-txt-lg">
+                        Premi il pulsante 'Cerca giocatori' e vedrai comparire la squadra che ti
+                        porterà alla vittoria.
+                    </p>
                 </div>
+                <div class="flex-center">
+                    <div #tutorialImage>
+                        <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" 
+                            alt="Image" class="flex-center-wrap max-width-15rem max-height-15rem" 
+                            imageClass="width-full height-full" [preview]="true" />
+                    </div>
 
-                <div class="column-gap" #tutorialImage>
-                    <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" alt="Image"
-                        height="200" [preview]="true" styleClass="full-width p-image-preview" />
+                    <div class="column-gap" #tutorialImage>
+                        <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" 
+                            alt="Image" class="flex-center-wrap max-width-15rem max-height-15rem" 
+                            imageClass="width-full height-full" [preview]="true" />
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Passo 4: Personalizzazione -->
-        <div class="cell-5of12 container-small">
-            <div class="container-small">
+            <!-- Passo 4: Personalizzazione -->
+            <div class="xs-width-full xs-margin-top-4 sm-width-full sm-margin-top-4
+                from-md-column-6">
                 <h3 class="bold">Passo 4: personalizza la tua squadra</h3>
-            </div>
-            <div class="container-small">
-                <p class="text">
-                    Esplora e scopri tutte le funzionalità che FantasyTeam può offrire, dalla gestione
-                    delle proprie squadre a opzioni di ricerca avanzate.
-                </p>
-            </div>
-            <div class="container-small flex-center">
-                <div #tutorialImage>
-                    <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" alt="Image"
-                        height="200" [preview]="true" styleClass="full-width p-image-preview" />
+                <div class="margin-y-7">
+                    <p class="from-xs-txt-sm from-md-txt-lg">
+                        Esplora e scopri tutte le funzionalità che FantasyTeam può offrire, dalla gestione
+                        delle proprie squadre a opzioni di ricerca avanzate.
+                    </p>
                 </div>
+                <div class="flex-center">
+                    <div #tutorialImage>
+                        <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" 
+                            alt="Image" class="flex-center-wrap max-width-15rem max-height-15rem" 
+                            imageClass="width-full height-full" [preview]="true" />
+                    </div>
 
-                <div class="column-gap" #tutorialImage>
-                    <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" alt="Image"
-                        height="200" [preview]="true" styleClass="full-width p-image-preview" />
+                    <div class="column-gap" #tutorialImage>
+                        <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" 
+                            alt="Image" class="flex-center-wrap max-width-15rem max-height-15rem" 
+                            imageClass="width-full height-full" [preview]="true" />
+                    </div>
                 </div>
             </div>
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- Introduzione al sito -->
-<div class="full-width container-standard">
-
-    <!-- Visualizzazione sport -->
-    <div class="margin-xl">
-
-        <div
-            [ngClass]="isMobileOrMobileXLBreakpointActive ? ['flex-direction-column','flex-center-wrap'] : ['flex-space-between','align-top']">
-            <ng-container *ngFor="let sport of getSports()">
-
-                <mat-expansion-panel class="expansion-panel"
-                    [ngClass]="isMobileOrMobileXLBreakpointActive ? 'container-small' : 'margin'">
-                    <mat-expansion-panel-header collapsedHeight="70px">
-                        <mat-panel-title class="expansion-panel-header text">{{ sport.description }}</mat-panel-title>
-                    </mat-expansion-panel-header>
-
-                    <!-- Lazy rendering -->
-                    <ng-template matExpansionPanelContent>
-                        <!-- Country expansion panel per uno specifico sport -->
-                        <ng-container *ngFor="let country of getCountries(sport); let indexChamp = index;">
-                            <mat-expansion-panel [expanded]="false">
-                                <mat-expansion-panel-header class="no-color">
-                                    <mat-panel-title>
-                                        <div class="label">
-                                            {{ country.description }}
-                                        </div>
-                                    </mat-panel-title>
-                                </mat-expansion-panel-header>
-
-                                <!-- Lazy rendering -->
-                                <ng-template matExpansionPanelContent>
-                                    <!-- Elenco campionati per uno specifico sport e paese -->
-                                    <ng-container *ngFor="let league of getLeagues(sport, country)">
-                                        <mat-panel-description>
-                                            <ul class="full-width">
-                                                <li class="full-width">
-                                                    <a mat-list-item class="link"
-                                                        (click)="selectedLeagueListener(league);">
-                                                        <span class="text link"> {{ league.name }} </span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </mat-panel-description>
-                                    </ng-container>
-                                </ng-template>
-
-                            </mat-expansion-panel>
-                        </ng-container>
-                    </ng-template>
-                </mat-expansion-panel>
-            </ng-container>
 
         </div>
-    </div>
-
+    </p-panel>
 </div>
+
+<div class="primary-color width-full height-10rem margin-top-14"></div>

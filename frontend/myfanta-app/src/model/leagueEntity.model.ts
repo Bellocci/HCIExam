@@ -101,8 +101,8 @@ export class LeagueEntity {
 }
 
 export const LEAGUE_DATA: LeagueEntity[] = [
-    new LeagueEntity(1, 'Serie A', SportEnum.FOOTBALL_SOCCER, CountryEnum.ITALY),
-    new LeagueEntity(2,'Premier League', SportEnum.FOOTBALL_SOCCER, CountryEnum.ENGLAND),
+    new LeagueEntity(1, 'Serie A', SportEnum.SOCCER, CountryEnum.ITALY),
+    new LeagueEntity(2,'Premier League', SportEnum.SOCCER, CountryEnum.ENGLAND),
     new LeagueEntity(3,'NBA', SportEnum.BASKETBALL, CountryEnum.UNITED_STATES),
     new LeagueEntity(4, 'Serie A1', SportEnum.VOLLEYBALL, CountryEnum.ITALY)
 ]

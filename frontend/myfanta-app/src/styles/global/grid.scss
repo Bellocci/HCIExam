@@ -1,0 +1,201 @@
+@import "breakpoints";
+
+// Padding applicato alle colonne
+$gutter: 0.5rem;
+
+/*
+=====
+GRID
+=====
+*/
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -0.5rem;
+    margin-left: -0.5rem;
+    margin-top: -0.5rem;
+}
+
+.grid-nogutter {
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 0;
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        .#{$breakpoint-name}-grid {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -0.5rem;
+            margin-left: -0.5rem;
+            margin-top: -0.5rem;
+        }
+
+        .#{$breakpoint-name}-grid-nogutter {
+            margin-right: 0;
+            margin-left: 0;
+            margin-top: 0;
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        .from-#{$breakpoint-name}-grid {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -0.5rem;
+            margin-left: -0.5rem;
+            margin-top: -0.5rem;
+        }
+
+        .from-#{$breakpoint-name}-grid-nogutter {
+            margin-right: 0;
+            margin-left: 0;
+            margin-top: 0;
+        }
+    }
+}
+
+/*
+=======
+COLUMN
+=======
+*/
+
+.column {
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: $gutter;
+}
+
+.column-fixed {
+    flex: 0 0 auto;
+    padding: $gutter;
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        .#{$breakpoint-name}-column {
+            flex-grow: 1;
+            flex-basis: 0;
+            padding: $gutter;
+        }
+
+        .#{$breakpoint-name}-column-fixed {
+            flex: 0 0 auto;
+            padding: $gutter;
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        .from-#{$breakpoint-name}-column {
+            flex-grow: 1;
+            flex-basis: 0;
+            padding: $gutter;
+        }
+
+        .from-#{$breakpoint-name}-column-fixed {
+            flex: 0 0 auto;
+            padding: $gutter;
+        }
+    }
+}
+
+$column: (
+    "1": 8.3333%,
+    "2": 16.6667%,
+    "3": 25%,
+    "4": 33.3333%,
+    "5": 41.6667%,
+    "6": 50%,
+    "7": 58.3333%,
+    "8": 66.6667%,
+    "9": 75%,
+    "10": 83.3333%,
+    "11": 91.6667%,
+    "12": 100%
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $column {
+    .column-#{$name} {
+        flex: 0 0 auto;
+        padding: $gutter;
+        width: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $column-name, $column-value in $column {
+            .#{$breakpoint-name}-column-#{$column-name} {
+                flex: 0 0 auto;
+                padding: $gutter;
+                width: $column-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $column-name, $column-value in $column {
+            .from-#{$breakpoint-name}-column-#{$column-name} {
+                flex: 0 0 auto;
+                padding: $gutter;
+                width: $column-value;
+            }
+        }
+    }
+}
+
+$column-offset: (
+    "0": 0,
+    "1": 8.3333%,
+    "2": 16.6667%,
+    "3": 25%,
+    "4": 33.3333%,
+    "5": 41.6667%,
+    "6": 50%,
+    "7": 58.3333%,
+    "8": 66.6667%,
+    "9": 75%,
+    "10": 83.3333%,
+    "11": 91.6667%,
+    "12": 100%
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $column-offset {
+    .column-offset-#{$name} {
+        margin-left: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $column-offset-name, $column-offset-value in $column-offset {
+            .#{$breakpoint-name}-column-offset-#{$column-offset-name} {
+                margin-left: $column-offset-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $column-offset-name, $column-offset-value in $column-offset {
+            .from-#{$breakpoint-name}-column-offset-#{$column-offset-name} {
+                margin-left: $column-offset-value;
+            }
+        }
+    }
+}
+

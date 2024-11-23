@@ -40,6 +40,7 @@ import { UserProfileStandardComponent } from './pages/user-page/user-profile-sta
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { UserProfileMobileComponent } from './pages/user-page/user-profile-mobile/user-profile-mobile.component';
 import { OutputTextResponsiveComponent } from './components/output-text-responsive/output-text-responsive.component';
+import { LeagueDialogComponent } from './Dialog/league-dialog/league-dialog.component';
 
 export function initializeApp(appInitService: AppInitService) {
   return (): Promise<any> => { 
@@ -74,6 +75,7 @@ export function initializeApp(appInitService: AppInitService) {
     AvatarComponent,
     UserProfileMobileComponent,
     OutputTextResponsiveComponent,
+    LeagueDialogComponent,
   ],
   imports: [
     AppRoutingModule,

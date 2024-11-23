@@ -1,7 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+@use "text";
+@use "htmltags";
+@use "flexbox";
+@use "grid";
+@use "sizing";
+@use "spacing";
+@use "layout";
+@use "effects";
+
 @import "breakpoints";
 @import "colors";
 @import "variables";
+@import "~primeflex/primeflex.css";
 
 html,
 body {
@@ -46,41 +56,7 @@ TESTO
     color: black !important;
 }
 
-.top-label {
-    font-size: 12px;
-    margin-bottom: 16px;
-    margin-bottom: 1rem;
-    text-align: left;
-    word-break: break-word;
-    color: black !important;
-    font-weight: 500;
-}
-
 .text {
-    font-size: 14px;
-    word-break: break-word;
-    color: black !important;
-}
-
-h1 {
-    font-size: 24px;
-    word-break: break-word;
-    color: black !important;
-}
-
-h2 {
-    font-size: 18px;
-    word-break: break-word;
-    color: black !important;
-}
-
-h3 {
-    font-size: 16px;
-    word-break: break-word;
-    color: black !important;
-}
-
-h4 {
     font-size: 14px;
     word-break: break-word;
     color: black !important;
@@ -92,27 +68,7 @@ h4 {
         font-size: 12px;
     }
 
-    .top-label {
-        font-size: 12px;
-    }
-
     .text {
-        font-size: 14px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-
-    h2 {
-        font-size: 18px;
-    }
-
-    h3 {
-        font-size: 16px;
-    }
-
-    h4 {
         font-size: 14px;
     }
 }
@@ -123,27 +79,7 @@ h4 {
         font-size: 14px;
     }
 
-    .top-label {
-        font-size: 14px;
-    }
-
     .text {
-        font-size: 16px;
-    }
-
-    h1 {
-        font-size: 28px;
-    }
-
-    h2 {
-        font-size: 22px;
-    }
-
-    h3 {
-        font-size: 18px;
-    }
-
-    h4 {
         font-size: 16px;
     }
 }
@@ -154,27 +90,7 @@ h4 {
         font-size: 16px;
     }
 
-    .top-label {
-        font-size: 16px;
-    }
-
     .text {
-        font-size: 18px;
-    }
-
-    h1 {
-        font-size: 32px;
-    }
-
-    h2 {
-        font-size: 26px;
-    }
-
-    h3 {
-        font-size: 20px;
-    }
-
-    h4 {
         font-size: 18px;
     }
 }
@@ -185,104 +101,9 @@ h4 {
         font-size: 18px;
     }
 
-    .top-label {
-        font-size: 18px;
-    }
-
     .text {
         font-size: 20px;
     }
-
-    h1 {
-        font-size: 36px;
-    }
-
-    h2 {
-        font-size: 30px;
-    }
-
-    h3 {
-        font-size: 22px;
-    }
-
-    h4 {
-        font-size: 20px;
-    }
-}
-
-/*  
-========
-COLORI 
-========
-*/
-
-.primary {
-
-    &-color {
-        background-color: $primary-color !important;    
-    }
-
-    &-color-light {
-        background-color: $primary-color-light !important;
-    }
-
-    &-color-dark {
-        background-color: $primary-color-dark !important;    
-    }
-}
-
-.secondary {
-
-    &-color {
-        background-color: $secondary-color !important;
-    }
-
-    &-color:hover {
-        background-color: $secondary-color-light !important;
-    }
-
-    &-color:focus {
-        background-color: $secondary-color-light !important;
-    }
-
-    &-color-no-hover {
-        background-color: $secondary-color !important;
-    }
-
-    &-color-light {
-        background-color: $secondary-color-light !important;
-    }
-}
-
-.gray {
-
-    &-color {
-        background-color: $gray-color !important;
-    }
-
-    &-color:hover {
-        background-color: $gray-color-dark !important;
-    }
-
-    &-color-light {
-        background-color: $gray-color;
-    }
-
-    &-color-light:hover {
-        background-color: $gray-color-light !important;
-    }
-
-    &-color-dark {
-        background-color: $gray-color-dark !important;
-    }
-}
-
-.no-color {
-    background-color: transparent !important;
-}
-
-.error-color {
-    color: $info-error-color !important;
 }
 
 /*
@@ -328,6 +149,10 @@ DIMENSIONI STANDARD WIDTH & HEIGHT
 
 .width-80 {
     width: 80% !important;
+}
+
+.width-60 {
+    width: 60% !important;
 }
 
 .full-height {
@@ -653,6 +478,11 @@ BORDER
     border: 0px !important;
 }
 
+.br-lbr-1-solid {
+    border-style: solid !important;
+    border-width: 0 1px 1px 1px !important;
+}
+
 /*
 ===========
 CONTAINER
@@ -728,11 +558,6 @@ FLEXBOX CONTAINER
     /* flex-grow: 0; flex-shrink: 0; flex-basis: auto; */
     &-none {
         flex: none;
-    }
-
-    /* flex-grow: 1; flex-shrink: 1; flex-basis: auto; */
-    &-auto {
-        flex: auto;
     }
 
     /* riempie automaticamente al contenuto: flex-basis: content; */
@@ -979,7 +804,7 @@ STYLE GENERALI
 }
 
 .link {
-    color: $link-color !important;
+    color: $link-color;
     text-decoration: underline;
     text-underline-offset: 2px;
 }
@@ -993,4 +818,23 @@ STYLE GENERALI
     color: black;
     text-decoration: underline;
     text-underline-offset: 2px;
+}
+
+/*
+=======
+CURSOR
+=======
+*/
+
+$cursor : (
+    'auto' : auto,
+    'pointer' : pointer,
+    'wait' : wait,
+    'move' : move
+);
+
+@each $name, $value in $cursor {
+    .cursor-#{$name} {
+        cursor: $value;
+    }
 }

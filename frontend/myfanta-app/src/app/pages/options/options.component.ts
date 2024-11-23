@@ -111,15 +111,15 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy {
    */
 
   isFootballOptionsRendered(): boolean {
-    return this._sportSelected != null && this._sportSelected.code == SportEnum.FOOTBALL_SOCCER.code;
+    return this._sportSelected != null && this._sportSelected.name == SportEnum.SOCCER.name;
   }
 
   isVolleyballOptionsRendered() : boolean {
-    return this._sportSelected != null && this._sportSelected.code == SportEnum.VOLLEYBALL.code;
+    return this._sportSelected != null && this._sportSelected.name == SportEnum.VOLLEYBALL.name;
   }
 
   isBasketballOptionsRendered() : boolean {
-    return this._sportSelected != null && this._sportSelected.code == SportEnum.BASKETBALL.code;
+    return this._sportSelected != null && this._sportSelected.name == SportEnum.BASKETBALL.name;
   }
 
   /*

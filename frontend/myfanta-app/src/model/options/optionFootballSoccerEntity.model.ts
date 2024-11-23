@@ -18,7 +18,7 @@ export class OptionFootballSoccerEntity extends OptionEntity {
     private _isBudgetCustomisedByRoles: boolean;
 
     constructor(id?: string) {
-        super(SportEnum.FOOTBALL_SOCCER, id);
+        super(SportEnum.SOCCER, id);
         this._isBudgetCustomisedByRoles = false;
         this._budgetGoalkeeper = 0;
         this._budgetDefender = 0;
@@ -132,7 +132,7 @@ export class OptionFootballSoccerEntity extends OptionEntity {
 
         return {
             optionId: this.optionId,
-            sport: SportEnum.FOOTBALL_SOCCER.toJSON(),
+            sport: SportEnum.SOCCER.toJSON(),
             budget: this.budget,
             minAge: this.minAge,
             maxAge: this.maxAge,

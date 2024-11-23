@@ -68,16 +68,16 @@ export class RolePlayerEntity {
             return false;
         }
 
-        return this.role_id == other.role_id && this.description == other.description && this.sport.code == other.sport.code;
+        return this.role_id == other.role_id && this.description == other.description && this.sport.name == other.sport.name;
     }
 }
 
 export const ROLE_PLAYER_DATA:RolePlayerEntity[] = [
     // CALCIO
-    new RolePlayerEntity(1, "Portiere", "POR", SportEnum.FOOTBALL_SOCCER),
-    new RolePlayerEntity(2, "Difensore", "DIF", SportEnum.FOOTBALL_SOCCER),
-    new RolePlayerEntity(3, "Centrocampista", "CEN", SportEnum.FOOTBALL_SOCCER),
-    new RolePlayerEntity(4, "Attaccante", "ATT", SportEnum.FOOTBALL_SOCCER),
+    new RolePlayerEntity(1, "Portiere", "POR", SportEnum.SOCCER),
+    new RolePlayerEntity(2, "Difensore", "DIF", SportEnum.SOCCER),
+    new RolePlayerEntity(3, "Centrocampista", "CEN", SportEnum.SOCCER),
+    new RolePlayerEntity(4, "Attaccante", "ATT", SportEnum.SOCCER),
 
     // PALLAVOLO
     new RolePlayerEntity(5, "Palleggiatore", "PAL", SportEnum.VOLLEYBALL),

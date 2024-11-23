@@ -1,89 +1,69 @@
-<mat-dialog-content class="full-width">
+<div class="width-full">
 
-  <!-- Bottone per chiusura della dialog -->
-  <div class="flex-end full-width">
-    <button mat-icon-button class="no-color" (click)="closeAllDialog()">
-      <mat-icon>close</mat-icon>
-    </button>
+  <!-- Messaggio username/password errati -->
+  <div class="width-full margin-bottom-7">
+    <p-messages [(value)]="messages" [showTransitionOptions]="'300ms'" [hideTransitionOptions]="'300ms'" />
   </div>
 
   <!-- Immagine login -->
   <div class="flex-center-wrap full-width">
 
-    <figure class="img-login-container no-margin tooltip">
-      <img class="img-login" src="assets/images/user.jpg" alt="Login">
+    <figure class="no-margin tooltip" [ngClass]="isMobileView() ? 'max-width-6rem' : 'max-width-8rem'">
+      <p-image src="assets/images/user.jpg" alt="Login" imageClass="width-full height-full" />
       <span class="tooltiptext">
         Image by <a href="https://iconizer.net/en/search/No-license-filtering/128-128/1/user"
           target="_blank">iconizer</a>
       </span>
     </figure>
-  </div>
+  </div>  
 
-  <!-- Titolo -->
-  <div class="full-width txt-center">
-    <h1>Login</h1>
-  </div>
+  <div class="width-full">
 
-  <div class="flex-center-wrap full-width">
-
-    <div>
+    <div [formGroup]="formGroup" class="flex flex-column flex-nowrap align-items-center width-full">
 
       <!-- Input username -->
-      <div class="flex-direction-column">
-        <label class="top-label" [ngClass]="{'error-color' : isLoginErrorMessageVisible()}">Username</label>
-        <mat-form-field appearance="outline" class="input-txt">
-          <input matInput type="text" class="text" placeholder="Campo obbligatorio*" (input)="disableLogin();"
-            [formControl]="usernameControl">
-        </mat-form-field>
+      <div class="flex flex-column width-full max-width-25rem">
+        <label class="top-label">Username</label>
+        <input pInputText type="text" [ngClass]="{'ng-invalid' : hasInputUsernameErrors()}"
+          (input)="disableLogin()" formControlName="username" />
       </div>
 
       <!-- Input password -->
-      <div class="flex-direction-column">
-        <div class="flex-container">
-          <label class="top-label" [ngClass]="{'error-color' : isLoginErrorMessageVisible()}">Password</label>
+      <div class="flex flex-column margin-top-10 width-full max-width-25rem">
 
-          <span class="flex-cell"></span>
-
+        <div class="flex">
+          <label class="top-label">Password</label>
+          <span class="flex-1"></span>
           <!-- Link recupero password -->
           <label class="top-label link" (click)="recoveryPassword()">Recupera password</label>
         </div>
-        <mat-form-field appearance="outline" class="input-txt">
-          <input matInput [type]="showPassword ? 'text' : 'password'" class="text"
-            placeholder="Campo obbligatorio*" (input)="disableLogin()" [formControl]="passwordControl">
 
-          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()">
-            <mat-icon>{{ showPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
-          </button>
-        </mat-form-field>
-      </div>
-
-      <!-- Invalid username/password message -->
-      <div class="full-width txt-center margin-bottom">
-        <span class="top-label error-color" *ngIf="isLoginErrorMessageVisible()">
-          Username o password errati 
-        </span>
+        <p-password class="width-full" [ngClass]="{'ng-invalid' : hasInputPasswordErrors()}"
+            [toggleMask]="true" [feedback]="false" (input)="disableLogin()" formControlName="password" />
       </div>
 
       <!-- Pulsanti -->
-      <div class="flex-space-between container-standard">
+      <div class="flex column-gap-3 margin-y-10">
 
         <!-- Registrazione -->
         <div>
-          <button mat-raised-button class="btn-standard label secondary-color" (click)="openRegistrationDialog()">
-            Registrati
-          </button>
+          <p-button styleClass="p-button-raised secondary-color" 
+            pTooltip="Crea un nuovo account" tooltipPosition="bottom"
+            (click)="openRegistrationDialog()">
+              <label class="txt-lg cursor-pointer">Registrati</label>
+          </p-button>
         </div>
 
         <!-- Login -->
         <div>
-          <button mat-raised-button class="btn-standard label margin-left" [ngClass]="{'secondary-color' : !disableLoginBtn}"
-            [disabled]="disableLoginBtn" (click)="login()">
-            Accedi
-          </button>
+          <p-button styleClass="p-button-raised secondary-color" [disabled]="disableLoginBtn"
+            (click)="login()" [pTooltip]="getLoginTooltip()" tooltipPosition="bottom">
+              <label class="txt-lg cursor-pointer">Accedi</label>
+          </p-button>
         </div>
 
-      </div>      
+      </div>
 
     </div>
   </div>
-</mat-dialog-content>
+</div>

@@ -1,0 +1,114 @@
+@import "breakpoints";
+
+@mixin respond-between($breakpoint) {
+    @media (min-width: $breakpoint) {
+      @content;
+    }
+}
+
+/*
+==============
+HTML HEADINGS
+==============
+*/
+
+.h-common-style {
+    word-break: break-word;
+    color: black;
+}
+
+h1 {
+    @extend .h-common-style;
+    font-size: 1.5rem;
+}
+
+h2 {
+    @extend .h-common-style;
+    font-size: 1.25rem;
+}
+
+h3 {
+    @extend .h-common-style;
+    font-size: 1rem;
+}
+
+h4 {
+    @extend .h-common-style;
+    font-size: 0.75rem;
+}
+
+@include respond-between($breakpoint-xs) {
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    h3 {        
+        font-size: 1rem;
+    }
+
+    h4 {
+        font-size: 0.75rem;
+    }
+}
+
+@include respond-between($breakpoint-sm) {
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {        
+        font-size: 1.25rem;
+    }
+
+    h4 {
+        font-size: 1rem;
+    }
+}
+
+@include respond-between($breakpoint-md) {
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    h3 {        
+        font-size: 1.5rem;
+    }
+
+    h4 {
+        font-size: 1.25rem;
+    }
+}
+
+@include respond-between($breakpoint-lg) {
+
+    h1 {
+        font-size: 2.25rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    h3 {        
+        font-size: 1.75rem;
+    }
+
+    h4 {
+        font-size: 1.5rem;
+    }
+}

@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit} from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { SnackBarService } from 'src/app/service/snack-bar.service';
 import { SnackBarDataTypeEnum } from 'src/enum/SnackBarDataTypeEnum.model';
@@ -9,6 +10,7 @@ import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
   selector: 'app-custom-snackbar',
   templateUrl: './custom-snackbar.component.html',
   styleUrls: ['./custom-snackbar.component.scss'],
+  providers: [MessageService],
   animations: [
     trigger('fade', [
       state('visible', style({
@@ -48,7 +50,7 @@ export class CustomSnackbarComponent implements OnInit, OnDestroy {
    * ================================
    */
 
-  constructor(private _snackBarService: SnackBarService) {
+  constructor(private _snackBarService: SnackBarService, public messageService : MessageService) {
     console.log("Construct Snack Bar Component");
     this._subscriptionMessage = this.observeMessage();
     this._subscriptionType = this.observeType();

@@ -4,56 +4,21 @@
 @import "src/styles/global/variables";
 @import "src/styles/global/breakpoints";
 
+$title-font: (
+    "xs": 1.875rem,
+    "sm": 2.5rem,
+    "md": 2.875rem,
+    "lg": 3.25rem,
+    "xl": 3.75rem
+);
 
-.title-container {
-    padding: 32px;
-    padding: 2rem;
-    
-    padding-bottom: 16px;
-    padding-bottom: 1rem;
-}
-
-.title-font {
-    font-size: 30px;
-    font-family: fantasy;
-    font-style: italic;
-}
-
-@media (min-width: $mobileXL-breakpoint) {    
-
-    .title-font {
-        font-size: 38px;
-    }
-}
-
-@media (min-width: $tablet-breakpoint) {
-
-    .title-container {
-        padding-top: 64px;
-        padding-top: 4rem;
-    }
-
-    .title-font {
-        font-size: 46px;
-    }
-}
-
-@media (min-width: $laptop-breakpoint) {
-
-    .title-container {
-        padding-top: 80px;
-        padding-top: 5rem;
-    }
-
-    .title-font {
-        font-size: 52px;
-    }
-}
-
-@media (min-width: $large-device-breakpoint) {
-
-    .title-font {
-        font-size: 60px;
+@each $name, $size in $breakpoints {
+    @include respond-from($name) {
+        .title-font {
+            font-size: map-get($title-font, $name);
+            font-family: fantasy;
+            font-style: italic;
+        }
     }
 }
 

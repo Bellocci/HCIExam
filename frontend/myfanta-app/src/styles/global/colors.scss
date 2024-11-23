@@ -1,3 +1,4 @@
+@import "breakpoints";
 
 /* COLORI PRIMARI*/
 $primary-color: #82B1FF;
@@ -25,5 +26,155 @@ $link-color: #0000EE;
 /* COLORE TESTO */
 $text-color: black;
 
+/*
+==================
+COLORE PRINCIPALE
+==================
+*/
 
+$primary: (
+    "color" : $primary-color,
+    "color-light": $primary-color-light,
+    "color-dark": $primary-color-dark,
+);
+
+@each $name, $value in $primary {
+    .primary-#{$name} {
+        background-color: $value;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $primary-color-name, $primary-color-value in $primary {
+            .#{$breakpoint-name}-primary-#{$primary-color-name} {
+                background-color: $primary-color-value;
+            }
+        }
+    }
+}
+
+$primary-hover: (
+    "color" : $primary-color-light,
+    "color-dark": $primary-color,
+);
+
+@each $name, $value in $primary-hover {
+    .primary-#{$name}-hover:hover {
+        background-color: $value;
+    }
+}
+
+
+/*
+==================
+COLORE SECONDARIO
+==================
+*/
+
+$secondary: (
+    "color": $secondary-color,
+    "color-no-hover": $secondary-color,
+    "color-light": $secondary-color-light
+);
+
+.secondary {
+
+    &-color {
+        background-color: $secondary-color !important;
+    }
+
+    &-color:hover {
+        background-color: $secondary-color-light !important;
+    }
+
+    &-color:focus {
+        background-color: $secondary-color-light !important;
+    }
+
+    &-color-no-hover {
+        background-color: $secondary-color !important;
+    }
+
+    &-color-light {
+        background-color: $secondary-color-light !important;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $secondary-color-name, $secondary-color-value in $secondary {
+            .#{$breakpoint-name}-secondary-#{$secondary-color-name} {
+                background-color: $secondary-color-value !important;
+            }
+        }
+    }
+}
+
+/*
+=======
+GRIGIO
+=======
+*/
+
+$gray: (
+    "color": $gray-color,
+    "color-light": $gray-color,
+    "color-dark": $gray-color-dark
+);
+
+.gray {
+
+    &-color {
+        background-color: $gray-color !important;
+    }
+
+    &-color:hover {
+        background-color: $gray-color-dark !important;
+    }
+
+    &-color-light {
+        background-color: $gray-color;
+    }
+
+    &-color-light:hover {
+        background-color: $gray-color-light !important;
+    }
+
+    &-color-dark {
+        background-color: $gray-color-dark !important;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $gray-color-name, $gray-color-value in $gray {
+            .#{$breakpoint-name}-gray-#{$gray-color-name} {
+                background-color: $gray-color-value !important;
+            }
+        }
+    }
+}
+
+/*
+==========
+NO COLORE
+==========
+*/
+
+.no-color {
+    background-color: transparent !important;
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        .#{$breakpoint-name}-no-color {
+            background-color: transparent !important;
+        }
+    }
+}
+
+.error-color {
+    color: $info-error-color !important;
+}
 

@@ -1,23 +1,19 @@
 import { animate, state, style, transition, trigger, group, keyframes } from '@angular/animations';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
-import { FilterDataService } from '../../service/filter-data.service';
+
 import { InternalDataService } from '../../service/internal-data.service';
-import { SportEnum } from 'src/enum/SportEnum.model';
 import { RouterService } from '../../service/router.service';
-import { UserService } from '../../service/user.service';
-import { TeamDataService } from '../../service/team-data.service';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
-import { Subscription } from 'rxjs';
-import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
-import { LoadDataService } from 'src/app/service/load-data.service';
-import { CountryEnum } from 'src/enum/CountryEnum.model';
-
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { LeagueDialogComponent } from 'src/app/Dialog/league-dialog/league-dialog.component';
+import { LeagueDialogHelper } from 'src/app/Dialog/league-dialog/league-dialog-helper';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  providers: [DialogService],
   animations: [
     trigger('elevationAnimation', [
       transition('* => *', [
@@ -62,11 +58,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
    * ==========
    */
 
-  private _isMobileOrMobileXLBreakpointActive: boolean = false;  
-  private _subscriptionToMobileOrMobileXLBreakpointObservable:Subscription;
-
-  private _leagues: LeagueEntity[] = [];
-  private _subscriptionLeaguesObservable:Subscription;
+  ref!: DynamicDialogRef;
 
   @ViewChildren('tutorialImage') tutorialImages!: QueryList<ElementRef>;
 
@@ -77,19 +69,12 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
    */  
 
   constructor(private routerService:RouterService,
-    private filterDataService:FilterDataService,
     private internalDataService:InternalDataService,
-    private userService:UserService,
-    private teamDataService:TeamDataService,
     private breakpointsService:BreakpointsService,
-    private loadData:LoadDataService) {
+    public dialogService: DialogService) {
 
-      console.log("Construct Home page component");
-      this._subscriptionLeaguesObservable = loadData.getLeagues().subscribe(result => this.leagues = result);      
-
-      this._isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
-      this._subscriptionToMobileOrMobileXLBreakpointObservable = this.observeMobileOrMobileXLBreakpoint();      
-    }      
+      console.log("Construct Home page component");      
+    } 
 
   ngOnInit(): void {     
     //this.internalDataService.setLoadingData(false);
@@ -98,8 +83,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     console.log("Destroy Home page component");
 
-    this._subscriptionLeaguesObservable.unsubscribe();
-    this._subscriptionToMobileOrMobileXLBreakpointObservable.unsubscribe();
+    if (this.ref) {
+      this.ref.close();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -116,58 +102,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       observer.observe(img.nativeElement);
     });
   }
-
-  /*
-   * =========
-   * OBSERVER 
-   * =========
-   */
-
-  private observeMobileOrMobileXLBreakpoint() : Subscription {
-    return this.breakpointsService.mobileOrMobileXLObservable.subscribe(
-      new ObserverStepBuilder<boolean>()
-        .next(isActive => this._isMobileOrMobileXLBreakpointActive = isActive)
-        .error(err => console.log("Error while retriving mobile or mobile XL breakpoint : " + err))
-        .build()
-    );
-  }
-
-  /*
-   * ================
-   * GETTER & SETTER
-   * ================
-   */
-
-  public get leagues(): LeagueEntity[] {
-    return this._leagues;
-  }
-
-  private set leagues(value: LeagueEntity[]) {
-    this._leagues = value;
-  }
-
-  public get isMobileOrMobileXLBreakpointActive(): boolean {
-    return this._isMobileOrMobileXLBreakpointActive;
-  }
-
-  private set isMobileOrMobileXLBreakpointActive(value: boolean) {
-    this._isMobileOrMobileXLBreakpointActive = value;
-  }
-
-  getSports(): SportEnum[] {
-    return this.leagues.map(league => league.sport);
-  }
-
-  getCountries(sport:SportEnum):CountryEnum[] {
-    return this.leagues
-        .filter(league => league.sport.description == sport.description)
-        .map(league => league.country);
-  }
-
-  getLeagues(sport:SportEnum, country:CountryEnum) : LeagueEntity[] {
-    return this.leagues
-      .filter(league => league.sport.description == sport.description && league.country.value == country.value)
-  }
   
   /**
    * ================
@@ -179,5 +113,28 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     //this.internalDataService.setLoadingData(true);
     this.internalDataService.setLeagueSelected(league);
     this.routerService.goToMyTeamPage();
+  }
+
+  openLeagueDialog() : void {
+    let helper:LeagueDialogHelper = new LeagueDialogHelper();
+    let width:string;
+    let height:string 
+    console.log("WINDOW WIDTH:" + window.innerWidth);
+    if(BreakpointsService.isEqualOrGreaterThanLaptopBreakpoint(window.innerWidth)) {
+      width = LeagueDialogHelper.DEFAULT_WIDTH;
+      height = LeagueDialogHelper.DEFAULT_HEIGHT;
+    } else {
+      width = "100%";
+      height = "100%";      
+    }
+    this.ref = this.dialogService.open(LeagueDialogComponent, 
+      helper.getDynamicDialogConfig(width, height));
+    
+    this.ref.onClose.subscribe((league: LeagueEntity) => {
+      if (league) {
+        this.internalDataService.setLeagueSelected(league);
+        this.routerService.goToMyTeamPage();
+      }
+    });
   }
 }

@@ -1,0 +1,451 @@
+@import "breakpoints";
+
+/*
+NOTA:
+1. flex-grow:  definisce l'abilità di un flex item di crescere se necessario.
+2. flex-shring: definisce l'abilità di un flex item di ridursi, se necessario.
+3. flex-basis: cefinisce la dimensione predefinita di un elemento prima che lo spazio rimanente 
+venga distribuito. "auto" prende i valori di width ed height dell'elemento.
+*/
+
+/*
+=====
+FLEX
+=====
+*/
+
+.flex {
+    display: flex;
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        .#{$breakpoint-name}-flex {
+            display: flex;
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        .from-#{$breakpoint-name}-flex {
+            display: flex;
+        }
+    }
+}
+
+
+$flex: (
+    "1": 1 1 0%, // grow: 1, shrink: 1, basis: 0%
+    "auto": 1 1 auto, // grow: 1, shrink: 1, basis: auto
+    "initial": 0 1 auto, // grow: 0, shrink: 1, basis: auto
+    "none": none
+);
+
+@each $name, $value in $flex {
+    .flex-#{$name} {
+        flex: $value;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $flex-name, $flex-value in $flex {
+            .#{$breakpoint-name}-flex-#{$flex-name} {
+                flex: $flex-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $flex-name, $flex-value in $flex {
+            .from-#{$breakpoint-name}-flex-#{$flex-name} {
+                flex: $flex-value;
+            }
+        }
+    }
+}
+
+/*
+===============
+FLEX DIRECTION
+===============
+*/
+$flex-direction : (
+    "row" : row,
+    "row-reverse" : row-reverse,
+    "column" : column,
+    "column-reverse": column-reverse
+);
+
+@each $name, $value in $flex-direction {
+    .flex-#{$name} {
+        flex-direction: $value;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $flex-direction-name, $flex-direction-value in $flex-direction {
+            .#{$breakpoint-name}-flex-#{$flex-direction-name} {
+                flex-direction: $flex-direction-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $flex-direction-name, $flex-direction-value in $flex-direction {
+            .from-#{$breakpoint-name}-flex-#{$flex-direction-name} {
+                flex-direction: $flex-direction-value;
+            }
+        }
+    }
+}
+
+/*
+==========
+FLEX WRAP
+==========
+*/
+
+$flex-wrap: (
+    "wrap": wrap,
+    "wrap-reverse": wrap-reverse,
+    "nowrap": nowrap
+);
+
+@each $name, $value in $flex-wrap {
+    .flex-#{$name} {
+        flex-wrap: $value;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $flex-wrap-name, $flex-wrap-value in $flex-wrap {
+            .#{$breakpoint-name}-flex-#{$flex-wrap-name} {
+                flex-wrap: $flex-wrap-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $flex-wrap-name, $flex-wrap-value in $flex-wrap {
+            .from-#{$breakpoint-name}-flex-#{$flex-wrap-name} {
+                flex-wrap: $flex-wrap-value;
+            }
+        }
+    }
+}
+
+/*
+====
+GAP
+====
+*/
+
+$gap: (
+    "0": 0,
+    "1": 0.25rem,
+    "2": 0.5rem,
+    "3": 0.625rem,
+    "4": 0.75rem,
+    "5": 0.875rem,
+    "6": 1rem,
+    "7": 1.25rem,
+    "8": 1.5rem,
+    "9": 2rem,
+    "10": 3rem,
+    "11": 4rem,
+    "12": 5rem
+);
+
+@each $name, $value in $gap {
+    .gap-#{$name} {
+        gap: $value;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $gap-name, $gap-value in $gap {
+            .#{$breakpoint-name}-gap-#{$gap-name} {
+                gap: $gap-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $gap-name, $gap-value in $gap {
+            .from-#{$breakpoint-name}-gap-#{$gap-name} {
+                gap: $gap-value;
+            }
+        }
+    }
+}
+
+/*
+========
+ROW GAP
+========
+*/
+
+$row-gap: (
+    "0": 0,
+    "1": 0.25rem,
+    "2": 0.5rem,
+    "3": 0.625rem,
+    "4": 0.75rem,
+    "5": 0.875rem,
+    "6": 1rem,
+    "7": 1.25rem,
+    "8": 1.5rem,
+    "9": 2rem,
+    "10": 3rem,
+    "11": 4rem,
+    "12": 5rem
+);
+
+@each $name, $value in $row-gap {
+    .row-gap-#{$name} {
+        row-gap: $value;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $row-gap-name, $row-gap-value in $row-gap {
+            .#{$breakpoint-name}-row-gap-#{$row-gap-name} {
+                row-gap: $row-gap-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $row-gap-name, $row-gap-value in $row-gap {
+            .from-#{$breakpoint-name}-row-gap-#{$row-gap-name} {
+                row-gap: $row-gap-value;
+            }
+        }
+    }
+}
+
+/*
+===========
+COLUMN GAP
+===========
+*/
+
+$column-gap: (
+    "0": 0,
+    "1": 0.25rem,
+    "2": 0.5rem,
+    "3": 0.625rem,
+    "4": 0.75rem,
+    "5": 0.875rem,
+    "6": 1rem,
+    "7": 1.25rem,
+    "8": 1.5rem,
+    "9": 2rem,
+    "10": 3rem,
+    "11": 4rem,
+    "12": 5rem
+);
+
+@each $name, $value in $column-gap {
+    .column-gap-#{$name} {
+        column-gap: $value;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $column-gap-name, $column-gap-value in $column-gap {
+            .#{$breakpoint-name}-column-gap-#{$column-gap-name} {
+                column-gap: $column-gap-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $column-gap-name, $column-gap-value in $column-gap {
+            .from-#{$breakpoint-name}-column-gap-#{$column-gap-name} {
+                column-gap: $column-gap-value;
+            }
+        }
+    }
+}
+
+/*
+================
+JUSTIFY CONTENT
+================
+*/
+
+$justify-content: (
+    "start": flex-start,
+    "end": flex-end,
+    "center": center,
+    "between": space-between,
+    "around": space-around,
+    "evenly": space-evenly
+);
+
+@each $name, $value in $justify-content {
+    .justify-content-#{$name} {
+        justify-content: $value;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $justify-content-name, $justify-content-value in $justify-content {
+            .#{$breakpoint-name}-justify-content-#{$justify-content-name} {
+                justify-content: $justify-content-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $justify-content-name, $justify-content-value in $justify-content {
+            .from-#{$breakpoint-name}-justify-content-#{$justify-content-name} {
+                justify-content: $justify-content-value;
+            }
+        }
+    }
+}
+
+/*
+==============
+ALIGN CONTENT
+==============
+*/
+
+$align-content: (
+    "start": flex-start,
+    "end": flex-end,
+    "center": center,
+    "between": space-between,
+    "around": space-around,
+    "evenly": space-evenly
+);
+
+@each $name, $value in $align-content {
+    .align-content-#{$name} {
+        align-content: $value;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $align-content-name, $align-content-value in $align-content {
+            .#{$breakpoint-name}-align-content-#{$align-content-name} {
+                align-content: $align-content-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $align-content-name, $align-content-value in $align-content {
+            .from-#{$breakpoint-name}-align-content-#{$align-content-name} {
+                align-content: $align-content-value;
+            }
+        }
+    }
+}
+
+/*
+============
+ALIGN ITEMS
+============
+*/
+
+$align-items: (
+    "stretch": stretch,
+    "start": flex-start,
+    "end": flex-end,
+    "center": center,
+    "baseline": baseline
+);
+
+@each $name, $value in $align-items {
+    .align-items-#{$name} {
+        align-items: $value;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $align-items-name, $align-items-value in $align-items {
+            .#{$breakpoint-name}-align-items-#{$align-items-name} {
+                align-items: $align-items-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $align-items-name, $align-items-value in $align-items {
+            .from-#{$breakpoint-name}-align-items-#{$align-items-name} {
+                align-items: $align-items-value;
+            }
+        }
+    }
+}
+
+/*
+===========
+ALIGN SELF
+===========
+*/
+
+$align-self: (
+    "stretch": stretch,
+    "start": flex-start,
+    "end": flex-end,
+    "center": center,
+    "baseline": baseline
+);
+
+@each $name, $value in $align-self {
+    .align-self-#{$name} {
+        align-self: $value;
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $align-self-name, $align-self-value in $align-self {
+            .#{$breakpoint-name}-align-self-#{$align-self-name} {
+                align-self: $align-self-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $align-self-name, $align-self-value in $align-self {
+            .from-#{$breakpoint-name}-align-self-#{$align-self-name} {
+                align-self: $align-self-value;
+            }
+        }
+    }
+}

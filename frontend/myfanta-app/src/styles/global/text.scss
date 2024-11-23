@@ -1,0 +1,244 @@
+@import "breakpoints";
+
+/*
+==========
+FONT SIZE
+==========
+*/
+
+$txt: (
+    "xs": 0.75rem,
+    "sm": 0.875rem,
+    "base": 1rem,
+    "lg": 1.125rem,
+    "xl": 1.25rem,
+    "2xl": 1.5rem,
+    "3xl": 1.75rem,
+    "4xl": 1.875,
+    "5xl": 2rem,
+    "6xl": 2.125rem,
+    "7xl": 2.25rem,
+    "8xl": 2.5rem,
+    "9xl": 2.75rem,
+    "10xl": 2.875rem,
+    "11xl": 3rem,
+    "12xl": 3.125rem,
+    "13xl": 3.25rem,
+    "14xl": 3.5rem,
+    "15xl": 3.75rem,
+    "16xl": 3.875rem,
+    "17xl": 4rem,
+);
+
+@each $name, $value in $txt {
+    .txt-#{$name} {
+        word-break: break-word;
+        color: black;
+        font-size: $value;
+        font-weight: 400;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $txt-name, $txt-value in $txt {
+            .#{$breakpoint-name}-txt-#{$txt-name} {
+                word-break: break-word;
+                color: black;
+                font-size: $txt-value;
+                font-weight: 400;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $txt-name, $txt-value in $txt {
+            .from-#{$breakpoint-name}-txt-#{$txt-name} {
+                word-break: break-word;
+                color: black;
+                font-size: $txt-value;
+                font-weight: 400;
+            }
+        }
+    }
+}
+
+/*
+======
+LABEL
+======
+*/
+
+$top-label: (
+    "xs": 0.875rem,
+    "sm": 0.875rem,
+    "md": 0.875rem,
+    "lg": 1rem,
+    "xl": 1rem
+);
+
+.top-label {
+    font-size: map-get($top-label, "xs"); // Valore di default (xs)
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    text-align: left;
+    word-break: break-word;
+    color: black;
+
+    @each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+        @include respond-between($breakpoint-name) {
+            font-size: map-get($top-label, $breakpoint-name);
+        }
+    }
+}
+
+// Creazione delle classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        .#{$breakpoint-name}-top-label {
+            font-size: map-get($top-label, $breakpoint-name);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            text-align: left;
+            word-break: break-word;
+            color: black;
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        .from-#{$breakpoint-name}-top-label {
+            font-size: map-get($top-label, $breakpoint-name);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            text-align: left;
+            word-break: break-word;
+            color: black;
+        }
+    }
+}
+
+/*
+=============
+FONT-WEIGHT
+=============
+*/
+
+$weights: (
+    "light": 300,
+    "normal": 400,
+    "medium": 500,
+    "semibold": 600,
+    "bold": 700
+);
+
+@each $name, $value in $weights {
+    .weight-#{$name} {
+        font-weight: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $weight-name, $weight-value in $weights {
+            .#{$breakpoint-name}-weight-#{$weight-name} {
+                font-weight: $weight-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $weight-name, $weight-value in $weights {
+            .from-#{$breakpoint-name}-weight-#{$weight-name} {
+                font-weight: $weight-value;
+            }
+        }
+    }
+}
+
+/*
+===========
+TEXT ALIGN
+===========
+*/
+
+$txt-align: (
+    "center" : center,
+    "justify" : justify,
+    "left" : left,
+    "right" : right,
+);
+
+@each $name, $value in $txt-align {
+    .txt-align-#{$name} {
+        text-align: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $txt-align-name, $txt-align-value in $weights {
+            .#{$breakpoint-name}-txt-align-#{$txt-align-name} {
+                text-align: $txt-align-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $txt-align-name, $txt-align-value in $weights {
+            .#{$breakpoint-name}-txt-align-#{$txt-align-name} {
+                text-align: $txt-align-value;
+            }
+        }
+    }
+}
+
+/*
+============
+LINE HEIGHT
+============
+*/
+
+$line-height: (
+    "1" : 1,
+    "2" : 1.25,
+    "3" : 1.5,
+    "4" : 2
+);
+
+@each $name, $value in $line-height {
+    .line-height-#{$name} {
+        line-height: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $line-height-name, $line-height-value in $line-height {
+            .#{$breakpoint-name}-line-height-#{$line-height-name} {
+                line-height: $line-height-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $line-height-name, $line-height-value in $line-height {
+            .from-#{$breakpoint-name}-line-height-#{$line-height-name} {
+                line-height: $line-height-value;
+            }
+        }
+    }
+}

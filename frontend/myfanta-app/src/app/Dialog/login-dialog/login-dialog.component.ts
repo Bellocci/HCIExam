@@ -1,21 +1,22 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/service/user.service';
 import { DialogService } from 'src/app/service/dialog.service';
 import { SignupDialogComponent } from '../signup-dialog/signup-dialog.component';
 import { RecoveryPasswordDialogComponent } from '../recovery-password-dialog/recovery-password-dialog.component';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
-import { UserEntity } from 'src/model/userEntity.model';
 import { Subscription } from 'rxjs';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
 import { DialogHelper } from '../dialogHelper.interface';
+import { Message, MessageService } from 'primeng/api';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { User } from 'src/decorator/user';
 
 @Component({
   selector: 'app-login-dialog',
   templateUrl: './login-dialog.component.html',
   styleUrls: ['./login-dialog.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  providers: [MessageService]
 })
 export class LoginDialogComponent implements OnInit, OnDestroy {
 
@@ -28,24 +29,12 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
   // Parametri in uscita verso il parent
   @Output() recoveryPasswordView = new EventEmitter<boolean>();
 
-  usernameControl: FormControl<string | null> = new FormControl<string | null>('', {
-    validators: [Validators.required],
-  });
+  messages:Message[] = [];
+  formGroup!: FormGroup;
 
-  passwordControl: FormControl<string | null> = new FormControl<string | null>('', {
-    validators: [Validators.required]
-  });
-
+  private _firstLogin: boolean = true;  
   private _disableLoginBtn: boolean = true;  
-  private showLoginErrorMessage: boolean = false;
-  private _showPassword: boolean = false;  
-  // Variabile per determinare se il metodo login() è stato invocato almeno una volta
-  private firstLogin: boolean = true;
-
-  private _isMobileBreakpointActive:boolean = false;
-
-  private _subscriptionUserObservable: Subscription | undefined;
-  private _subscriptionMobileBreakpoint:Subscription;
+  private _subscriptionUserObservable!: Subscription | undefined; 
 
   /* 
   * ==============================
@@ -55,24 +44,31 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
 
   constructor(private userService: UserService,
     private dialogService: DialogService,
-    private breakpointsService: BreakpointsService) {
+    private messageService: MessageService,
+    private breakpointsService: BreakpointsService,
+    public ref: DynamicDialogRef) {
       
     console.log("Construct login dialog");
-
-    this.firstLogin = true;
-    this._isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(window.innerWidth);
-
-    this._subscriptionUserObservable = this.observeUser();
-    this._subscriptionMobileBreakpoint = this.observeMobileBreakpoint();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    
+    this._subscriptionUserObservable = this.observeUser();
+
+    this.formGroup = new FormGroup({
+      username: new FormControl<string | null>(null, {
+        validators: [Validators.required, Validators.nullValidator],
+      }),
+      password : new FormControl<string | null>(null, {
+        validators: [Validators.required, Validators.nullValidator],
+      }), 
+    })
+  }
 
   ngOnDestroy(): void {
     console.log("Destroy login dialog");
-    
+
     this._subscriptionUserObservable != undefined ? this._subscriptionUserObservable?.unsubscribe() : null;
-    this._subscriptionMobileBreakpoint.unsubscribe();
   }
 
   /*
@@ -85,10 +81,9 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
     return this.userService.addObserverForUser(new ObserverStepBuilder<User>()
       .next(user => {
         if (user.isUserDefined()) {
-          this.setLoginErrorMessageVisibility(false)
-          this.closeAllDialog();
-        } else {
-          this.setLoginErrorMessageVisibility(true)
+          this.ref.close(user);
+        } else if(!this.firstLogin) {
+          this.showErrorMessage();
         }
       })
       .error((error : any) => console.error("Error to get user: " + error))
@@ -97,14 +92,6 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
     );
   }
 
-  private observeMobileBreakpoint() : Subscription {
-    return this.breakpointsService.mobileObservable
-        .subscribe(new ObserverStepBuilder<boolean>()
-        .next((isMobile : boolean) => this._isMobileBreakpointActive = isMobile)
-        .error((error : any) => console.error("Error to get mobile breakpoint: " + error))
-        .complete( () => console.log("Mobile breakpoint observer completed"))
-        .build());
-  }
 
   /*
    * ================
@@ -122,27 +109,42 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
     this._disableLoginBtn = value;
   }
 
-  public get showPassword(): boolean {
-    return this._showPassword;
+  public get firstLogin(): boolean {
+    return this._firstLogin;
   }
-  public set showPassword(value: boolean) {
-    this._showPassword = value;
+  
+  public set firstLogin(value: boolean) {
+    this._firstLogin = value;
   }
 
-  isLoginErrorMessageVisible(): boolean {
-    return this.showLoginErrorMessage && !this.firstLogin;
+  isMobileView() : boolean {
+    return BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
   }
 
   hasInputUsernameErrors(): boolean {
-    return !this.usernameControl.valid;
+    let result: boolean | undefined = this.formGroup.get("username")?.invalid;
+    return result ? result : false;
   }
 
   hasInputPasswordErrors(): boolean {
-    return !this.passwordControl.valid;
+    let result: boolean | undefined = this.formGroup.get("password")?.invalid;
+    return result ? result : false;
   }
 
-  setLoginErrorMessageVisibility(visible: boolean) {
-    this.showLoginErrorMessage = visible;
+  showErrorMessage() : void {
+    this.messages = [
+      {severity: 'error', detail: 'Username o password errati'}
+    ]
+  }
+
+  getLoginTooltip() : string {
+    if(this.hasInputUsernameErrors()) {
+      return "Inserisci username";
+    } else if(this.hasInputPasswordErrors()) {
+      return "Inserisci password";
+    } else {
+      return "Accedi a FantasyTeam";
+    }
   }
 
   /*
@@ -152,17 +154,13 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
    */
 
   disableLogin(): void {
-    this._disableLoginBtn = this.usernameControl.hasError('required') || this.passwordControl.hasError('required');
-  }
-
-  togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
+    this._disableLoginBtn = this.hasInputUsernameErrors() || this.hasInputPasswordErrors();
   }
 
   recoveryPassword(): void {
     let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
     dialogHelper.closeDialog();
-    if(this._isMobileBreakpointActive) {     
+    if(BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth)) {     
       dialogHelper.setWidth("100%");
       dialogHelper.setHeight("100%");
     }
@@ -173,7 +171,9 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
 
   login(): void {
     this.firstLogin = false;
-    this.userService.login(this.usernameControl.value as string, this.passwordControl.value as string);
+    let username = this.formGroup.get("username")?.value as string;
+    let password = this.formGroup.get("password")?.value as string;
+    this.userService.login(username, password);  
   }
 
   /* Apertura dialog */
@@ -181,15 +181,11 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
   openRegistrationDialog(): void {
     let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
     dialogHelper.closeDialog();
-    if(this._isMobileBreakpointActive) {     
+    if(BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth)) {     
       dialogHelper.setWidth("100%");
       dialogHelper.setHeight("100%");
     }
     dialogHelper.openDialog(SignupDialogComponent);
   }
 
-  closeAllDialog(): void {
-    console.log("Chiusura dialog");
-    this.dialogService.getDialogHelper().closeDialog();
-  }
 }

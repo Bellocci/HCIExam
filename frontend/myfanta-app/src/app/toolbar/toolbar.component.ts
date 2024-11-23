@@ -1,11 +1,8 @@
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { InternalDataService } from '../service/internal-data.service';
 import { FilterDataService } from '../service/filter-data.service';
-import { SportEnum } from 'src/enum/SportEnum.model';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { RouterService } from '../service/router.service';
-import { ChampionshipEnum } from 'src/enum/ChampionshipEnum.model';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { UserService } from '../service/user.service';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
@@ -13,16 +10,20 @@ import { Subscription } from 'rxjs';
 import { UserEntity } from 'src/model/userEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
 import { SnackBarService } from '../service/snack-bar.service';
-import { DialogService } from '../service/dialog.service';
 import { BreakpointsService } from '../service/breakpoints.service';
 import { LoginDialogComponent } from '../Dialog/login-dialog/login-dialog.component';
-import { DialogHelper } from '../Dialog/dialogHelper.interface';
 import { User } from 'src/decorator/user';
+import { LoginDialogHelper } from '../Dialog/login-dialog/login-dialog-helper';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { MenuItem, MessageService } from 'primeng/api';
+import { MessageBuilderImpl } from 'src/utility/message/MessageBuilderImpl';
+import { MessageSeverityEnum } from 'src/enum/MessageSeverityEnum';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss']
+  styleUrls: ['./toolbar.component.scss'],
+  providers: [DialogService, MessageService],
 })
 export class ToolbarComponent implements OnInit, OnDestroy {
 
@@ -32,14 +33,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
    * ==========
    */
 
-  // Permette di interagire direttamente con la componente mat-sidenav
-  @ViewChild(MatSidenav) sidenav!: MatSidenav;
-  @ViewChild('toolbarFirstRow', { static : true}) toolbarFirstRowEl: any;
+  ref!: DynamicDialogRef;
 
-  private _isMobileBreakpointActive: boolean = false;
-  private _isMobileOrTabletBreakpointActive: boolean = false;  
   private _userLogged: boolean = false;
   private _user!: UserEntity;
+  private _items: MenuItem[] = [];  
 
   private _sportSelected: number = -1;
   private _leagueSelected!: LeagueEntity | null;
@@ -49,8 +47,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   private _subscriptionUserObservable: Subscription | undefined;
   private _subscriptionLeagueSelectedObservable: Subscription | undefined;
   private _subscriptionPlayerSelected: Subscription | undefined;
-  private _subscriptionMobileBreakpoint:Subscription;
-  private _subscriptionToMobileOrTabletBreakpointObservable:Subscription;
 
   // Lista dei link navigabili
   linkEnum: typeof LinkEnum = LinkEnum;
@@ -66,31 +62,40 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     public routerService: RouterService,
     private userService: UserService,
     private snackbarService: SnackBarService,
-    private dialogService: DialogService,
+    public dialogService: DialogService,
+    public messageService: MessageService,
     public breakpointsService: BreakpointsService) {
 
     console.log("Construct the Toolbar component");
+  }
 
-    let windowWidth:number = window.innerWidth;
-    this.isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(windowWidth);
-    this.isMobileOrTabletBreakpointActive = BreakpointsService.isMobileOrTabletBreakpointActive(windowWidth);
-    
+  ngOnInit(): void { 
     this._subscriptionUserObservable = this.observeUserLogged();
     this._subscriptionLeagueSelectedObservable = this.observeLeagueSelected();
     this._subscriptionPlayerSelected = this.observePlayerSelected();
-    this._subscriptionMobileBreakpoint = this.observeMobileBreakpoint();
-    this._subscriptionToMobileOrTabletBreakpointObservable = this.observeMobileOrTabletBreakpoint();
-  }
 
-  ngOnInit(): void { }
+    this.items = [
+      {
+        label: 'Mio Profilo',
+        icon: 'pi pi-user',
+        command: () => this.routerService.goToMyProfilePage(),
+      },
+      {
+        separator: true
+      },
+      {
+        label: 'Logout',
+        icon: 'pi pi-fw pi-power-off',
+        command: () => this.logout(),
+      }
+    ]
+  }
 
   ngOnDestroy(): void {
     console.log("Destroy the Toolbar component");
     this._subscriptionUserObservable != undefined ? this._subscriptionUserObservable.unsubscribe() : undefined;
     this._subscriptionLeagueSelectedObservable != undefined ? this._subscriptionLeagueSelectedObservable.unsubscribe() : undefined;
     this._subscriptionPlayerSelected != undefined ? this._subscriptionPlayerSelected.unsubscribe() : undefined;
-    this._subscriptionMobileBreakpoint.unsubscribe();
-    this._subscriptionToMobileOrTabletBreakpointObservable.unsubscribe();
   }
 
   /*
@@ -126,24 +131,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       .error((error : any) => console.error("Error to get player selected: " + error))
       .complete( () => console.log("Player selected observer completed"))
       .build());
-  }
-
-  private observeMobileBreakpoint() : Subscription {
-    return this.breakpointsService.mobileObservable
-        .subscribe(new ObserverStepBuilder<boolean>()
-        .next((isMobile : boolean) => this._isMobileBreakpointActive = isMobile)
-        .error((error : any) => console.error("Error to get mobile breakpoint: " + error))
-        .complete( () => console.log("Mobile breakpoint observer completed"))
-        .build());
-  }
-
-  private observeMobileOrTabletBreakpoint() : Subscription {
-    return this.breakpointsService.mobileOrTabletObservable
-        .subscribe(new ObserverStepBuilder<boolean>()
-        .next((isActive : boolean) => this.isMobileOrTabletBreakpointActive = isActive)
-        .error((error : any) => console.error("Error to get mobile breakpoint: " + error))
-        .complete( () => console.log("Mobile breakpoint observer completed"))
-        .build());
   }
 
   /**
@@ -184,32 +171,16 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this._sportSelected = value;
   }
 
-  public get isMobileBreakpointActive(): boolean {
-    return this._isMobileBreakpointActive;
+  public get items(): MenuItem[] {
+    return this._items;
   }
 
-  private set isMobileBreakpointActive(value: boolean) {
-    this._isMobileBreakpointActive = value;
-  }
-
-  public get isMobileOrTabletBreakpointActive(): boolean {
-    return this._isMobileOrTabletBreakpointActive;
-  }
-  
-  private set isMobileOrTabletBreakpointActive(value: boolean) {
-    this._isMobileOrTabletBreakpointActive = value;
-  }
-
-  getSports(): SportEnum[] {
-    return SportEnum.getAllSport();
-  }
-
-  getChampionships(sport: SportEnum): ChampionshipEnum[] {
-    return this.filterDataService.filterChampionshipsBySport(sport);
+  public set items(value: MenuItem[]) {
+    this._items = value;
   }
 
   getUsername() : string {
-    if(this.isMobileOrTabletBreakpointActive) {
+    if(this.isMobileView()) {
       return this.user.username.length > 10 ? this.user.username.substring(0, 8) + "..." : this.user.username;        
     } else {
       return this.user.username.length > 20 ? this.user.username.substring(0, 18) + "..." : this.user.username; 
@@ -222,8 +193,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
    * ===================
    */
 
-  isPanelSportOpen(index: number): boolean {
-    return this.sportSelected == index;
+  isSecondToolbarRowHidden() {
+    return BreakpointsService.isEqualOrGreaterThanLaptopBreakpoint(window.innerWidth);
   }
 
   isLeagueSelected() : boolean {
@@ -244,44 +215,38 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     return this._playerSelected != null ? this.routerService.currentPageIsPlayerProfile(this._playerSelected) : false;
   }
 
+  isMobileView() : boolean {
+    return BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
+  }
+
   /*
    * =========
    * LISTENER
    * =========
    */
 
-  openSidenav() {
-    this.sidenav.open();
-  }
-
-  closeSidenav() {
-    this.sidenav.close();
-  }
-
-  openedPanelSportListener(index: number): void {
-    this.sportSelected = index;
-  }
-
-  closedPanelSportListener(): void {
-    this.sportSelected = -1;
-    // Permette di rimuovere il focus dall'elemento attivo
-    const activeElement = document.activeElement as HTMLElement;
-    activeElement.blur();
-  }
-
-  selectedLeagueListener(league: LeagueEntity) {
-    this.leagueSelected = league;
-    this.closeSidenav();
-    this.routerService.goToMyTeamPage();
-  }
-
   openLoginDialog() : void {
-    let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
-    if(this._isMobileBreakpointActive) {     
-      dialogHelper.setWidth("100%");
-      dialogHelper.setHeight("100%");
-    } 
-    dialogHelper.openDialog(LoginDialogComponent);
+    let helper:LoginDialogHelper = new LoginDialogHelper();
+    let width:string;
+    let height:string 
+    if(this.isMobileView()) {
+      width = "100%";
+      height = "100%";        
+    } else {
+      width = LoginDialogHelper.DEFAULT_WIDTH;
+      height = LoginDialogHelper.DEFAULT_HEIGHT;
+    }
+    this.ref = this.dialogService.open(LoginDialogComponent, 
+      helper.getDynamicDialogConfig(width, height));
+
+      this.ref.onClose.subscribe((user: User) => {
+        if(user) {
+          this.messageService.add(new MessageBuilderImpl().Build()
+            .setSeverity(MessageSeverityEnum.INFO)
+            .setText("Benvenuto " + user.username)
+            .build())
+        }
+      });
   }
 
   logout() : void {    
