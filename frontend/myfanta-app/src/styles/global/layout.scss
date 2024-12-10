@@ -12,11 +12,12 @@ $display: (
     "inline" : inline,
     "inline-block" : inline-block,
     "flex" : flex,
-    "inline-flex" : inline-flex
+    "inline-flex" : inline-flex,
+    "grid" : grid
 );
 
 @each $name, $value in $display {
-    .#{$name} {
+    .display-#{$name} {
         display: $value;
     }
 }
@@ -25,7 +26,7 @@ $display: (
 @each $breakpoint-name, $breakpoint-size in $breakpoints-between {
     @include respond-between($breakpoint-name) {
         @each $display-name, $display-value in $display {
-            .#{$breakpoint-name}-#{$display-name} {
+            .#{$breakpoint-name}-display-#{$display-name} {
                 display: $display-value;
             }
         }
@@ -35,7 +36,7 @@ $display: (
 @each $breakpoint-name, $breakpoint-size in $breakpoints {
     @include respond-from($breakpoint-name) {
         @each $display-name, $display-value in $display {
-            .from-#{$breakpoint-name}-#{$display-name} {
+            .from-#{$breakpoint-name}-display-#{$display-name} {
                 display: $display-value;
             }
         }

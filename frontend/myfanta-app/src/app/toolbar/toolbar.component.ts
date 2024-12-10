@@ -85,7 +85,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       },
       {
         label: 'Logout',
-        icon: 'pi pi-fw pi-power-off',
+        icon: 'pi pi-sign-out',
         command: () => this.logout(),
       }
     ]

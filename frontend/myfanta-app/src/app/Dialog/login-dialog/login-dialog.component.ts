@@ -1,16 +1,15 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/service/user.service';
-import { DialogService } from 'src/app/service/dialog.service';
 import { SignupDialogComponent } from '../signup-dialog/signup-dialog.component';
 import { RecoveryPasswordDialogComponent } from '../recovery-password-dialog/recovery-password-dialog.component';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { Subscription } from 'rxjs';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
-import { DialogHelper } from '../dialogHelper.interface';
 import { Message, MessageService } from 'primeng/api';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { User } from 'src/decorator/user';
+import { SignupDialogHelper } from '../signup-dialog/signup-dialog-helper';
 
 @Component({
   selector: 'app-login-dialog',
@@ -43,7 +42,7 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
   */
 
   constructor(private userService: UserService,
-    private dialogService: DialogService,
+    public dialogService: DialogService,
     private messageService: MessageService,
     private breakpointsService: BreakpointsService,
     public ref: DynamicDialogRef) {
@@ -158,13 +157,13 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
   }
 
   recoveryPassword(): void {
-    let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
-    dialogHelper.closeDialog();
-    if(BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth)) {     
-      dialogHelper.setWidth("100%");
-      dialogHelper.setHeight("100%");
-    }
-    dialogHelper.openDialog(RecoveryPasswordDialogComponent);
+    // let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
+    // dialogHelper.closeDialog();
+    // if(BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth)) {     
+    //   dialogHelper.setWidth("100%");
+    //   dialogHelper.setHeight("100%");
+    // }
+    // dialogHelper.openDialog(RecoveryPasswordDialogComponent);
   }
 
   /* Login */
@@ -179,13 +178,9 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
   /* Apertura dialog */
 
   openRegistrationDialog(): void {
-    let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
-    dialogHelper.closeDialog();
-    if(BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth)) {     
-      dialogHelper.setWidth("100%");
-      dialogHelper.setHeight("100%");
-    }
-    dialogHelper.openDialog(SignupDialogComponent);
+    this.ref.close();
+    let helper:SignupDialogHelper = new SignupDialogHelper();  
+    this.ref = this.dialogService.open(SignupDialogComponent, helper.getDynamicDialogConfig());
   }
 
 }

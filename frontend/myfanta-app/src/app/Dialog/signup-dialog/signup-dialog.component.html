@@ -1,190 +1,130 @@
-<mat-dialog-content class="full-width">
 
-  <!-- Pulsanti top dialog -->
-  <div class="flex-center full-width">
+ <!-- Messaggi -->
+ <div class="width-full margin-bottom-7">
+  <p-messages [(value)]="messages" [showTransitionOptions]="'300ms'" [hideTransitionOptions]="'300ms'" />
+</div>
 
-    <!-- Bottone per tornare alla dialog di login -->
-    <div class="cell-6of12 flex-start">
-      <button mat-flat-button class="no-color" (click)="openLoginDialog()">
-        <mat-icon>reply</mat-icon>
-        <span class="label">Login</span>
-      </button>
-    </div>
+<!-- Form per la registrazione -->
+<ng-container *ngIf="!createdNewUser">
 
-    <!-- Bottone per la chiusura della dialog -->
-    <div class="cell-6of12 flex-end">
-      <button mat-icon-button class="no-color" (click)="closeDialog()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  </div>
+  <div [formGroup]="signupFormGroup" class="width-full">
 
-  <!-- Form per la registrazione -->
-  <ng-container *ngIf="!createdNewUser">
+    <!-- Nome - Cognome -->
+    <div class="width-full column-gap-3" [ngClass]="{'flex-container' : !isMobileView()}">
 
-    <div class="margin-top margin-large-bottom">
-      <h1 class="txt-center">Registrazione</h1>
-    </div>
-
-    <form class="full-width">
-
-      <!-- Prima riga : Nome - Cognome -->
-      <div class="full-width" [ngClass]="{'flex-container' : !isMobileBreakpointActive}">
-
-        <!-- Input nome -->
-        <div class="flex-direction-column"
-          [ngClass]="{'cell-6of12 margin-right' : !isMobileBreakpointActive, 'full-width' : isMobileBreakpointActive}">
-
-          <label class="top-label">Nome</label>
-          <mat-form-field appearance="outline">
-
-            <input matInput type="text" placeholder="Campo obbligatorio*" [formControl]="nameFormControl"
-              (focus)="tooltipName.show()" (input)="disableRegistration();">
-
-            <div matSuffix class="margin-right margin-left"
-              [ngClass]="nameFormControl.valid ? 'material-icons color_green' : 'material-icons color_red'"
-              #tooltipName="matTooltip" [matTooltip]="getErrorNameMessage()">
-
-              <mat-icon *ngIf="!nameFormControl.valid">error</mat-icon>
-              <mat-icon *ngIf="nameFormControl.valid">check_circle</mat-icon>
-
-            </div>
-
-          </mat-form-field>
-        </div>
-
-        <!-- Input cognome -->
-        <div class="flex-direction-column"
-          [ngClass]="isMobileBreakpointActive ? 'full-width' : 'cell-6of12'">
-
-          <label class="top-label">Cognome</label>
-          <mat-form-field appearance="outline">
-
-            <input matInput type="text" placeholder="Campo obbligatorio*" [formControl]="surnameFormControl"
-              (focus)="tooltipSurname.show()" (input)="disableRegistration()">
-
-            <div matSuffix class="margin-right margin-left"
-              [ngClass]="surnameFormControl.valid ? 'material-icons color_green' : 'material-icons color_red'"
-              #tooltipSurname="matTooltip" [matTooltip]="getErrorSurnameMessage()">
-
-              <mat-icon *ngIf="!surnameFormControl.valid">error</mat-icon>
-              <mat-icon *ngIf="surnameFormControl.valid">check_circle</mat-icon>
-
-            </div>
-
-          </mat-form-field>
-        </div>
-      </div>
-
-      <!-- Seconda riga : Username -->
-
-      <!-- Input username -->
-      <div class="flex-direction-column full-width">
-
-        <label class="top-label">Username</label>
-        <mat-form-field appearance="outline">
-
-          <input matInput type="text" placeholder="Campo obbligatorio*" [formControl]="usernameFormControl"
-            (keydown.space)="$event.preventDefault()" (focus)="tooltipUsername.show()" (input)="disableRegistration()">
-
-          <div matSuffix class="margin-right margin-left"
-            [ngClass]="usernameFormControl.valid && !showErrorMessage ? 
-                'material-icons color_green' : 'material-icons color_red'"
-            #tooltipUsername="matTooltip" [matTooltip]="getErrorUsernameMessage()">
-
-            <mat-icon *ngIf="!usernameFormControl.valid || showErrorMessage">error</mat-icon>
-            <mat-icon *ngIf="usernameFormControl.valid && !showErrorMessage">check_circle</mat-icon>
-
-          </div>
-
-        </mat-form-field>
-      </div>
-
-      <!-- Terza riga : Password -->
-
-      <!-- Input password -->
-      <div class="flex-direction-column full-width" id="inputPasswordContainer">
-
-        <label class="top-label">Password</label>
-        <mat-form-field appearance="outline">
-
-          <!-- Evitiamo l'inserimento di spazi vuoti-->
-          <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Campo obbligatorio*"
-            [formControl]="passwordFormControl" (keydown.space)="$event.preventDefault()"
-            (focus)="tooltipPassword.show()" (input)="disableRegistration()">
-
-          <button mat-icon-button matSuffix (click)="toggleShowPassword()">
-            <mat-icon>{{ showPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
-          </button>
-
-          <div matSuffix class="margin-right"
-            [ngClass]="passwordFormControl.valid ? 'material-icons color_green' : 'material-icons color_red'"
-            #tooltipPassword="matTooltip" [matTooltip]="getErrorPasswordMessage()">
-
-            <mat-icon *ngIf="!passwordFormControl.valid">error</mat-icon>
-            <mat-icon *ngIf="passwordFormControl.valid">check_circle</mat-icon>
-
-          </div>
-
-        </mat-form-field>
-      </div>
-
-      <ng-container *ngIf="showErrorMessage">
-        <div class="full-width txt-center margin-large-bottom">
-          <span class="label error-color">Username già esistente!!</span>
-        </div>
-      </ng-container>
-
-      <div class="flex-center-wrap full-width margin-top margin-bottom">
-        <button mat-raised-button class="label btn-standard"
-          [ngClass]="{'secondary-color' : !signUpButtonDisabled}" [disabled]="signUpButtonDisabled"
-          (click)="registration()">
-          Registrati
-        </button>
-      </div>
-
-    </form>
-  </ng-container>
-
-  <!-- Registrazione completata -->
-  <div class="signup-complete-container" *ngIf="createdNewUser">
-
-    <!-- Immagine -->
-    <div class="flex-center-wrap full-width margin-bottom margin-top">
-
-      <figure class="img-signup-container no-margin tooltip">
-
-        <img class="img-signup" src="assets/images/welcome.jpg" alt="Benvenuto">
-        <span class="tooltiptext">
-          Image by <a
-            href="https://www.freepik.com/free-vector/flat-design-colorful-characters-welcoming_5403010.htm#page=2&query=welcome&position=37&from_view=search&track=sph&uuid=2b806aba-eaba-4b00-ada7-92f0d91697ed">
-            Freepik
-          </a>
+      <!-- Input nome -->
+      <div class="flex flex-column width-full" [ngClass]="{'max-width-25rem' : !isMobileView()}">
+        <label class="top-label">Nome</label>
+        <span class="p-input-icon-right display-grid">
+          <i class="pi pi-check" style="color: green;" *ngIf="!hasInputNameErrors()"></i>
+          <i class="pi pi-times-circle" style="color: red;" *ngIf="hasInputNameErrors()"></i>
+          <input pInputText type="text" [ngClass]="{'ng-invalid' : hasInputNameErrors()}"
+            [pKeyFilter]="blockSpaceTabAndNewLineRe"
+            formControlName="name" tooltipEvent="focus" tooltipPosition="bottom"
+            [pTooltip]="getErrorInputNameMessage()" />
         </span>
+      </div>
 
-      </figure>
-
+      <!-- Input cognome -->
+      <div class="flex flex-column width-full" 
+        [ngClass]="isMobileView() ? 'margin-top-7' : 'max-width-25rem'">
+        <label class="top-label">Cognome</label>
+        <span class="p-input-icon-right display-grid">
+          <i class="pi pi-check" style="color: green;" *ngIf="!hasInputLastNameErrors()"></i>
+          <i class="pi pi-times-circle" style="color: red;" *ngIf="hasInputLastNameErrors()"></i>
+          <input pInputText type="text" [ngClass]="{'ng-invalid' : hasInputLastNameErrors()}"
+            [pKeyFilter]="blockSpaceTabAndNewLineRe"
+            formControlName="lastName" tooltipEvent="focus" tooltipPosition="bottom"
+            [pTooltip]="getErrorInputLastNameMessage()" />
+        </span>
+      </div>
     </div>
 
-    <!-- Testo -->
-    <div class="message-container margin-bottom margin-top margin-bottom">
-
-      <h1 class="bold">Registrazione completata!</h1>
-
-      <p class="text">
-        Grazie per esserti registrato al nostro sito.<br>
-        Ora puoi effettuare il login e iniziare ad utilizzare tutte le nostre funzionalità. Buon divertimento!!
-      </p>
-
+    <!-- Input username -->
+    <div class="flex flex-column width-full margin-top-7">
+      <label class="top-label">Username</label>
+      <span class="p-input-icon-right display-grid">
+        <i class="pi pi-check" style="color: green;" *ngIf="!hasInputUsernameErrors()"></i>
+        <i class="pi pi-times-circle" style="color: red;" *ngIf="hasInputUsernameErrors()"></i>
+        <input pInputText type="text" [ngClass]="{'ng-invalid' : hasInputUsernameErrors()}"
+          [pKeyFilter]="blockSpaceTabAndNewLineRe"
+          (keydown.space)="$event.preventDefault()" formControlName="username"
+          tooltipEvent="focus" tooltipPosition="bottom" [pTooltip]="getErrorInputUsernameMessage()" />
+      </span>
     </div>
 
-    <div class="flex-center-wrap margin-large-top margin-bottom">
+    <!-- Input password -->
+    <div class="flex flex-column width-full margin-top-7">
+      <label class="top-label">Password</label>
+      <div class="flex align-items-center">
+        <p-password class="width-full" [ngClass]="{'ng-invalid' : hasInputPasswordErrors()}"
+          [toggleMask]="true" [feedback]="false"
+          [pKeyFilter]="blockSpaceTabAndNewLineRe"
+          formControlName="password" tooltipEvent="focus" tooltipPosition="bottom"
+          [pTooltip]="getErrorInputPasswordMessage()" />
+        <div class="margin-left-3">
+          <i class="pi pi-check" style="color: green;" *ngIf="!hasInputPasswordErrors()"></i>
+          <i class="pi pi-times-circle" style="color: red;" *ngIf="hasInputPasswordErrors()"></i>
+        </div>
+      </div>
+    </div>
 
-      <button mat-raised-button class="btn-standard label secondary-color" (click)="openLoginDialog()">
-        Torna al login
-      </button>
+    <div class="width-full flex align-items-center justify-content-center column-gap-3 margin-top-14">
+        <!-- Pulsante per tornare alla dialog di login -->
+        <div>
+          <p-button styleClass="p-button-raised p-button-sm secondary-color"
+            pTooltip="Torna alla pagina di Login" tooltipPosition="left"
+            (onClick)="openLoginDialog()">
+            <i class="pi pi-arrow-left" style="color: black;"></i>
+            <label class="txt-lg margin-left-3 cursor-pointer">Login</label>
+          </p-button>
+        </div>
 
+        <!-- Pulsante creazione nuovo utente -->
+        <div>
+          <p-button styleClass="p-button-raised p-button-sm secondary-color"
+            [disabled]="!canCompleteSignUp()" 
+            (click)="signUp()"
+            [pTooltip]="getSignUpTooltip()" tooltipPosition="right">
+            <label class="txt-lg cursor-pointer">Registrati</label>
+          </p-button>
+        </div>
     </div>
 
   </div>
-</mat-dialog-content>
+</ng-container>
+
+<!-- Registrazione completata -->
+<div *ngIf="createdNewUser">
+
+  <!-- Immagine -->
+  <div class="flex justify-content-center width-full margin-top-3">
+    <figure class="no-margin tooltip" [ngClass]="getSignUpImageStyleWidth()">
+      <p-image src="assets/images/welcome.jpg" alt="Benvenuto" imageClass="width-full height-full" />
+      <span class="tooltiptext">
+        Image by <a
+          href="https://www.freepik.com/free-vector/flat-design-colorful-characters-welcoming_5403010.htm#page=2&query=welcome&position=37&from_view=search&track=sph&uuid=2b806aba-eaba-4b00-ada7-92f0d91697ed">
+          Freepik
+        </a>
+      </span>
+    </figure>
+  </div>
+
+  <!-- Testo -->
+  <div class="margin-top-7">
+    <h2 class="bold txt-align-center">Benvenuto {{ getUsername() }}!</h2>
+    <p class="txt-lg line-height-3">
+      Grazie per esserti registrato al nostro sito.<br>
+      Ora puoi effettuare il login e iniziare ad utilizzare tutte le nostre funzionalità. Buon divertimento!!
+    </p>
+  </div>
+
+  <!-- Pulsante -->
+  <div class="flex justify-content-center margin-top-7">
+    <p-button styleClass="p-button-raised p-button-sm secondary-color" 
+      (click)="openLoginDialog()">
+      <label class="txt-lg">Accedi</label>
+    </p-button>
+  </div>
+
+</div>

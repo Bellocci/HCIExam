@@ -11,6 +11,7 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ListboxModule } from 'primeng/listbox';
 import { ImageModule } from "primeng/image";
 import { InputTextModule } from 'primeng/inputtext';
+import { KeyFilterModule } from 'primeng/keyfilter';
 import { MessagesModule } from 'primeng/messages';
 import { PanelModule } from "primeng/panel";
 import { PasswordModule } from 'primeng/password';
@@ -35,6 +36,7 @@ import { ToolbarModule } from 'primeng/toolbar';
         ListboxModule,
         ImageModule,
         InputTextModule,
+        KeyFilterModule,
         MessagesModule,
         PanelModule,
         PasswordModule,
