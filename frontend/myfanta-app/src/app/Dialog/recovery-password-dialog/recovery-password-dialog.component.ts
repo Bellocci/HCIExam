@@ -1,18 +1,17 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { DialogService } from 'src/app/service/dialog.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/service/user.service';
-import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
-import { DialogHelper } from '../dialogHelper.interface';
-import { Subscription } from 'rxjs';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
-import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { Message, MessageService } from 'primeng/api';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { LoginDialogHelper } from '../login-dialog/login-dialog-helper';
+import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-recovery-password-dialog',
   templateUrl: './recovery-password-dialog.component.html',
   styleUrls: ['./recovery-password-dialog.component.scss'],
-  encapsulation : ViewEncapsulation.None
+  providers: [MessageService],
 })
 export class RecoveryPasswordDialogComponent implements OnInit, OnDestroy {
 
@@ -21,65 +20,40 @@ export class RecoveryPasswordDialogComponent implements OnInit, OnDestroy {
    * VARIABILI 
    * ==========
    */
+  messages:Message[] = [];
+  recoveryPasswordFormGroup!: FormGroup;
 
-  nameControl:FormControl<string | null> = new FormControl<string | null>('', {
-    validators : [Validators.required]
-  });
+  // Verifica se la parola inizia con uno spazio, tab o nuova linea
+  blockSpaceTabAndNewLineRe:RegExp = /^[^\s]/;
 
-  surnameControl:FormControl<string | null> = new FormControl<string | null>('', {
-    validators : [Validators.required]
-  });
-
-  usernameControl:FormControl<string | null> = new FormControl<string | null>('', {
-    validators : [Validators.required]
-  });
-
-  private _disableRecoveryPasswordBtn: boolean = true;  
   private _password: string | undefined;  
-  private _showRecoveryPasswordError: boolean = false;  
 
-  private _isMobileBreakpointActive:boolean = false;
-  private _subscriptionMobileBreakpoint:Subscription;
-
-  /**
+  /*
    * =============================
    * CONSTRUCTOR - INIT - DESTROY
    * =============================
    */
 
   constructor(private _userService:UserService,
-    private dialogService:DialogService, 
-    private breakpointsService:BreakpointsService) { 
-
+    private messageService: MessageService,
+    public dialogService: DialogService,
+    public ref: DynamicDialogRef) { 
     console.log("Construct recovery password dialog component");
-
-    this._isMobileBreakpointActive = BreakpointsService.isMobileBreakpointActive(window.innerWidth);
-    this._subscriptionMobileBreakpoint = this.observeMobileBreakpoint();
   }  
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.recoveryPasswordFormGroup = new FormGroup({
+      name : new FormControl<string | null>(null, {validators : [Validators.required]}),
+      lastName : new FormControl<string | null>(null, {validators : [Validators.required]}),
+      username : new FormControl<string | null>(null, {validators : [Validators.required]})
+    })
+  }
 
   ngOnDestroy(): void {
     console.log("Destroy recovery password dialog component");
-    this._subscriptionMobileBreakpoint.unsubscribe();
   }
 
-  /**
-   * =========
-   * OBSERVER
-   * =========
-   */
-
-  private observeMobileBreakpoint() : Subscription {
-    return this.breakpointsService.mobileObservable
-        .subscribe(new ObserverStepBuilder<boolean>()
-        .next((isMobile : boolean) => this._isMobileBreakpointActive = isMobile)
-        .error((error : any) => console.error("Error to get mobile breakpoint: " + error))
-        .complete( () => console.log("Mobile breakpoint observer completed"))
-        .build());
-  }
-
-  /**
+  /*
    * ================
    * GETTER & SETTER
    * ================
@@ -93,20 +67,27 @@ export class RecoveryPasswordDialogComponent implements OnInit, OnDestroy {
     this._password = value;
   }
 
-  public get showRecoveryPasswordError(): boolean {
-    return this._showRecoveryPasswordError;
-  }
-  
-  public set showRecoveryPasswordError(value: boolean) {
-    this._showRecoveryPasswordError = value;
+  getUsername() : String {
+    let username = this.recoveryPasswordFormGroup.get('username')?.value;
+    return username != undefined ? username : "";
   }
 
-  public get disableRecoveryPasswordBtn(): boolean {
-    return this._disableRecoveryPasswordBtn;
+  getRecoveryPasswordBtnTooltip() : string {
+    if(this.isRecoveryPasswordBtnDisabled()) {
+      return "Inserisci correttamente i dati nei campi per procedere con la registrazione";      
+    } else {
+      return "Recupera password";
+    }
   }
 
-  public set disableRecoveryPasswordBtn(value: boolean) {
-    this._disableRecoveryPasswordBtn = value;
+  getRecoveryPasswordImageStyleWidth() : string {
+    if(this.isMobileView()) {
+      return "max-width-16rem";
+    } else if(this.isTabletView()) {
+      return "max-width-20rem";
+    } else {
+      return "max-width-22rem";
+    }
   }
 
   /*
@@ -116,19 +97,34 @@ export class RecoveryPasswordDialogComponent implements OnInit, OnDestroy {
    */
 
   hasInputNameErrors() : boolean {
-    return !this.nameControl.valid;
+    let result = this.recoveryPasswordFormGroup.get('name')?.invalid;
+    return result != undefined ? result : true;
   }
 
-  hasInputSurnameErrors() : boolean {
-    return !this.surnameControl.valid;
+  hasInputLastNameErrors() : boolean {
+    let result = this.recoveryPasswordFormGroup.get('lastName')?.invalid;
+    return result != undefined ? result : true;
   }
 
   hasInputUsernameErrors() : boolean {
-    return !this.usernameControl.valid;
+    let result = this.recoveryPasswordFormGroup.get('username')?.invalid;
+    return result != undefined ? result : true;
   }  
+
+  isRecoveryPasswordBtnDisabled() : boolean {
+    return !this.areInputsValid();
+  }
 
   isRecoveryPasswordComplete() : boolean {
     return this.password != undefined;
+  }
+
+  isMobileView() : boolean {
+    return BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
+  }
+
+  isTabletView() : boolean {
+    return BreakpointsService.isTabletBreakpointActive(window.innerWidth);
   }
 
   /*
@@ -137,11 +133,7 @@ export class RecoveryPasswordDialogComponent implements OnInit, OnDestroy {
    * =========
    */
 
-  disableRecoveryPassword() : void {
-    this.disableRecoveryPasswordBtn = !this.areInputsValid();
-  }
-
-  /**
+  /*
    * Verifica se gli input sono validi e ricerca la password
    * per i parametri inseriti
    */
@@ -149,11 +141,15 @@ export class RecoveryPasswordDialogComponent implements OnInit, OnDestroy {
     this.password = undefined;
     if(this.areInputsValid()) {
       // Siamo sicuri che siano presenti valori dal controllo precedente
-      this._userService.recoveryPassword(
-        this.nameControl.value!, this.surnameControl.value!, this.usernameControl.value!)
+      let name:string = this.recoveryPasswordFormGroup.get('name')?.value as string;
+      let lastName = this.recoveryPasswordFormGroup.get('lastName')?.value as string;
+      let username = this.recoveryPasswordFormGroup.get('username')?.value as string;
+      this._userService.recoveryPassword(name, lastName, username)
       .subscribe((psw) => {
           this.password = psw;
-          this.showRecoveryPasswordError = !psw;
+          if(psw == undefined) {
+            this.messages = [{severity: 'error', detail: "Nessuna password trovata"}]
+          }          
       });
     }    
   } 
@@ -163,20 +159,19 @@ export class RecoveryPasswordDialogComponent implements OnInit, OnDestroy {
    * apertura della LoginDialog
    */
   openLoginDialog() : void {
-    let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
-    dialogHelper.closeDialog();
-    if(this._isMobileBreakpointActive) {     
-      dialogHelper.setWidth("100%");
-      dialogHelper.setHeight("100%");
-    } 
-    dialogHelper.openDialog(LoginDialogComponent);
-  }
-
-  /**
-   * Listener per la chiusura della dialog
-   */
-  closeDialog() : void {
-    this.dialogService.getDialogHelper().closeDialog();
+    this.ref.close();
+    let helper:LoginDialogHelper = new LoginDialogHelper();
+    let width:string;
+    let height:string 
+    if(this.isMobileView()) {
+      width = "100%";
+      height = "100%";        
+    } else {
+      width = LoginDialogHelper.DEFAULT_WIDTH;
+      height = LoginDialogHelper.DEFAULT_HEIGHT;
+    }
+    this.ref = this.dialogService.open(LoginDialogComponent, 
+      helper.getDynamicDialogConfig(width, height));
   }
 
   /*
@@ -186,6 +181,6 @@ export class RecoveryPasswordDialogComponent implements OnInit, OnDestroy {
    */
 
   private areInputsValid() : boolean {
-    return this.nameControl.valid && this.surnameControl.valid && this.usernameControl.valid;
+    return !(this.hasInputNameErrors() || this.hasInputLastNameErrors() || this.hasInputUsernameErrors());
   }
 }

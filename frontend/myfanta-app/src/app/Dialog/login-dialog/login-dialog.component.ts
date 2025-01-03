@@ -10,6 +10,7 @@ import { Message, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { User } from 'src/decorator/user';
 import { SignupDialogHelper } from '../signup-dialog/signup-dialog-helper';
+import { RecoveryPasswordHelper } from '../recovery-password-dialog/recovery-password-helper';
 
 @Component({
   selector: 'app-login-dialog',
@@ -157,13 +158,9 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
   }
 
   recoveryPassword(): void {
-    // let dialogHelper:DialogHelper = this.dialogService.getDialogHelper();
-    // dialogHelper.closeDialog();
-    // if(BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth)) {     
-    //   dialogHelper.setWidth("100%");
-    //   dialogHelper.setHeight("100%");
-    // }
-    // dialogHelper.openDialog(RecoveryPasswordDialogComponent);
+    this.ref.close();
+    let helper:RecoveryPasswordHelper = new RecoveryPasswordHelper();
+    this.ref = this.dialogService.open(RecoveryPasswordDialogComponent, helper.getDynamicDialogConfig());
   }
 
   /* Login */

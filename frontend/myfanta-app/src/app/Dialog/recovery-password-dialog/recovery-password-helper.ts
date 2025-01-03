@@ -2,7 +2,7 @@ import { DynamicDialogConfig } from "primeng/dynamicdialog";
 import { DynamicDialogConfigBuilderImpl } from "../DynamicDialogConfigBuilderImpl";
 import { BreakpointsService } from "src/app/service/breakpoints.service";
 
-export class LoginDialogHelper {
+export class RecoveryPasswordHelper {
     public static readonly DEFAULT_WIDTH = '40%';
     public static readonly DEFAULT_HEIGHT = 'auto';
 
@@ -11,11 +11,11 @@ export class LoginDialogHelper {
         if(width == undefined) {
             let windowWidth = window.innerWidth;
             if(BreakpointsService.isEqualOrGreaterThanLargeDeviceBreakpoint(windowWidth)) {
-                width = "50%";
-                height = LoginDialogHelper.DEFAULT_HEIGHT;
+                width = "40%";
+                height = RecoveryPasswordHelper.DEFAULT_HEIGHT;
             } else if(BreakpointsService.isEqualOrGreaterThanTabletBreakpoint(windowWidth)) {
-                width = "70%";
-                height = LoginDialogHelper.DEFAULT_HEIGHT;
+                width = "60%";
+                height = RecoveryPasswordHelper.DEFAULT_HEIGHT;
             } else {
                 width = "100%";
                 height = "100%";
@@ -24,9 +24,9 @@ export class LoginDialogHelper {
 
         return new DynamicDialogConfigBuilderImpl()
             .Builder()
-            .withWidth(width ? width : LoginDialogHelper.DEFAULT_WIDTH)
-            .widthHeight(height ? height : LoginDialogHelper.DEFAULT_HEIGHT)
-            .withHeader("Login")
+            .withWidth(width ? width : RecoveryPasswordHelper.DEFAULT_WIDTH)
+            .widthHeight(height ? height : RecoveryPasswordHelper.DEFAULT_HEIGHT)
+            .withHeader("Recupera password")
             .withAutoZIndex(true)
             .withMaximizable(true)
             .withModal(true)
