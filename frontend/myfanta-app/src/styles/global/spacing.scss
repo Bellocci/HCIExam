@@ -40,6 +40,10 @@ $padding: (
     .padding-#{$name} {
         padding: $value;
     }
+
+    .padding-i-#{$name} {
+        padding: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -48,6 +52,10 @@ $padding: (
         @each $padding-name, $padding-value in $padding {
             .#{$breakpoint-name}-padding-#{$padding-name} {
                 padding: $padding-value;
+            }
+
+            .#{$breakpoint-name}-padding-i-#{$padding-name} {
+                padding: $padding-value !important;
             }
         }
     }
@@ -58,6 +66,10 @@ $padding: (
         @each $padding-name, $padding-value in $padding {
             .from-#{$breakpoint-name}-padding-#{$padding-name} {
                 padding: $padding-value;
+            }
+
+            .from-#{$breakpoint-name}-padding-i-#{$padding-name} {
+                padding: $padding-value !important;
             }
         }
     }
@@ -103,6 +115,10 @@ $padding-top: (
     .padding-top-#{$name} {
         padding-top: $value;
     }
+    
+    .padding-top-i-#{$name} {
+        padding-top: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -111,6 +127,10 @@ $padding-top: (
         @each $padding-top-name, $padding-top-value in $padding-top {
             .#{$breakpoint-name}-padding-top-#{$padding-top-name} {
                 padding-top: $padding-top-value;
+            }
+
+            .#{$breakpoint-name}-padding-top-i-#{$padding-top-name} {
+                padding-top: $padding-top-value !important;
             }
         }
     }
@@ -121,6 +141,10 @@ $padding-top: (
         @each $padding-top-name, $padding-top-value in $padding-top {
             .from-#{$breakpoint-name}-padding-top-#{$padding-top-name} {
                 padding-top: $padding-top-value;
+            }
+
+            .from-#{$breakpoint-name}-padding-top-i-#{$padding-top-name} {
+                padding-top: $padding-top-value !important;
             }
         }
     }
@@ -166,6 +190,10 @@ $padding-right: (
     .padding-right-#{$name} {
         padding-right: $value;
     }
+
+    .padding-right-i-#{$name} {
+        padding-right: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -174,6 +202,10 @@ $padding-right: (
         @each $padding-right-name, $padding-right-value in $padding-right {
             .#{$breakpoint-name}-padding-right-#{$padding-right-name} {
                 padding-right: $padding-right-value;
+            }
+
+            .#{$breakpoint-name}-padding-right-i-#{$padding-right-name} {
+                padding-right: $padding-right-value !important;
             }
         }
     }
@@ -184,6 +216,10 @@ $padding-right: (
         @each $padding-right-name, $padding-right-value in $padding-right {
             .from-#{$breakpoint-name}-padding-right-#{$padding-right-name} {
                 padding-right: $padding-right-value;
+            }
+
+            .from-#{$breakpoint-name}-padding-right-i-#{$padding-right-name} {
+                padding-right: $padding-right-value !important;
             }
         }
     }
@@ -229,6 +265,10 @@ $padding-bottom: (
     .padding-bottom-#{$name} {
         padding-bottom: $value;
     }
+
+    .padding-bottom-i-#{$name} {
+        padding-bottom: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -237,6 +277,10 @@ $padding-bottom: (
         @each $padding-bottom-name, $padding-bottom-value in $padding-bottom {
             .#{$breakpoint-name}-padding-bottom-#{$padding-bottom-name} {
                 padding-bottom: $padding-bottom-value;
+            }
+
+            .#{$breakpoint-name}-padding-bottom-i-#{$padding-bottom-name} {
+                padding-bottom: $padding-bottom-value !important;
             }
         }
     }
@@ -247,6 +291,10 @@ $padding-bottom: (
         @each $padding-bottom-name, $padding-bottom-value in $padding-bottom {
             .from-#{$breakpoint-name}-padding-bottom-#{$padding-bottom-name} {
                 padding-bottom: $padding-bottom-value;
+            }
+
+            .from-#{$breakpoint-name}-padding-bottom-i-#{$padding-bottom-name} {
+                padding-bottom: $padding-bottom-value !important;
             }
         }
     }
@@ -292,6 +340,10 @@ $padding-left: (
     .padding-left-#{$name} {
         padding-left: $value;
     }
+
+    .padding-left-i-#{$name} {
+        padding-left: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -300,6 +352,10 @@ $padding-left: (
         @each $padding-left-name, $padding-left-value in $padding-left {
             .#{$breakpoint-name}-padding-left-#{$padding-left-name} {
                 padding-left: $padding-left-value;
+            }
+
+            .#{$breakpoint-name}-padding-left-i-#{$padding-left-name} {
+                padding-left: $padding-left-value !important;
             }
         }
     }
@@ -310,6 +366,10 @@ $padding-left: (
         @each $padding-left-name, $padding-left-value in $padding-left {
             .from-#{$breakpoint-name}-padding-left-#{$padding-left-name} {
                 padding-left: $padding-left-value;
+            }
+
+            .from-#{$breakpoint-name}-padding-left-i-#{$padding-left-name} {
+                padding-left: $padding-left-value !important;
             }
         }
     }
@@ -356,6 +416,11 @@ $padding-x: (
         padding-left: $value;
         padding-right: $value;
     }
+
+    .padding-x-i-#{$name} {
+        padding-left: $value !important;
+        padding-right: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -365,6 +430,11 @@ $padding-x: (
             .#{$breakpoint-name}-padding-x-#{$padding-x-name} {
                 padding-left: $padding-x-value;
                 padding-right: $padding-x-value;
+            }
+
+            .#{$breakpoint-name}-padding-x-i-#{$padding-x-name} {
+                padding-left: $padding-x-value !important;
+                padding-right: $padding-x-value !important;
             }
         }
     }
@@ -376,6 +446,11 @@ $padding-x: (
             .from-#{$breakpoint-name}-padding-x-#{$padding-x-name} {
                 padding-left: $padding-x-value;
                 padding-right: $padding-x-value;
+            }
+
+            .from-#{$breakpoint-name}-padding-x-i-#{$padding-x-name} {
+                padding-left: $padding-x-value !important;
+                padding-right: $padding-x-value !important;
             }
         }
     }
@@ -422,6 +497,11 @@ $padding-y: (
         padding-top: $value;
         padding-bottom: $value;
     }
+
+    .padding-y-i-#{$name} {
+        padding-top: $value !important;
+        padding-bottom: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -431,6 +511,11 @@ $padding-y: (
             .#{$breakpoint-name}-padding-y-#{$padding-y-name} {
                 padding-top: $padding-y-value;
                 padding-bottom: $padding-y-value;
+            }
+
+            .#{$breakpoint-name}-padding-y-i-#{$padding-y-name} {
+                padding-top: $padding-y-value !important;
+                padding-bottom: $padding-y-value !important;
             }
         }
     }
@@ -442,6 +527,11 @@ $padding-y: (
             .from-#{$breakpoint-name}-padding-y-#{$padding-y-name} {
                 padding-top: $padding-y-value;
                 padding-bottom: $padding-y-value;
+            }
+
+            .from-#{$breakpoint-name}-padding-y-i-#{$padding-y-name} {
+                padding-top: $padding-y-value !important;
+                padding-bottom: $padding-y-value !important;
             }
         }
     }
@@ -488,6 +578,10 @@ $margin: (
     .margin-#{$name} {
         margin: $value;
     }
+
+    .margin-i-#{$name} {
+        margin: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -496,6 +590,9 @@ $margin: (
         @each $margin-name, $margin-value in $margin {
             .#{$breakpoint-name}-margin-#{$margin-name} {
                 margin: $margin-value;
+            }
+            .#{$breakpoint-name}-margin-i-#{$margin-name} {
+                margin: $margin-value !important;
             }
         }
     }
@@ -506,6 +603,10 @@ $margin: (
         @each $margin-name, $margin-value in $margin {
             .from-#{$breakpoint-name}-margin-#{$margin-name} {
                 margin: $margin-value;
+            }
+
+            .from-#{$breakpoint-name}-margin-i-#{$margin-name} {
+                margin: $margin-value !important;
             }
         }
     }
@@ -552,6 +653,10 @@ $margin-top: (
     .margin-top-#{$name} {
         margin-top: $value;
     }
+
+    .margin-top-i-#{$name} {
+        margin-top: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -560,6 +665,10 @@ $margin-top: (
         @each $margin-top-name, $margin-top-value in $margin-top {
             .#{$breakpoint-name}-margin-top-#{$margin-top-name} {
                 margin-top: $margin-top-value;
+            }
+
+            .#{$breakpoint-name}-margin-top-i-#{$margin-top-name} {
+                margin-top: $margin-top-value !important;
             }
         }
     }
@@ -570,6 +679,10 @@ $margin-top: (
         @each $margin-top-name, $margin-top-value in $margin-top {
             .from-#{$breakpoint-name}-margin-top-#{$margin-top-name} {
                 margin-top: $margin-top-value;
+            }
+
+            .from-#{$breakpoint-name}-margin-top-i-#{$margin-top-name} {
+                margin-top: $margin-top-value !important;
             }
         }
     }
@@ -616,6 +729,10 @@ $margin-right: (
     .margin-right-#{$name} {
         margin-right: $value;
     }
+
+    .margin-right-i-#{$name} {
+        margin-right: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -624,6 +741,10 @@ $margin-right: (
         @each $margin-right-name, $margin-right-value in $margin-right {
             .#{$breakpoint-name}-margin-right-#{$margin-right-name} {
                 margin-right: $margin-right-value;
+            }
+
+            .#{$breakpoint-name}-margin-right-i-#{$margin-right-name} {
+                margin-right: $margin-right-value !important;
             }
         }
     }
@@ -634,6 +755,10 @@ $margin-right: (
         @each $margin-right-name, $margin-right-value in $margin-right {
             .from-#{$breakpoint-name}-margin-right-#{$margin-right-name} {
                 margin-right: $margin-right-value;
+            }
+
+            .from-#{$breakpoint-name}-margin-right-i-#{$margin-right-name} {
+                margin-right: $margin-right-value !important;
             }
         }
     }
@@ -680,6 +805,10 @@ $margin-bottom: (
     .margin-bottom-#{$name} {
         margin-bottom: $value;
     }
+
+    .margin-bottom-i-#{$name} {
+        margin-bottom: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -688,6 +817,10 @@ $margin-bottom: (
         @each $margin-bottom-name, $margin-bottom-value in $margin-bottom {
             .#{$breakpoint-name}-margin-bottom-#{$margin-bottom-name} {
                 margin-bottom: $margin-bottom-value;
+            }
+
+            .#{$breakpoint-name}-margin-bottom-i-#{$margin-bottom-name} {
+                margin-bottom: $margin-bottom-value !important;
             }
         }
     }
@@ -698,6 +831,10 @@ $margin-bottom: (
         @each $margin-bottom-name, $margin-bottom-value in $margin-bottom {
             .from-#{$breakpoint-name}-margin-bottom-#{$margin-bottom-name} {
                 margin-bottom: $margin-bottom-value;
+            }
+
+            .from-#{$breakpoint-name}-margin-bottom-i-#{$margin-bottom-name} {
+                margin-bottom: $margin-bottom-value !important;
             }
         }
     }
@@ -744,6 +881,10 @@ $margin-left: (
     .margin-left-#{$name} {
         margin-left: $value;
     }
+
+    .margin-left-i-#{$name} {
+        margin-left: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -752,6 +893,10 @@ $margin-left: (
         @each $margin-left-name, $margin-left-value in $margin-left {
             .#{$breakpoint-name}-margin-left-#{$margin-left-name} {
                 margin-left: $margin-left-value;
+            }
+
+            .#{$breakpoint-name}-margin-left-i-#{$margin-left-name} {
+                margin-left: $margin-left-value !important;
             }
         }
     }
@@ -762,6 +907,10 @@ $margin-left: (
         @each $margin-left-name, $margin-left-value in $margin-left {
             .from-#{$breakpoint-name}-margin-left-#{$margin-left-name} {
                 margin-left: $margin-left-value;
+            }
+
+            .from-#{$breakpoint-name}-margin-left-i-#{$margin-left-name} {
+                margin-left: $margin-left-value !important;
             }
         }
     }
@@ -809,6 +958,11 @@ $margin-x: (
         margin-left: $value;
         margin-right: $value;
     }
+
+    .margin-x-i-#{$name} {
+        margin-left: $value !important;
+        margin-right: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -818,6 +972,11 @@ $margin-x: (
             .#{$breakpoint-name}-margin-x-#{$margin-x-name} {
                 margin-left: $margin-x-value;
                 margin-right: $margin-x-value;
+            }
+
+            .#{$breakpoint-name}-margin-x-i-#{$margin-x-name} {
+                margin-left: $margin-x-value !important;
+                margin-right: $margin-x-value !important;
             }
         }
     }
@@ -829,6 +988,11 @@ $margin-x: (
             .from-#{$breakpoint-name}-margin-x-#{$margin-x-name} {
                 margin-left: $margin-x-value;
                 margin-right: $margin-x-value;
+            }
+
+            .from-#{$breakpoint-name}-margin-x-i-#{$margin-x-name} {
+                margin-left: $margin-x-value !important;
+                margin-right: $margin-x-value !important;
             }
         }
     }
@@ -876,6 +1040,11 @@ $margin-y: (
         margin-top: $value;
         margin-bottom: $value;
     }
+
+    .margin-y-i-#{$name} {
+        margin-top: $value !important;
+        margin-bottom: $value !important;
+    }
 }
 
 // Ciclo per generare le classi responsive
@@ -885,6 +1054,11 @@ $margin-y: (
             .#{$breakpoint-name}-margin-y-#{$margin-y-name} {
                 margin-top: $margin-y-value;
                 margin-bottom: $margin-y-value;
+            }
+
+            .#{$breakpoint-name}-margin-y-i-#{$margin-y-name} {
+                margin-top: $margin-y-value !important;
+                margin-bottom: $margin-y-value !important;
             }
         }
     }
@@ -896,6 +1070,11 @@ $margin-y: (
             .from-#{$breakpoint-name}-margin-y-#{$margin-y-name} {
                 margin-top: $margin-y-value;
                 margin-bottom: $margin-y-value;
+            }
+
+            .from-#{$breakpoint-name}-margin-y-i-#{$margin-y-name} {
+                margin-top: $margin-y-value !important;
+                margin-bottom: $margin-y-value !important;
             }
         }
     }

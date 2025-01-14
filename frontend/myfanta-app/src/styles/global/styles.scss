@@ -7,11 +7,12 @@
 @use "spacing";
 @use "layout";
 @use "effects";
+@use "border";
 
 @import "breakpoints";
 @import "colors";
 @import "variables";
-@import "~primeflex/primeflex.css";
+// @import "~primeflex/primeflex.css";
 
 html,
 body {

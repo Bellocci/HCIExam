@@ -24,6 +24,7 @@ import { DialogDataInterface } from 'src/app/Dialog/dialog-data.interface';
 import { UserTeamDialogDataBuilder } from 'src/app/Dialog/user-team-dialog/user-team-dialog-data-builder';
 import { UserTeamDialogComponent } from 'src/app/Dialog/user-team-dialog/user-team-dialog.component';
 import { User } from 'src/decorator/user';
+import { ListboxClickEvent } from 'primeng/listbox';
 
 @Component({
   selector: 'app-player-list',
@@ -39,20 +40,20 @@ export class PlayerListComponent implements OnInit, OnDestroy {
    */    
 
   // Lista dei link navigabili
-  linkEnum: typeof LinkEnum = LinkEnum;  
+  links: LinkEnum[] = LinkEnum.values();
+
+  private _isSidebarVisibile = true;  
 
   private _simpleOption!: StandardOption;
   private option: OptionEntity | null = null;
   private leagueSelected: LeagueEntity | null = null;
   private _user!: User;
   private _userTeam!: UserTeamEntity;
-  private _isMobileOrTabletBreakpointActive: boolean = false;  
  
   private _subscriptionObserverToLeague: Subscription | undefined;
   private _subscriptionObserverToOption: Subscription | undefined;
   private _subscriptionObserverToUser: Subscription | undefined;
   private _subscriptionObserverToUserTeam: Subscription | undefined;
-  private _subscriptionToMobileOrTabletObservable: Subscription;
 
   private _playerSearchFilterObservable:ObservableHelper<PlayerSearchFilter> = new ObservableHelper<PlayerSearchFilter>(new PlayerSearchFilter());
   private _playerFilteredList:PlayerEntity[] = [];
@@ -68,17 +69,13 @@ export class PlayerListComponent implements OnInit, OnDestroy {
     public routerService: RouterService,
     private userService: UserService,
     private dialogService: DialogService,
-    private breakpointsService: BreakpointsService,
     private playerSearchRequest:PlayerSearchRequestService) {
 
     console.log("Construct Player list component");
 
-    this._isMobileOrTabletBreakpointActive = BreakpointsService.isMobileOrTabletBreakpointActive(window.innerWidth);
-
     this._subscriptionObserverToLeague = this.addObserverToLeague();
     this._subscriptionObserverToOption = this.observeOptionTeam();
     this._subscriptionObserverToUser = this.observeUser();
-    this._subscriptionToMobileOrTabletObservable = this.observeMobileOrTabletBreakpoint();
     this.observePlayerSearchFilter();
 
     /*
@@ -100,7 +97,6 @@ export class PlayerListComponent implements OnInit, OnDestroy {
     this._subscriptionObserverToOption != undefined ? this._subscriptionObserverToOption.unsubscribe() : null;
     this._subscriptionObserverToUser != undefined ? this._subscriptionObserverToUser.unsubscribe() : null;
     this._subscriptionObserverToUserTeam != undefined ? this._subscriptionObserverToUserTeam.unsubscribe() : null;
-    this._subscriptionToMobileOrTabletObservable.unsubscribe();
     this._playerSearchFilterObservable.complete();
   }
 
@@ -142,15 +138,6 @@ export class PlayerListComponent implements OnInit, OnDestroy {
         .build());
   }
 
-  private observeMobileOrTabletBreakpoint() : Subscription {
-    return this.breakpointsService.mobileOrTabletObservable.subscribe(
-      new ObserverStepBuilder<boolean>()
-        .next(isActive => this.isMobileOrTabletBreakpointActive = isActive)
-        .error(err => console.log("Error while retriving mobile or tablet breakpoint : " + err))
-        .build()
-    );
-  }
-
   /**
    * ================
    * GETTER & SETTER
@@ -181,12 +168,12 @@ export class PlayerListComponent implements OnInit, OnDestroy {
     this._simpleOption = value;
   }
 
-  public get isMobileOrTabletBreakpointActive(): boolean {
-    return this._isMobileOrTabletBreakpointActive;
+  public get isSidebarVisibile() {
+    return this._isSidebarVisibile;
   }
   
-  private set isMobileOrTabletBreakpointActive(value: boolean) {
-    this._isMobileOrTabletBreakpointActive = value;
+  public set isSidebarVisibile(value) {
+    this._isSidebarVisibile = value;
   }
 
   getPlayersList() : PlayerEntity[] {
@@ -215,13 +202,28 @@ export class PlayerListComponent implements OnInit, OnDestroy {
 
   isSaveNewTeamBtnRendered(): boolean {
     return this.user.isUserDefined();
-  }  
+  }
+
+  isMobileView() : boolean {
+    return BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
+  }
+
+  isMobileOrTabletView() : boolean {
+    return BreakpointsService.isMobileOrTabletBreakpointActive(window.innerWidth);
+  }
 
   /*
    * ========= 
    * LISTENER
    * =========
    */
+
+  goToPage(event:ListboxClickEvent) {
+    let linkSelected:LinkEnum = event.value;
+    if(linkSelected != undefined) {
+      this.routerService.goToLink(linkSelected);
+    }
+  }
 
   updateOption(option: StandardOption): void {
     this.simpleOption = option;

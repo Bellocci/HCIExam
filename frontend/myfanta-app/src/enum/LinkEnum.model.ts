@@ -7,7 +7,7 @@ import { LinkEnumVisitorWithReturnInterface } from "src/visitor/link-enum/LinkEn
 
 export class LinkEnum {
 
-    public static readonly PARENT_PATH:string = "/fantasyteam/";
+    public static readonly PARENT_PATH: string = "/fantasyteam/";
 
     public static readonly HOME = new LinkEnum("home", "Home", "Home", this.PARENT_PATH + "home");
     public static readonly CREATE_TEAM = new LinkEnum("myTeam", "Squadra", "Squadra", this.PARENT_PATH + "myTeam");
@@ -19,52 +19,68 @@ export class LinkEnum {
     public static readonly OPTIONS = new LinkEnum("options", "Opzioni di ricerca", "Opz. Ricerca", this.PARENT_PATH + "options");
     public static readonly PLAYER_PROFILE = new LinkEnum("playerProfile", "Profilo giocatore", "Profilo giocatore");
 
-    private constructor(public readonly label: string, 
+    private constructor(public readonly label: string,
         public readonly description: string,
         public readonly shortDescription: string,
-        public readonly path?:string) {}
+        public readonly path?: string) { }
 
-    static visit(linkEnum:LinkEnum, visitor:LinkEnumVisitorInterface) : void {
-        if(LinkEnum.HOME == linkEnum) {
+    private static readonly links: LinkEnum[] = [
+        LinkEnum.HOME,
+        LinkEnum.CREATE_TEAM,
+        LinkEnum.MYTEAM,
+        LinkEnum.PLAYER_LIST,
+        LinkEnum.FAVORIT_LIST,
+        LinkEnum.BLACKLIST,
+        LinkEnum.USER_PROFILE,
+        LinkEnum.OPTIONS,
+        LinkEnum.PLAYER_PROFILE
+    ]
+
+    static visit(linkEnum: LinkEnum, visitor: LinkEnumVisitorInterface): void {
+        if (LinkEnum.HOME == linkEnum) {
             visitor.home();
-        } else if(LinkEnum.CREATE_TEAM == linkEnum) {
+        } else if (LinkEnum.CREATE_TEAM == linkEnum) {
             visitor.createTeam();
-        } else if(LinkEnum.MYTEAM == linkEnum) {
+        } else if (LinkEnum.MYTEAM == linkEnum) {
             visitor.myTeam();
-        } else if(LinkEnum.PLAYER_LIST == linkEnum) {
+        } else if (LinkEnum.PLAYER_LIST == linkEnum) {
             visitor.playerList();
-        } else if(LinkEnum.FAVORIT_LIST == linkEnum) {
+        } else if (LinkEnum.FAVORIT_LIST == linkEnum) {
             visitor.favoriteList();
-        } else if(LinkEnum.BLACKLIST == linkEnum) {
+        } else if (LinkEnum.BLACKLIST == linkEnum) {
             visitor.blackList();
-        } else if(LinkEnum.USER_PROFILE == linkEnum) {
+        } else if (LinkEnum.USER_PROFILE == linkEnum) {
             visitor.userProfile();
-        } else if(LinkEnum.OPTIONS == linkEnum) {
+        } else if (LinkEnum.OPTIONS == linkEnum) {
             visitor.options();
         } else {
             throw new Error("link " + linkEnum.description + " not found");
         }
     }
 
-    static visitAndReturn<I>(linkEnum:LinkEnum, visitor:LinkEnumVisitorWithReturnInterface<I>) : I {
-        if(LinkEnum.HOME == linkEnum) {
+    static visitAndReturn<I>(linkEnum: LinkEnum, visitor: LinkEnumVisitorWithReturnInterface<I>): I {
+        if (LinkEnum.HOME == linkEnum) {
             return visitor.home();
-        } else if(LinkEnum.CREATE_TEAM == linkEnum) {
+        } else if (LinkEnum.CREATE_TEAM == linkEnum) {
             return visitor.createTeam();
-        } else if(LinkEnum.MYTEAM == linkEnum) {
+        } else if (LinkEnum.MYTEAM == linkEnum) {
             return visitor.myTeam();
-        } else if(LinkEnum.PLAYER_LIST == linkEnum) {
+        } else if (LinkEnum.PLAYER_LIST == linkEnum) {
             return visitor.playerList();
-        } else if(LinkEnum.FAVORIT_LIST == linkEnum) {
+        } else if (LinkEnum.FAVORIT_LIST == linkEnum) {
             return visitor.favoriteList();
-        } else if(LinkEnum.BLACKLIST == linkEnum) {
+        } else if (LinkEnum.BLACKLIST == linkEnum) {
             return visitor.blackList();
-        } else if(LinkEnum.USER_PROFILE == linkEnum) {
+        } else if (LinkEnum.USER_PROFILE == linkEnum) {
             return visitor.userProfile();
-        } else if(LinkEnum.OPTIONS == linkEnum) {
+        } else if (LinkEnum.OPTIONS == linkEnum) {
             return visitor.options();
         } else {
             throw new Error("link " + linkEnum.description + " not found");
         }
+    }
+
+    static values(): LinkEnum[] {
+        return LinkEnum.links;
     }
 }

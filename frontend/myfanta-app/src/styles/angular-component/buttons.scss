@@ -73,7 +73,7 @@ button {
     &-toolbar {
         height: calc($toolbar-height-mobile * 0.6);
         background-color: inherit !important;
-        width: min-content;
+        width: max-content;
     }
     
     &-toolbar:hover {

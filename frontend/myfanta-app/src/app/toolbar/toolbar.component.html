@@ -1,145 +1,67 @@
 <p-toast [breakpoints]="{'768px' : {width: '100%', right: '0', left: '0'}}"></p-toast>
-<mat-toolbar class="toolbar elevation-6 primary-color-dark">
+<p-toolbar styleClass="toolbar elevation-6">
 
-  <!-- PRIMA RIGA (sempre visibile) -->
-  <mat-toolbar-row class="toolbar-row" #toolbarFirstRow>
+  <!-- Gruppo pulsanti iniziali -->
+  <div class="p-toolbar-group-start">
 
-    <div class="width-full flex align-items-center gap-3">
+    <!-- Pulsante visualizzazione sidebar -->
+    <div *ngIf="isMobileOrTabletView()">
+      <p-button icon="pi pi-bars" [style]="{'color' : 'black'}" 
+        styleClass="btn-toolbar p-button-text"
+        [ngStyle]="{'margin-right-3' : !isMobileView()}"
+        (onClick)="toogleSidebar()" />
+    </div>
 
-      <!-- Link alla pagina di Home -->
-      <div>
-        <button mat-flat-button (click)="routerService.goToHomePage()" class="btn-toolbar">
-          <h2 class="weight-medium title-menu">FantasyTeam</h2>
-        </button>
-      </div>
+    <!-- Link alla pagina di Home -->
+    <div>
+      <p-button (click)="routerService.goToHomePage()" styleClass="btn-toolbar border-none">
+        <span class="weight-medium title-menu txt-2xl">FantasyTeam</span>
+      </p-button>
+    </div>
+  </div>
 
-      <!-- Visibili solo su schermi largezza > 992px -->
-      <ng-container *ngIf="isSecondToolbarRowHidden() && isLeagueSelected()">
+  <!-- Gruppo pulsanti finali -->
+  <div class="p-toolbar-group-end">
 
-        <!-- Link alla pagina Create team -->
-        <button mat-flat-button class="btn-toolbar"
-          [ngClass]="isCreateTeamLinkSelected() ? 'btn-toolbar-link' : 'primary-color-dark'"
-          (click)="routerService.goToMyTeamPage()">
-          <span class="txt-lg" [ngClass]="{'weight-medium' : routerService.currentPageIsMyTeam()}">
-            {{ linkEnum.CREATE_TEAM.description }}
-          </span>
-        </button>
+    <!-- Pulsante Login -->
+    <div>
 
-        <!-- Link alla pagina Options -->
-        <button mat-flat-button class="btn-toolbar"
-          [ngClass]="routerService.currentPageIsOptions() ? 'btn-toolbar-link' : 'primary-color-dark'"
-          (click)="routerService.goToOptionsPage()">
-          <span class="txt-lg" [ngClass]="{'weight-medium' : routerService.currentPageIsOptions()}">
-            {{ linkEnum.OPTIONS.description }}
-          </span>
-        </button>
+      <!-- Utente non autenticato -->
+      <ng-container *ngIf="!userLogged">
 
-        <!-- link alla pagina Player list-->
-        <button mat-flat-button class="btn-toolbar"
-          [ngClass]="routerService.currentPageIsPlayerList() ? 'btn-toolbar-link' : 'primary-color-dark'"
-          (click)="routerService.goToPlayerListPage()">
-          <span class="txt-lg" [ngClass]="{'weight-medium' : routerService.currentPageIsPlayerList()}">
-            {{ linkEnum.PLAYER_LIST.description }}
-          </span>
-        </button>
+        <p-button styleClass="btn-toolbar p-button-text" [ngStyle]="{'p-button-rounded' : isMobileView()}"
+          (click)="openLoginDialog()">
+          <i class="pi pi-user" style="color: black;"></i>
+          <span *ngIf="!isMobileView()" class="margin-left-3 txt-lg">Login</span>
+        </p-button>
 
       </ng-container>
 
-      <!-- Pulsante Login -->
-      <div class="flex flex-1 justify-content-end">
-
-        <!-- Caso utente non autenticato -->
-        <ng-container *ngIf="!userLogged">
-
-          <!-- Visualizzazione standard -->
-          <button mat-flat-button class="btn-toolbar" *ngIf="!isMobileView()" (click)="openLoginDialog()">
-            <mat-icon class="icon-size">account_circle</mat-icon>
-            <span class="txt-lg">Login</span>
-          </button>
-
-          <!-- Visualizzazione mobile -->
-          <button mat-icon-button *ngIf="isMobileView()" (click)="openLoginDialog()">
-            <mat-icon class="icon-size">account_circle</mat-icon>
-          </button>
-
-        </ng-container>
-
-        <!-- Caso utente autenticato -->
-        <ng-container *ngIf="userLogged">
-
-          <div class="user-btn-container flex align-items-center" (click)="menu.toggle($event)">            
-            <app-avatar [viewSmallAvatar]="true"></app-avatar>
-            <div class="margin-left-4" *ngIf="!isMobileView()">
-              <span class="txt-lg">{{ getUsername() }}</span>
-            </div>
+      <!-- Utente autenticato -->
+      <ng-container *ngIf="userLogged">
+        <div class="user-btn-container flex align-items-center" (click)="userMenu.toggle($event)">
+          <app-avatar [viewSmallAvatar]="true"></app-avatar>
+          <div class="margin-left-3" *ngIf="!isMobileView()">
+            <span class="txt-lg">{{ getUsername() }}</span>
           </div>
+        </div>
 
-          <!-- Menu -->
-          <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
-
-        </ng-container>
-
-      </div>
+        <!-- Menu -->
+        <p-tieredMenu #userMenu [model]="items" [popup]="true" [autoZIndex]="false"></p-tieredMenu>
+      </ng-container>
     </div>
-  </mat-toolbar-row>
 
-  <!-- SECONDA RIGA -->
-  <mat-toolbar-row *ngIf="!isSecondToolbarRowHidden() && isLeagueSelected()" 
-    class="toolbar-row" #toolbarSecondRow>
+  </div>
+</p-toolbar>
 
-    <div class="width-full flex align-items-center from-sm-gap-3">
-
-      <!-- Link alla pagina Create team -->
-      <div class="flex flex-1 justify-content-center">
-        <button mat-flat-button class="btn-toolbar"
-          [ngClass]="isCreateTeamLinkSelected() ? 'btn-toolbar-link' : 'primary-color-dark'"
-          (click)="routerService.goToMyTeamPage()">
-          <span *ngIf="!isMobileView()" class="txt-base"
-            [ngClass]="{'weight-medium' : routerService.currentPageIsMyTeam()}">
-            {{ linkEnum.CREATE_TEAM.description }}
-          </span>
-
-          <span *ngIf="isMobileView()" class="txt-sm sm-txt-base"
-            [ngClass]="{'weight-medium' : routerService.currentPageIsMyTeam()}">
-            {{ linkEnum.CREATE_TEAM.shortDescription }}
-          </span>
-        </button>
-      </div>
-
-      <!-- Link alla pagina Options -->
-      <div class="flex flex-1 justify-content-center">
-        <button mat-flat-button class="btn-toolbar "
-          [ngClass]="routerService.currentPageIsOptions() ? 'btn-toolbar-link' : 'primary-color-dark'"
-          (click)="routerService.goToOptionsPage()">
-          <span *ngIf="!isMobileView()" class="txt-base"
-            [ngClass]="{'weight-medium' : routerService.currentPageIsOptions()}">
-            {{ linkEnum.OPTIONS.description }}
-          </span>
-
-          <span *ngIf="isMobileView()" class="txt-sm sm-txt-base"
-            [ngClass]="{'weight-medium' : routerService.currentPageIsOptions()}">
-            {{ linkEnum.OPTIONS.shortDescription }}
-          </span>
-        </button>
-      </div>
-
-      <!-- link alla pagina Player list-->
-      <div class="flex flex-1 justify-content-center">
-        <button mat-flat-button class="btn-toolbar"
-          [ngClass]="routerService.currentPageIsPlayerList() ? 'btn-toolbar-link' : 'primary-color-dark'"
-          (click)="routerService.goToPlayerListPage()">
-          <span *ngIf="!isMobileView()" class="txt-base"
-            [ngClass]="{'weight-medium' : routerService.currentPageIsPlayerList()}">
-            {{ linkEnum.PLAYER_LIST.description }}
-          </span>
-
-          <span *ngIf="isMobileView()" class="txt-sm sm-txt-base"
-            [ngClass]="{'weight-medium' : routerService.currentPageIsPlayerList()}">
-            {{ linkEnum.PLAYER_LIST.shortDescription }}
-          </span>
-        </button>
-      </div>
-
-    </div>
-  </mat-toolbar-row>
-</mat-toolbar>
+<!-- Sidebar -->
+<div>
+  <p-sidebar [visible]="showSidebar" 
+    [modal]="true"
+    styleClass="width-12rem"
+    (onHide)="toogleSidebar()">
+  
+    <app-menu></app-menu>
+  
+  </p-sidebar>
+</div>

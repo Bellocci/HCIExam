@@ -40,7 +40,7 @@ $primary: (
 
 @each $name, $value in $primary {
     .primary-#{$name} {
-        background-color: $value;
+        background-color: $value !important;
     }
 }
 
@@ -48,7 +48,7 @@ $primary: (
     @include respond-between($breakpoint-name) {
         @each $primary-color-name, $primary-color-value in $primary {
             .#{$breakpoint-name}-primary-#{$primary-color-name} {
-                background-color: $primary-color-value;
+                background-color: $primary-color-value !important;
             }
         }
     }
@@ -61,7 +61,7 @@ $primary-hover: (
 
 @each $name, $value in $primary-hover {
     .primary-#{$name}-hover:hover {
-        background-color: $value;
+        background-color: $value !important;
     }
 }
 

@@ -11,6 +11,17 @@ TOOLBAR
 ========
 */
 
+.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 1100;    
+    min-height: $toolbar-height-mobile;
+    padding: 1rem;
+    border-radius: 0;
+    border-width: 0;
+    background-color: $primary-color-dark;
+}
+
 .title-menu {
     font-family: fantasy;
     font-style: italic;

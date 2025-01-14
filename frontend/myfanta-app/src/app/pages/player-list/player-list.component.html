@@ -1,110 +1,48 @@
-<mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport
-        [attr.role]="'dialog'"
-        [mode]="isMobileOrTabletBreakpointActive ? 'over' : 'side'"
-        [opened]="!isMobileOrTabletBreakpointActive">
+<div class="flex">
 
-        <!-- TODO: quando si preme su un link e siamo su quella pagina i filtri ed i giocatori visualizzati non devono essere resettati-->
+    <!-- Sidebar -->
+    <div>
+        <p-sidebar [visible]="isSidebarVisibile" [modal]="false" 
+            [showCloseIcon]="false" 
+            [autoZIndex]="false"
+            styleClass="top-auto width-15rem">
 
-        <!-- Link alle pagine -->
-        <div class="link-menu-container">
-            <mat-nav-list>
+            <h4>Pagine</h4>
+            <!-- Link pagine -->
+            <p-listbox
+                [options]="links"
+                optionLabel="description"
+                styleClass="border-none"
+                (onClick)="goToPage($event)">
 
-                <!-- Link alla pagina 'myTeam' -->
-                <a mat-list-item [activated]="routerService.currentPageIsMyTeam()" class="container-small"
-                    [ngClass]="{'primary-color-light' : routerService.currentPageIsMyTeam()}"
-                    (click)="routerService.goToMyTeamPage()">
-                    <span class="label" [ngClass]="{'bold' : routerService.currentPageIsMyTeam()}">
-                        {{ linkEnum.MYTEAM.description }}
-                    </span>
-                </a>
+                <ng-template let-link pTemplate="item">
+                    <div class="flex align-items-center column-gap-2">
+                        <i class="pi pi-caret-right"></i>
+                        <div>{{ link.description }}</div>
+                    </div>
+                </ng-template>
+            </p-listbox>
 
-                <!-- Link alla pagina 'favoriteList' -->
-                <a mat-list-item [activated]="routerService.currentPageIsFavoritList()" class="container-small"
-                    [ngClass]="{'primary-color-light' : routerService.currentPageIsFavoritList()}"
-                    (click)="routerService.goToFavoritListPage()">
-                    <span class="label" [ngClass]="{'bold' : routerService.currentPageIsFavoritList()}">
-                        {{ linkEnum.FAVORIT_LIST.description }}
-                    </span>
-                </a>
+            <p-divider />
 
-                <!-- Link alla pagina 'blacklist' -->
-                <a mat-list-item [activated]="routerService.currentPageIsBlacklist()" class="container-small"
-                    [ngClass]="{'primary-color-light' : routerService.currentPageIsBlacklist()}"
-                    (click)="routerService.goToBlacklistPage()">
-                    <span class="label" [ngClass]="{'bold' : routerService.currentPageIsBlacklist()}">
-                        {{ linkEnum.BLACKLIST.description }}
-                    </span>
-                </a>
-
-                <!-- Link alla pagina 'playerList' -->
-                <a mat-list-item [activated]="routerService.currentPageIsPlayerList()" class="container-small"
-                    [ngClass]="{'primary-color-light' : routerService.currentPageIsPlayerList()}"
-                    (click)="routerService.goToPlayerListPage()">
-                    <span class="label" [ngClass]="{'bold' : routerService.currentPageIsPlayerList()}">
-                        {{ linkEnum.PLAYER_LIST.description }}
-                    </span>
-                </a>
-
-            </mat-nav-list>
-
-            <mat-divider class="full-width"></mat-divider>
-
-            <!-- Pulsante di salvataggio -->
-            <div class="container-small flex-center-wrap" *ngIf="isSaveBtnRendered()">
-                <button mat-raised-button class="btn-small width-80" (click)="saveTeam()">
-                    <mat-icon>save</mat-icon>
-                    Salva
-                </button>
+            <!-- Pulsante salvataggio squadra nella corrente selezione  -->
+            <div class="margin-right-7 width-full">
+                <p-button styleClass="width-full p-button-raised secondary-color border-none" 
+                    pTooltip="Salva" tooltipPosition="bottom">
+                    <i class="pi pi-save" style="color: black"></i>
+                    <label class="margin-left-3 txt-lg cursor-pointer">Salva</label>
+                </p-button>
             </div>
 
             <!-- Pulsante di salvataggio e creazione nuova squadra -->
-            <div class="container-small flex-center-wrap" *ngIf="isSaveNewTeamBtnRendered()">
-                <button mat-raised-button class="btn-small width-80" (click)="openCreateNewTeamDialog()">
-                    <mat-icon>save</mat-icon>
-                    Salva nuova squadra
-                </button>
+            <div class="margin-right-7 margin-top-7 width-full">
+                <p-button styleClass="width-full p-button-raised secondary-color border-none" 
+                    pTooltip="Salva" tooltipPosition="bottom">
+                    <i class="pi pi-save" style="color: black"></i>
+                    <label class="margin-left-3 txt-lg cursor-pointer">Crea nuova squadra</label>
+                </p-button>
             </div>
 
-        </div>
-
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-
-        <!-- Toolbar menu visibile solo in versione mobile o Tablet -->
-        <mat-toolbar class="primary-color-light mat-elevation-z1 toolbar"
-            *ngIf="isMobileOrTabletBreakpointActive">
-
-            <mat-toolbar-row class="toolbar-row flex-center-wrap">
-                <button mat-flat-button aria-label="Toggle sidenav" class="btn-standard label no-color no-padding"
-                    (click)="drawer.toggle()">
-                    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-                    Liste giocatori
-                </button>
-            </mat-toolbar-row>
-        </mat-toolbar>
-
-        <!-- Contenuto della pagina -->
-        <div class="margin-large custom-page-container">
-
-            <div>
-                <!-- Opzioni di filtro visualizzati nella pagina 'myTeams' -->
-                <ng-container *ngIf="isOptionFilterRendered()">
-                    <app-option-filter (optionToSend)="updateOption($event)"></app-option-filter>
-                </ng-container>
-
-                <!-- Opzioni di ricerca dei giocatori -->
-                <ng-container *ngIf="isTableFilterRendered()">
-                    <app-option-player-search></app-option-player-search>
-                </ng-container>
-            </div>
-
-            <!-- Tabella giocatori -->
-            <div class="container-large" id="tableContainer">
-                <app-table [playersList]="getPlayersList()"></app-table>
-            </div>
-
-        </div>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+        </p-sidebar>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SessionStorageService } from './service/session-storage.service';
 import { Observable, Subscription } from 'rxjs';
 import { InternalDataService } from './service/internal-data.service';
@@ -14,7 +14,7 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./app.component.scss'],
   providers: [MessageService]
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'myfanta-app';
 
   /*
@@ -27,11 +27,11 @@ export class AppComponent implements OnDestroy {
   private _subscriptionLeagueSelectedObservable: Subscription | undefined;
 
   private _isMobileOrTabletBreakpointActive: boolean = false;
-  private _subscriptionToMobileOrTabletBreakpointObservable: Subscription;
+  private _subscriptionToMobileOrTabletBreakpointObservable!: Subscription; 
 
-  /**
+  /*
    * ========================
-   * CONSTRUCTOR & DESTROYER
+   * CONSTRUCTOR - INIT - DESTROYER
    * ========================
    */
 
@@ -41,12 +41,15 @@ export class AppComponent implements OnDestroy {
     private snackbarService: SnackBarService,
     private breakpointsService: BreakpointsService) {
 
-    console.log("Construct FantasyTeam app component");
-    
+    console.log("Construct FantasyTeam app component");      
+  }
+
+  ngOnInit(): void {
     this.isMobileOrTabletBreakpointActive = BreakpointsService.isMobileOrTabletBreakpointActive(window.innerWidth);
     this._subscriptionLeagueSelectedObservable = this.observeLeagueSelected();
     this._subscriptionToMobileOrTabletBreakpointObservable = this.observeMobileOrTabletBreakpoint();
   }
+  
 
   public ngOnDestroy(): void {
     console.log("Destroy the app");

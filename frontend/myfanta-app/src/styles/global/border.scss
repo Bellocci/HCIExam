@@ -1,0 +1,505 @@
+@import "breakpoints";
+@import "variables";
+
+/*
+==============
+BORDER RADIUS
+==============
+*/
+
+$border-radius : (
+    "noround" : 0px,
+    "round" : "var($border-radius)",
+    "round-xs" : 0.125rem,
+    "round-sm" : 0.25rem,
+    "round-md" : 0.375rem,
+    "round-lg" : 0.5rem,
+    "round-xl" : 0.75rem,
+    "round-2xl" : 1rem,
+    "round-3xl" : 1.25rem,
+    "round-4xl" : 1.5rem,
+    "border-circle" : 50%,    
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $border-radius {
+    .border-#{$name} {
+        border-radius: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $border-radius-name, $border-radius-value in $border-radius {
+            .#{$breakpoint-name}-border-#{$border-radius-name} {
+                border-radius: $border-radius-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $border-radius-name, $border-radius-value in $border-radius {
+            .from-#{$breakpoint-name}-border-#{$border-radius-name} {
+                border-radius: $border-radius-value;
+            }
+        }
+    }
+}
+
+/*
+===================
+BORDER RADIUS LEFT
+===================
+*/
+
+$border-radius-left : (
+    "noround-left" : 0px,
+    "round-left" : "var($border-radius)",
+    "round-left-xs" : 0.125rem,
+    "round-left-sm" : 0.25rem,
+    "round-left-md" : 0.375rem,
+    "round-left-lg" : 0.5rem,
+    "round-left-xl" : 0.75rem,
+    "round-left-2xl" : 1rem,
+    "round-left-3xl" : 1.25rem,
+    "round-left-4xl" : 1.5rem,
+    "circle-left" : 50%,
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $border-radius-left {
+    .border-#{$name} {
+        border-top-left-radius: $value;
+        border-bottom-left-radius: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $border-radius-name, $border-radius-value in $border-radius-left {
+            .#{$breakpoint-name}-border-#{$border-radius-name} {
+                border-top-left-radius: $border-radius-value;
+                border-bottom-left-radius: $border-radius-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $border-radius-name, $border-radius-value in $border-radius-left {
+            .from-#{$breakpoint-name}-border-#{$border-radius-name} {
+                border-top-left-radius: $border-radius-value;
+                border-bottom-left-radius: $border-radius-value;
+            }
+        }
+    }
+}
+
+/*
+==================
+BORDER RADIUS TOP
+==================
+*/
+
+$border-radius-top : (
+    "noround-top" : 0px,
+    "round-top" : "var($border-radius)",
+    "round-top-xs" : 0.125rem,
+    "round-top-sm" : 0.25rem,
+    "round-top-md" : 0.375rem,
+    "round-top-lg" : 0.5rem,
+    "round-top-xl" : 0.75rem,
+    "round-top-2xl" : 1rem,
+    "round-top-3xl" : 1.25rem,
+    "round-top-4xl" : 1.5rem,
+    "circle-top" : 50%,
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $border-radius-top {
+    .border-#{$name} {
+        border-top-left-radius: $value;
+        border-top-right-radius: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $border-radius-name, $border-radius-value in $border-radius-top {
+            .#{$breakpoint-name}-border-#{$border-radius-name} {
+                border-top-left-radius: $border-radius-value;
+                border-top-right-radius: $border-radius-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $border-radius-name, $border-radius-value in $border-radius-top {
+            .from-#{$breakpoint-name}-border-#{$border-radius-name} {
+                border-top-left-radius: $border-radius-value;
+                border-top-right-radius: $border-radius-value;
+            }
+        }
+    }
+}
+
+/*
+====================
+BORDER RADIUS RIGHT
+====================
+*/
+
+$border-radius-right : (
+    "noround-right" : 0px,
+    "round-right" : "var($border-radius)",
+    "round-right-xs" : 0.125rem,
+    "round-right-sm" : 0.25rem,
+    "round-right-md" : 0.375rem,
+    "round-right-lg" : 0.5rem,
+    "round-right-xl" : 0.75rem,
+    "round-right-2xl" : 1rem,
+    "round-right-3xl" : 1.25rem,
+    "round-right-4xl" : 1.5rem,
+    "circle-right" : 50%,
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $border-radius-right {
+    .border-#{$name} {
+        border-top-right-radius: $value;
+        border-bottom-right-radius: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $border-radius-name, $border-radius-value in $border-radius-right {
+            .#{$breakpoint-name}-border-#{$border-radius-name} {
+                border-top-right-radius: $border-radius-value;
+                border-bottom-right-radius: $border-radius-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $border-radius-name, $border-radius-value in $border-radius-right {
+            .from-#{$breakpoint-name}-border-#{$border-radius-name} {
+                border-top-right-radius: $border-radius-value;
+                border-bottom-right-radius: $border-radius-value;
+            }
+        }
+    }
+}
+
+/*
+=====================
+BORDER RADIUS BOTTOM
+=====================
+*/
+
+$border-radius-bottom : (
+    "noround-bottom" : 0px,
+    "round-bottom" : "var($border-radius)",
+    "round-bottom-xs" : 0.125rem,
+    "round-bottom-sm" : 0.25rem,
+    "round-bottom-md" : 0.375rem,
+    "round-bottom-lg" : 0.5rem,
+    "round-bottom-xl" : 0.75rem,
+    "round-bottom-2xl" : 1rem,
+    "round-bottom-3xl" : 1.25rem,
+    "round-bottom-4xl" : 1.5rem,            
+    "circle-bottom" : 50%
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $border-radius-bottom {
+    .border-#{$name} {
+        border-bottom-left-radius: $value;
+        border-bottom-right-radius: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $border-radius-name, $border-radius-value in $border-radius-bottom {
+            .#{$breakpoint-name}-border-#{$border-radius-name} {
+                border-bottom-left-radius: $border-radius-value;
+                border-bottom-right-radius: $border-radius-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $border-radius-name, $border-radius-value in $border-radius-bottom {
+            .from-#{$breakpoint-name}-border-#{$border-radius-name} {
+                border-bottom-left-radius: $border-radius-value;
+                border-bottom-right-radius: $border-radius-value;
+            }
+        }
+    }
+}
+
+/*
+==============
+BORDER WIDTH
+==============
+*/
+
+$border-width : (
+    "none" : 0px,
+    "1" : 1px,
+    "2" : 2px,
+    "3" : 3px,
+);
+
+// Ciclo per generare le classi standard
+@each $name, $value in $border-width {
+    .border-#{$name} {
+        border-width: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .#{$breakpoint-name}-border-#{$border-width-name} {
+                border-width: $border-width-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .from-#{$breakpoint-name}-border-#{$border-width-name} {
+                border-width: $border-width-value;
+            }
+        }
+    }
+}
+
+/*
+========================
+BORDER WIDTH LEFT RIGHT
+========================
+*/
+
+// Ciclo per generare le classi standard
+@each $name, $value in $border-width {
+    .border-x-#{$name} {
+        border-left-width: $value;
+        border-right-width: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .#{$breakpoint-name}-border-x-#{$border-width-name} {
+                border-left-width: $border-width-value;
+                border-right-width: $border-width-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .from-#{$breakpoint-name}-border-x-#{$border-width-name} {
+                border-left-width: $border-width-value;
+                border-right-width: $border-width-value;
+            }
+        }
+    }
+}
+
+/*
+========================
+BORDER WIDTH TOP BOTTOM
+========================
+*/
+
+// Ciclo per generare le classi standard
+@each $name, $value in $border-width {
+    .border-y-#{$name} {
+        border-top-width: $value;
+        border-bottom-width: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .#{$breakpoint-name}-border-y-#{$border-width-name} {
+                border-top-width: $border-width-value;
+                border-bottom-width: $border-width-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .from-#{$breakpoint-name}-border-y-#{$border-width-name} {
+                border-top-width: $border-width-value;
+                border-bottom-width: $border-width-value;
+            }
+        }
+    }
+}
+
+/*
+==================
+BORDER WIDTH LEFT
+==================
+*/
+
+// Ciclo per generare le classi standard
+@each $name, $value in $border-width {
+    .border-left-#{$name} {
+        border-left-width: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .#{$breakpoint-name}-border-left-#{$border-width-name} {
+                border-left-width: $border-width-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .from-#{$breakpoint-name}-border-left-#{$border-width-name} {
+                border-left-width: $border-width-value;
+            }
+        }
+    }
+}
+
+/*
+=================
+BORDER WIDTH TOP
+=================
+*/
+
+// Ciclo per generare le classi standard
+@each $name, $value in $border-width {
+    .border-top-#{$name} {
+        border-top-width: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .#{$breakpoint-name}-border-top-#{$border-width-name} {
+                border-top-width: $border-width-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .from-#{$breakpoint-name}-border-top-#{$border-width-name} {
+                border-top-width: $border-width-value;
+            }
+        }
+    }
+}
+
+/*
+====================
+BORDER WIDTH BOTTOM
+====================
+*/
+
+// Ciclo per generare le classi standard
+@each $name, $value in $border-width {
+    .border-bottom-#{$name} {
+        border-bottom-width: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .#{$breakpoint-name}-border-bottom-#{$border-width-name} {
+                border-bottom-width: $border-width-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .from-#{$breakpoint-name}-border-bottom-#{$border-width-name} {
+                border-bottom-width: $border-width-value;
+            }
+        }
+    }
+}
+
+/*
+===================
+BORDER WIDTH RIGHT
+===================
+*/
+
+// Ciclo per generare le classi standard
+@each $name, $value in $border-width {
+    .border-right-#{$name} {
+        border-right-width: $value;
+    }
+}
+
+// Ciclo per generare le classi responsive
+@each $breakpoint-name, $breakpoint-size in $breakpoints-between {
+    @include respond-between($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .#{$breakpoint-name}-border-right-#{$border-width-name} {
+                border-right-width: $border-width-value;
+            }
+        }
+    }
+}
+
+@each $breakpoint-name, $breakpoint-size in $breakpoints {
+    @include respond-from($breakpoint-name) {
+        @each $border-width-name, $border-width-value in $border-width {
+            .from-#{$breakpoint-name}-border-right-#{$border-width-name} {
+                border-right-width: $border-width-value;
+            }
+        }
+    }
+}

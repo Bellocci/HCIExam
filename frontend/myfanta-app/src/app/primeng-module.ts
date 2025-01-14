@@ -6,6 +6,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from "primeng/button";
 import { DataViewModule, DataViewLayoutOptions } from 'primeng/dataview';
 import { DeferModule } from "primeng/defer";
+import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ListboxModule } from 'primeng/listbox';
@@ -31,6 +32,7 @@ import { ToolbarModule } from 'primeng/toolbar';
         ButtonModule,
         DataViewModule,    
         DeferModule,
+        DividerModule,
         DropdownModule,
         DynamicDialogModule,
         ListboxModule,
