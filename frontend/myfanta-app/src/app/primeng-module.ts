@@ -5,6 +5,7 @@ import { AnimateModule } from "primeng/animate";
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from "primeng/button";
 import { CheckboxModule } from 'primeng/checkbox';
+import { ChipModule } from 'primeng/chip';
 import { DataViewModule, DataViewLayoutOptions } from 'primeng/dataview';
 import { DeferModule } from "primeng/defer";
 import { DividerModule } from 'primeng/divider';
@@ -17,6 +18,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { MessagesModule } from 'primeng/messages';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { PanelModule } from "primeng/panel";
 import { PasswordModule } from 'primeng/password';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -36,6 +38,7 @@ import { ToolbarModule } from 'primeng/toolbar';
         AvatarModule,
         ButtonModule,
         CheckboxModule,
+        ChipModule,
         DataViewModule,    
         DeferModule,
         DividerModule,
@@ -48,6 +51,7 @@ import { ToolbarModule } from 'primeng/toolbar';
         InputTextModule,
         KeyFilterModule,
         MessagesModule,
+        MultiSelectModule,
         PanelModule,
         PasswordModule,
         RadioButtonModule,

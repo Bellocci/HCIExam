@@ -6,6 +6,8 @@ import { InternalDataService } from 'src/app/service/internal-data.service';
 import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { SportEnum } from 'src/enum/SportEnum.model';
 import { SportEnumPlayerSearchCreatorVisitor } from 'src/visitor/sport-enum/SportEnumPlayerSearchRequestCreatorVisitor';
+import { Subscription } from 'rxjs';
+import { LoadDataService } from 'src/app/service/load-data.service';
 
 /*
 Metodo da utilizzare soprattutto per lo scroll della pagina quando si genera la squadra
@@ -45,9 +47,12 @@ export class OptionFilterComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() 
   private optionToSend:EventEmitter<PlayerSearchRequest> = new EventEmitter<PlayerSearchRequest>();
 
+  private _option!: PlayerSearchRequest;
   private _applyAdvancedSearch: boolean = false;  
+  private _teams: TeamEntity[] = [];
+  private _selectedTeams: Set<TeamEntity> = new Set();
 
-  private _option!: PlayerSearchRequest;  
+  private _subscriptionTeamsObservable: Subscription | undefined;
 
   /*
    * ============================
@@ -57,12 +62,14 @@ export class OptionFilterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private breakpointsService:BreakpointsService, 
       private internalDataService:InternalDataService,
+      private loadData:LoadDataService,
       private cdr: ChangeDetectorRef) {
     console.log("Construct Option filter component");
     
     let selectedLeague:LeagueEntity|null = this.internalDataService.getSelectedLeague();
     if(selectedLeague != null) {
       this.option = SportEnum.visitAndReturn(selectedLeague.sport, new SportEnumPlayerSearchCreatorVisitor());
+      this._subscriptionTeamsObservable = loadData.getTeams(selectedLeague).subscribe(result => this.teams = result);
     } else {
       this.option = new PlayerSearchRequest();
     }
@@ -79,6 +86,7 @@ export class OptionFilterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     console.log("Destroy option filter component");
+    this._subscriptionTeamsObservable != undefined ? this._subscriptionTeamsObservable.unsubscribe() : null;
   }  
 
   /*
@@ -98,8 +106,25 @@ export class OptionFilterComponent implements OnInit, AfterViewInit, OnDestroy {
   public get applyAdvancedSearch(): boolean {
     return this._applyAdvancedSearch;
   }
+
   public set applyAdvancedSearch(value: boolean) {
     this._applyAdvancedSearch = value;
+  }
+
+  public get teams(): TeamEntity[] {
+    return this._teams;
+  }
+
+  private set teams(value: TeamEntity[]) {
+    this._teams = value;
+  }
+
+  public get selectedTeams(): Set<TeamEntity> {
+    return this._selectedTeams;
+  }
+
+  public set selectedTeams(value: Set<TeamEntity>) {
+    this._selectedTeams = value;
   }
 
   /*

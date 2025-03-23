@@ -34,7 +34,6 @@ import { MatListModule } from '@angular/material/list';
 import { OptionsFootballComponent } from './pages/options/options-football/options-football.component';
 import { OptionsVolleyballComponent } from './pages/options/options-volleyball/options-volleyball.component';
 import { OptionsBasketballComponent } from './pages/options/options-basketball/options-basketball.component';
-import { TeamListResponsiveComponent } from './components/team-list-responsive/team-list-responsive.component';
 import { OptionPlayerSearchComponent } from './components/option-player-search/option-player-search.component';
 import { UserProfileStandardComponent } from './pages/user-page/user-profile-standard/user-profile-standard.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
@@ -70,7 +69,6 @@ export function initializeApp(appInitService: AppInitService) {
     OptionsFootballComponent,
     OptionsVolleyballComponent,
     OptionsBasketballComponent,
-    TeamListResponsiveComponent,
     OptionPlayerSearchComponent,
     UserProfileStandardComponent,
     AvatarComponent,
