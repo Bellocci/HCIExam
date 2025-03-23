@@ -142,6 +142,12 @@ $weights: (
     }
 }
 
+@each $name, $value in $weights {
+    .weight-i-#{$name} {
+        font-weight: $value !important;
+    }
+}
+
 // Ciclo per generare le classi responsive
 @each $breakpoint-name, $breakpoint-size in $breakpoints-between {
     @include respond-between($breakpoint-name) {

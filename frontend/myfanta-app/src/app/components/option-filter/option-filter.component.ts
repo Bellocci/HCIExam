@@ -1,9 +1,11 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { StandardOption } from 'src/decorator/option/standard-option.model';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { TeamEntity } from 'src/model/teamEntity.model';
 import { BreakpointsService } from 'src/app/service/breakpoints.service';
-import { Subscription } from 'rxjs';
-import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
+import { PlayerSearchRequest } from 'src/rest-client/PlayerSearchRequest';
+import { InternalDataService } from 'src/app/service/internal-data.service';
+import { LeagueEntity } from 'src/model/leagueEntity.model';
+import { SportEnum } from 'src/enum/SportEnum.model';
+import { SportEnumPlayerSearchCreatorVisitor } from 'src/visitor/sport-enum/SportEnumPlayerSearchRequestCreatorVisitor';
 
 /*
 Metodo da utilizzare soprattutto per lo scroll della pagina quando si genera la squadra
@@ -30,9 +32,9 @@ createTeam(): void {
 @Component({
   selector: 'app-option-filter',
   templateUrl: './option-filter.component.html',
-  styleUrls: ['./option-filter.component.scss'],
+  styleUrls: ['./option-filter.component.scss']
 })
-export class OptionFilterComponent implements OnInit, OnDestroy {
+export class OptionFilterComponent implements OnInit, AfterViewInit, OnDestroy {
     
   /*
    * ==========
@@ -41,11 +43,11 @@ export class OptionFilterComponent implements OnInit, OnDestroy {
    */
 
   @Output() 
-  private optionToSend:EventEmitter<StandardOption> = new EventEmitter<StandardOption>();
+  private optionToSend:EventEmitter<PlayerSearchRequest> = new EventEmitter<PlayerSearchRequest>();
 
-  private _option!: StandardOption;  
-  private _isMobileOrMobileXLBreakpointActive: boolean = false;  
-  private _subscriptionToMobileOrMobileXLBreakpointObservable: Subscription;
+  private _applyAdvancedSearch: boolean = false;  
+
+  private _option!: PlayerSearchRequest;  
 
   /*
    * ============================
@@ -53,40 +55,31 @@ export class OptionFilterComponent implements OnInit, OnDestroy {
    * ============================
    */
 
-  constructor(private breakpointsService:BreakpointsService) {
-
+  constructor(private breakpointsService:BreakpointsService, 
+      private internalDataService:InternalDataService,
+      private cdr: ChangeDetectorRef) {
     console.log("Construct Option filter component");
     
-    this.option = new StandardOption();
-    this.isMobileOrMobileXLBreakpointActive = BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
-
-    this._subscriptionToMobileOrMobileXLBreakpointObservable = this.observeMobileOrMobileXLBreakpoint();
+    let selectedLeague:LeagueEntity|null = this.internalDataService.getSelectedLeague();
+    if(selectedLeague != null) {
+      this.option = SportEnum.visitAndReturn(selectedLeague.sport, new SportEnumPlayerSearchCreatorVisitor());
+    } else {
+      this.option = new PlayerSearchRequest();
+    }
   }  
   
   ngOnInit(): void {
     this.optionToSend.emit(this.option);
   }
 
+  ngAfterViewInit(): void {
+    // Forza Angular a controllare la vista corrente e aggiornare il DOM se ci sono cambiamenti.
+    this.cdr.detectChanges();
+  }
+
   ngOnDestroy(): void {
     console.log("Destroy option filter component");
-
-    this._subscriptionToMobileOrMobileXLBreakpointObservable.unsubscribe();
   }  
-
-  /*
-   * ===========
-   * OBSERVABLE 
-   * ===========
-   */
-
-  private observeMobileOrMobileXLBreakpoint() : Subscription {
-    return this.breakpointsService.mobileOrMobileXLObservable.subscribe(
-      new ObserverStepBuilder<boolean>()
-        .next(isActive => this.isMobileOrMobileXLBreakpointActive = isActive)
-        .error(err => console.log("Error while retriving mobile or mobile xl breakpoint : " + err))
-        .build()
-    );
-  }
 
   /*
    * ================
@@ -94,20 +87,19 @@ export class OptionFilterComponent implements OnInit, OnDestroy {
    * ================
    */
 
-  public get option(): StandardOption {
+  public get option(): PlayerSearchRequest {
     return this._option;
   }
 
-  public set option(value: StandardOption) {
+  public set option(value: PlayerSearchRequest) {
     this._option = value;
   }
 
-  public get isMobileOrMobileXLBreakpointActive(): boolean {
-    return this._isMobileOrMobileXLBreakpointActive;
+  public get applyAdvancedSearch(): boolean {
+    return this._applyAdvancedSearch;
   }
-
-  private set isMobileOrMobileXLBreakpointActive(value: boolean) {
-    this._isMobileOrMobileXLBreakpointActive = value;
+  public set applyAdvancedSearch(value: boolean) {
+    this._applyAdvancedSearch = value;
   }
 
   /*
@@ -117,12 +109,16 @@ export class OptionFilterComponent implements OnInit, OnDestroy {
    */
 
   isTeamSelected(team:TeamEntity) : boolean {
-    return this.option.selectedTeams.has(team);
+    return this.option.teams.has(team);
   }
 
   isClearSelectedTeamsEnabled() : boolean {
     // TODO: da implementare
     return false;
+  }
+
+  isMobileView() : boolean {
+    return BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
   }
 
   /*
@@ -132,7 +128,7 @@ export class OptionFilterComponent implements OnInit, OnDestroy {
    */
 
   changeSelectedList(team:TeamEntity) : void {    
-    this.option.selectedTeams.has(team) ? this.option.selectedTeams.delete(team) : this.option.selectedTeams.add(team);
+    this.option.teams.has(team) ? this.option.teams.delete(team) : this.option.teams.add(team);
     this.optionToSend.emit(this.option);
   }
 
@@ -164,17 +160,14 @@ export class OptionFilterComponent implements OnInit, OnDestroy {
   }
 
   checkFavoritePlayersAreIncluded(included:boolean) : void {
-    this.option.includeFavorite = included;
     this.optionToSend.emit(this.option);
   }
 
   checkBlacklistPlayersAreIncluded(included:boolean) : void {
-    this.option.includeBlacklist = included;
     this.optionToSend.emit(this.option);
   }
 
-  checkAdvancedFilterAreIncluded(included:boolean) : void {
-    this.option.includeAdvancedFilter = included;
+  checkAdvancedFilterAreIncluded() : void {
     this.optionToSend.emit(this.option);
   }  
 

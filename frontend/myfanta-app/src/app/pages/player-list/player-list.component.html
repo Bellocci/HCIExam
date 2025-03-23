@@ -1,48 +1,14 @@
-<div class="flex">
+<div class="margin-y-7 width-full">
 
-    <!-- Sidebar -->
-    <div>
-        <p-sidebar [visible]="isSidebarVisibile" [modal]="false" 
-            [showCloseIcon]="false" 
-            [autoZIndex]="false"
-            styleClass="top-auto width-15rem">
+    <!-- Opzioni di filtro visualizzati nella pagina 'myTeams' -->
+    <ng-container>
+        <div class="width-full">
+            <app-option-filter (optionToSend)="updateOption($event)"></app-option-filter>
+        </div>
+    </ng-container>
 
-            <h4>Pagine</h4>
-            <!-- Link pagine -->
-            <p-listbox
-                [options]="links"
-                optionLabel="description"
-                styleClass="border-none"
-                (onClick)="goToPage($event)">
-
-                <ng-template let-link pTemplate="item">
-                    <div class="flex align-items-center column-gap-2">
-                        <i class="pi pi-caret-right"></i>
-                        <div>{{ link.description }}</div>
-                    </div>
-                </ng-template>
-            </p-listbox>
-
-            <p-divider />
-
-            <!-- Pulsante salvataggio squadra nella corrente selezione  -->
-            <div class="margin-right-7 width-full">
-                <p-button styleClass="width-full p-button-raised secondary-color border-none" 
-                    pTooltip="Salva" tooltipPosition="bottom">
-                    <i class="pi pi-save" style="color: black"></i>
-                    <label class="margin-left-3 txt-lg cursor-pointer">Salva</label>
-                </p-button>
-            </div>
-
-            <!-- Pulsante di salvataggio e creazione nuova squadra -->
-            <div class="margin-right-7 margin-top-7 width-full">
-                <p-button styleClass="width-full p-button-raised secondary-color border-none" 
-                    pTooltip="Salva" tooltipPosition="bottom">
-                    <i class="pi pi-save" style="color: black"></i>
-                    <label class="margin-left-3 txt-lg cursor-pointer">Crea nuova squadra</label>
-                </p-button>
-            </div>
-
-        </p-sidebar>
+    <!-- Tabella dei giocatori -->
+    <div class="margin-y-7">
+        <app-table></app-table>
     </div>
 </div>

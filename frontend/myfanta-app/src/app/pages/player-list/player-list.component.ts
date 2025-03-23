@@ -4,7 +4,6 @@ import { TeamDataService } from '../../service/team-data.service';
 import { ObserverStepBuilder } from 'src/utility/observer-step-builder';
 import { LinkEnum } from 'src/enum/LinkEnum.model';
 import { RouterService } from 'src/app/service/router.service';
-import { StandardOption } from 'src/decorator/option/standard-option.model';
 import { UserService } from 'src/app/service/user.service';
 import { DialogService } from 'src/app/service/dialog.service';
 
@@ -25,6 +24,7 @@ import { UserTeamDialogDataBuilder } from 'src/app/Dialog/user-team-dialog/user-
 import { UserTeamDialogComponent } from 'src/app/Dialog/user-team-dialog/user-team-dialog.component';
 import { User } from 'src/decorator/user';
 import { ListboxClickEvent } from 'primeng/listbox';
+import { PlayerSearchRequest } from 'src/rest-client/PlayerSearchRequest';
 
 @Component({
   selector: 'app-player-list',
@@ -44,7 +44,7 @@ export class PlayerListComponent implements OnInit, OnDestroy {
 
   private _isSidebarVisibile = true;  
 
-  private _simpleOption!: StandardOption;
+  private _simpleOption!: PlayerSearchRequest;
   private option: OptionEntity | null = null;
   private leagueSelected: LeagueEntity | null = null;
   private _user!: User;
@@ -160,11 +160,11 @@ export class PlayerListComponent implements OnInit, OnDestroy {
     this._userTeam = value;
   }
 
-  public get simpleOption(): StandardOption {
+  public get simpleOption(): PlayerSearchRequest {
     return this._simpleOption;
   }
 
-  private set simpleOption(value: StandardOption) {
+  private set simpleOption(value: PlayerSearchRequest) {
     this._simpleOption = value;
   }
 
@@ -225,7 +225,7 @@ export class PlayerListComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateOption(option: StandardOption): void {
+  updateOption(option: PlayerSearchRequest): void {
     this.simpleOption = option;
   }
 

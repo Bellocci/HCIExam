@@ -67,3 +67,7 @@ Nasconde i pulsanti per incrementare e diminuire il valore nell'input text
     -webkit-appearance: none;
     margin: 0;
 }
+
+::ng-deep .p-inputtext {
+    width: 100%;
+}
