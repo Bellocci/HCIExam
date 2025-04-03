@@ -8,28 +8,7 @@ import { SportEnum } from 'src/enum/SportEnum.model';
 import { SportEnumPlayerSearchCreatorVisitor } from 'src/visitor/sport-enum/SportEnumPlayerSearchRequestCreatorVisitor';
 import { Subscription } from 'rxjs';
 import { LoadDataService } from 'src/app/service/load-data.service';
-
-/*
-Metodo da utilizzare soprattutto per lo scroll della pagina quando si genera la squadra
-createTeam(): void {
-    if (!this.simpleOption.includeAdvancedFilter) {
-      this.externalService.createTeamWithSimpleOption(this.simpleOption);
-    } else if (this.option != null && this.leagueSelected != null) {
-      this.externalService.createTeamWithAdvancedOption(this.option, this.leagueSelected.sport);
-    }
-
-    // Effettua lo scroll della pagina fino alla tabella dei giocatori
-    const tableContainer = document.querySelector('#tableContainer');
-    tableContainer?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-      inline: "nearest"
-    });
-
-    // TODO: Una volta terminato la creazione del team si visualizza un messaggio
-    this.snackbarService.openInfoSnackBar("Generazione del team terminata!");
-  }
-*/
+import { UserTeamService } from 'src/app/service/user-team.service';
 
 @Component({
   selector: 'app-option-filter',
@@ -45,13 +24,13 @@ export class OptionFilterComponent implements OnInit, AfterViewInit, OnDestroy {
    */
 
   @Output() 
-  private optionToSend:EventEmitter<PlayerSearchRequest> = new EventEmitter<PlayerSearchRequest>();
+  private playerSearchFilter:EventEmitter<PlayerSearchRequest> = new EventEmitter<PlayerSearchRequest>();
 
   private _option!: PlayerSearchRequest;
   private _applyAdvancedSearch: boolean = false;  
+  
   private _teams: TeamEntity[] = [];
   private _selectedTeams: Set<TeamEntity> = new Set();
-
   private _subscriptionTeamsObservable: Subscription | undefined;
 
   /*
@@ -63,6 +42,7 @@ export class OptionFilterComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private breakpointsService:BreakpointsService, 
       private internalDataService:InternalDataService,
       private loadData:LoadDataService,
+      private userTeamService:UserTeamService,
       private cdr: ChangeDetectorRef) {
     console.log("Construct Option filter component");
     
@@ -76,7 +56,6 @@ export class OptionFilterComponent implements OnInit, AfterViewInit, OnDestroy {
   }  
   
   ngOnInit(): void {
-    this.optionToSend.emit(this.option);
   }
 
   ngAfterViewInit(): void {
@@ -133,15 +112,6 @@ export class OptionFilterComponent implements OnInit, AfterViewInit, OnDestroy {
    * ============
    */
 
-  isTeamSelected(team:TeamEntity) : boolean {
-    return this.option.teams.has(team);
-  }
-
-  isClearSelectedTeamsEnabled() : boolean {
-    // TODO: da implementare
-    return false;
-  }
-
   isMobileView() : boolean {
     return BreakpointsService.isMobileOrMobileXLBreakpointActive(window.innerWidth);
   }
@@ -152,51 +122,13 @@ export class OptionFilterComponent implements OnInit, AfterViewInit, OnDestroy {
    * =========
    */
 
-  changeSelectedList(team:TeamEntity) : void {    
-    this.option.teams.has(team) ? this.option.teams.delete(team) : this.option.teams.add(team);
-    this.optionToSend.emit(this.option);
-  }
-
-  checkBudgetValue() : void {
-    this.option.budget < 0 ? this.option.budget = 0 : this.option.budget = Math.trunc( this.option.budget );
-    this.optionToSend.emit(this.option);
-  }
-
-  checkMinAgeValue() : void {
-    if(this.option.minAge < 18) {
-      this.option.minAge = 18;
-    } else if(this.option.minAge > this.option.maxAge) {
-      this.option.minAge = this.option.maxAge;
+  searchPlayers() : void {
+    if(this.applyAdvancedSearch) {
+      this.playerSearchFilter.emit(this.userTeamService.createPlayerSearchRequestFromUserOption());
     } else {
-      this.option.minAge = Math.trunc(this.option.minAge);
+      this.playerSearchFilter.emit(this.option);
     }
-    this.optionToSend.emit(this.option);
   }
 
-  checkMaxAgeValue() : void {
-    if(this.option.maxAge > 100) {
-      this.option.maxAge = 99;
-    } else if(this.option.maxAge < this.option.minAge) {
-      this.option.maxAge = this.option.minAge;
-    } else {
-      this.option.maxAge = Math.trunc(this.option.maxAge);
-    }
-    this.optionToSend.emit(this.option);
-  }
-
-  checkFavoritePlayersAreIncluded(included:boolean) : void {
-    this.optionToSend.emit(this.option);
-  }
-
-  checkBlacklistPlayersAreIncluded(included:boolean) : void {
-    this.optionToSend.emit(this.option);
-  }
-
-  checkAdvancedFilterAreIncluded() : void {
-    this.optionToSend.emit(this.option);
-  }  
-
-  updateSelectedTeamsList(team: TeamEntity): void {
-    // TODO: da implementare
-  }
+  
 }

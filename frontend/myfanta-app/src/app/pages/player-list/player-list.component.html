@@ -3,7 +3,7 @@
     <!-- Opzioni di filtro visualizzati nella pagina 'myTeams' -->
     <ng-container>
         <div class="width-full">
-            <app-option-filter (optionToSend)="updateOption($event)"></app-option-filter>
+            <app-option-filter (playerSearchFilter)="searchPlayers($event)"></app-option-filter>
         </div>
     </ng-container>
 

@@ -18,6 +18,7 @@
                     <p-multiSelect
                         styleClass="width-full height-full max-width-25rem"
                         [options]="teams" 
+                        [disabled]="applyAdvancedSearch"
                         [(ngModel)]="selectedTeams" 
                         defaultLabel="Seleziona squadre" 
                         optionLabel="name"
@@ -51,12 +52,16 @@
                 <p class="txt-base bold">Giocatori</p>
                 <div class="flex flex-wrap row-gap-2 column-gap-2">
                     <div class="flex align-items-center">
-                        <p-checkbox inputId="favoritePlayerCheckbox" styleClass="margin-right-3" />
+                        <p-checkbox inputId="favoritePlayerCheckbox" 
+                            styleClass="margin-right-3"
+                            [disabled]="applyAdvancedSearch" />
                         <label for="favoritePlayerCheckbox">Preferiti</label>
                     </div>
 
                     <div class="flex align-items-center">
-                        <p-checkbox inputId="excludedPlayerCheckbox" styleClass="margin-right-3" />
+                        <p-checkbox inputId="excludedPlayerCheckbox" 
+                            styleClass="margin-right-3"
+                            [disabled]="applyAdvancedSearch" />
                         <label for="excludedPlayerCheckbox">Esclusi</label>
                     </div>
                 </div>
@@ -69,11 +74,11 @@
             <!-- Opzioni di ricerca avanzate -->
             <div class="column-6 flex align-items-center">
                 <span class="txt-base bold margin-right-3">Opzioni avanzate</span>
-                <p-inputSwitch [(ngModel)]="applyAdvancedSearch" (onChange)="checkAdvancedFilterAreIncluded()"
+                <p-inputSwitch [(ngModel)]="applyAdvancedSearch"
                     pTooltip="Applica i filtri selezionati nella pagina 'Opzioni di ricerca'" />
             </div>            
 
-            <!-- Pulsante creazione squadra -->
+            <!-- Pulsante ricerca giocatori -->
             <div class="column-6 flex justify-content-end">
                 <p-button styleClass="p-button-raised secondary-color no-border">
                     <span class="label weight-medium margin-right-3">Cerca giocatori</span>
@@ -103,6 +108,7 @@
                         styleClass="width-full height-full"
                         [options]="teams" 
                         [(ngModel)]="selectedTeams" 
+                        [disabled]="applyAdvancedSearch"
                         defaultLabel="Seleziona squadre" 
                         optionLabel="name"
                         display="chip"
@@ -117,15 +123,21 @@
             <!-- Budget -->
             <div class="column-6 flex flex-column" style="min-width: 120px;">
                 <p class="txt-base bold">Budget</p>
-                <p-inputNumber mode="decimal" styleClass="width-full max-width-15rem" [min]="0" [step]="1"
-                    [disabled]="applyAdvancedSearch" [showButtons]="true" />
+                <p-inputNumber mode="decimal" 
+                    styleClass="width-full max-width-15rem" 
+                    [min]="0" [step]="1"
+                    [disabled]="applyAdvancedSearch" 
+                    [showButtons]="true" />
             </div>
 
             <!-- Valutazione media squadra -->
             <div class="column-6 flex flex-column" style="min-width: 120px;">
                 <p class="txt-base bold">FMV</p>
-                <p-inputNumber mode="decimal" styleClass="width-full max-width-15rem" [min]="0" [step]="1"
-                    [disabled]="applyAdvancedSearch" [showButtons]="true" />
+                <p-inputNumber mode="decimal" 
+                    styleClass="width-full max-width-15rem" 
+                    [min]="0" [step]="1"
+                    [disabled]="applyAdvancedSearch" 
+                    [showButtons]="true" />
             </div>
         </div>
 
@@ -136,12 +148,16 @@
                 <p class="txt-base bold">Giocatori</p>
                 <div class="flex flex-wrap row-gap-2 column-gap-2">
                     <div class="flex align-items-center">
-                        <p-checkbox inputId="favoritePlayerCheckbox" styleClass="margin-right-3" />
+                        <p-checkbox inputId="favoritePlayerCheckbox" 
+                            styleClass="margin-right-3"
+                            [disabled]="applyAdvancedSearch" />
                         <label for="favoritePlayerCheckbox">Preferiti</label>
                     </div>
 
                     <div class="flex align-items-center">
-                        <p-checkbox inputId="excludedPlayerCheckbox" styleClass="margin-right-3" />
+                        <p-checkbox inputId="excludedPlayerCheckbox" 
+                            styleClass="margin-right-3"
+                            [disabled]="applyAdvancedSearch" />
                         <label for="excludedPlayerCheckbox">Esclusi</label>
                     </div>
                 </div>
@@ -150,13 +166,13 @@
             <!-- Opzioni di ricerca avanzate -->
             <div class="column-6 flex flex-column">
                 <p class="txt-base bold">Opzioni avanzate</p>
-                <p-inputSwitch [(ngModel)]="applyAdvancedSearch" (onChange)="checkAdvancedFilterAreIncluded()"
+                <p-inputSwitch [(ngModel)]="applyAdvancedSearch"
                     pTooltip="Applica i filtri selezionati nella pagina 'Opzioni di ricerca'" />
             </div>
 
         </div>
         
-        <!-- Pulsante creazione squadra -->
+        <!-- Pulsante ricerca giocatori -->
         <div class="flex flex-end margin-top-3">
             <p-button styleClass="p-button-raised secondary-color no-border">
                 <span class="label weight-medium margin-right-3">Cerca giocatori</span>
@@ -165,9 +181,5 @@
         </div>
 
     </div>
-
-
-
-
 
 </p-panel>

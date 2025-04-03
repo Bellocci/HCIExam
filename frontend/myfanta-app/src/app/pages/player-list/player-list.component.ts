@@ -39,12 +39,9 @@ export class PlayerListComponent implements OnInit, OnDestroy {
    * ==========
    */    
 
-  // Lista dei link navigabili
-  links: LinkEnum[] = LinkEnum.values();
+  private _playersList: PlayerEntity[] = [];
 
-  private _isSidebarVisibile = true;  
 
-  private _simpleOption!: PlayerSearchRequest;
   private option: OptionEntity | null = null;
   private leagueSelected: LeagueEntity | null = null;
   private _user!: User;
@@ -57,6 +54,8 @@ export class PlayerListComponent implements OnInit, OnDestroy {
 
   private _playerSearchFilterObservable:ObservableHelper<PlayerSearchFilter> = new ObservableHelper<PlayerSearchFilter>(new PlayerSearchFilter());
   private _playerFilteredList:PlayerEntity[] = [];
+
+  
 
   /*
    * =============================
@@ -144,6 +143,17 @@ export class PlayerListComponent implements OnInit, OnDestroy {
    * ================
    */
 
+  public get playersList(): PlayerEntity[] {
+    return this._playersList;
+  }
+
+  private set playersList(value: PlayerEntity[]) {
+    this._playersList = value;
+  }
+
+
+
+
   public get user(): User {
     return this._user;
   }
@@ -160,21 +170,7 @@ export class PlayerListComponent implements OnInit, OnDestroy {
     this._userTeam = value;
   }
 
-  public get simpleOption(): PlayerSearchRequest {
-    return this._simpleOption;
-  }
 
-  private set simpleOption(value: PlayerSearchRequest) {
-    this._simpleOption = value;
-  }
-
-  public get isSidebarVisibile() {
-    return this._isSidebarVisibile;
-  }
-  
-  public set isSidebarVisibile(value) {
-    this._isSidebarVisibile = value;
-  }
 
   getPlayersList() : PlayerEntity[] {
     return this._playerFilteredList;
@@ -225,10 +221,6 @@ export class PlayerListComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateOption(option: PlayerSearchRequest): void {
-    this.simpleOption = option;
-  }
-
   saveTeam(): void {
     this.userService.saveTeam();
   }
@@ -243,5 +235,9 @@ export class PlayerListComponent implements OnInit, OnDestroy {
       dialogHelper.setData(dialogData);
       dialogHelper.openDialog(UserTeamDialogComponent);
     }
+  }
+
+  searchPlayers(option: PlayerSearchRequest): void {
+
   }
 }

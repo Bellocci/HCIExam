@@ -7,6 +7,7 @@ import { LeagueEntity } from 'src/model/leagueEntity.model';
 import { PlayerEntity } from 'src/model/playerEntity.model';
 import { TeamEntity } from 'src/model/teamEntity.model';
 import { UserEntity } from 'src/model/userEntity.model';
+import { PlayerSearchRequest } from 'src/rest-client/PlayerSearchRequest';
 import { ApiResponse } from 'src/utility/rest/api-response';
 import { RestAPIHelper } from 'src/utility/rest/rest-builder-impl';
 
@@ -95,6 +96,10 @@ export class ModelRestClientService {
           tap(response => console.log("Teams recovered:", response)),
           catchError(this.handleError)
         )
+  }
+
+  searchPlayers(searchRequest:PlayerSearchRequest) {
+    
   }
 
   /*
